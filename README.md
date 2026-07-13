@@ -26,6 +26,26 @@ The metadata specification and examples are documented in
 [`docs/METADATA.md`](docs/METADATA.md). Machine-readable schemas live in
 [`schemas/`](schemas/).
 
+## Create a discussion
+
+Use an approved short name from `data/people.yaml`:
+
+```bash
+python3 scripts/new_discussion.py \
+  --date 2026-07-18 \
+  --leader peiyuan \
+  --topic streaming-control \
+  --title "Streaming Video Generation with Force Control"
+```
+
+The command creates:
+
+```text
+discussions/2026-07-18-peiyuan-streaming-control/
+```
+
+It refuses to overwrite an existing entry unless `--force` is explicitly used.
+
 ## Status
 
 The repository structure has been initialized locally. Website pages, content
