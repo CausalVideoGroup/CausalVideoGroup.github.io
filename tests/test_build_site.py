@@ -7,6 +7,9 @@ from pathlib import Path
 from scripts.build_site import read_discussion_metadata, read_project_metadata, replace_region
 
 
+REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
+
+
 class BuildSiteTests(unittest.TestCase):
     def test_reads_project_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
@@ -55,6 +58,10 @@ class BuildSiteTests(unittest.TestCase):
     def test_missing_region_is_an_error(self) -> None:
         with self.assertRaisesRegex(ValueError, "not found"):
             replace_region("page", "missing", "content")
+
+    def test_public_example_is_present_in_sitemap(self) -> None:
+        sitemap = (REPOSITORY_ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        self.assertIn("2026-07-13-yifan-forcing-ar-video-distillation", sitemap)
 
 
 if __name__ == "__main__":

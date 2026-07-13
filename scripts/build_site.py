@@ -274,6 +274,19 @@ def build(root: Path) -> None:
     )
     write_region(root / "tags" / "index.html", "tag-list", tag_content)
 
+    base = "https://causalvideogroup.github.io"
+    urls = [
+        f"{base}/", f"{base}/about.html", f"{base}/guidelines.html",
+        f"{base}/contribute.html", f"{base}/projects/",
+        f"{base}/discussions/", f"{base}/people/", f"{base}/tags/",
+    ]
+    urls.extend(f"{base}/projects/{item.slug}/" for item in projects)
+    urls.extend(f"{base}/discussions/{item.directory}/" for item in discussions)
+    sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    sitemap += "\n".join(f"  <url><loc>{html.escape(url)}</loc></url>" for url in urls)
+    sitemap += "\n</urlset>\n"
+    (root / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+
 
 def main() -> int:
     root = Path(__file__).resolve().parent.parent
