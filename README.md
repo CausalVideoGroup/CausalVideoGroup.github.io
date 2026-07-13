@@ -16,7 +16,7 @@ For example:
 
 ```text
 projects/causal-video-editing/
-discussions/2026-07-18-peiyuan-streaming-control/
+discussions/2026-07-13-yifan-forcing-ar-video-distillation/
 ```
 
 The leader's complete name is stored in the discussion's `metadata.yaml`; only
@@ -32,16 +32,16 @@ Use an approved short name from `data/people.yaml`:
 
 ```bash
 python3 scripts/new_discussion.py \
-  --date 2026-07-18 \
-  --leader peiyuan \
-  --topic streaming-control \
-  --title "Streaming Video Generation with Force Control"
+  --date 2026-07-13 \
+  --leader yifan \
+  --topic forcing-ar-video-distillation \
+  --title "Forcing Series: The Evolution of AR Video Distillation"
 ```
 
 The command creates:
 
 ```text
-discussions/2026-07-18-peiyuan-streaming-control/
+discussions/2026-07-13-yifan-forcing-ar-video-distillation/
 ```
 
 It refuses to overwrite an existing entry unless `--force` is explicitly used.

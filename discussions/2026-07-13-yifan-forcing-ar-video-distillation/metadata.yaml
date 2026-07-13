@@ -1,0 +1,30 @@
+title: "Forcing Series: The Evolution of AR Video Distillation"
+date: 2026-07-13
+topic_slug: forcing-ar-video-distillation
+leader:
+  name: "Yifan Shen"
+  short_name: yifan
+status: before-meeting
+summary: >-
+  A technical map of how forcing methods turn bidirectional video diffusion
+  models into few-step, causal, streaming autoregressive generators.
+tags:
+  - video-generation
+  - autoregressive-video
+  - video-distillation
+  - streaming-generation
+related_projects: []
+papers:
+  - title: "From Slow Bidirectional to Fast Autoregressive Video Diffusion Models"
+    url: https://openaccess.thecvf.com/content/CVPR2025/html/Yin_From_Slow_Bidirectional_to_Fast_Autoregressive_Video_Diffusion_Models_CVPR_2025_paper.html
+    role: method
+    note: Establishes the causal distillation foundation for fast autoregressive video generation.
+  - title: "Self Forcing: Bridging the Train-Test Gap in Autoregressive Video Diffusion"
+    url: https://proceedings.neurips.cc/paper_files/paper/2025/hash/f4823f831af67a3ef15e41a85434422a-Abstract-Conference.html
+    role: method
+    note: Trains the student on its own rollout history to reduce exposure bias.
+  - title: "Causal Forcing"
+    url: https://arxiv.org/abs/2602.02214
+    role: method
+    note: Aligns the initialization teacher with the student's causal architecture.
+external_videos: []

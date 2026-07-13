@@ -11,15 +11,15 @@ been approved for public release.
 
 ## Create a discussion
 
-1. Create a branch such as `discussion/2026-07-18-peiyuan-streaming-control`.
+1. Create a branch such as `discussion/2026-07-13-yifan-forcing-ar-video-distillation`.
 2. Generate the entry:
 
    ```bash
    python3 scripts/new_discussion.py \
-     --date 2026-07-18 \
-     --leader peiyuan \
-     --topic streaming-control \
-     --title "Streaming Video Generation with Force Control"
+     --date 2026-07-13 \
+     --leader yifan \
+     --topic forcing-ar-video-distillation \
+     --title "Forcing Series: The Evolution of AR Video Distillation"
    ```
 
 3. Complete the summary, idea map, references, and metadata.

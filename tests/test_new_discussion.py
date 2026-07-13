@@ -25,13 +25,13 @@ class NewDiscussionTests(unittest.TestCase):
     def test_creates_expected_directory_and_files(self) -> None:
         destination = create_discussion(
             root=self.root,
-            discussion_date="2026-07-18",
-            leader_short_name="peiyuan",
-            topic_slug="streaming-control",
-            title="Streaming Video Generation with Force Control",
+            discussion_date="2026-07-13",
+            leader_short_name="yifan",
+            topic_slug="forcing-ar-video-distillation",
+            title="Forcing Series: The Evolution of AR Video Distillation",
         )
         self.assertEqual(
-            destination.name, "2026-07-18-peiyuan-streaming-control"
+            destination.name, "2026-07-13-yifan-forcing-ar-video-distillation"
         )
         for filename in (
             "metadata.yaml",
@@ -45,8 +45,8 @@ class NewDiscussionTests(unittest.TestCase):
         ):
             self.assertTrue((destination / filename).exists(), filename)
         metadata = (destination / "metadata.yaml").read_text(encoding="utf-8")
-        self.assertIn("name: \"Peiyuan Zhu\"", metadata)
-        self.assertIn("short_name: peiyuan", metadata)
+        self.assertIn("name: \"Yifan Shen\"", metadata)
+        self.assertIn("short_name: yifan", metadata)
 
     def test_rejects_unknown_leader(self) -> None:
         with self.assertRaisesRegex(ValueError, "unknown leader"):

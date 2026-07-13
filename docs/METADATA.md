@@ -17,13 +17,12 @@ YYYY-MM-DD-<leader.short_name>-<topic_slug>
 Example:
 
 ```yaml
-title: Streaming Video Generation with Force Control
-date: 2026-07-18
-topic_slug: streaming-control
+title: "Forcing Series: The Evolution of AR Video Distillation"
+date: 2026-07-13
+topic_slug: forcing-ar-video-distillation
 leader:
-  name: Peiyuan Zhu
-  short_name: peiyuan
-  github: SoftPointer
+  name: Yifan Shen
+  short_name: yifan
 status: before-meeting
 summary: A discussion of controllable streaming video generation.
 tags:
@@ -37,7 +36,7 @@ related_projects:
 This produces:
 
 ```text
-discussions/2026-07-18-peiyuan-streaming-control/
+discussions/2026-07-13-yifan-forcing-ar-video-distillation/
 ```
 
 The full leader name is for display. `short_name` is the stable, URL-safe name
