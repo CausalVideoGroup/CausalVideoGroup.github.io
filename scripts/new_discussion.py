@@ -19,6 +19,7 @@ SLUG_PATTERN = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 class Leader:
     name: str
     short_name: str
+    role: str
 
 
 TEMPLATE_OUTPUTS = {
@@ -50,30 +51,25 @@ def validate_slug(value: str, label: str) -> str:
     return value
 
 
-def load_leaders(path: Path) -> dict[str, Leader]:
+def load_people(path: Path) -> dict[str, Leader]:
     """Read the intentionally small, fixed-shape people registry without PyYAML."""
-    leaders: dict[str, Leader] = {}
-    current_name: str | None = None
+    people: dict[str, Leader] = {}
+    text = path.read_text(encoding="utf-8")
+    pattern = re.compile(r"  - name: (.+)\n    short_name: ([a-z0-9-]+)\n    role: ([a-z0-9-]+)")
+    for name, short_name, role in pattern.findall(text):
+        short_name = validate_slug(short_name, "person short name")
+        if short_name in people:
+            raise ValueError(f"duplicate person short name: {short_name}")
+        if role not in {"discussion-leader", "group-leader"}:
+            raise ValueError(f"unsupported people role: {role}")
+        people[short_name] = Leader(name.strip(), short_name, role)
+    if not people:
+        raise ValueError(f"no people found in {path}")
+    return people
 
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        name_match = re.fullmatch(r"  - name: (.+)", raw_line)
-        short_match = re.fullmatch(r"    short_name: ([a-z0-9-]+)", raw_line)
-        if name_match:
-            current_name = name_match.group(1).strip()
-        elif short_match:
-            if current_name is None:
-                raise ValueError(f"short_name appears before name in {path}")
-            short_name = validate_slug(short_match.group(1), "leader short name")
-            if short_name in leaders:
-                raise ValueError(f"duplicate leader short name: {short_name}")
-            leaders[short_name] = Leader(current_name, short_name)
-            current_name = None
 
-    if not leaders:
-        raise ValueError(f"no leaders found in {path}")
-    if current_name is not None:
-        raise ValueError(f"leader {current_name!r} has no short_name in {path}")
-    return leaders
+def load_leaders(path: Path) -> dict[str, Leader]:
+    return {key: person for key, person in load_people(path).items() if person.role == "discussion-leader"}
 
 
 def yaml_double_quoted(value: str) -> str:

@@ -53,6 +53,7 @@ The approved leader names and URL short names are maintained in
 | Jinyuan Hu | `jinyuan` |
 | Yuxin Wang | `yuxin` |
 | Yichang Jian | `yichang` |
+| Guangyi Chen | `guangyi` (group leader) |
 
 ## Project identity
 

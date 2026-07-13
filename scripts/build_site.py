@@ -9,9 +9,9 @@ from dataclasses import dataclass
 from pathlib import Path
 
 try:
-    from .new_discussion import load_leaders
+    from .new_discussion import load_people
 except ImportError:  # Direct execution: python3 scripts/build_site.py
-    from new_discussion import load_leaders
+    from new_discussion import load_people
 
 
 START = "<!-- GENERATED:{name}:START -->"
@@ -179,7 +179,7 @@ def write_region(path: Path, name: str, content: str) -> None:
 def build(root: Path) -> None:
     discussions = load_discussions(root)
     projects = load_projects(root)
-    leaders = load_leaders(root / "data" / "people.yaml")
+    leaders = load_people(root / "data" / "people.yaml")
 
     recent = discussions[:3]
     home_content = (
@@ -218,8 +218,10 @@ def build(root: Path) -> None:
             for item in owned
         )
         detail = f"<ul>{project_links}{links}</ul>" if project_links or links else "<p>No published projects or discussions yet.</p>"
+        if leader.role == "group-leader":
+            detail = ""
         people_cards.append(
-            f'<article class="card"><p class="meta">Discussion leader · {html.escape(short_name)}</p>'
+            f'<article class="card"><p class="meta">{html.escape(leader.role.replace("-", " ").title())} · {html.escape(short_name)}</p>'
             f'<h3>{html.escape(leader.name)}</h3>{detail}</article>'
         )
     write_region(root / "people" / "index.html", "people-list", '<div class="grid">' + "\n".join(people_cards) + "</div>")

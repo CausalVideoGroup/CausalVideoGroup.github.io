@@ -54,6 +54,10 @@ class NewDiscussionTests(unittest.TestCase):
                 self.root, "2026-07-18", "unknown", "topic", "Topic"
             )
 
+    def test_rejects_group_leader_as_discussion_leader(self) -> None:
+        with self.assertRaisesRegex(ValueError, "unknown leader"):
+            create_discussion(self.root, "2026-07-18", "guangyi", "topic", "Topic")
+
     def test_rejects_invalid_calendar_date(self) -> None:
         with self.assertRaisesRegex(ValueError, "real calendar date"):
             create_discussion(
