@@ -208,11 +208,16 @@ def build(root: Path) -> None:
     people_cards = []
     for short_name, leader in leaders.items():
         led = [item for item in discussions if item.leader_short_name == short_name]
+        owned = [item for item in projects if item.leader_short_name == short_name]
         links = "".join(
             f'<li><a href="../discussions/{html.escape(item.directory)}/">{html.escape(item.date)} · {html.escape(item.title)}</a></li>'
             for item in led
         )
-        detail = f"<ul>{links}</ul>" if links else "<p>No published discussions yet.</p>"
+        project_links = "".join(
+            f'<li><a href="../projects/{html.escape(item.slug)}/">Project · {html.escape(item.title)}</a></li>'
+            for item in owned
+        )
+        detail = f"<ul>{project_links}{links}</ul>" if project_links or links else "<p>No published projects or discussions yet.</p>"
         people_cards.append(
             f'<article class="card"><p class="meta">Discussion leader · {html.escape(short_name)}</p>'
             f'<h3>{html.escape(leader.name)}</h3>{detail}</article>'
@@ -223,15 +228,24 @@ def build(root: Path) -> None:
     for item in discussions:
         for tag in item.tags:
             tag_map.setdefault(tag, []).append(item)
+    project_tag_map: dict[str, list[Project]] = {}
+    for item in projects:
+        for tag in item.tags:
+            project_tag_map.setdefault(tag, []).append(item)
     tag_cards = []
-    for tag, items in sorted(tag_map.items()):
+    for tag in sorted(set(tag_map) | set(project_tag_map)):
+        items = tag_map.get(tag, [])
         links = "".join(
             f'<li><a href="../discussions/{html.escape(item.directory)}/">{html.escape(item.title)}</a></li>'
             for item in items
         )
+        project_links = "".join(
+            f'<li><a href="../projects/{html.escape(item.slug)}/">Project · {html.escape(item.title)}</a></li>'
+            for item in project_tag_map.get(tag, [])
+        )
         tag_cards.append(
-            f'<article class="card"><p class="meta">{len(items)} discussion(s)</p>'
-            f'<h3>{html.escape(tag)}</h3><ul>{links}</ul></article>'
+            f'<article class="card"><p class="meta">{len(items)} discussion(s) · {len(project_tag_map.get(tag, []))} project(s)</p>'
+            f'<h3>{html.escape(tag)}</h3><ul>{project_links}{links}</ul></article>'
         )
     tag_content = (
         '<div class="grid">' + "\n".join(tag_cards) + "</div>"
