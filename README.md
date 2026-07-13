@@ -46,6 +46,17 @@ discussions/2026-07-18-peiyuan-streaming-control/
 
 It refuses to overwrite an existing entry unless `--force` is explicitly used.
 
+## Rebuild indexes
+
+After adding or editing metadata, regenerate the public indexes:
+
+```bash
+python3 scripts/build_site.py
+```
+
+This updates the generated regions on the homepage and the Discussions, People,
+and Tags pages. Do not manually edit content between `GENERATED` markers.
+
 ## Status
 
 The repository structure has been initialized locally. Website pages, content
