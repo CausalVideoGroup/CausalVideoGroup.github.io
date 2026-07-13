@@ -222,6 +222,8 @@ def build(root: Path) -> None:
         if leader.role == "group-leader":
             detail = ""
         profile_links = []
+        if leader.email:
+            profile_links.append(f'<a href="mailto:{html.escape(leader.email)}">Email</a>')
         if leader.github:
             profile_links.append(f'<a href="https://github.com/{html.escape(leader.github)}">GitHub</a>')
         if leader.website:

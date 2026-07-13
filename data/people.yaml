@@ -2,20 +2,25 @@ people:
   - name: Guangyi Chen
     short_name: guangyi
     role: group-leader
+    email: guangyi.chen@mbzuai.ac.ae
   - name: Yifan Shen
     short_name: yifan
     role: discussion-leader
+    email: yifan.shen@mbzuai.ac.ae
     github: sanshuiii
     website: https://sanshuiii.github.io/
   - name: Peiyuan Zhu
     short_name: peiyuan
     role: discussion-leader
+    email: peiyuan.zhu@mbzuai.ac.ae
   - name: Jinyuan Hu
     short_name: jinyuan
     role: discussion-leader
+    email: jinyuan.hu@mbzuai.ac.ae
   - name: Yuxin Wang
     short_name: yuxin
     role: discussion-leader
+    email: yuxin.wang@mbzuai.ac.ae
   - name: Yichang Jian
     short_name: yichang
     role: discussion-leader
