@@ -90,6 +90,9 @@ validate, test, and deploy the repository through
 `.github/workflows/deploy.yml`. In repository settings, GitHub Pages must use
 **GitHub Actions** as its source.
 
+Routine maintenance and recovery procedures are documented in
+[`docs/OPERATIONS.md`](docs/OPERATIONS.md).
+
 ## Status
 
 The repository structure has been initialized locally. Website pages, content
