@@ -82,6 +82,7 @@ h3 { font-size: 1.2rem; }
 }
 .leadership-row .card { min-height: 210px; border-color: var(--accent); }
 .people-section-title { margin: 0 0 1.5rem; font-size: 1.45rem; line-height: 1.2; }
+.person-links { margin: -0.25rem 0 1rem; font-size: 0.9rem; font-weight: 700; }
 .card { min-height: 210px; padding: 1.4rem; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .card p { color: var(--muted); }
 .card-link { font-weight: 750; }

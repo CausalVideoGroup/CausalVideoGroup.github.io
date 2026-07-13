@@ -5,6 +5,8 @@ people:
   - name: Yifan Shen
     short_name: yifan
     role: discussion-leader
+    github: sanshuiii
+    website: https://sanshuiii.github.io/
   - name: Peiyuan Zhu
     short_name: peiyuan
     role: discussion-leader
@@ -17,3 +19,4 @@ people:
   - name: Yichang Jian
     short_name: yichang
     role: discussion-leader
+    github: MTDickens

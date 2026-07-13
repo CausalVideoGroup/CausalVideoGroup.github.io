@@ -20,6 +20,8 @@ class Leader:
     name: str
     short_name: str
     role: str
+    github: str | None = None
+    website: str | None = None
 
 
 TEMPLATE_OUTPUTS = {
@@ -55,14 +57,14 @@ def load_people(path: Path) -> dict[str, Leader]:
     """Read the intentionally small, fixed-shape people registry without PyYAML."""
     people: dict[str, Leader] = {}
     text = path.read_text(encoding="utf-8")
-    pattern = re.compile(r"  - name: (.+)\n    short_name: ([a-z0-9-]+)\n    role: ([a-z0-9-]+)")
-    for name, short_name, role in pattern.findall(text):
+    pattern = re.compile(r"  - name: (.+)\n    short_name: ([a-z0-9-]+)\n    role: ([a-z0-9-]+)(?:\n    github: ([A-Za-z0-9-]+))?(?:\n    website: (https?://\S+))?")
+    for name, short_name, role, github, website in pattern.findall(text):
         short_name = validate_slug(short_name, "person short name")
         if short_name in people:
             raise ValueError(f"duplicate person short name: {short_name}")
         if role not in {"discussion-leader", "group-leader"}:
             raise ValueError(f"unsupported people role: {role}")
-        people[short_name] = Leader(name.strip(), short_name, role)
+        people[short_name] = Leader(name.strip(), short_name, role, github or None, website or None)
     if not people:
         raise ValueError(f"no people found in {path}")
     return people

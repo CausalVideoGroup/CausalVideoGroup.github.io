@@ -221,9 +221,15 @@ def build(root: Path) -> None:
         detail = f"<ul>{project_links}{links}</ul>" if project_links or links else "<p>No published projects or discussions yet.</p>"
         if leader.role == "group-leader":
             detail = ""
+        profile_links = []
+        if leader.github:
+            profile_links.append(f'<a href="https://github.com/{html.escape(leader.github)}">GitHub</a>')
+        if leader.website:
+            profile_links.append(f'<a href="{html.escape(leader.website)}">Website</a>')
+        profiles = f'<p class="person-links">{" · ".join(profile_links)}</p>' if profile_links else ""
         card = (
             f'<article class="card"><p class="meta">{html.escape(leader.role.replace("-", " ").title())} · {html.escape(short_name)}</p>'
-            f'<h3>{html.escape(leader.name)}</h3>{detail}</article>'
+            f'<h3>{html.escape(leader.name)}</h3>{profiles}{detail}</article>'
         )
         if leader.role == "group-leader":
             group_cards.append(card)
