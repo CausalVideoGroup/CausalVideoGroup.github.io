@@ -44,6 +44,17 @@ The full leader name is for display. `short_name` is the stable, URL-safe name
 used in the directory. If short names ever collide, group members must agree on
 a unique short name before the entry is created.
 
+The approved leader names and URL short names are maintained in
+`data/people.yaml`:
+
+| Full name | Short name |
+| --- | --- |
+| Peiyuan Zhu | `peiyuan` |
+| Yifan Shen | `yifan` |
+| Jinyuan Hu | `jinyuan` |
+| Yuxin Wang | `yuxin` |
+| Yichang Jian | `yichang` |
+
 ## Project identity
 
 A project directory must exactly match its `slug`:

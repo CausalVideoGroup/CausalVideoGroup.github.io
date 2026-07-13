@@ -1,0 +1,14 @@
+title: "{{TITLE}}"
+date: {{DATE}}
+topic_slug: {{TOPIC_SLUG}}
+leader:
+  name: "{{LEADER_NAME}}"
+  short_name: {{LEADER_SHORT_NAME}}
+status: planned
+summary: >-
+  Replace this text with a concise description of the discussion topic.
+tags:
+  - video-generation
+related_projects: []
+papers: []
+external_videos: []
