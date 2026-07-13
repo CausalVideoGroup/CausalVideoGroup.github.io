@@ -71,6 +71,13 @@ broken local links, malformed metadata URLs, and preview videos over 10 MiB.
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the pull-request workflow, content
 quality bar, public-data policy, and review expectations.
 
+## Continuous integration and deployment
+
+Pull requests run `.github/workflows/validate.yml`. Pushes to `main` rebuild,
+validate, test, and deploy the repository through
+`.github/workflows/deploy.yml`. In repository settings, GitHub Pages must use
+**GitHub Actions** as its source.
+
 ## Status
 
 The repository structure has been initialized locally. Website pages, content
