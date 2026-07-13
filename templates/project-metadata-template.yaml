@@ -1,0 +1,11 @@
+title: "{{TITLE}}"
+slug: {{PROJECT_SLUG}}
+status: planned
+summary: >-
+  Replace this text with a concise public description of the project.
+leaders:
+  - name: "{{LEADER_NAME}}"
+    short_name: {{LEADER_SHORT_NAME}}
+tags:
+  - video-generation
+links: {}

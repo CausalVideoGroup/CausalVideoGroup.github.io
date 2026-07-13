@@ -57,6 +57,18 @@ python3 scripts/build_site.py
 This updates the generated regions on the homepage and the Discussions, People,
 and Tags pages. Do not manually edit content between `GENERATED` markers.
 
+## Create a project page
+
+```bash
+python3 scripts/new_project.py \
+  --slug project-name \
+  --title "Project Name" \
+  --leader yifan
+```
+
+This creates `projects/project-name/` with metadata, a public page, and an asset
+directory. Replace all template text before publishing the project.
+
 ## Validate before a pull request
 
 ```bash
