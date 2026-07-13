@@ -22,6 +22,10 @@ discussions/2026-07-18-peiyuan-streaming-control/
 The leader's complete name is stored in the discussion's `metadata.yaml`; only
 the agreed short name is used in the public URL.
 
+The metadata specification and examples are documented in
+[`docs/METADATA.md`](docs/METADATA.md). Machine-readable schemas live in
+[`schemas/`](schemas/).
+
 ## Status
 
 The repository structure has been initialized locally. Website pages, content

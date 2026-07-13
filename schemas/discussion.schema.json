@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://causalvideogroup.github.io/schemas/discussion.schema.json",
+  "title": "CausalVideoGroup discussion metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "date",
+    "topic_slug",
+    "leader",
+    "status",
+    "summary",
+    "tags",
+    "related_projects"
+  ],
+  "properties": {
+    "title": { "type": "string", "minLength": 1 },
+    "date": { "type": "string", "format": "date" },
+    "topic_slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "leader": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "short_name"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "short_name": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "github": { "type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$" }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["planned", "before-meeting", "after-meeting", "archived"]
+    },
+    "summary": { "type": "string", "minLength": 1 },
+    "tags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+    },
+    "related_projects": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" }
+    },
+    "papers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url", "role"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" },
+          "role": {
+            "type": "string",
+            "enum": ["problem", "method", "theory", "benchmark", "system", "application"]
+          },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "external_videos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["title", "url"],
+        "properties": {
+          "title": { "type": "string", "minLength": 1 },
+          "url": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    "slides": { "type": "string" },
+    "recording": { "type": "string", "format": "uri" }
+  }
+}
