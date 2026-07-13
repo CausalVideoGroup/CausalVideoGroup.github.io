@@ -6,8 +6,9 @@ leader:
   short_name: yifan
 status: before-meeting
 summary: >-
-  A technical map of how forcing methods turn bidirectional video diffusion
-  models into few-step, causal, streaming autoregressive generators.
+  A technical map of methods that distill bidirectional video diffusion models
+  into few-step autoregressive generators that produce frames in temporal order
+  and support streaming output.
 tags:
   - video-generation
   - autoregressive-video
