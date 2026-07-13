@@ -1,9 +1,12 @@
 people:
-  - name: Peiyuan Zhu
-    short_name: peiyuan
-    role: discussion-leader
+  - name: Guangyi Chen
+    short_name: guangyi
+    role: group-leader
   - name: Yifan Shen
     short_name: yifan
+    role: discussion-leader
+  - name: Peiyuan Zhu
+    short_name: peiyuan
     role: discussion-leader
   - name: Jinyuan Hu
     short_name: jinyuan
@@ -14,6 +17,3 @@ people:
   - name: Yichang Jian
     short_name: yichang
     role: discussion-leader
-  - name: Guangyi Chen
-    short_name: guangyi
-    role: group-leader

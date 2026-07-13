@@ -205,7 +205,8 @@ def build(root: Path) -> None:
     )
     write_region(root / "discussions" / "index.html", "discussion-archive", archive_content)
 
-    people_cards = []
+    group_cards = []
+    discussion_leader_cards = []
     for short_name, leader in leaders.items():
         led = [item for item in discussions if item.leader_short_name == short_name]
         owned = [item for item in projects if item.leader_short_name == short_name]
@@ -220,11 +221,20 @@ def build(root: Path) -> None:
         detail = f"<ul>{project_links}{links}</ul>" if project_links or links else "<p>No published projects or discussions yet.</p>"
         if leader.role == "group-leader":
             detail = ""
-        people_cards.append(
+        card = (
             f'<article class="card"><p class="meta">{html.escape(leader.role.replace("-", " ").title())} · {html.escape(short_name)}</p>'
             f'<h3>{html.escape(leader.name)}</h3>{detail}</article>'
         )
-    write_region(root / "people" / "index.html", "people-list", '<div class="grid">' + "\n".join(people_cards) + "</div>")
+        if leader.role == "group-leader":
+            group_cards.append(card)
+        else:
+            discussion_leader_cards.append(card)
+    people_content = (
+        '<div class="leadership-row">' + "\n".join(group_cards) + '</div>'
+        '<h2 class="people-section-title">Discussion Leaders</h2>'
+        '<div class="grid">' + "\n".join(discussion_leader_cards) + '</div>'
+    )
+    write_region(root / "people" / "index.html", "people-list", people_content)
 
     tag_map: dict[str, list[Discussion]] = {}
     for item in discussions:
