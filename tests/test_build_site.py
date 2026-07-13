@@ -4,10 +4,20 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.build_site import read_discussion_metadata, replace_region
+from scripts.build_site import read_discussion_metadata, read_project_metadata, replace_region
 
 
 class BuildSiteTests(unittest.TestCase):
+    def test_reads_project_metadata(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            folder = Path(temporary_directory) / "example"
+            folder.mkdir()
+            path = folder / "metadata.yaml"
+            path.write_text('title: "Example"\nslug: example\nstatus: active\nsummary: A project.\nleaders:\n  - name: "Yifan Shen"\n    short_name: yifan\ntags:\n  - video-generation\n', encoding="utf-8")
+            project = read_project_metadata(path)
+            self.assertEqual(project.slug, "example")
+            self.assertEqual(project.leader_short_name, "yifan")
+
     def test_reads_required_metadata(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             folder = Path(temporary_directory) / "2026-07-18-peiyuan-topic"

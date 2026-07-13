@@ -11,10 +11,10 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 try:
-    from .build_site import load_discussions
+    from .build_site import load_discussions, load_projects
     from .new_discussion import SLUG_PATTERN, load_leaders
 except ImportError:  # Direct execution
-    from build_site import load_discussions
+    from build_site import load_discussions, load_projects
     from new_discussion import SLUG_PATTERN, load_leaders
 
 
@@ -126,6 +126,20 @@ def validate(root: Path) -> list[Finding]:
     for media in root.rglob("*"):
         if media.is_file() and media.suffix.lower() in MEDIA_SUFFIXES and media.stat().st_size > MAX_MEDIA_BYTES:
             findings.append(Finding("ERROR", str(media.relative_to(root)), "preview video exceeds 10 MiB; use external storage"))
+
+    for project in load_projects(root):
+        folder = root / "projects" / project.directory
+        if project.directory != project.slug:
+            findings.append(Finding("ERROR", str(folder.relative_to(root)), f"directory must match project slug: {project.slug}"))
+        if project.leader_short_name not in leaders or leaders[project.leader_short_name].name != project.leader_name:
+            findings.append(Finding("ERROR", str(folder.relative_to(root)), "unknown or mismatched project leader"))
+        if project.status not in {"planned", "active", "published", "archived"}:
+            findings.append(Finding("ERROR", str(folder.relative_to(root)), f"unsupported project status: {project.status}"))
+        if not project.tags:
+            findings.append(Finding("ERROR", str(folder.relative_to(root)), "project tags must not be empty"))
+        for filename in ("metadata.yaml", "index.html"):
+            if not (folder / filename).is_file():
+                findings.append(Finding("ERROR", str(folder.relative_to(root)), f"missing required file: {filename}"))
 
     findings.extend(validate_local_links(root))
     return findings

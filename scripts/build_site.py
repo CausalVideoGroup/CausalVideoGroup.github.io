@@ -32,6 +32,18 @@ class Discussion:
     related_projects: tuple[str, ...]
 
 
+@dataclass(frozen=True)
+class Project:
+    directory: str
+    title: str
+    slug: str
+    status: str
+    summary: str
+    leader_name: str
+    leader_short_name: str
+    tags: tuple[str, ...]
+
+
 def unquote(value: str) -> str:
     value = value.strip()
     if len(value) >= 2 and value[0] == value[-1] == '"':
@@ -110,6 +122,25 @@ def load_discussions(root: Path) -> list[Discussion]:
     return sorted(discussions, key=lambda item: (item.date, item.directory), reverse=True)
 
 
+def read_project_metadata(path: Path) -> Project:
+    text = path.read_text(encoding="utf-8")
+    def value(key: str) -> str:
+        match = re.search(rf"^{key}:\s+(.+)$", text, re.MULTILINE)
+        return unquote(match.group(1)) if match else ""
+    summary_match = re.search(r"^summary:\s+[>|]-?\n((?:  .*\n?)+)", text, re.MULTILINE)
+    summary = " ".join(line.strip() for line in summary_match.group(1).splitlines()) if summary_match else value("summary")
+    leader = re.search(r'^leaders:\n  - name:\s+"?([^"\n]+)"?\n    short_name:\s+([a-z0-9-]+)', text, re.MULTILINE)
+    tag_block = re.search(r"^tags:\n((?:  - .+\n?)+)", text, re.MULTILINE)
+    tags = tuple(re.findall(r"^  - (.+)$", tag_block.group(1), re.MULTILINE)) if tag_block else ()
+    if not all((value("title"), value("slug"), value("status"), summary, leader)):
+        raise ValueError(f"{path}: incomplete project metadata")
+    return Project(path.parent.name, value("title"), value("slug"), value("status"), summary, leader.group(1), leader.group(2), tags)
+
+
+def load_projects(root: Path) -> list[Project]:
+    return sorted((read_project_metadata(path) for path in (root / "projects").glob("*/metadata.yaml")), key=lambda item: item.title.lower())
+
+
 def replace_region(source: str, name: str, content: str) -> str:
     start, end = START.format(name=name), END.format(name=name)
     pattern = re.compile(re.escape(start) + r".*?" + re.escape(end), re.DOTALL)
@@ -135,6 +166,10 @@ def discussion_card(item: Discussion, prefix: str) -> str:
     )
 
 
+def project_card(item: Project, prefix: str) -> str:
+    return ('<article class="card">' f'<p class="meta">{html.escape(item.status)} · {html.escape(item.leader_name)}</p>' f'<h3>{html.escape(item.title)}</h3><p>{html.escape(item.summary)}</p>' f'<p>{tags_html(item.tags)}</p><a class="card-link" href="{prefix}projects/{html.escape(item.slug)}/">View project →</a></article>')
+
+
 def write_region(path: Path, name: str, content: str) -> None:
     source = path.read_text(encoding="utf-8")
     rendered = replace_region(source, name, content)
@@ -143,6 +178,7 @@ def write_region(path: Path, name: str, content: str) -> None:
 
 def build(root: Path) -> None:
     discussions = load_discussions(root)
+    projects = load_projects(root)
     leaders = load_leaders(root / "data" / "people.yaml")
 
     recent = discussions[:3]
@@ -154,6 +190,11 @@ def build(root: Path) -> None:
         else '<div class="empty-state">No discussions have been published yet.</div>'
     )
     write_region(root / "index.html", "recent-discussions", home_content)
+
+    project_content = ('<div class="grid">' + "\n".join(project_card(item, "") for item in projects) + '</div>') if projects else '<div class="empty-state">Public project pages will appear here.</div>'
+    write_region(root / "index.html", "project-list", project_content)
+    project_archive = ('<div class="grid">' + "\n".join(project_card(item, "../") for item in projects) + '</div>') if projects else '<div class="empty-state">No public projects have been added yet.</div>'
+    write_region(root / "projects" / "index.html", "project-archive", project_archive)
 
     archive_content = (
         '<div class="grid">'
@@ -203,7 +244,7 @@ def build(root: Path) -> None:
 def main() -> int:
     root = Path(__file__).resolve().parent.parent
     build(root)
-    print(f"Generated indexes for {len(load_discussions(root))} discussion(s).")
+    print(f"Generated indexes for {len(load_discussions(root))} discussion(s) and {len(load_projects(root))} project(s).")
     return 0
 
 
