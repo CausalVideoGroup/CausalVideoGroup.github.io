@@ -1,0 +1,10 @@
+# Temporary owner until organization teams and member GitHub usernames are added.
+* @SoftPointer
+
+# Content and publishing rules require explicit review.
+/discussions/ @SoftPointer
+/projects/ @SoftPointer
+/data/ @SoftPointer
+/schemas/ @SoftPointer
+/scripts/ @SoftPointer
+/.github/ @SoftPointer

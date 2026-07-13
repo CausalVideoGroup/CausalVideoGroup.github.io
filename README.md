@@ -68,6 +68,9 @@ Validation fails on inconsistent directory names, unknown leaders, missing
 files, incomplete research-quality fields, too few references or questions,
 broken local links, malformed metadata URLs, and preview videos over 10 MiB.
 
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the pull-request workflow, content
+quality bar, public-data policy, and review expectations.
+
 ## Status
 
 The repository structure has been initialized locally. Website pages, content

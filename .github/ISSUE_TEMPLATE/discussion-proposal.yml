@@ -1,0 +1,47 @@
+name: Discussion proposal
+description: Propose a topic for a future CausalVideoGroup discussion.
+title: "[Discussion] "
+labels:
+  - discussion-proposal
+body:
+  - type: input
+    id: title
+    attributes:
+      label: Topic title
+      placeholder: Streaming Video Generation with Force Control
+    validations:
+      required: true
+  - type: input
+    id: leader
+    attributes:
+      label: Proposed leader
+      description: Use a full name from the approved leader registry.
+    validations:
+      required: true
+  - type: input
+    id: date
+    attributes:
+      label: Proposed date
+      placeholder: YYYY-MM-DD
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Why this topic now?
+      description: Identify the new capability, limitation, benchmark, or research connection.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: Starting references
+      description: Provide at least three public paper or project links.
+    validations:
+      required: true
+  - type: textarea
+    id: connection
+    attributes:
+      label: Connection to group research
+    validations:
+      required: true
