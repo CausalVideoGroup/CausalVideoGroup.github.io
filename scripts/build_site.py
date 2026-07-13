@@ -23,11 +23,13 @@ class Discussion:
     directory: str
     title: str
     date: str
+    topic_slug: str
     leader_name: str
     leader_short_name: str
     status: str
     summary: str
     tags: tuple[str, ...]
+    related_projects: tuple[str, ...]
 
 
 def unquote(value: str) -> str:
@@ -81,7 +83,7 @@ def read_discussion_metadata(path: Path) -> Discussion:
         scalar[key] = unquote(raw_value)
         index += 1
 
-    required = ("title", "date", "status", "summary")
+    required = ("title", "date", "topic_slug", "status", "summary")
     missing = [key for key in required if not scalar.get(key)]
     missing.extend(key for key in ("name", "short_name") if not leader.get(key))
     if missing:
@@ -90,11 +92,13 @@ def read_discussion_metadata(path: Path) -> Discussion:
         directory=path.parent.name,
         title=scalar["title"],
         date=scalar["date"],
+        topic_slug=scalar["topic_slug"],
         leader_name=leader["name"],
         leader_short_name=leader["short_name"],
         status=scalar["status"],
         summary=scalar["summary"],
         tags=tuple(lists["tags"]),
+        related_projects=tuple(lists["related_projects"]),
     )
 
 

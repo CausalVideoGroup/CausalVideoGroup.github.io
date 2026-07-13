@@ -16,6 +16,7 @@ class BuildSiteTests(unittest.TestCase):
             path.write_text(
                 'title: "A Topic"\n'
                 "date: 2026-07-18\n"
+                "topic_slug: topic\n"
                 "leader:\n"
                 '  name: "Peiyuan Zhu"\n'
                 "  short_name: peiyuan\n"
@@ -29,6 +30,7 @@ class BuildSiteTests(unittest.TestCase):
             )
             item = read_discussion_metadata(path)
             self.assertEqual(item.leader_short_name, "peiyuan")
+            self.assertEqual(item.topic_slug, "topic")
             self.assertEqual(item.summary, "First line second line.")
             self.assertEqual(item.tags, ("video-generation",))
 

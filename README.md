@@ -57,6 +57,17 @@ python3 scripts/build_site.py
 This updates the generated regions on the homepage and the Discussions, People,
 and Tags pages. Do not manually edit content between `GENERATED` markers.
 
+## Validate before a pull request
+
+```bash
+python3 scripts/validate_site.py
+python3 -m unittest discover -s tests -v
+```
+
+Validation fails on inconsistent directory names, unknown leaders, missing
+files, incomplete research-quality fields, too few references or questions,
+broken local links, malformed metadata URLs, and preview videos over 10 MiB.
+
 ## Status
 
 The repository structure has been initialized locally. Website pages, content
