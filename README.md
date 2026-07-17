@@ -55,10 +55,10 @@ python3 scripts/build_site.py
 ```
 
 This updates the generated regions on the homepage and the Discussions, People,
-and Tags pages. It also renders each discussion's Markdown sources as styled
-HTML pages for public reading. Edit the Markdown sources, not the generated
-`references.html`, `meeting-note.html`, `action-items.html`, or `idea-map.html`
-files. Do not manually edit content between `GENERATED` markers.
+and Tags pages. It also renders each discussion's references and meeting-note
+Markdown sources as styled HTML pages for public reading. Edit the Markdown
+sources, not the generated `references.html` or `meeting-note.html` files. Do
+not manually edit content between `GENERATED` markers.
 
 ## Create a project page
 

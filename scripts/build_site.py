@@ -293,7 +293,7 @@ def discussion_material_page(item: Discussion, source_path: Path) -> str:
 <body>
   <header class="site-header"><div class="nav-wrap">
     <a class="brand" href="../../">CausalVideoGroup</a>
-    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a><a href="action-items.html">Action items</a><a href="idea-map.html">Idea map</a></nav>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
   </div></header>
   <main>
     <header class="page-header"><p class="eyebrow">{html.escape(item.date)} · {html.escape(item.leader_name)}</p><h1>{html.escape(title)}</h1><p class="lede">{html.escape(item.title)}</p></header>
@@ -308,7 +308,7 @@ def discussion_material_page(item: Discussion, source_path: Path) -> str:
 def build_discussion_materials(root: Path, discussions: list[Discussion]) -> None:
     for item in discussions:
         folder = root / "discussions" / item.directory
-        for source_name in ("references.md", "meeting-note.md", "action-items.md", "idea-map.md"):
+        for source_name in ("references.md", "meeting-note.md"):
             source_path = folder / source_name
             if source_path.is_file():
                 destination = source_path.with_suffix(".html")
@@ -454,8 +454,6 @@ def build(root: Path) -> None:
                 "summary.html",
                 "references.html",
                 "meeting-note.html",
-                "action-items.html",
-                "idea-map.html",
             )
         )
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'

@@ -29,8 +29,6 @@ REQUIRED_FILES = {
 REQUIRED_PUBLIC_PAGES = {
     "references.html",
     "meeting-note.html",
-    "action-items.html",
-    "idea-map.html",
 }
 VALID_STATUSES = {"planned", "before-meeting", "after-meeting", "archived"}
 QUALITY_LABELS = (

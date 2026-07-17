@@ -33,7 +33,7 @@
 
 ## 7. Action items
 
-- See the [rendered action items](action-items.html).
+- See `action-items.md` in the discussion source files.
 
 ## 8. Links
 

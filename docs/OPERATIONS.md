@@ -19,9 +19,11 @@ Complete `metadata.yaml`, `summary.html`, `references.md`, and the idea map.
 Use `presentation.html` for a large self-contained slide deck and keep
 `summary.html` as the standard research-summary entry point.
 
-Markdown files are editable sources. `build_site.py` converts references,
-meeting notes, action items, and idea maps into styled `.html` pages; public
-navigation must always link to those rendered pages rather than raw `.md` files.
+Markdown files are editable sources. `build_site.py` converts references and
+meeting notes into styled `.html` pages; public navigation must always link to
+those rendered pages rather than raw `.md` files. Action items and idea maps
+remain supporting files in the discussion source unless deliberately included
+in a summary or presentation.
 
 Before opening a pull request:
 
