@@ -153,6 +153,170 @@ def tags_html(tags: tuple[str, ...]) -> str:
     return " ".join(f'<span class="tag">{html.escape(tag)}</span>' for tag in tags)
 
 
+INLINE_MARKDOWN = re.compile(
+    r"(`[^`]+`|\[[^\]]+\]\([^)]+\)|https?://[^\s<]+|\*\*[^*]+\*\*)"
+)
+
+
+def render_inline_markdown(source: str) -> str:
+    """Render the small inline-Markdown subset used by discussion notes."""
+    rendered: list[str] = []
+    cursor = 0
+    for match in INLINE_MARKDOWN.finditer(source):
+        rendered.append(html.escape(source[cursor:match.start()]))
+        token = match.group(0)
+        if token.startswith("`"):
+            rendered.append(f"<code>{html.escape(token[1:-1])}</code>")
+        elif token.startswith("["):
+            label, url = re.fullmatch(r"\[([^\]]+)\]\(([^)]+)\)", token).groups()
+            rendered.append(
+                f'<a href="{html.escape(url, quote=True)}">{html.escape(label)}</a>'
+            )
+        elif token.startswith("http"):
+            rendered.append(
+                f'<a href="{html.escape(token, quote=True)}">{html.escape(token)}</a>'
+            )
+        else:
+            rendered.append(f"<strong>{html.escape(token[2:-2])}</strong>")
+        cursor = match.end()
+    rendered.append(html.escape(source[cursor:]))
+    return "".join(rendered)
+
+
+def render_markdown(source: str) -> tuple[str, str, bool]:
+    """Return title, styled HTML body, and whether Mermaid is required."""
+    lines = source.splitlines()
+    title = "Discussion material"
+    output: list[str] = []
+    paragraph: list[str] = []
+    list_type: str | None = None
+    code_lines: list[str] = []
+    code_language = ""
+    in_code = False
+    uses_mermaid = False
+
+    def close_paragraph() -> None:
+        if paragraph:
+            output.append(f"<p>{render_inline_markdown(' '.join(paragraph))}</p>")
+            paragraph.clear()
+
+    def close_list() -> None:
+        nonlocal list_type
+        if list_type:
+            output.append(f"</{list_type}>")
+            list_type = None
+
+    for line in lines:
+        fence = re.fullmatch(r"```\s*([A-Za-z0-9_-]*)", line)
+        if fence:
+            close_paragraph()
+            close_list()
+            if not in_code:
+                in_code = True
+                code_language = fence.group(1).lower()
+                code_lines = []
+            else:
+                code = "\n".join(code_lines)
+                if code_language == "mermaid":
+                    output.append(f'<pre class="mermaid">{html.escape(code)}</pre>')
+                    uses_mermaid = True
+                else:
+                    language_class = f' class="language-{html.escape(code_language)}"' if code_language else ""
+                    output.append(f"<pre><code{language_class}>{html.escape(code)}</code></pre>")
+                in_code = False
+            continue
+        if in_code:
+            code_lines.append(line)
+            continue
+        if not line.strip():
+            close_paragraph()
+            close_list()
+            continue
+        heading = re.fullmatch(r"(#{1,4})\s+(.+)", line)
+        if heading:
+            close_paragraph()
+            close_list()
+            level = len(heading.group(1))
+            heading_text = heading.group(2)
+            if level == 1 and title == "Discussion material":
+                title = heading_text
+            else:
+                output.append(f"<h{level}>{render_inline_markdown(heading_text)}</h{level}>")
+            continue
+        item = re.fullmatch(r"\s*[-*]\s+(.+)", line)
+        ordered_item = re.fullmatch(r"\s*\d+\.\s+(.+)", line)
+        if item or ordered_item:
+            close_paragraph()
+            desired_type = "ul" if item else "ol"
+            if list_type != desired_type:
+                close_list()
+                output.append(f"<{desired_type}>")
+                list_type = desired_type
+            item_text = (item or ordered_item).group(1)
+            task = re.fullmatch(r"\[([ xX])\]\s+(.+)", item_text)
+            if task:
+                checked = " checked" if task.group(1).lower() == "x" else ""
+                output.append(
+                    f'<li class="task-item"><input type="checkbox" disabled{checked}> '
+                    f"{render_inline_markdown(task.group(2))}</li>"
+                )
+            else:
+                output.append(f"<li>{render_inline_markdown(item_text)}</li>")
+            continue
+        close_list()
+        paragraph.append(line.strip())
+
+    if in_code:
+        output.append(f"<pre><code>{html.escape(chr(10).join(code_lines))}</code></pre>")
+    close_paragraph()
+    close_list()
+    return title, "\n".join(output), uses_mermaid
+
+
+def discussion_material_page(item: Discussion, source_path: Path) -> str:
+    title, body, uses_mermaid = render_markdown(source_path.read_text(encoding="utf-8"))
+    mermaid = ""
+    if uses_mermaid:
+        mermaid = '''\n<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  mermaid.initialize({ startOnLoad: true, theme: "neutral" });
+</script>'''
+    return f'''<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{html.escape(title, quote=True)} for {html.escape(item.title, quote=True)}.">
+  <title>{html.escape(title)} · {html.escape(item.title)} · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a><a href="action-items.html">Action items</a><a href="idea-map.html">Idea map</a></nav>
+  </div></header>
+  <main>
+    <header class="page-header"><p class="eyebrow">{html.escape(item.date)} · {html.escape(item.leader_name)}</p><h1>{html.escape(title)}</h1><p class="lede">{html.escape(item.title)}</p></header>
+    <article class="prose markdown-body">{body}</article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>{mermaid}
+</body>
+</html>
+'''
+
+
+def build_discussion_materials(root: Path, discussions: list[Discussion]) -> None:
+    for item in discussions:
+        folder = root / "discussions" / item.directory
+        for source_name in ("references.md", "meeting-note.md", "action-items.md", "idea-map.md"):
+            source_path = folder / source_name
+            if source_path.is_file():
+                destination = source_path.with_suffix(".html")
+                destination.write_text(
+                    discussion_material_page(item, source_path), encoding="utf-8"
+                )
+
+
 def discussion_card(item: Discussion, prefix: str) -> str:
     url = f"{prefix}discussions/{html.escape(item.directory)}/"
     return (
@@ -180,6 +344,7 @@ def build(root: Path) -> None:
     discussions = load_discussions(root)
     projects = load_projects(root)
     leaders = load_people(root / "data" / "people.yaml")
+    build_discussion_materials(root, discussions)
 
     recent = discussions[:3]
     home_content = (
@@ -282,6 +447,17 @@ def build(root: Path) -> None:
     ]
     urls.extend(f"{base}/projects/{item.slug}/" for item in projects)
     urls.extend(f"{base}/discussions/{item.directory}/" for item in discussions)
+    for item in discussions:
+        urls.extend(
+            f"{base}/discussions/{item.directory}/{page}"
+            for page in (
+                "summary.html",
+                "references.html",
+                "meeting-note.html",
+                "action-items.html",
+                "idea-map.html",
+            )
+        )
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += "\n".join(f"  <url><loc>{html.escape(url)}</loc></url>" for url in urls)
     sitemap += "\n</urlset>\n"

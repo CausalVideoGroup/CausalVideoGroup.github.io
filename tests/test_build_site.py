@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.build_site import read_discussion_metadata, read_project_metadata, replace_region
+from scripts.build_site import read_discussion_metadata, read_project_metadata, render_markdown, replace_region
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parent.parent
@@ -62,6 +62,23 @@ class BuildSiteTests(unittest.TestCase):
     def test_public_example_is_present_in_sitemap(self) -> None:
         sitemap = (REPOSITORY_ROOT / "sitemap.xml").read_text(encoding="utf-8")
         self.assertIn("2026-07-13-yifan-forcing-ar-video-distillation", sitemap)
+
+    def test_renders_discussion_markdown_as_styled_content(self) -> None:
+        title, body, uses_mermaid = render_markdown(
+            "# Meeting Note\n\n## Insight\n\n- [ ] Follow up\n- Link: https://example.com\n"
+        )
+        self.assertEqual("Meeting Note", title)
+        self.assertIn("<h2>Insight</h2>", body)
+        self.assertIn('type="checkbox" disabled', body)
+        self.assertIn('<a href="https://example.com">', body)
+        self.assertFalse(uses_mermaid)
+
+    def test_detects_mermaid_content(self) -> None:
+        _, body, uses_mermaid = render_markdown(
+            "# Idea Map\n\n```mermaid\ngraph TD\n  A --> B\n```\n"
+        )
+        self.assertIn('class="mermaid"', body)
+        self.assertTrue(uses_mermaid)
 
 
 if __name__ == "__main__":

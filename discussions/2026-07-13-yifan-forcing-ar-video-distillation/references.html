@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Key References for Forcing Series: The Evolution of AR Video Distillation.">
+  <title>Key References · Forcing Series: The Evolution of AR Video Distillation · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a><a href="action-items.html">Action items</a><a href="idea-map.html">Idea map</a></nav>
+  </div></header>
+  <main>
+    <header class="page-header"><p class="eyebrow">2026-07-13 · Yifan Shen</p><h1>Key References</h1><p class="lede">Forcing Series: The Evolution of AR Video Distillation</p></header>
+    <article class="prose markdown-body"><h2>1. From Slow Bidirectional to Fast Autoregressive Video Diffusion Models</h2>
+<ul>
+<li>Link: <a href="https://openaccess.thecvf.com/content/CVPR2025/html/Yin_From_Slow_Bidirectional_to_Fast_Autoregressive_Video_Diffusion_Models_CVPR_2025_paper.html">https://openaccess.thecvf.com/content/CVPR2025/html/Yin_From_Slow_Bidirectional_to_Fast_Autoregressive_Video_Diffusion_Models_CVPR_2025_paper.html</a></li>
+<li>Type: method</li>
+<li>Why important: It provides the starting recipe for distilling a bidirectional video diffusion teacher into a fast autoregressive student.</li>
+<li>Role in this topic: Foundation of the forcing-method timeline.</li>
+<li>Main limitation: Teacher-conditioned training does not fully reproduce the student&#x27;s inference-time history distribution.</li>
+<li>Discussion question: Which teacher information is fundamentally unavailable to a causal student?</li>
+</ul>
+<h2>2. Self Forcing: Bridging the Train-Test Gap in Autoregressive Video Diffusion</h2>
+<ul>
+<li>Link: <a href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/f4823f831af67a3ef15e41a85434422a-Abstract-Conference.html">https://proceedings.neurips.cc/paper_files/paper/2025/hash/f4823f831af67a3ef15e41a85434422a-Abstract-Conference.html</a></li>
+<li>Type: method</li>
+<li>Why important: It trains on student rollouts and directly targets the train-test history mismatch.</li>
+<li>Role in this topic: Central transition from teacher-forced history to on-policy autoregressive distillation.</li>
+<li>Main limitation: Correcting rollout distribution does not by itself resolve teacher/student causal-architecture mismatch or long-context degradation.</li>
+<li>Discussion question: How much student rollout is needed before on-policy training becomes stable and informative?</li>
+</ul>
+<h2>3. Causal Forcing</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2602.02214">https://arxiv.org/abs/2602.02214</a></li>
+<li>Type: method</li>
+<li>Why important: It argues that the initialization teacher must itself be autoregressive to define the correct causal flow map.</li>
+<li>Role in this topic: Architectural correction following Self Forcing.</li>
+<li>Main limitation: Adding an autoregressive teacher increases training complexity and does not automatically solve long-horizon memory cost.</li>
+<li>Discussion question: Can the causal target be recovered without training a separate autoregressive teacher?</li>
+</ul></article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>
+</body>
+</html>

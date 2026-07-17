@@ -26,6 +26,12 @@ REQUIRED_FILES = {
     "meeting-note.md",
     "action-items.md",
 }
+REQUIRED_PUBLIC_PAGES = {
+    "references.html",
+    "meeting-note.html",
+    "action-items.html",
+    "idea-map.html",
+}
 VALID_STATUSES = {"planned", "before-meeting", "after-meeting", "archived"}
 QUALITY_LABELS = (
     "Central claim:",
@@ -100,6 +106,9 @@ def validate(root: Path) -> list[Finding]:
         for filename in sorted(REQUIRED_FILES):
             if not (folder / filename).is_file():
                 findings.append(Finding("ERROR", str(folder.relative_to(root)), f"missing required file: {filename}"))
+        for filename in sorted(REQUIRED_PUBLIC_PAGES):
+            if not (folder / filename).is_file():
+                findings.append(Finding("ERROR", str(folder.relative_to(root)), f"missing rendered public page: {filename}"))
 
         summary_path = folder / "summary.html"
         if summary_path.is_file():
@@ -142,6 +151,14 @@ def validate(root: Path) -> list[Finding]:
                 findings.append(Finding("ERROR", str(folder.relative_to(root)), f"missing required file: {filename}"))
 
     findings.extend(validate_local_links(root))
+    for page in root.rglob("*.html"):
+        if "templates" in page.parts:
+            continue
+        collector = LinkCollector()
+        collector.feed(page.read_text(encoding="utf-8"))
+        for link in collector.links:
+            if link.split("#", 1)[0].split("?", 1)[0].endswith(".md"):
+                findings.append(Finding("ERROR", str(page.relative_to(root)), f"public page links to raw Markdown: {link}"))
     return findings
 
 

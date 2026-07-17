@@ -95,6 +95,14 @@ h3 { font-size: 1.2rem; }
 .prose h2 { margin-top: 2.8rem; }
 .prose h3 { margin-top: 2rem; }
 .prose li + li { margin-top: 0.45rem; }
+.markdown-body { padding: 0 0 5rem; }
+.markdown-body h2 { padding-bottom: 0.45rem; border-bottom: 1px solid var(--line); }
+.markdown-body ul, .markdown-body ol { padding-left: 1.4rem; }
+.markdown-body pre { max-width: 100%; overflow-x: auto; padding: 1.2rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.markdown-body pre code { padding: 0; background: transparent; }
+.markdown-body .mermaid { text-align: center; }
+.task-item { list-style: none; margin-left: -1.4rem; }
+.task-item input { margin-right: 0.45rem; accent-color: var(--accent); }
 .callout { margin: 2rem 0; padding: 1.2rem 1.4rem; border-left: 4px solid var(--warm); background: var(--surface); }
 .empty-state { padding: 2rem; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); background: rgba(255,255,255,0.35); }
 code { padding: 0.12rem 0.35rem; border-radius: 4px; background: #eae7de; font-size: 0.9em; }

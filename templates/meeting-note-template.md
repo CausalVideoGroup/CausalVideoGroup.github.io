@@ -33,11 +33,11 @@
 
 ## 7. Action items
 
-- See `action-items.md`.
+- See the [rendered action items](action-items.html).
 
 ## 8. Links
 
-- Summary: `summary.html`
-- References: `references.md`
+- Summary: [topic summary](summary.html)
+- References: [rendered references](references.html)
 - Videos:
 - Related projects:
