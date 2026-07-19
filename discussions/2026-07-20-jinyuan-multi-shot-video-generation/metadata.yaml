@@ -1,0 +1,40 @@
+title: "Multi-Shot Video Generation: From Joint Denoising to Online Directing"
+date: 2026-07-20
+topic_slug: multi-shot-video-generation
+leader:
+  name: "Jinyuan Hu"
+  short_name: jinyuan
+status: before-meeting
+summary: >-
+  A technical map of multi-shot video generation, organized by how shots are
+  generated and how history enters the model: holistic joint denoising,
+  shot-level autoregression, causal streaming, and system-level directing.
+tags:
+  - video-generation
+  - multi-shot-video
+  - long-video-generation
+  - causal-generation
+  - agentic-video
+related_projects: []
+papers:
+  - title: "HoloCine: Holistic Generation of Cinematic Multi-Shot Long Videos"
+    url: https://arxiv.org/abs/2510.20822
+    role: method
+    note: Extends joint multi-shot generation toward minute-scale narratives with sparse inter-shot communication.
+  - title: "OneStory: Coherent Multi-Shot Video Generation with Adaptive Memory"
+    url: https://arxiv.org/abs/2512.07802
+    role: method
+    note: Retrieves and compresses relevant frames from the full shot history for the next shot.
+  - title: "ShotStream"
+    url: https://arxiv.org/abs/2603.25746
+    role: method
+    note: Distills a bidirectional next-shot teacher into a causal streaming student.
+  - title: "VideoMemory"
+    url: https://arxiv.org/abs/2601.03655
+    role: system
+    note: Maintains explicit character, prop, and background memories during shot-by-shot generation.
+  - title: "GroundShot"
+    url: https://arxiv.org/abs/2606.20799
+    role: system
+    note: Closes the loop between shot scheduling, entity grounding, reference verification, and memory updates.
+external_videos: []
