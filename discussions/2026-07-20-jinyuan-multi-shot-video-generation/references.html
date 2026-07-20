@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Key References for Multi-Shot Video Generation: From Joint Denoising to Online Directing.">
+  <title>Key References · Multi-Shot Video Generation: From Joint Denoising to Online Directing · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
+  </div></header>
+  <main>
+    <header class="page-header"><p class="eyebrow">2026-07-20 · Jinyuan Hu</p><h1>Key References</h1><p class="lede">Multi-Shot Video Generation: From Joint Denoising to Online Directing</p></header>
+    <article class="prose markdown-body"><h2>1. HoloCine: Holistic Generation of Cinematic Multi-Shot Long Videos</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2510.20822">https://arxiv.org/abs/2510.20822</a></li>
+<li>Type: method</li>
+<li>Why important: It extends joint multi-shot generation toward minute-scale narratives with sparse inter-shot self-attention.</li>
+<li>Role in this topic: Representative of the holistic-joint route and its scaling strategy.</li>
+<li>Main limitation: The full storyboard is planned before generation, and sparse summaries may omit fine-grained distant state.</li>
+<li>Discussion question: Which cross-shot facts require dense token interaction rather than summary communication?</li>
+</ul>
+<h2>2. OneStory: Coherent Multi-Shot Video Generation with Adaptive Memory</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2512.07802">https://arxiv.org/abs/2512.07802</a></li>
+<li>Type: method</li>
+<li>Why important: It retrieves relevant frames from the full history and compresses them into a compact context for the current shot.</li>
+<li>Role in this topic: Clear example of caption-guided visual memory in shot-level autoregressive generation.</li>
+<li>Main limitation: Retrieval quality depends on the current caption and may discard state whose relevance becomes clear only later.</li>
+<li>Discussion question: How should memory preserve latent causal state that is not explicitly named in the next-shot caption?</li>
+</ul>
+<h2>3. ShotStream</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2603.25746">https://arxiv.org/abs/2603.25746</a></li>
+<li>Type: method</li>
+<li>Why important: It connects a bidirectional next-shot teacher to a causal student designed for real-time multi-shot output.</li>
+<li>Role in this topic: Representative bridge from shot-conditioned diffusion to causal streaming and few-step inference.</li>
+<li>Main limitation: Causal rollout cannot use future shots to repair past output and may accumulate appearance or motion drift.</li>
+<li>Discussion question: Which teacher signals survive causal distillation when the student leaves the teacher&#x27;s history distribution?</li>
+</ul>
+<h2>4. VideoMemory</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2601.03655">https://arxiv.org/abs/2601.03655</a></li>
+<li>Type: system</li>
+<li>Why important: It externalizes character, prop, and background state into a dynamic memory bank used throughout shot-by-shot generation.</li>
+<li>Role in this topic: Representative of explicit semantic state management outside a single video context window.</li>
+<li>Main limitation: A memory bank can preserve references without diagnosing whether the generated shot actually obeyed them.</li>
+<li>Discussion question: What verification signal should decide whether a generated frame is safe to write back into memory?</li>
+</ul>
+<h2>5. GroundShot</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2606.20799">https://arxiv.org/abs/2606.20799</a></li>
+<li>Type: system</li>
+<li>Why important: It joins shot scheduling, entity grounding, reference verification, and memory updates into a visual-feedback loop.</li>
+<li>Role in this topic: Representative of the shift from open-loop planning to online directing.</li>
+<li>Main limitation: Additional planning and verification stages increase latency and can compound errors from imperfect evaluators.</li>
+<li>Discussion question: When should a director agent reorder shots, regenerate a shot, or repair the memory instead?</li>
+</ul>
+<h2>6. MSVBench</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2602.23969">https://arxiv.org/abs/2602.23969</a></li>
+<li>Type: benchmark</li>
+<li>Why important: It evaluates multi-shot video systems with hierarchical scripts and references across a broad method set.</li>
+<li>Role in this topic: Evidence that multi-shot evaluation is becoming a distinct problem rather than an extension of generic video quality.</li>
+<li>Main limitation: One benchmark cannot simultaneously isolate cinematic language, delayed entity recurrence, online control, and audio-visual consistency.</li>
+<li>Discussion question: What controlled interventions are needed to identify the source of a cross-shot failure?</li>
+</ul></article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>
+</body>
+</html>

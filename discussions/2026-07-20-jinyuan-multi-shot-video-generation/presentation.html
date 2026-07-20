@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multi-Shot Video Generation · Literature Review</title>
+<link rel="stylesheet" href="assets/runtime/fonts.css">
+<link rel="stylesheet" href="assets/runtime/base.css">
+<link rel="stylesheet" href="assets/runtime/animations.css">
+<link rel="stylesheet" href="assets/liquid-glass.css">
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+  <section class="slide cover" data-title="Multi-Shot Video Generation">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">Causal Video Group · Literature Review</p>
+        <h1 class="h1 anim-fade-up" data-anim="fade-up"><span class="gradient-text">Multi-Shot</span><br>Video Generation</h1>
+        <p class="lede">From Joint Denoising to Online Directing · 2023–2026</p>
+        <div class="row mt-l"><span class="chip p1">Holistic Joint</span><span class="chip p2">Shot-Level AR</span><span class="chip p3">Causal Streaming</span><span class="chip p4">System / Agent</span></div>
+      </div>
+      <div class="glass glass-strong panel-lg">
+        <div class="storyboard">
+          <div class="shot-card">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Wide establishing shot"><rect width="320" height="200" fill="#8bb8e8"/><circle cx="258" cy="43" r="23" fill="#ffd28c"/><path d="M0 118 Q80 82 160 116 T320 105 V200 H0Z" fill="#6d8a8c"/><rect x="0" y="142" width="320" height="58" fill="#3c5668"/><circle cx="137" cy="111" r="10" fill="#f2b092"/><path d="M123 142 Q137 118 151 142Z" fill="#5b3f86"/><circle cx="180" cy="110" r="10" fill="#bd7b63"/><path d="M165 142 Q180 118 195 142Z" fill="#244f76"/><rect x="113" y="145" width="92" height="7" rx="3" fill="#c38a61"/></svg>
+            <div class="shot-label-line"><span class="shot-index">SHOT 01</span><span class="shot-type">ESTABLISHING WIDE</span></div>
+          </div>
+          <div class="shot-card">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Close-up shot"><rect width="320" height="200" fill="#d7b8d8"/><rect y="132" width="320" height="68" fill="#72516e"/><circle cx="160" cy="82" r="52" fill="#f1b498"/><path d="M108 75 Q117 17 164 22 Q209 24 215 79 Q190 53 160 48 Q132 50 108 75Z" fill="#3d2c47"/><circle cx="142" cy="82" r="5" fill="#3e3541"/><circle cx="178" cy="82" r="5" fill="#3e3541"/><path d="M145 105 Q160 115 176 104" fill="none" stroke="#a75561" stroke-width="4" stroke-linecap="round"/><path d="M84 200 Q94 132 160 132 Q226 132 239 200Z" fill="#5b3f86"/></svg>
+            <div class="shot-label-line"><span class="shot-index">SHOT 02</span><span class="shot-type">CLOSE-UP</span></div>
+          </div>
+          <div class="shot-card">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Reverse over-shoulder shot"><rect width="320" height="200" fill="#78a7aa"/><circle cx="222" cy="78" r="38" fill="#efb196"/><path d="M185 71 Q191 30 224 33 Q257 33 263 76 Q243 54 222 53 Q202 54 185 71Z" fill="#3d2c47"/><circle cx="210" cy="78" r="4" fill="#313845"/><circle cx="235" cy="78" r="4" fill="#313845"/><path d="M195 200 Q199 120 225 117 Q275 123 289 200Z" fill="#5b3f86"/><circle cx="70" cy="92" r="55" fill="#8b5c50"/><path d="M0 200 Q6 119 70 116 Q125 127 142 200Z" fill="#244f76"/><path d="M116 101 Q156 76 181 83" fill="none" stroke="#dce9ea" stroke-width="4" stroke-dasharray="7 7"/></svg>
+            <div class="shot-label-line"><span class="shot-index">SHOT 03</span><span class="shot-type">REVERSE OTS</span></div>
+          </div>
+        </div>
+        <div class="rule mt-l"></div>
+        <p class="quote mt-m">好镜头只是起点：<br><span class="gradient-text">变化要有镜头语言，一致性要跨越 cuts。</span></p>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Literature report · 2026.07</span><span class="slide-number" data-current="1" data-total="30"></span></div>
+    <aside class="notes"><p>这份报告讨论 multi-shot video generation。重点不是逐篇罗列论文，而是回答一个共同问题：多个镜头在生成时怎样共享信息。我们会沿四条路线展开，从一次联合去噪、逐镜头生成、因果流式生成，一直到模型外部的规划与反馈系统。</p><p>贯穿全场的判断是：multi-shot 不是把几段短视频拼在一起，而是要在 hard cut 制造变化的同时，控制人物、道具、环境和叙事状态中哪些保持、哪些改变。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Task Definition">
+    <p class="kicker">01 · Task boundary</p>
+    <h2 class="h2">Multi-shot：有明确镜头边界的<span class="gradient-text">连续叙事生成</span></h2>
+    <div class="content grid g31" style="align-items:center">
+      <div class="glass panel-lg vcenter">
+        <div class="definition"><div class="label">Input</div><div class="text">全局故事 / 角色设定 + 按顺序排列的 per-shot descriptions</div></div>
+        <div class="rule mt-m mb-m"></div>
+        <div class="definition"><div class="label">Output</div><div class="text">由 hard cut 分隔的多个 shots；视角、构图、动作或时空可改变</div></div>
+        <div class="storyboard large mt-l">
+          <div class="shot-card"><svg viewBox="0 0 320 200"><rect width="320" height="200" fill="#8bb8e8"/><circle cx="258" cy="43" r="23" fill="#ffd28c"/><path d="M0 118 Q80 82 160 116 T320 105 V200 H0Z" fill="#6d8a8c"/><rect y="142" width="320" height="58" fill="#3c5668"/><circle cx="137" cy="111" r="10" fill="#f2b092"/><path d="M123 142 Q137 118 151 142Z" fill="#5b3f86"/><circle cx="180" cy="110" r="10" fill="#bd7b63"/><path d="M165 142 Q180 118 195 142Z" fill="#244f76"/></svg><div class="shot-label-line"><span class="shot-index">SHOT 01</span><span class="shot-type">WIDE · 建立空间</span></div></div>
+          <div class="shot-card"><svg viewBox="0 0 320 200"><rect width="320" height="200" fill="#d7b8d8"/><rect y="132" width="320" height="68" fill="#72516e"/><circle cx="160" cy="82" r="52" fill="#f1b498"/><path d="M108 75 Q117 17 164 22 Q209 24 215 79 Q190 53 160 48 Q132 50 108 75Z" fill="#3d2c47"/><circle cx="142" cy="82" r="5" fill="#3e3541"/><circle cx="178" cy="82" r="5" fill="#3e3541"/><path d="M145 105 Q160 115 176 104" fill="none" stroke="#a75561" stroke-width="4" stroke-linecap="round"/><path d="M84 200 Q94 132 160 132 Q226 132 239 200Z" fill="#5b3f86"/></svg><div class="shot-label-line"><span class="shot-index">SHOT 02</span><span class="shot-type">CLOSE-UP · 强调表情</span></div></div>
+          <div class="shot-card"><svg viewBox="0 0 320 200"><rect width="320" height="200" fill="#78a7aa"/><circle cx="222" cy="78" r="38" fill="#efb196"/><path d="M185 71 Q191 30 224 33 Q257 33 263 76 Q243 54 222 53 Q202 54 185 71Z" fill="#3d2c47"/><circle cx="210" cy="78" r="4" fill="#313845"/><circle cx="235" cy="78" r="4" fill="#313845"/><path d="M195 200 Q199 120 225 117 Q275 123 289 200Z" fill="#5b3f86"/><circle cx="70" cy="92" r="55" fill="#8b5c50"/><path d="M0 200 Q6 119 70 116 Q125 127 142 200Z" fill="#244f76"/></svg><div class="shot-label-line"><span class="shot-index">SHOT 03</span><span class="shot-type">REVERSE · 切换视点</span></div></div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="glass panel-sm"><span class="chip">≠ Long video</span><p class="body">long video 强调持续时间；multi-shot 强调镜头边界与镜头间依赖。</p></div>
+        <div class="glass panel-sm"><span class="chip">≠ Multi-scene</span><p class="body">scene 是叙事时空单位，一个 scene 可以包含多个 shots。</p></div>
+        <div class="glass panel-sm"><span class="chip">≠ Story video</span><p class="body">本报告限定为显式建模 shot boundary 与 shot-level dependency 的视频方法。</p></div>
+        <div class="callout warm"><span class="strong">核心难点：consistency</span><br>不是所有镜头都相似，而是“该保持的保持、该变化的变化”。</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Boundary: model chunk 只有与语义镜头边界对应时，才算 shot</span><span class="slide-number" data-current="2" data-total="30"></span></div>
+    <aside class="notes"><p>先给出任务定义：输入可以是完整故事，也可以是全局设定加逐镜头描述；输出是一段由明确 cut 分隔的视频。镜头之间允许改变视角、构图、动作甚至时空，但共同表达连贯叙事。</p><p>它不等于单纯的长视频，也不等于多场景。最重要的难点是 consistency：hard cut 本来就要求变化，所以指标不能只奖励相似，而要判断人物身份、道具状态、环境、风格和因果关系中哪些应当延续。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Taxonomy & Contents">
+    <p class="kicker">02 · Unified framework</p>
+    <h2 class="h2">四类方法，也是报告的四个 Part</h2>
+    <p class="lede-tight">前三类看 shots 如何生成、历史怎样进入视频模型；第四类看模型外部怎样规划、检查与纠错。</p>
+    <div class="content grid g4" style="align-items:center">
+      <div class="glass glass-blue panel route-card"><div><div class="route-n">PART I · 04–10</div><div class="route-title">Holistic Joint</div><p class="small">一个双向模型，一次调用联合生成全部 shots。</p></div><div class="route-flow">all shots ↔ all shots</div></div>
+      <div class="glass glass-purple panel route-card"><div><div class="route-n">PART II · 11–16</div><div class="route-title">Shot-Level AR</div><p class="small">模型多次调用，每轮生成一个完整 shot。</p></div><div class="route-flow">shotᵢ ← finished shots&lt;ᵢ</div></div>
+      <div class="glass glass-mint panel route-card"><div><div class="route-n">PART III · 17–21</div><div class="route-title">Causal Streaming</div><p class="small">按 frame / chunk 因果 rollout，复用有界状态。</p></div><div class="route-flow">chunkᵢ ← causal state&lt;ᵢ</div></div>
+      <div class="glass glass-warm panel route-card"><div><div class="route-n">PART IV · 22–27</div><div class="route-title">System / Agent</div><p class="small">模型之外规划、管理参考、检查、重试。</p></div><div class="route-flow">plan → render → inspect ↻</div></div>
+    </div>
+    <div class="grid g2 mt-m"><div class="callout"><span class="strong">关键边界：</span>shot 内双向 diffusion 的 shot-AR，不等于 causal streaming；System 与前三类正交。</div><div class="callout purple"><span class="strong">综合比较 · 28–30：</span>trade-off、benchmark 现状与讨论。</div></div>
+    <div class="deck-footer"><span>Taxonomy follows inference interface, not module names</span><span class="slide-number" data-current="3" data-total="30"></span></div>
+    <aside class="notes"><p>这页同时承担 taxonomy 和目录。Holistic Joint 在一次调用里让所有镜头双向交互；Shot-Level AR 多次调用模型，每次产出完整镜头；Causal Streaming 进一步把生成粒度降到 frame 或 chunk；System 路线则在模型外部规划、检查与纠错。</p><p>分类依据是主要推理接口，不是论文中出现的模块名称。接下来依次进入四个 Part，最后用三页综合比较 trade-off、benchmark 现状和开放讨论。</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part I · Holistic Joint">
+    <div class="section-tag"><span class="dot"></span><span class="chip p1">PART I</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1040px;margin:auto">
+      <p class="kicker">PART I</p>
+      <h2 class="section-title gradient-text">Holistic Joint Generation</h2>
+      <p class="section-subtitle">所有 shots 在一次调用中双向统一去噪</p>
+      <div class="flow mt-l"><div class="node">Shot plan<small>captions · boundary · duration</small></div><div class="arrow">→</div><div class="node">Joint DiT<small>all visual tokens ↔ all visual tokens</small></div><div class="arrow">→</div><div class="node">Multi-shot video<small>no rollout error accumulation</small></div></div>
+      <div class="grid g3 mt-l">
+        <div class="callout"><b>共同接口</b><br>inference 前通常给定 per-shot captions 与边界。</div>
+        <div class="callout mint"><b>核心问题</b><br>caption–shot alignment。</div>
+        <div class="callout warm"><b>主要代价</b><br>总 token 扩展、完整脚本、局部修改需重算。</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Future shots may influence earlier shots</span><span class="slide-number" data-current="4" data-total="30"></span></div>
+    <aside class="notes"><p>Holistic Joint 的共同特征，是在推理前就确定镜头数量、边界或时长，并准备逐镜头 caption；这些 caption 可以由 LLM 从故事自动解析，但在调用视频模型时已经存在。所有视觉 token 在同一次去噪中双向交互，所以没有逐轮 rollout 的误差累积。</p><p>真正困难的是同一个上下文里有多条 caption：怎样让第 i 个镜头主要执行第 i 条描述，同时保留跨镜头视觉交流。这就是接下来三页的 caption-shot alignment。</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Holistic Joint Timeline">
+    <div class="section-tag"><span class="chip p1">PART I · TIMELINE</span></div>
+    <p class="kicker">04 · Evolution</p>
+    <h2 class="h2">从对齐原语，到长时与导演控制</h2>
+    <div class="timeline content">
+      <div class="glass time-item"><div class="time">2024.12</div><div class="phase">时间化事件控制</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2412.05263">MinT</a><span class="meta-badge">CVPR 2025</span><span class="paper-desc">event captions 对齐一条联合视频</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.03–05</div><div class="phase">对齐与边界原语</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2503.10589">LCT</a><span class="meta-badge">ICCV 2025</span><span class="paper-desc">interleaved RoPE</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2503.19881">Mask²DiT</a><span class="meta-badge">CVPR 2025</span><span class="paper-desc">text–segment mask</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2505.07652">ShotAdapter</a><span class="meta-badge">CVPR 2025</span><span class="paper-desc">transition token</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.06–08</div><div class="phase">面向具体问题</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2506.15838">EchoShot</a><span class="meta-badge">NeurIPS 2025</span><span class="paper-desc">portrait identity alignment</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2508.11484">CineTrans</a><span class="meta-badge">ICLR 2026</span><span class="paper-desc">真实电影 hard cuts</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.10–12</div><div class="phase">规模与导演控制</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2510.20822">HoloCine</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">分钟级 joint context</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.03041">MultiShotMaster</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">reference grounding</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.10286">ShotDirector</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">transition 与 camera control</span></div></div></div>
+      <div class="glass time-item"><div class="time">2026.03–06</div><div class="phase">规划器与音视频生成汇合</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2603.11421">ShotVerse</a><span class="meta-badge">arXiv</span><span class="paper-desc">自动规划相机轨迹</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.29473">MAVIN</a><span class="meta-badge">arXiv</span><span class="paper-desc">画面、声音与角色绑定</span></div></div></div>
+    </div>
+    <div class="callout mt-m"><span class="strong">跨-shot consistency 始终是目标。</span>演进的是局部语义、更长上下文与导演级控制。</div>
+    <div class="deck-footer"><span>Paper dates: first public release</span><span class="slide-number" data-current="5" data-total="30"></span></div>
+    <aside class="notes"><p>这条时间线不把 consistency 当作某个阶段，因为它从始至终都是评价目标。真正演进的是解决手段和能力边界：先有时间化 event control，随后在 2025 年上半年形成 mask、RoPE 和 transition token 三种对齐原语。</p><p>下半年开始面向 portrait identity、真实 cut distribution 等具体 failure mode；到 2025 年末，重点转向更长联合上下文、reference grounding 和相机控制。2026 年则出现 planner 与 renderer、更完整的音视频条件结合。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Alignment I · Attention Mask">
+    <div class="section-tag"><span class="chip p1">ALIGNMENT I</span></div>
+    <p class="kicker">Caption–shot alignment</p>
+    <h2 class="h2">Attention mask：显式规定“谁可以看谁”</h2>
+    <div class="content mask-layout">
+      <div class="glass panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2503.19881">Mask²DiT</a></span><span class="venue meta-badge">CVPR 2025</span></div>
+        <p class="lede-tight">同时满足两件事：<b>每个 shot 只接收自己的 caption</b>；所有 shots 仍能共享视觉信息来保持一致性。</p>
+        <div class="mask-matrix mt-l">
+          <div></div><div class="mask-label">CAP 1</div><div class="mask-label">CAP 2</div><div class="mask-label">CAP 3</div><div class="mask-label">VISUAL</div>
+          <div class="mask-label">SHOT 1</div><div class="mask-cell mask-on">align</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-visual">full</div>
+          <div class="mask-label">SHOT 2</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-on">align</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-visual">full</div>
+          <div class="mask-label">SHOT 3</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-on">align</div><div class="mask-cell mask-visual">full</div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="glass panel"><div class="paper-head"><span class="paper" style="font-size:19px"><a href="https://arxiv.org/abs/2508.11484">CineTrans</a></span><span class="venue meta-badge">ICLR 2026</span></div><p class="body">只在部分 DiT 层使用 visual block-diagonal mask：被遮罩层强化 hard cut，未遮罩层继续跨 shot 传递全局信息。</p></div>
+        <div class="glass panel"><div class="paper-head"><span class="paper" style="font-size:19px"><a href="https://arxiv.org/abs/2512.10286">ShotDirector</a></span><span class="venue meta-badge">CVPR 2026</span></div><p class="body">Global–Local Shot-Aware Mask：人物、故事与转场文本对全部 shots 可见；摄影和相机描述只对所属 shot 可见。</p></div>
+        <div class="callout warm"><b>推理接口</b><br>mask 直接编码边界，但 cut positions 仍需预先确定。</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Diagram redrawn from Mask²DiT / CineTrans / ShotDirector</span><span class="slide-number" data-current="6" data-total="30"></span></div>
+    <aside class="notes"><p>第一类方法直接设计 attention mask。Mask²DiT 让第 i 个 shot 只看到第 i 条 caption，避免文本串到错误镜头；与此同时，视觉 token 在不同 shots 之间仍然互相可见，用来保持人物与风格一致。</p><p>CineTrans 只在部分层切断跨 shot 视觉注意力，让这些层专门学习 hard cut，其余层保留全局交流。ShotDirector 的 Global–Local mask 则让人物和故事条件全局可见，而摄影与相机描述只作用于所属镜头。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Alignment II · Special RoPE">
+    <div class="section-tag"><span class="chip p1">ALIGNMENT II</span></div>
+    <p class="kicker">Caption–shot alignment</p>
+    <h2 class="h2">Special RoPE：不隔断 attention，重写<span class="gradient-text">位置几何</span></h2>
+    <div class="content grid g31" style="align-items:center">
+      <div class="glass panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2503.10589">LCT</a></span><span class="venue meta-badge">ICCV 2025</span></div>
+        <div class="lct-board mt-m">
+          <div class="lct-sequence-label"><span>ACTUAL TOKEN ORDER</span><span>scene tokens →</span></div>
+          <div class="lct-sequence">
+            <div class="lct-token caption">Caption 1<small>E₁</small></div><div class="lct-token noise">Noisy video 1<small>V₁(t,h,w)</small></div><div class="lct-divider">｜</div>
+            <div class="lct-token caption">Caption 2<small>E₂</small></div><div class="lct-token noise">Noisy video 2<small>V₂(t,h,w)</small></div><div class="lct-divider">｜</div>
+            <div class="lct-token caption">Caption 3<small>E₃</small></div><div class="lct-token noise">Noisy video 3<small>V₃(t,h,w)</small></div>
+          </div>
+          <div class="lct-pair-braces"><div>[ caption₁, noise₁ ]</div><div>[ caption₂, noise₂ ]</div><div>[ caption₃, noise₃ ]</div></div>
+          <div class="lct-rope-rule"><b>Interleaved 3D RoPE = local 3D position + pair-specific offset</b></div>
+          <div class="lct-offsets">
+            <div class="lct-offset"><b>Pair 1 · offset Δ₁</b><code>local (t,h,w) + Δ₁</code><br>caption₁ 与 video₁ 落在同一位置块。</div>
+            <div class="lct-offset"><b>Pair 2 · offset Δ₂</b><code>local (t,h,w) + Δ₂</code><br>整体移到不重叠的下一位置块。</div>
+            <div class="lct-offset"><b>Pair 3 · offset Δ₃</b><code>local (t,h,w) + Δ₃</code><br>pair 内几何不变，pair 间顺序可辨。</div>
+          </div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="glass glass-purple panel"><div class="paper-head"><span class="paper" style="font-size:18px"><a href="https://arxiv.org/abs/2506.15838">EchoShot</a></span><span class="venue meta-badge">NeurIPS 2025</span></div><p class="body"><b>SaRoPE</b> 标记 shot-local time 与 cut；<b>TaRoPE</b> 让 caption 与视频区间共享 shot identity。</p></div>
+        <div class="glass glass-blue panel"><div class="paper-head"><span class="paper" style="font-size:18px"><a href="https://arxiv.org/abs/2512.03041">MultiShotMaster</a></span><span class="venue meta-badge">CVPR 2026</span></div><p class="body"><b>Narrative RoPE</b> 用固定 phase shift 标边界；<b>STPA RoPE</b> 将 reference 绑定到指定 shot / time / region。</p></div>
+        <div class="callout"><b>为什么有效？</b><br>模型能区分连续运动的“下一帧”和新镜头重新开始的局部时间。</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram · positional intervals are illustrative</span><span class="slide-number" data-current="7" data-total="30"></span></div>
+    <aside class="notes"><p>第二类方法不直接切断 attention，而是修改位置编码。问题来自每个镜头的局部时间都可能从零开始：模型既要知道 shot 内的连续时间，也要知道 shot 的顺序和对应 caption。</p><p>LCT 用不重叠的位置区间承载 interleaved text-video pairs；EchoShot 再显式拆成 shot-aware 与 text-aware RoPE；MultiShotMaster 通过固定相位跳变标记镜头边界，并把 reference token 绑定到具体镜头和空间区域。它们共同利用位置几何实现身份与边界感知。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Alignment III · Transition Token">
+    <div class="section-tag"><span class="chip p1">ALIGNMENT III</span></div>
+    <p class="kicker">Caption–shot alignment</p>
+    <h2 class="h2">Transition token：给 cut 一个显式、可学习的控制信号</h2>
+    <div class="content transition-layout">
+      <div class="glass transition-main">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2505.07652">ShotAdapter</a></span><span class="venue meta-badge">CVPR 2025</span></div>
+        <div class="token-diagram mt-l">
+          <div class="tok">Caption 1<br>frames</div><div class="tok">Visual<br>tokens</div><div class="tok transition">TT₁<br>cut</div><div class="tok">Caption 2<br>frames</div><div class="tok">Visual<br>tokens</div><div class="tok transition">TT₂<br>cut</div><div class="tok">Caption 3<br>frames</div>
+        </div>
+        <p class="small mt-m">K 个 shots 对应 K−1 个 Transition Token；数量只是接口关系，重点是 TT 与 local mask 的分工。</p>
+      </div>
+      <div class="grid g3">
+        <div class="callout"><b>边界在哪里？</b><br>duration + local mask 决定每条 caption 的负责区间。</div>
+        <div class="callout warm"><b>边界做什么？</b><br>Transition Token 强化“这里执行切镜”的可学习信号。</div>
+        <div class="glass panel-sm"><p class="body" style="margin:0"><b>关键消融：</b>去掉 TT、保留 local mask，仍能生成 multi-shot。</p><p class="small">TT 是控制手柄而非唯一来源；训练仍以人工拼接的 2–3-shot 为主。</p></div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Diagram redrawn from ShotAdapter</span><span class="slide-number" data-current="8" data-total="30"></span></div>
+    <aside class="notes"><p>第三类是 transition token。ShotAdapter 为 K 个镜头插入 K−1 个共享 token 副本，给模型一个显式的“这里应该切镜”的控制手柄。但要注意分工：duration 和 local mask 决定切点在哪里，transition token 强化切镜这个操作本身。</p><p>论文消融显示，即使去掉 transition token，只保留 local mask，模型仍能生成多镜头视频。所以它不是 multi-shot 能力的唯一来源。它的价值是把 cut 变成可学习、可操控的信号，但还没有细分 shot-reverse-shot 等复杂剪辑类型。</p></aside>
+  </section>
+
+  <section class="slide" data-title="HoloCine · Long Holistic Generation">
+    <div class="section-tag"><span class="chip p1">KEY PAPER</span></div>
+    <p class="kicker">Scaling the joint context</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2510.20822">HoloCine</a><span class="meta-badge">CVPR 2026</span></span>：主要贡献是把 Holistic Joint 拉到<span class="gradient-text">更长时间</span></h2>
+    <div class="content grid g55" style="align-items:center">
+      <div class="stack">
+        <div class="glass panel"><div class="row" style="align-items:flex-end"><div class="big-number gradient-text" style="font-size:64px;line-height:1.06;padding-right:4px">≈60s</div><span class="chip">training coverage</span></div><p class="body">数据按约 5 / 15 / 60 秒分档；最长训练样本最多包含约 13 shots。不是推理硬上限。</p></div>
+        <div class="glass glass-mint panel"><h3 class="h3">Sparse Inter-Shot Self-Attention</h3><p class="body">shot 内保持 dense attention；跨 shot 只用代表 / summary tokens 双向通信，降低全序列平方开销。</p></div>
+        <div class="callout"><b>Window Cross-Attention</b> 继续解决 per-shot prompt alignment，但不是相对前三页最主要的新贡献。</div>
+        <div class="callout warm"><b>Trade-off</b>：仍需完整脚本、离线联合生成；稀疏 summary 可能漏掉细粒度远程状态。</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:2.30"><img src="assets/papers/holocine.png" alt="HoloCine architecture"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: HoloCine paper, Figure 2</span><span class="slide-number" data-current="9" data-total="30"></span></div>
+    <aside class="notes"><p>HoloCine 的位置不是提出第四种 caption alignment 原语，而是把一次联合生成扩展到更长时间。论文训练数据覆盖约 5、15 和 60 秒，最长训练样本最多约 13 个镜头。这里应该理解为训练覆盖范围，不是推理硬上限。</p><p>关键机制是 sparse inter-shot self-attention：镜头内部仍密集建模，跨镜头只通过代表或 summary token 双向沟通，从而避免全序列 dense attention 的平方成本。代价是仍需完整脚本，而且细粒度远程状态可能在摘要通信中丢失。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Joint Route Trends">
+    <div class="section-tag"><span class="chip p1">PART I · TAKEAWAY</span></div>
+    <p class="kicker">Beyond generation structure</p>
+    <h2 class="h2">Joint 路线正走向<span class="gradient-text">导演接口</span></h2>
+    <div class="content grid g3">
+      <div class="glass glass-blue panel-lg"><div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2512.10286">ShotDirector</a></span><span class="venue meta-badge">CVPR 2026</span></div><div class="agent-icon">🎥</div><h3 class="h3">Camera grammar</h3><p class="body">cut-in / cut-out / shot-reverse-shot / multi-angle + 6-DoF camera。</p></div>
+      <div class="glass glass-purple panel-lg"><div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2603.11421">ShotVerse</a></span><span class="venue meta-badge">arXiv</span></div><div class="agent-icon">🧭</div><h3 class="h3">Planner → trajectory</h3><p class="body">VLM planner 自动产生全局对齐的 camera trajectories，连接意图与 renderer。</p></div>
+      <div class="glass glass-mint panel-lg"><div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2606.29473">MAVIN</a></span><span class="venue meta-badge">arXiv</span></div><div class="agent-icon">🔊</div><h3 class="h3">音视频与身份绑定</h3><p class="body">按镜头边界路由画面和声音，并绑定人物外观、声纹与角色 ID。</p></div>
+    </div>
+    <div class="callout mt-m"><span class="strong">趋势判断：</span>仅再发明一种 mask / RoPE 的增量空间变小；价值向 camera、audio、reference 与 planner–renderer 对齐迁移。</div>
+    <div class="deck-footer"><span>End of Part I</span><span class="slide-number" data-current="10" data-total="30"></span></div>
+    <aside class="notes"><p>Part I 的趋势不是继续无限细分对齐算子，而是把生成结构转化为导演接口。ShotDirector 加入明确的剪辑类型和 6-DoF camera；ShotVerse 用 VLM planner 生成全局相机轨迹；MAVIN 把人物外观、声纹、分层音视频 caption 和生成器共同设计。</p><p>因此新的价值点逐渐从“模型能不能区分三条 caption”迁移到“导演意图能否被结构化、能否绑定 reference 与声音、相机轨迹能否全局协调”。</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part II · Shot-Level Autoregressive">
+    <div class="section-tag"><span class="dot" style="background:#735cff"></span><span class="chip p2">PART II</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1040px;margin:auto">
+      <p class="kicker">PART II</p>
+      <h2 class="section-title gradient-text">Shot-Level Autoregressive</h2>
+      <p class="section-subtitle">每次 diffusion sampling 生成一个完整 shot</p>
+      <div class="flow mt-l"><div class="node">History shots<small>fixed visual evidence</small></div><div class="arrow">→</div><div class="node">Select / compress<small>frames · entities · tokens</small></div><div class="arrow">→</div><div class="node">Denoise shotᵢ<small>within-shot bidirectional</small></div><div class="arrow">→</div><div class="node">Write memory<small>append / update</small></div></div>
+      <div class="grid g3 mt-l"><div class="callout purple"><b>vs. holistic</b><br>过去已固定，未来不能反向修正。</div><div class="callout mint"><b>vs. causal</b><br>shot 内仍可使用完整双向 DiT。</div><div class="callout warm"><b>核心风险</b><br>memory drift 与 exposure bias。</div></div>
+    </div>
+    <div class="deck-footer"><span>Generation unit = one completed shot</span><span class="slide-number" data-current="11" data-total="30"></span></div>
+    <aside class="notes"><p>Shot-Level AR 把完整镜头作为自回归单位。每轮先从已经完成的历史中选择或压缩信息，再用一次完整 diffusion sampling 生成当前镜头，最后把结果写回 memory。</p><p>它和 holistic 的区别是过去一旦生成就固定，未来内容无法反向修正；和 causal streaming 的区别是镜头内部仍然可以使用双向注意力，通常要等整次采样完成才产出镜头。演进重点不是简单堆更多历史帧，而是怎样组织、检索、更新和验证 memory。</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Shot-Level AR Timeline">
+    <div class="section-tag"><span class="chip p2">PART II · TIMELINE</span></div>
+    <p class="kicker">Memory evolution</p>
+    <h2 class="h2">从 next-shot context，到可验证记忆</h2>
+    <div class="timeline content">
+      <div class="glass time-item"><div class="time">2025.08</div><div class="phase">Next-shot 起点</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2508.08244">Cut2Next</a><span class="meta-badge">arXiv</span><span class="paper-desc">前序上下文 + 剪辑关系</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.12.08</div><div class="phase">全历史、紧凑检索</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.07802">OneStory</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">caption-guided frame selection</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.12</div><div class="phase">Memory 专门化</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.11274">FilmWeaver</a><span class="meta-badge">AAAI 2026</span><span class="paper-desc">Shot Cache + Temporal Cache</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.19539">StoryMem</a><span class="meta-badge">arXiv</span><span class="paper-desc">动态 keyframe memory</span></div></div></div>
+      <div class="glass time-item"><div class="time">2026.05</div><div class="phase">Entity-aware memory</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2605.23610">EM-Vid</a><span class="meta-badge">arXiv</span><span class="paper-desc">entity-indexed latent patches</span></div></div></div>
+      <div class="glass time-item"><div class="time">2026.06</div><div class="phase">Memory verification</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.14667">Memento</a><span class="meta-badge">arXiv</span><span class="paper-desc">subject reconstruction supervision</span></div></div></div>
+    </div>
+    <div class="callout purple mt-m"><b>演进主线：</b>被动视觉条件 → 选择 / 压缩 / 分工 / 更新 → 用辅助任务验证记忆。</div>
+    <div class="deck-footer"><span>First-public dates</span><span class="slide-number" data-current="12" data-total="30"></span></div>
+    <aside class="notes"><p>Shot-AR 时间线从 Cut2Next 的 next-shot conditioning 开始，核心仍是相邻镜头关系。OneStory 把历史范围扩到全部过去镜头，但通过语义选择和压缩控制预算。随后 FilmWeaver 和 StoryMem 把不同时间尺度的历史分开管理。</p><p>到 2026 年，EM-Vid 不再存整帧，而是按实体存 latent patches；Memento 更进一步，要求 memory 能够重建主体。可以看到，memory 从被动输入变成具有选择、压缩、分工、更新和验证机制的生成状态。</p></aside>
+  </section>
+
+  <section class="slide" data-title="OneStory">
+    <div class="section-tag"><span class="chip p2">KEY PAPER</span></div>
+    <p class="kicker">Global yet compact history</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2512.07802">OneStory</a><span class="meta-badge">CVPR 2026</span></span>：从全部历史中检索当前 shot 需要的记忆</h2>
+    <div class="content grid g55" style="align-items:center">
+      <div class="stack">
+        <div class="glass glass-purple panel"><h3 class="h3">1 · Frame Selection</h3><p class="body">当前 caption 作为 query，从所有历史 shots 选择语义相关帧；不等同于只取最近一镜。</p></div>
+        <div class="glass glass-blue panel"><h3 class="h3">2 · Adaptive Conditioner</h3><p class="body">按重要性 adaptive patchify，把视觉上下文压成 memory tokens，再与当前 noise tokens concat。</p></div>
+        <div class="flow"><div class="node">all history</div><div class="arrow">→</div><div class="node">caption-guided select</div><div class="arrow">→</div><div class="node">compact tokens</div></div>
+        <div class="callout warm"><b>局限：</b>没有自动 story planner；memory 的正确性取决于已生成历史。</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:2.05"><img src="assets/papers/onestory.png" alt="OneStory framework"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: OneStory paper, Figure 3</span><span class="slide-number" data-current="13" data-total="30"></span></div>
+    <aside class="notes"><p>OneStory 的清晰贡献是把 multi-shot 改写为 next-shot generation，同时允许当前 caption 从全部历史中选择证据。Frame Selection 用 caption 查询历史 latent frames，避免机械地只看最近镜头；Adaptive Conditioner 再按重要性压缩选中上下文。</p><p>压缩后的 memory tokens 与当前噪声 token 一起进入生成器，所以历史范围可以是全局的，但条件预算仍然紧凑。它支持逐轮追加 shot caption，不过不负责自动规划故事，而且任何历史错误都会成为后续检索的错误证据。</p></aside>
+  </section>
+
+  <section class="slide" data-title="FilmWeaver">
+    <div class="section-tag"><span class="chip p2">KEY PAPER</span></div>
+    <p class="kicker">Dual-level cache</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2512.11274">FilmWeaver</a><span class="meta-badge">AAAI 2026</span></span>：跨镜头身份与镜头内动作，分开记</h2>
+    <div class="content grid g55" style="align-items:center">
+      <div class="stack">
+        <div class="cache-diagram" style="grid-template-columns:1fr 30px 1fr">
+          <div class="cache global"><div class="cache-title">Shot Cache</div><div class="cache-sub">Top-K keyframes from old shots<br>identity · background</div></div><div class="arrow">+</div><div class="cache local"><div class="cache-title">Temporal Cache</div><div class="cache-sub">recent current-shot frames<br>motion · extension</div></div>
+        </div>
+        <div class="glass panel"><h3 class="h3">一个模型，四种模式</h3><p class="body">T2V · new shot · shot extension · full-cache extension。</p></div>
+        <div class="callout purple"><b>关键分工：</b>Shot Cache 负责长程概念召回；Temporal Cache 负责镜头内部连续。</div>
+        <div class="callout warm"><b>不要过度解读：</b>“arbitrary length”是架构可扩展性，不等于无限 rollout 无漂移。</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:1.80"><img src="assets/papers/filmweaver.png" alt="FilmWeaver dual cache"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: FilmWeaver paper, Figure 2</span><span class="slide-number" data-current="14" data-total="30"></span></div>
+    <aside class="notes"><p>FilmWeaver 的主要洞见是把两种时间尺度拆开。Shot Cache 从全部旧镜头中按当前 prompt 检索关键帧，承担人物与背景的长程召回；Temporal Cache 保存当前镜头的近期帧，承担动作连续和镜头延展。</p><p>这两类 cache 作为 in-context 条件进入同一 diffusion model，并覆盖文本到视频、新镜头、镜头延展等模式。它说明跨镜头 identity 与镜头内 motion 不应该用同一种记忆解决。但“任意长度”只代表接口可扩展，不能等同于无限 rollout 不漂移。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Memento">
+    <div class="section-tag"><span class="chip p2">KEY PAPER</span></div>
+    <p class="kicker">Reconstruction-supervised memory</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2606.14667">Memento</a><span class="meta-badge">arXiv</span></span>：好的 memory 应该能够<span class="gradient-text">重建主体</span></h2>
+    <div class="content grid g2" style="align-items:center">
+      <div class="glass panel-lg vcenter">
+        <div class="flow">
+          <div class="node">History bank<small>generated visual evidence</small></div><div class="arrow">→</div>
+          <div class="node" style="background:rgba(238,232,255,.70)">Dual-query retrieval<small>identity · continuity</small></div><div class="arrow">→</div>
+          <div class="node">Next-shot generator<small>target caption + memory</small></div>
+        </div>
+        <div class="flow mt-l">
+          <div class="node" style="background:rgba(230,251,246,.75)">Identity evidence</div><div class="arrow">→</div><div class="node">Subject reconstruction</div><div class="arrow">→</div><div class="node" style="background:rgba(255,238,227,.75)">Auxiliary loss ✓</div>
+        </div>
+        <div class="callout purple mt-l"><b>核心变化：</b>next-shot generation 与 memory-based subject reconstruction 联合训练。</div>
+      </div>
+      <div class="stack vcenter">
+        <div class="glass panel"><h3 class="h3">Long-term query</h3><p class="body">找身份最稳定、跨距最远的 evidence。</p></div>
+        <div class="glass panel"><h3 class="h3">Short-term query</h3><p class="body">找动作、姿态与局部 continuity cues。</p></div>
+        <div class="callout warm"><b>开放问题：</b>重建监督能否扩展到道具状态、空间关系和事件结果？</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram redrawn from Memento</span><span class="slide-number" data-current="15" data-total="30"></span></div>
+    <aside class="notes"><p>Memento 把“记忆是否好用”变成一个可以监督的问题。它不仅优化 next-shot generation，还要求从检索到的 memory 重建主体，让身份保持不再只是隐式地依赖相似度。</p><p>Dual-query 把两种检索目标分开：一条找长程身份 evidence，另一条找短期姿态和连续性。这个设计的重要性在于建立了 memory quality 的辅助验证任务。下一步自然是把这种可验证性扩展到道具状态、人物关系、空间布局和事件结果，而不仅是主体外观。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Shot-AR Trends">
+    <div class="section-tag"><span class="chip p2">PART II · TAKEAWAY</span></div>
+    <p class="kicker">Memory becomes state</p>
+    <h2 class="h2">Shot-AR：从“存哪些帧”走向<span class="gradient-text">可写、可检索、可验证的状态</span></h2>
+    <div class="content grid g4">
+      <div class="glass panel route-card"><div><span class="meta-badge">arXiv</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2508.08244">Cut2Next</a></div><p class="small">相邻镜头关系与 next-shot reference。</p></div><div class="route-flow">previous → next</div></div>
+      <div class="glass panel route-card"><div><span class="meta-badge">arXiv</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2512.19539">StoryMem</a></div><p class="small">动态选择 keyframes；latent concat + negative RoPE。</p></div><div class="route-flow">frames → compact context</div></div>
+      <div class="glass glass-purple panel route-card"><div><span class="meta-badge">arXiv</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2605.23610">EM-Vid</a></div><p class="small">只存实体相关 latent patches，以 entity index 检索并预算更新。</p></div><div class="route-flow">entity → sparse patches</div></div>
+      <div class="glass glass-blue panel route-card"><div><span class="chip">HYBRID</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2503.10589">LCT</a> / <a class="paper-link" href="https://arxiv.org/abs/2503.19881">Mask²DiT</a></div><p class="small">具有 context-causal 或 conditional extension 的边界能力。</p></div><div class="route-flow">joint model + causal mode</div></div>
+    </div>
+    <div class="callout purple mt-m"><span class="strong">趋势：</span>memory 的组织单位从 frame 变成 entity / state；更新策略从无限追加变成固定预算与辅助验证。</div>
+    <div class="deck-footer"><span>End of Part II</span><span class="slide-number" data-current="16" data-total="30"></span></div>
+    <aside class="notes"><p>这一页把支线收束到统一趋势。Cut2Next 从相邻镜头条件开始；StoryMem 用动态 keyframe memory；EM-Vid 进一步只保存实体相关 latent patches，减少背景泄漏，并在固定预算下更新。</p><p>另外 LCT 的 context-causal 模式、Mask²DiT 的 conditional extension 说明 joint 与 shot-AR 之间存在混合能力，但分类仍按主要推理接口。总体上，memory 正从“保存更多帧”升级为按实体组织、可写可检索、预算受控并能被辅助任务验证的生成状态。</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part III · Causal Streaming">
+    <div class="section-tag"><span class="dot" style="background:#00a47d"></span><span class="chip p3">PART III</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1030px;margin:auto">
+      <p class="kicker">PART III</p>
+      <h2 class="section-title gradient-text">Causal Streaming</h2>
+      <p class="section-subtitle">按 frame / chunk 因果 rollout，边生成、边输出</p>
+      <div class="flow mt-l"><div class="node">Promptᵢ<small>can arrive at runtime</small></div><div class="arrow">→</div><div class="node">Causal chunkᵢ<small>cannot revise the past</small></div><div class="arrow">→</div><div class="node">Bounded state<small>KV / latent / anchor frames</small></div><div class="arrow">↻</div></div>
+      <div class="grid g3 mt-l"><div class="callout mint"><b>在线性</b><br>逐镜头接收 prompt，尽早输出。</div><div class="callout"><b>历史复用</b><br>使用可复用或有界的 cache / state。</div><div class="callout warm"><b>严格边界</b><br>一次生成完整 shot 还不够。</div></div>
+    </div>
+    <div class="deck-footer"><span>Generation unit = frame / latent chunk</span><span class="slide-number" data-current="17" data-total="30"></span></div>
+    <aside class="notes"><p>Causal Streaming 的严格定义包含三点：镜头内部继续按 frame 或 latent chunk 因果 rollout；历史以有界 KV、latent state 或参考帧复用；新 prompt 可以在生成过程中到达，系统无需重算已经输出的内容。</p><p>因此，仅仅多次调用模型、每次完成一个镜头，不属于这一路线。它的优势是低首帧延迟、可任意追加和运行时交互，代价是过去不能被未来反向修正，误差会沿 causal state 持续传播。</p></aside>
+  </section>
+
+  <section class="slide" data-title="Causal Technical Prehistory">
+    <div class="section-tag"><span class="chip p3">TECHNICAL CONTEXT</span></div>
+    <p class="kicker">One-slide prehistory</p>
+    <h2 class="h2">Multi-shot streaming 建立在 causal video distillation 之上</h2>
+    <div class="content content-center">
+      <div style="width:100%">
+        <div class="flow">
+          <div class="node glass-blue">CausVid<small>block-causal architecture</small></div><div class="arrow">→</div>
+          <div class="node glass-purple">Self Forcing / AAPT<small>train on self-generated history</small></div><div class="arrow">→</div>
+          <div class="node glass-mint">Rolling Forcing / LongLive<small>long-horizon rollout</small></div><div class="arrow">→</div>
+          <div class="node glass-warm">Causal Forcing<small>few-step causal distillation</small></div>
+        </div>
+        <div class="glass glass-strong panel-lg mt-l" style="text-align:center">
+          <p class="quote">有关 forcing 系列的公式、训练阶段与技术演进，<br>详见下面的组内分享。</p>
+          <a class="chip mt-m" href="https://causalvideogroup.github.io/discussions/2026-07-13-yifan-forcing-ar-video-distillation/presentation.html">Forcing 系列｜AR 视频蒸馏技术演进 ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Detailed background: Causal Video Group · 2026-07-13</span><span class="slide-number" data-current="18" data-total="30"></span></div>
+    <aside class="notes"><p>这页只交代技术前史，不展开。CausVid 让架构因果化；Self Forcing 和 AAPT 处理训练时看真值、推理时看自己输出的 history gap；Rolling Forcing 与 LongLive 面向长时 rollout；Causal Forcing 进一步整理 few-step causal distillation。</p><p>后面 ShotStream、CausalCine 和 LongLive 2.0 都共享这些基础设施。更详细的公式、forcing 变体与训练阶段，请直接参考页底链接的组内分享。</p></aside>
+  </section>
+
+  <section class="slide" data-title="ShotStream">
+    <div class="section-tag"><span class="chip p3">KEY PAPER</span></div>
+    <p class="kicker">Teacher → causal student</p>
+    <h2 class="h2" style="max-width:1500px"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2603.25746">ShotStream</a><span class="meta-badge">arXiv · 2026.03</span></span>：双向 next-shot teacher 蒸馏成实时 causal student</h2>
+    <div class="content vcenter">
+      <div class="glass panel-lg">
+        <div class="method-ribbon">
+          <div class="method-stage"><h3>① Next-shot teacher</h3><p>稀疏历史帧 + global / local captions<br>双向去噪一个完整目标 shot</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(241,237,255,.67)"><h3>② Teacher → student</h3><p>DMD 把约 50 步 teacher<br>蒸馏为 4-step causal student</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(230,251,246,.67)"><h3>③ Streaming rollout</h3><p>shot 间逐镜追加<br>shot 内按 chunk 因果输出</p></div>
+        </div>
+      </div>
+      <div class="grid g3 mt-m">
+        <div class="glass glass-blue panel"><h3 class="h3">Dual cache</h3><div class="cache-flow mt-m"><div class="cache global"><b>Global</b><p class="tiny">跨镜头稀疏帧</p></div><div class="arrow">+</div><div class="cache local"><b>Local</b><p class="tiny">当前镜头近期 chunks</p></div><div class="arrow">→</div><div class="cache"><b>next chunk</b></div></div></div>
+        <div class="glass glass-purple panel"><h3 class="h3">RoPE discontinuity</h3><p class="body">在 cut 处引入位置相位跳变，避免把跨镜头全局帧误当成当前镜头的连续前帧。</p></div>
+        <div class="glass glass-mint panel"><h3 class="h3">Two-stage self-forcing</h3><p class="body">先适应当前 shot 内自己的 chunk 历史，再适应由自己生成的历史 shots。</p></div>
+      </div>
+      <div class="callout mt-m"><b>核心思想：</b>先用双向模型学会“下一个镜头应当长什么样”，再把这项能力迁移到可实时输出的 causal rollout。</div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram redrawn from ShotStream</span><span class="slide-number" data-current="19" data-total="30"></span></div>
+    <aside class="notes"><p>ShotStream 先把文本到视频模型微调成 bidirectional next-shot teacher：给它跨镜头稀疏历史帧，让它生成完整目标镜头。随后把 teacher 蒸馏成四步 causal student，使镜头内部也能按 chunk 生成。</p><p>历史被拆成 Global Cache 与 Local Cache，分别保存跨镜头条件帧和当前镜头的生成历史；RoPE discontinuity 区分两者。两阶段 self-forcing 先处理镜头内部误差，再把训练扩到自生成的历史镜头。论文在单张 H200 上报告约 15.95 FPS。</p></aside>
+  </section>
+
+  <section class="slide" data-title="CausalCine">
+    <div class="section-tag"><span class="chip p3">KEY PAPER</span></div>
+    <p class="kicker">Native causal prior</p>
+    <h2 class="h2" style="max-width:1500px"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2605.12496">CausalCine</a><span class="meta-badge">arXiv · 2026.05</span></span>：先学 multi-shot causal prior，再做 few-step 实时化</h2>
+    <div class="content vcenter">
+      <div class="glass panel-lg">
+        <div class="method-ribbon">
+          <div class="method-stage" style="background:rgba(232,244,255,.70)"><h3>① Native causal prior</h3><p>真实 multi-shot long video<br>parallel teacher forcing</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(241,237,255,.70)"><h3>② Content-aware history</h3><p>CAMR 从远程 KV 中<br>检索当前内容真正相关的部分</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(230,251,246,.70)"><h3>③ Few-step causal student</h3><p>ODE initialization<br>→ self-forcing DMD + adversarial</p></div>
+        </div>
+      </div>
+      <div class="grid g23 mt-m" style="align-items:stretch">
+        <div class="glass glass-purple panel-lg">
+          <h3 class="h3">CAMR · Content-Aware Memory Routing</h3>
+          <div class="flow mt-l"><div class="node">current query</div><div class="arrow">⇢</div><div class="node glass-blue">Top-K remote KV</div><div class="arrow">+</div><div class="node glass-mint">recent local KV</div><div class="arrow">→</div><div class="node">causal attention</div></div>
+          <p class="small mt-m">固定 KV 预算下，远程历史按内容相关性保留；近期历史继续承担局部连续性。</p>
+        </div>
+        <div class="stack">
+          <div class="callout purple"><b>与 ShotStream 的区别：</b>先把生成器本身训练成 native multi-shot causal base，再做实时蒸馏。</div>
+          <div class="callout warm"><b>不要把速度当作主贡献：</b>不同 backbone 与硬件下的 FPS 不可直接横比；这里关注 causal prior 与历史路由。</div>
+        </div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Diagram redrawn from CausalCine</span><span class="slide-number" data-current="20" data-total="30"></span></div>
+    <aside class="notes"><p>CausalCine 的突破口不同：它先通过 2N packing 和 parallel teacher forcing，直接学习 native multi-shot causal base，而不是只把 next-shot teacher 当作最终 prior。随后再用 ODE initialization、自 forcing DMD 和对抗 refinement 蒸馏成四步 student。</p><p>CAMR 是历史管理重点：远程 KV 不按时间距离机械截断，而是按当前内容相关性检索，再与近期局部 KV 合并。论文使用 14B backbone，在八张 H200 上报告 16 FPS，因此不能与 ShotStream 的单卡数字直接横比。</p></aside>
+  </section>
+
+  <section class="slide" data-title="LongLive 2.0 · Multi-Shot">
+    <div class="section-tag"><span class="chip p3">KEY PAPER</span></div>
+    <p class="kicker">Runtime shot switching</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2605.18739">LongLive 2.0</a><span class="meta-badge">arXiv · 2026.05</span></span>：两组参考帧，处理连续镜头切换</h2>
+    <div class="content vcenter">
+      <div class="glass panel-lg">
+        <div class="row" style="justify-content:space-between"><b>Chunk-wise prompting</b><span class="small">prompt switch 本身定义 scene cut</span></div>
+        <div class="prompt-track">
+          <div class="prompt-chunk global">G<small>global sink</small></div><div class="prompt-chunk global">G<small>global sink</small></div><div class="prompt-chunk">A<small>recent KV</small></div><div class="prompt-chunk">A<small>recent KV</small></div><div class="prompt-chunk cut">A → B<small>cut</small></div><div class="prompt-chunk shot">S₂<small>shot sink</small></div><div class="prompt-chunk">B<small>recent KV</small></div><div class="prompt-chunk cut">B → C<small>cut</small></div><div class="prompt-chunk shot">S₃<small>shot sink</small></div>
+        </div>
+        <p class="small mt-m"><b>有效 KV：</b>global sink ∪ current shot sink ∪ recent sliding-window history。</p>
+      </div>
+      <div class="grid g3 mt-m">
+        <div class="glass glass-blue panel"><h3 class="h3">Global sink</h3><p class="body">永久保留视频最初的少量帧，提供跨镜头身份锚点。</p></div>
+        <div class="glass glass-mint panel"><h3 class="h3">Shot-level sink</h3><p class="body">prompt 切换时，将新镜头开头重新绑定为局部锚点；旧历史与 global sink 不重算。</p></div>
+        <div class="glass glass-purple panel"><h3 class="h3">Direct multi-shot AR training</h3><p class="body">每个 latent chunk 绑定独立文本，在真实 multi-shot 长视频上直接学习 clean-history → noisy-target。</p></div>
+      </div>
+      <div class="callout mint mt-m"><b>本页只聚焦 multi-shot：</b>核心是可交互的 chunk prompt 与双尺度 sink；NVFP4、并行和异步解码不展开。</div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram redrawn from LongLive 2.0</span><span class="slide-number" data-current="21" data-total="30"></span></div>
+    <aside class="notes"><p>LongLive 2.0 与 multi-shot 最相关的部分有两点。第一，每个 latent chunk 可以绑定独立文本，生成过程中切换 prompt，就从当前位置开始新镜头，所以不要求完整分镜预先给定。第二，训练直接使用真实多镜头长视频及逐镜头描述。</p><p>Multi-Shot Attention Sink 保留两种时间尺度：视频开头的全局参考帧永久存在，维持跨镜头主体；每次切镜后，再刷新一组当前镜头参考帧，维持镜头内部连贯。本页不展开论文里的量化和部署优化。</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part IV · System / Agent">
+    <div class="section-tag"><span class="dot" style="background:#f08a45"></span><span class="chip p4">PART IV</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1040px;margin:auto">
+      <p class="kicker">PART IV</p>
+      <h2 class="section-title gradient-text">System / Agent</h2>
+      <p class="section-subtitle">在视频模型之外，决定怎样拆分、生成、检查与重试</p>
+      <div class="agent-pipeline mt-l"><div class="agent-box"><div class="agent-icon">✍️</div><b>拆分故事</b><p class="small">shots · assets · camera</p></div><div class="arrow">→</div><div class="agent-box"><div class="agent-icon">🗂️</div><b>管理参考</b><p class="small">character · prop · bg</p></div><div class="arrow">→</div><div class="agent-box"><div class="agent-icon">🎬</div><b>调用生成器</b><p class="small">joint · shot-AR · causal</p></div><div class="arrow">→</div><div class="agent-box"><div class="agent-icon">🔎</div><b>检查与重试</b><p class="small">verify · repair · update</p></div></div>
+      <div class="grid g3 mt-l"><div class="callout warm"><b>阶段 1</b><br>预先规划，单向生成。</div><div class="callout purple"><b>阶段 2</b><br>生成过程中的选择与状态管理。</div><div class="callout mint"><b>阶段 3</b><br>视觉反馈驱动闭环。</div></div>
+    </div>
+    <div class="deck-footer"><span>System is orthogonal to the renderer architecture</span><span class="slide-number" data-current="22" data-total="30"></span></div>
+    <aside class="notes"><p>System 路线不直接规定视频模型内部怎样生成，而是在模型之外决定怎样拆分故事、按什么顺序生成、保存哪些参考，以及什么时候重试或修改后续输入。它可以调用 joint、shot-AR 或 causal renderer。</p><p>这里不按 agent 数量或模块名称分阶段，而是看实际生成结果是否会影响后续决策。由此得到三个清晰阶段：预先规划与单向执行；生成过程中的候选选择和外部状态管理；以及视觉反馈真正改变镜头顺序、提示词、memory 或重试策略的闭环。</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="System Timeline">
+    <div class="section-tag"><span class="chip p4">PART IV · TIMELINE</span></div>
+    <p class="kicker">Decision loop evolution</p>
+    <h2 class="h2">从预先规划，到视觉反馈闭环</h2>
+    <div class="content system-timeline" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start;flex:none;margin:auto 0">
+      <div class="glass glass-blue panel-lg system-stage"><div class="time">2023.09–2024.12</div><div class="phase" style="font-size:21px">预先规划，单向生成</div><div class="paper-list mt-m"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2309.15091">VideoDirectorGPT</a><span class="meta-badge">COLM 2024</span><span class="paper-desc">场景、布局与实体计划</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2408.11788">DreamFactory</a><span class="meta-badge">arXiv</span><span class="paper-desc">多智能体脚本与关键帧</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2412.02259">ViGoT</a><span class="meta-badge">NeurIPS 2025 Workshop</span><span class="paper-desc">keyframe-first 单向流水线</span></div></div><p class="small mt-m">成片通常不会反过来修改原计划。</p></div>
+      <div class="glass glass-purple panel-lg system-stage"><div class="time">2025.06–2026.01</div><div class="phase" style="font-size:21px">选择与状态管理</div><div class="paper-list mt-m"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2506.10540">AniMaker</a><span class="meta-badge">SIGGRAPH Asia 2025</span><span class="paper-desc">评价并选择候选片段</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a><span class="meta-badge">arXiv</span><span class="paper-desc">维护人物、道具与背景参考</span></div></div><p class="small mt-m">决策进入生成过程，但主要是局部选择或外部状态维护。</p></div>
+      <div class="glass glass-mint panel-lg system-stage"><div class="time">2026.05–06</div><div class="phase" style="font-size:21px">视觉反馈驱动闭环</div><div class="paper-list mt-m"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2605.06924">A²RD</a><span class="meta-badge">arXiv</span><span class="paper-desc">retrieve–synthesize–refine–update</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2605.18733">IAMFlow</a><span class="meta-badge">arXiv</span><span class="paper-desc">异步视觉检查与 identity memory</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.16184">CoTriSyGen</a><span class="meta-badge">arXiv</span><span class="paper-desc">成片修订未来 prompt 与 memory</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.20799">GroundShot</a><span class="meta-badge">arXiv</span><span class="paper-desc">重排镜头并验证参考</span></div></div><p class="small mt-m">生成结果直接改变后续策略。</p></div>
+    </div>
+    <div class="callout warm mt-m"><b>关键分界：</b>画面只是被保存 / 选择，还是会进一步改变后续生成策略？</div>
+    <div class="deck-footer"><span>Stages reflect decision flow, not number of agents</span><span class="slide-number" data-current="23" data-total="30"></span></div>
+    <aside class="notes"><p>System 的时间线用三个阶段概括。早期 VideoDirectorGPT、DreamFactory 和 ViGoT 都在生成前完成大部分规划，然后按固定步骤执行，实际画面很少返回规划模块。</p><p>2025 年到 2026 年初，AniMaker 在候选之间评价和选择，VideoMemory 在逐镜头生成中维护参考资产，决策开始进入流程。到 2026 年中，A²RD、IAMFlow、CoTriSyGen 与 GroundShot 让视觉检查触发重试、状态更新、提示词修改或镜头重排，才形成更完整的闭环。</p></aside>
+  </section>
+
+  <section class="slide" data-title="VideoDirectorGPT to DreamFactory">
+    <div class="section-tag"><span class="chip p4">EARLY SYSTEMS</span></div>
+    <p class="kicker">Plan first, render later</p>
+    <h2 class="h2">早期起点：LLM 先做导演，再交给视频生成器</h2>
+    <div class="content grid g2">
+      <div class="glass glass-blue panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2309.15091">VideoDirectorGPT</a></span><span class="venue meta-badge">COLM 2024</span></div>
+        <div class="flow vertical mt-l"><div class="node">GPT-4 story decomposition</div><div class="arrow">↓</div><div class="node">scene · layout · entities</div><div class="arrow">↓</div><div class="node">consistency grouping</div><div class="arrow">↓</div><div class="node">Layout2Vid segments</div></div>
+      </div>
+      <div class="glass glass-purple panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2408.11788">DreamFactory</a></span><span class="venue meta-badge">arXiv</span></div>
+        <div class="flow vertical mt-l"><div class="node">script agents</div><div class="arrow">↓</div><div class="node">character / keyframe design</div><div class="arrow">↓</div><div class="node">shot rendering</div><div class="arrow">↓</div><div class="node">assemble video</div></div>
+      </div>
+    </div>
+    <div class="callout warm mt-m"><span class="strong">共同局限：</span>计划描述得再细，实际生成结果通常也不会返回规划模块；系统基本按初始方案单向执行。</div>
+    <div class="deck-footer"><span>Early stage: structured plan without visual feedback</span><span class="slide-number" data-current="24" data-total="30"></span></div>
+    <aside class="notes"><p>VideoDirectorGPT 是 LLM-as-Director 的早期代表。GPT-4 先把文本拆成场景、布局、实体和一致性分组，再由 Layout2Vid 逐段生成。DreamFactory 则用多个角色分工完成脚本、人物与关键帧设计。</p><p>它们的重要贡献是把影视制作中的结构化中间表示引入视频生成，但共同局限也很明确：规划发生在前面，渲染发生在后面，实际生成画面通常不会回到规划模块。系统知道“想生成什么”，却没有根据成片证据修改计划。</p></aside>
+  </section>
+
+  <section class="slide" data-title="ViGoT">
+    <div class="section-tag"><span class="chip p4">KEY PAPER</span></div>
+    <p class="kicker">Training-free keyframe-first pipeline</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2412.02259">ViGoT</a><span class="meta-badge">NeurIPS 2025 Workshop</span></span>：先关键帧、后视频的完整系统基线</h2>
+    <div class="content grid g23">
+      <div class="stack">
+        <div class="flow vertical"><div class="node">GPT-4o<br><small>5-field per-shot script</small></div><div class="arrow">↓</div><div class="node glass-purple">Portrait / IP embedding<br><small>identity anchor</small></div><div class="arrow">↓</div><div class="node glass-blue">Per-shot keyframes<br><small>text-to-image</small></div><div class="arrow">↓</div><div class="node glass-mint">DynamiCrafter I2V<br><small>shot clips</small></div><div class="arrow">↓</div><div class="node glass-warm">Adjacent latent transition</div></div>
+        <div class="callout warm"><b>批评：</b>身份主要靠显式 reference；长期动作、道具状态与世界状态 memory 较弱。</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:1.84"><img src="assets/papers/ViGoT.png" alt="ViGoT flowchart"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: ViGoT paper, Figure 2</span><span class="slide-number" data-current="25" data-total="30"></span></div>
+    <aside class="notes"><p>ViGoT 是一个很适合作为系统基线的 training-free pipeline。GPT-4o 先产生逐镜头五字段脚本；portrait 或 IP embedding 锚定人物；每个镜头先生成关键帧，再用 DynamiCrafter 做 I2V；相邻 latent transition 缓和边界。</p><p>它的优点是用户只给一句故事，系统能完成从规划到成片的完整流程。但论文所谓 end-to-end 更接近用户体验上的一键完成，不是联合训练。身份一致性主要靠显式 reference，长期动作、道具状态与世界状态记忆仍然较弱。</p></aside>
+  </section>
+
+  <section class="slide" data-title="VideoMemory">
+    <div class="section-tag"><span class="chip p4">KEY PAPER</span></div>
+    <p class="kicker">Persistent external assets</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a><span class="meta-badge">arXiv</span></span>：人物、道具、背景分别维护</h2>
+    <div class="content grid g2" style="align-items:center">
+      <div class="stack">
+        <div class="grid g3">
+          <div class="glass glass-blue panel-sm tc"><div class="agent-icon">👤</div><b>Character bank</b><p class="tiny">identity + age / costume state</p></div>
+          <div class="glass glass-purple panel-sm tc"><div class="agent-icon">🧳</div><b>Prop bank</b><p class="tiny">object appearance + attributes</p></div>
+          <div class="glass glass-mint panel-sm tc"><div class="agent-icon">🏞️</div><b>Background bank</b><p class="tiny">recurring environments</p></div>
+        </div>
+        <div class="flow"><div class="node">Storyboard Agent</div><div class="arrow">→</div><div class="node">retrieve / create</div><div class="arrow">→</div><div class="node">keyframe + I2V</div><div class="arrow">→</div><div class="node">update bank</div></div>
+        <div class="callout purple"><b>价值：</b>支持远距离实体重现与故事中的状态变化，而不是每镜重新采样外观。</div>
+        <div class="callout warm"><b>边界：</b>它维护参考信息，但不检查实际成片、诊断错误并触发局部重做，因此还不是视觉反馈闭环。</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:2.49"><img src="assets/papers/videomemory.png" alt="VideoMemory framework"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: VideoMemory paper, Figure 3</span><span class="slide-number" data-current="26" data-total="30"></span></div>
+    <aside class="notes"><p>VideoMemory 的核心是 Dynamic Memory Bank，把人物、道具和背景分别存储为图像参考与文字属性。Storyboard Agent 规划脚本，每个镜头生成前检索需要的实体；如果状态变化或没有匹配项，就创建或更新参考。</p><p>它比简单复用首帧更适合长故事，因为同一人物可以换衣服、变老，道具也可以变化而仍保持可识别。但它主要维护“系统打算使用的参考”，并不会检查最终成片是否真的正确，也不会据此触发局部重做，所以仍属于状态管理，而非完整视觉反馈闭环。</p></aside>
+  </section>
+
+  <section class="slide" data-title="GroundShot and Visual Feedback">
+    <div class="section-tag"><span class="chip p4">CLOSED LOOP</span></div>
+    <p class="kicker">Generated frames become evidence</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2606.20799">GroundShot</a><span class="meta-badge">arXiv · 2026.06</span></span>：先生成最适合作为参考的 shot</h2>
+    <div class="content grid g31" style="align-items:center">
+      <div class="glass panel-lg feedback-loop vcenter" style="min-height:510px">
+        <div class="agent-pipeline">
+          <div class="agent-box"><div class="agent-icon">🗓️</div><b>Schedule</b><p class="small">choose best anchor shot</p></div><div class="arrow">→</div>
+          <div class="agent-box"><div class="agent-icon">🎞️</div><b>Generate</b><p class="small">create candidate frame / shot</p></div><div class="arrow">→</div>
+          <div class="agent-box"><div class="agent-icon">✅</div><b>Verify</b><p class="small">entity grounding quality</p></div><div class="arrow">→</div>
+          <div class="agent-box"><div class="agent-icon">🧠</div><b>Write</b><p class="small">reference memory</p></div>
+        </div>
+        <div class="callout mint mt-l"><b>真正的闭环：</b>生成结果影响镜头顺序、是否保存参考、后续提示词与是否重试。</div>
+      </div>
+      <div class="stack">
+        <div class="glass panel"><b><a class="paper-link" href="https://arxiv.org/abs/2506.10540">AniMaker</a></b><p class="small">生成候选并由 reviewer 局部评价 / 选择。</p><span class="meta-badge">SIGGRAPH Asia 2025</span></div>
+        <div class="glass panel"><b><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a></b><p class="small">持续维护人物、道具与背景参考，但无成片诊断。</p><span class="meta-badge">arXiv</span></div>
+        <div class="glass panel"><b><a class="paper-link" href="https://arxiv.org/abs/2605.06924">A²RD</a> · <a class="paper-link" href="https://arxiv.org/abs/2605.18733">IAMFlow</a> · <a class="paper-link" href="https://arxiv.org/abs/2606.16184">CoTriSyGen</a></b><p class="small">生成后检查、更新状态、修正后续输入或触发重做。</p><span class="meta-badge">arXiv · 2026</span></div>
+        <div class="callout warm"><b>2026 的变化：</b>不是更多 agent 角色，而是视觉证据进入决策。</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Conceptual pipeline redrawn from GroundShot</span><span class="slide-number" data-current="27" data-total="30"></span></div>
+    <aside class="notes"><p>GroundShot 的关键不是多加几个 agent，而是改变镜头生成顺序。它不机械地按故事顺序执行，而是先找到最适合作为实体参考的镜头，生成并验证；只有参考可靠才写入 memory，再服务其他镜头。</p><p>这使实际画面成为后续决策的证据。与 AniMaker 的局部候选选择、VideoMemory 的持续状态维护相比，GroundShot 以及同一时期的闭环工作会根据成片调整镜头顺序、状态记录、提示词和重试策略。这是 System 路线真正的阶段跃迁。</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Four-Route Comparison">
+    <div class="section-tag"><span class="chip">SYNTHESIS</span></div>
+    <p class="kicker">No single SOTA</p>
+    <h2 class="h2">四条路线的统一 trade-off</h2>
+    <div class="content">
+      <table class="compare route-compare">
+        <thead><tr><th>维度</th><th>Holistic joint</th><th>Shot-level AR</th><th>Causal streaming</th><th>Agentic system</th></tr></thead>
+        <tbody>
+          <tr><td>全局双向协调</td><td>强</td><td>弱 / 间接</td><td>弱 / 间接</td><td>取决于 planner / repair</td></tr>
+          <tr><td>任意追加</td><td>弱</td><td>强</td><td>强</td><td>强</td></tr>
+          <tr><td>首帧延迟</td><td>高</td><td>中</td><td>低</td><td>通常高且不稳定</td></tr>
+          <tr><td>历史成本</td><td>全上下文</td><td>memory-dependent</td><td>bounded cache</td><td>外部资产 / API dependent</td></tr>
+          <tr><td>局部修正</td><td>通常需重做全部</td><td>从该 shot 起重做后续</td><td>过去难修改，可继续 rollout</td><td>可重做指定 shot 并更新后续</td></tr>
+          <tr><td>主要风险</td><td>context scaling</td><td>memory drift / exposure bias</td><td>causal error accumulation</td><td>cost / verifier bias / mismatch</td></tr>
+        </tbody>
+      </table>
+      <div class="glass glass-strong panel-sm mt-m tc"><p class="quote" style="font-size:18px;margin:0">没有单一 SOTA：<span class="gradient-text">任务接口</span>决定合理架构。</p></div>
+    </div>
+    <div class="deck-footer"><span>Choose architecture after fixing interaction and editing requirements</span><span class="slide-number" data-current="28" data-total="30"></span></div>
+    <aside class="notes"><p>统一比较后可以看到，没有单一路线在所有维度胜出。Holistic 最擅长固定脚本下的全局双向协调，但首帧延迟高、局部修改代价大。Shot-AR 能追加并重用完整双向生成器，但会受到 memory drift。Causal Streaming 延迟最低，却承担持续误差累积。</p><p>Agent system 可以重排、检查和重做，但成本与 verifier 偏差不可忽视。因此讨论 SOTA 之前，必须先固定用户是否要求在线追加、是否需要局部编辑、允许多少重试和外部 API。</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Benchmark Landscape">
+    <div class="section-tag"><span class="chip">EVALUATION</span></div>
+    <p class="kicker">Status in 2026.07</p>
+    <h2 class="h2">有 benchmark 尝试，但尚无<span class="gradient-text">统一标准</span></h2>
+    <div class="content eval-grid">
+      <div class="glass panel-lg">
+        <h3 class="h3">目前仍占主流：各论文自建测试</h3>
+        <table class="compare mt-m">
+          <tbody>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2505.07652">ShotAdapter</a></td><td>48 prompts · 2/3/4 shots · same/different BG</td></tr>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2512.11274">FilmWeaver</a></td><td>20 Gemini-generated five-shot stories</td></tr>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2603.25746">ShotStream</a> / <a class="paper-link" href="https://arxiv.org/abs/2605.12496">CausalCine</a></td><td>各自 100-prompt multi-shot test</td></tr>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a></td><td>54 cases · 4/8/12 shots · entity recurrence</td></tr>
+          </tbody>
+        </table>
+        <div class="callout warm mt-m">prompt、shot 数、reference、分辨率、evaluator 与硬件均不同，数字不能直接组成排行榜。</div>
+      </div>
+      <div class="benchmark-list">
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2602.23969">MSVBench</a> <span class="meta-badge">arXiv</span></h4><p>hierarchical scripts + references；20 methods。偏离线综合评测。</p></div>
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2605.15199">EntityBench</a> <span class="meta-badge">arXiv</span></h4><p>140 episodes · 2,491 shots · up to 50；长程 entity recurrence。</p></div>
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2606.20799">GroundBench</a> <span class="meta-badge">arXiv</span></h4><p>受控难度下诊断人物、物体与场景一致性。</p></div>
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2604.23789">MuSS</a> <span class="meta-badge">arXiv</span></h4><p>multi-shot subject-to-video；输入条件更专门。</p></div>
+        <div class="glass benchmark" style="grid-column:1/-1"><h4><a class="paper-link" href="https://arxiv.org/abs/2605.20183">MSAVBench</a> <span class="meta-badge">arXiv</span></h4><p>multi-shot audio-video；不能直接覆盖纯视频、在线交互与 agent 系统的全部设置。</p></div>
+        <div class="callout mint" style="grid-column:1/-1"><b>结论：</b>不是“没有 benchmark”，而是刚开始成形，尚未成为四条路线共同复用的事实标准。</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Benchmark landscape · snapshot at 2026-07</span><span class="slide-number" data-current="29" data-total="30"></span></div>
+    <aside class="notes"><p>目前评测的准确表述不是“完全没有 benchmark”，而是专门 benchmark 刚开始出现，尚未形成统一事实标准。多数论文仍使用自建 prompts：ShotAdapter 的 48 条，FilmWeaver 的 20 个五镜头故事，ShotStream 与 CausalCine 各自的 100 条测试，以及 VideoMemory 的 54 个案例。</p><p>2026 年出现 MSVBench、EntityBench、GroundBench、MuSS 和 MSAVBench，但它们分别偏综合离线、实体复现、grounding、subject-to-video 或音视频，不能直接覆盖所有路线。</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Discussion">
+    <div class="section-tag"><span class="chip">DISCUSSION</span></div>
+    <div style="width:100%">
+      <p class="kicker">Takeaways &amp; open questions</p>
+      <h2 class="h2">从“共享像素历史”，走向<span class="gradient-text">共享世界状态</span></h2>
+      <div class="discussion mt-l">
+        <div class="glass"><div class="n">01</div><h3>架构的边界在哪？</h3><p>什么时候应该用 holistic 作为全局 quality ceiling，什么时候用 causal rollout，再周期性 repair？</p><div class="chip p1" style="margin-top:auto;width:max-content">architecture</div></div>
+        <div class="glass"><div class="n">02</div><h3>Memory 应该存什么？</h3><p>帧、latent patch、实体资产，还是可更新的 world state？怎样验证道具与事件状态而不只验证人物外观？</p><div class="chip p2" style="margin-top:auto;width:max-content">representation</div></div>
+        <div class="glass"><div class="n">03</div><h3>闭环系统怎样公平比较？</h3><p>如果允许不同数量的候选、API 调用与重试，应该怎样把质量、延迟和成本合成可解释的评测？</p><div class="chip p4" style="margin-top:auto;width:max-content">evaluation</div></div>
+      </div>
+      <div class="glass glass-strong panel mt-l tc"><p class="quote" style="font-size:22px;margin:0">2025：让多个 shots 进入同一生成上下文。<br>2026：在线扩展、管理历史，并让视觉结果进入决策闭环。</p></div>
+    </div>
+    <div class="deck-footer"><span>Questions?</span><span class="slide-number" data-current="30" data-total="30"></span></div>
+    <aside class="notes"><p>最后用三个问题进入讨论。第一，holistic 与 causal 的混合点在哪里：能否用 causal 保持交互性，再周期性做双向修复。第二，memory 最终应保存帧、latent patch、实体资产，还是显式 world state；并且怎样验证道具与事件结果。</p><p>第三，agent 系统允许候选、重试与外部 API 后，如何公平比较质量、延迟与成本。总体来看，2025 年主要解决多个镜头如何进入同一生成上下文；2026 年的重点转向在线扩展、历史状态管理，以及让视觉结果真正进入后续决策。</p></aside>
+  </section>
+</div>
+
+<div style="position:fixed;bottom:11px;left:14px;font-size:10px;color:#52627a88;z-index:100;pointer-events:none">S 演讲者视图 · ← → 翻页 · F 全屏 · O 总览 · 虚线术语可悬停</div>
+<div class="term-popover" id="termPopover" role="status" aria-live="polite"><b id="termPopoverLabel"></b><span id="termPopoverText"></span></div>
+<script src="assets/runtime/runtime.js"></script>
+<script>
+  document.querySelectorAll('.slide').forEach((slide, index, slides) => {
+    const number = slide.querySelector('.slide-number');
+    if (number) {
+      number.dataset.current = String(index + 1);
+      number.dataset.total = String(slides.length);
+    }
+  });
+  document.querySelectorAll('a[href^="https://"]').forEach((link) => {
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  });
+
+  const glossary = [
+    { label: 'Multi-shot video generation', aliases: ['Multi-Shot Video Generation', 'Multi-shot video generation', 'multi-shot video generation'], def: '生成由明确镜头边界分隔、并在人物、道具、环境和叙事状态上相互关联的多个镜头。' },
+    { label: 'Hard cut', aliases: ['hard cut', 'Hard cut'], def: '不使用渐变或叠化，直接从一个镜头切换到另一个镜头的剪辑边界。' },
+    { label: 'Consistency', aliases: ['consistency', 'Consistency'], def: '跨镜头保持应当稳定的身份、道具、环境和风格，同时允许脚本要求的状态变化。' },
+    { label: 'Holistic joint generation', aliases: ['Holistic Joint Generation', 'Holistic Joint', 'holistic joint'], def: '在一次模型调用和同一去噪上下文中联合生成全部镜头，镜头之间可以双向交换信息。' },
+    { label: 'DiT', aliases: ['DiT'], def: 'Diffusion Transformer：用 Transformer 执行扩散或流匹配去噪的生成骨干。' },
+    { label: 'Caption–shot alignment', aliases: ['Caption–shot alignment', 'caption–shot alignment', 'caption-shot alignment'], def: '让第 i 条镜头描述主要控制第 i 个镜头，避免不同镜头的文本条件相互串扰。' },
+    { label: 'Attention mask', aliases: ['Attention mask', 'attention mask'], def: '显式规定每个文本或视觉 token 可以读取哪些其他 token 的可见性矩阵。' },
+    { label: 'RoPE', aliases: ['RoPE'], def: 'Rotary Position Embedding：通过旋转特征编码相对位置；视频模型常把时间和空间坐标一起编码。' },
+    { label: 'Transition token', aliases: ['Transition token', 'transition token'], def: '插在镜头边界附近的可学习 token，用来给模型一个显式的切镜控制信号。' },
+    { label: 'Shot-level autoregressive', aliases: ['Shot-Level Autoregressive', 'shot-level autoregressive', 'Shot-Level AR'], def: '以完整镜头为生成单位：先固定已经生成的镜头，再据此生成下一个镜头。' },
+    { label: 'Memory', aliases: ['memory', 'Memory'], def: '被保存并供后续镜头读取的历史表示，可以是帧、latent token、实体资产或结构化状态。' },
+    { label: 'Exposure bias', aliases: ['exposure bias', 'Exposure bias'], def: '训练时看到干净历史，推理时却只能看到模型自己的带误差输出，由此产生的训练—推理差距。' },
+    { label: 'Causal streaming', aliases: ['Causal Streaming', 'causal streaming'], def: '按帧或视频块沿时间因果生成，只读取过去状态，因此能够边生成边输出并在运行时追加指令。' },
+    { label: 'Chunk', aliases: ['chunks', 'chunk', 'Chunk'], def: '连续若干帧组成的视频块；流式模型通常每次生成一个 chunk，而不是整段视频。' },
+    { label: 'KV cache', aliases: ['KV cache', 'KV Cache', 'KV'], def: '保存历史注意力的 key/value 中间结果，后续生成可以直接复用，减少重复计算。' },
+    { label: 'Teacher forcing', aliases: ['teacher forcing', 'Teacher forcing', 'teacher-forcing'], def: '训练时用真实或干净历史作为条件，便于并行监督，但可能与真实推理历史不一致。' },
+    { label: 'Self-forcing', aliases: ['self-forcing', 'Self-forcing', 'Self Forcing'], def: '训练时让模型在自己的生成历史上继续 rollout，使训练条件更接近真实推理。' },
+    { label: 'DMD', aliases: ['DMD'], def: 'Distribution Matching Distillation：让少步学生的生成分布逼近高质量教师或真实数据分布。' },
+    { label: 'Attention sink', aliases: ['Attention Sink', 'attention sink', 'Global sink', 'Shot-level sink'], def: '长期保留的一小组早期帧或特征，作为滑动窗口之外仍可访问的稳定锚点。' },
+    { label: 'Agentic system', aliases: ['Agentic system', 'System / Agent', 'agentic'], def: '由模型外部的规划器、工具调用、记忆和检查模块决定镜头拆分、生成顺序与重试策略。' },
+    { label: 'Benchmark', aliases: ['benchmark', 'Benchmark'], def: '固定数据、任务协议和指标的评测集合；只有协议一致时，跨方法数字才可直接比较。' },
+    { label: 'Rollout', aliases: ['rollout', 'Rollout'], def: '模型连续使用自己的输出作为历史继续向后生成的过程。' }
+  ];
+
+  function annotateGlossary() {
+    const root = document.querySelector('.deck');
+    glossary.forEach((entry) => {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        const parent = node.parentElement;
+        if (!parent || parent.closest('.term, a, .notes, .deck-footer, script, style, svg')) continue;
+        let match = null;
+        entry.aliases.forEach((alias) => {
+          const index = node.data.indexOf(alias);
+          if (index >= 0 && (!match || index < match.index || (index === match.index && alias.length > match.alias.length))) match = { index, alias };
+        });
+        if (!match) continue;
+        const before = document.createTextNode(node.data.slice(0, match.index));
+        const term = document.createElement('span');
+        term.className = 'term';
+        term.tabIndex = 0;
+        term.dataset.label = entry.label;
+        term.dataset.definition = entry.def;
+        term.textContent = match.alias;
+        const after = document.createTextNode(node.data.slice(match.index + match.alias.length));
+        node.replaceWith(before, term, after);
+        break;
+      }
+    });
+  }
+
+  annotateGlossary();
+  const termPopover = document.getElementById('termPopover');
+  const termPopoverLabel = document.getElementById('termPopoverLabel');
+  const termPopoverText = document.getElementById('termPopoverText');
+  let termTimer;
+  function showTerm(term) {
+    clearTimeout(termTimer);
+    termPopoverLabel.textContent = `术语 · ${term.dataset.label}`;
+    termPopoverText.textContent = term.dataset.definition;
+    termPopover.classList.add('show');
+  }
+  function hideTerm() {
+    clearTimeout(termTimer);
+    termTimer = setTimeout(() => termPopover.classList.remove('show'), 120);
+  }
+  document.querySelectorAll('.term').forEach((term) => {
+    term.addEventListener('mouseenter', () => showTerm(term));
+    term.addEventListener('mouseleave', hideTerm);
+    term.addEventListener('focus', () => showTerm(term));
+    term.addEventListener('blur', hideTerm);
+  });
+</script>
+</body>
+</html>

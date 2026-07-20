@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi-Shot Video Generation: From Joint Denoising to Online Directing · Topic Summary</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation">
+      <a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a>
+    </nav>
+  </div></header>
+  <main>
+    <header class="page-header">
+      <p class="eyebrow">2026-07-20 · Jinyuan Hu</p>
+      <h1>Multi-Shot Video Generation: From Joint Denoising to Online Directing</h1>
+      <p class="lede">Multi-shot generation is not the concatenation of attractive clips: it is the controlled decision of what should persist and what should change at every cut.</p>
+      <div class="actions"><a class="button" href="presentation.html">Open full presentation</a></div>
+    </header>
+    <article class="prose">
+      <h2>Topic overview</h2>
+      <p>Given a story or global description and an ordered set of shot descriptions, a multi-shot system produces a video whose shots may change viewpoint, composition, action, location, or time while remaining part of one coherent narrative. A model chunk is not automatically a shot: this discussion focuses on explicit semantic shot boundaries and dependencies across them.</p>
+
+      <h2>Why now?</h2>
+      <p>Recent work has expanded from short jointly denoised sequences to minute-scale narratives, explicit visual memories, few-step causal generation, and agentic pipelines that inspect outputs and revise later decisions. These capabilities create a common design question: where should cross-shot state live, and when may future information influence the past?</p>
+
+      <h2>Background</h2>
+      <p>A <strong>shot</strong> is a semantic and cinematic unit separated by a cut. A <strong>scene</strong> may contain several shots, while a long video may contain no cuts at all. Across a cut, identity, props, environment state, visual style, and causal facts may need to persist, while camera, framing, motion, time, and location may need to change. The central problem is therefore selective continuity, not uniform similarity.</p>
+
+      <h2>Method landscape</h2>
+      <ol>
+        <li><strong>Holistic joint:</strong> all shots are denoised together with bidirectional communication. It supports global coordination but usually requires the complete shot plan and becomes expensive with long contexts.</li>
+        <li><strong>Shot-level autoregressive:</strong> one completed shot is generated per model call; selected frames or memory tokens from previous shots condition the next. It scales naturally but can accumulate errors.</li>
+        <li><strong>Causal streaming:</strong> frames or latent chunks are emitted in temporal order with bounded cache. It enables low-latency updates but forbids future shots from correcting generated history.</li>
+        <li><strong>System / agent:</strong> an external planner decomposes the story, maintains references, evaluates results, and may reschedule or regenerate shots. This route is orthogonal to the renderer and can wrap any of the first three.</li>
+      </ol>
+
+      <h2>Core technical ideas</h2>
+      <p>Joint models align captions and shots through attention masks, window routing, shot-aware positional encodings, and transition tokens. Shot-level systems retrieve or compress history into visual memory, sometimes separating identity from motion or indexing state by entity. Causal systems combine block-causal attention, cached history, and few-step distillation. Agentic systems move state outside the generator and add planning, verification, selection, repair, and memory-write decisions.</p>
+
+      <h2>Failure cases</h2>
+      <p>Typical failures include identity and prop drift, cuts that behave like motion interpolation, repetitive framing caused by over-preserving context, forgotten state after memory compression, rollout errors that compound over many shots, and planners that commit early to an invalid storyboard. Existing benchmarks also separate cinematic quality, entity recurrence, subject conditioning, and audio-visual consistency, so a single aggregate score can hide the actual failure boundary.</p>
+
+      <h2>Connections to our research</h2>
+      <p>The taxonomy connects long-video generation, causal and autoregressive video models, controllable camera motion, memory-efficient inference, and visual-feedback agents. It also extends the group's forcing-method discussion: few-step causal distillation becomes one component of a larger system that must respect semantic shot boundaries and long-horizon state.</p>
+
+      <h2>Research-quality prompts</h2>
+      <div class="callout"><strong>Central claim:</strong> The decisive abstraction is not sequence length but the placement and update rule of cross-shot state.</div>
+      <div class="callout"><strong>Hidden assumption:</strong> A compact memory or selected reference frame contains every fact that a later shot may need.</div>
+      <div class="callout"><strong>Failure boundary:</strong> Current approaches degrade when entities recur after long gaps, the story changes online, cuts require discontinuity, or early generations contain errors.</div>
+      <div class="callout"><strong>Connection:</strong> Causal video distillation, cache design, camera control, and agentic feedback become coupled once the output is a cinematic sequence rather than one continuous clip.</div>
+      <div class="callout"><strong>Concrete experiment:</strong> Fix the renderer and data, then compare full history, frame retrieval, entity memory, and external state under controlled delayed-recurrence stories.</div>
+      <div class="callout"><strong>Discussion seed:</strong> Should future multi-shot systems improve the video backbone's internal memory, or expose state to a planner that can inspect and revise it?</div>
+
+      <h2>Open questions</h2>
+      <ol>
+        <li>What is the minimal state representation needed to preserve an entity across distant shots?</li>
+        <li>When should a cut deliberately break visual continuity rather than maximize similarity?</li>
+        <li>Can a causal streaming model match joint generation without access to future shots?</li>
+        <li>How should a system distinguish renderer failure from a bad shot plan or bad memory retrieval?</li>
+        <li>Which metrics separately measure identity, physical state, cinematic variation, and narrative causality?</li>
+        <li>Where is regeneration most valuable: the current shot, the memory, the future prompt, or the shot order?</li>
+      </ol>
+
+      <h2>Possible projects</h2>
+      <p>Build a compact diagnostic benchmark with recurring entities, state-changing props, intentional discontinuities, and online story revisions. Evaluate the same renderer under four history interfaces, and report quality as a function of recurrence distance, memory budget, latency, and repair cost.</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Discussion overview</a></div></footer>
+</body>
+</html>
