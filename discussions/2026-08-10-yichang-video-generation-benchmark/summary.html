@@ -1,0 +1,12 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>视频生成评测演进 · Topic Summary</title><link rel="stylesheet" href="../../styles/main.css"></head><body>
+<header class="site-header"><div class="nav-wrap"><a class="brand" href="../../">CausalVideoGroup</a><nav class="site-nav"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav></div></header>
+<main><header class="page-header"><p class="eyebrow">2026-08-10 · Yichang Jian</p><h1>从视频分数到世界一致性</h1><p class="lede">短视频评测关注看起来像不像，世界模型评测必须追问同一个世界是否持续存在、可回访，并在视野外继续演化。</p><div class="actions"><a class="button" href="presentation.html">打开完整演示</a></div></header>
+<article class="prose"><h2>Research-quality prompts</h2>
+<div class="callout"><strong>Central claim:</strong> 长视频论文没有形成统一的新指标体系，而是在 VBench 代理指标旁持续增加漂移、重复、坍缩和 VLM 稳定性补丁；真正的范式变化发生在带干预的世界一致性评测。</div>
+<div class="callout"><strong>Hidden assumption:</strong> DINO、CLIP、首尾差异或 VLM 评分能代表长期状态一致性，但这些代理可能把静止、重复或表面相似误当成记忆。</div>
+<div class="callout"><strong>Failure boundary:</strong> 相机离开后对象仍在变化、返回旧位置、动态前景与静态背景分离，以及跨模型控制接口不一致。</div>
+<div class="callout"><strong>Connection:</strong> 评测从开放环 T2V 延伸到相机与动作控制、三维几何、闭环回访、隐藏状态演化和下游功能。</div>
+<div class="callout"><strong>Concrete experiment:</strong> 对同一物理过程构造始终可见与遮挡／转头两条匹配轨迹，分别测重现、状态进度、身份与几何，并用人工只复核指标分歧样本。</div>
+<div class="callout"><strong>Discussion seed:</strong> 一个小团队应该扩一棵宽而浅的能力树，还是把动态 out-of-sight consistency 做成窄而硬的诊断 benchmark？</div>
+<h2>Open questions</h2><ol><li>什么证据足以把相似度指标称为一致性，而不只是外观接近？</li><li>回访静态场景与视野外动态演化应当共享榜单吗？</li><li>VLM judge 的提示、采样和版本应如何进入可复现协议？</li><li>怎样让 T2V 与可交互世界模型共享任务，又不混淆控制能力？</li><li>有限人力应优先扩充数据规模、模型覆盖，还是评测维度？</li><li>human alignment 应报告平均相关性，还是困难样本上的分歧结构？</li></ol>
+</article></main><footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Discussion overview</a></div></footer></body></html>

@@ -1,0 +1,31 @@
+title: "从视频分数到世界一致性：生成模型评测的演进与机会"
+date: 2026-08-10
+topic_slug: video-generation-benchmark
+leader:
+  name: "Yichang Jian"
+  short_name: yichang
+status: before-meeting
+summary: >-
+  A data-backed discussion of how video-generation evaluation moves from
+  perceptual proxy scores toward geometric, revisit, and out-of-sight world consistency.
+tags:
+  - video-generation
+  - world-model
+  - benchmark
+  - evaluation
+related_projects: []
+papers:
+  - title: "VBench: Comprehensive Benchmark Suite for Video Generative Models"
+    url: https://arxiv.org/abs/2311.17982
+    role: benchmark
+    note: Establishes the widely reused 16-dimension perceptual and semantic evaluation suite.
+  - title: "VBench-2.0: Advancing Video Generation Benchmark Suite for Intrinsic Faithfulness"
+    url: https://arxiv.org/abs/2503.21755
+    role: benchmark
+    note: Moves evaluation from superficial faithfulness toward physics, commonsense, and human fidelity.
+  - title: "MemoBench: Benchmarking World Modeling in Dynamically Changing Environments"
+    url: https://arxiv.org/abs/2606.27537
+    role: benchmark
+    note: Tests whether hidden dynamic state continues to evolve while it is not observed.
+external_videos: []
+slides: presentation.html

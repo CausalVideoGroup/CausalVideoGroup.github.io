@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="视频生成与世界模型 benchmark 的四个主线锚点。">
+  <title>Key References · 视频生成评测演进 · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="../../">CausalVideoGroup</a>
+      <nav class="site-nav" aria-label="Discussion navigation">
+        <a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <header class="page-header">
+      <p class="eyebrow">2026-08-10 · Yichang Jian</p>
+      <h1>Key References</h1>
+      <p class="lede">用四篇代表作串起 visible quality、3D、revisit 与动态 out-of-sight consistency。</p>
+    </header>
+    <article class="prose markdown-body">
+      <h2>VBench · visible video quality · 2023-11</h2>
+      <p><a href="https://arxiv.org/abs/2311.17982">VBench</a> 建立 16 维短视频自动评测，并用逐维人工偏好验证 human alignment，成为后续 AR 与长视频论文最常见的 metric lineage。</p>
+
+      <h2>WorldScore · 3D consistency · 2025-04</h2>
+      <p><a href="https://arxiv.org/abs/2504.00983">WorldScore</a> 是这条叙事中的 3D benchmark 锚点。它以显式相机轨迹定义 next-scene generation，并用 DROID-SLAM 深度与共视像素重投影误差测几何稳定性。</p>
+
+      <h2>MIND · revisit consistency · 2026-02</h2>
+      <p><a href="https://arxiv.org/abs/2602.08025">MIND</a> 是首个 open-domain、closed-loop revisited benchmark，用闭环回访测试长期记忆一致性，并覆盖第一／第三人称、不同场景与动作空间泛化。</p>
+
+      <h2>STEVO-Bench · out-of-sight consistency · 2026-03</h2>
+      <p><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a> 通过遮挡、关灯和 camera look-away 控制观察，再检查不可见期间的动态演化是否继续、是否物理合理、重新出现后是否连贯。</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>
+</body>
+</html>
