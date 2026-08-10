@@ -168,14 +168,22 @@
     .protocol span { display:block; margin-top:10px; color:var(--muted); font-size:clamp(9px,.68vw,12px); line-height:1.48; }
     .protocol-no { color:var(--faint); font:700 9px/1 ui-monospace,Consolas,monospace; margin-bottom:18px; }
 
-    .align-grid { flex:1; display:grid; grid-template-columns:.84fr 1.16fr; gap:clamp(38px,4.7vw,82px); align-items:center; }
-    .align-score { text-align:center; }
-    .align-score b { display:block; font-size:clamp(70px,8vw,130px); line-height:.9; letter-spacing:-.07em; color:var(--mint); }
-    .align-score span { color:var(--faint); font-size:clamp(10px,.75vw,13px); }
-    .hard-cases { display:grid; gap:13px; }
-    .hard-row { display:grid; grid-template-columns:145px 1fr; gap:18px; align-items:center; padding-bottom:12px; border-bottom:1px solid var(--line); }
-    .hard-row b { font-size:clamp(12px,.95vw,16px); }
-    .hard-row span { color:var(--muted); font-size:clamp(10px,.76vw,13px); line-height:1.45; }
+    .align-definition { margin: 10px 0 2px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); font-size: clamp(11px,.86vw,15px); line-height: 1.45; }
+    .align-definition strong { color: var(--text); }
+    .refute-chain { flex:1; display:grid; grid-template-columns:1fr 54px 1fr 54px 1fr 54px 1.08fr; gap:8px; align-items:center; padding:14px 0 8px; }
+    .refute-step { min-height:250px; padding:17px 12px 14px; border-top:3px solid var(--sky); display:flex; flex-direction:column; background:linear-gradient(180deg,rgba(100,202,255,.04),transparent); }
+    .refute-step:nth-of-type(2){border-color:var(--violet);background:linear-gradient(180deg,rgba(170,145,255,.04),transparent)}
+    .refute-step:nth-of-type(3){border-color:var(--amber);background:linear-gradient(180deg,rgba(255,189,104,.04),transparent)}
+    .refute-step:nth-of-type(4){border-color:var(--mint);background:linear-gradient(180deg,rgba(86,228,194,.04),transparent)}
+    .refute-tag { color:var(--faint); font:750 clamp(8px,.62vw,10px)/1.2 ui-monospace,Consolas,monospace; letter-spacing:.08em; text-transform:uppercase; }
+    .refute-step h3 { margin:12px 0 8px; font-size:clamp(16px,1.28vw,22px); line-height:1.14; }
+    .refute-step p { margin:0; color:var(--muted); font-size:clamp(9px,.69vw,12px); line-height:1.48; }
+    .refute-stat { margin-top:auto; padding-top:11px; border-top:1px solid var(--line); color:var(--text); font-size:clamp(10px,.75vw,13px); line-height:1.36; }
+    .refute-stat b { color:var(--mint); font-size:clamp(17px,1.45vw,25px); letter-spacing:-.04em; }
+    .refute-arrow { text-align:center; color:var(--rose); font-size:clamp(24px,2.4vw,40px); line-height:1; }
+    .refute-arrow span { display:block; margin-top:8px; color:var(--muted); font:700 clamp(9px,.66vw,11px)/1.25 ui-monospace,Consolas,monospace; letter-spacing:.03em; }
+    .align-conclusion { margin:4px 0 8px; color:var(--text); font-size:clamp(11px,.84vw,14px); line-height:1.45; }
+    .align-conclusion strong { color:var(--rose); }
 
     .prompt-shift { flex:1; display:grid; grid-template-columns:1fr 120px 1fr; gap:clamp(24px,3vw,48px); align-items:center; }
     .prompt-side { min-height:355px; padding-top:19px; border-top:3px solid var(--violet); }
@@ -470,20 +478,42 @@
       </div>
     </section>
 
-    <section class="slide" data-title="Human alignment · 困难样本才有信息" data-note="平均相关性容易被简单样本撑高。下一步应按失败类型分层，看 metric 和人在哪些 hard case 上分歧。">
+    <section class="slide" data-title="Human alignment · 后续工作逐层推翻外推" data-note="Human alignment 只表示在同一 rubric、样本分布和聚合层级下，metric 与人的判断一致。VBench 的逐维结论在原任务内成立；VBench-2.0 否定从可见质量外推到 intrinsic faithfulness；SGC 在 3D 静态背景 rubric 下得到 VBench-BC ρ=.400、SGC ρ=.945；MBench 显示同一几何指标在 text／action setting 下 ρ=.16／.94；STEVO 进一步要求同时报告 verifier-human 与 human-human。">
       <div class="stage">
-        <div class="kicker rose">10 · Alignment under difficulty</div>
-          <h2 class="title small">Human alignment 要在困难样本上验，不只报相关系数</h2>
-        <div class="align-grid">
-          <div class="align-score"><b>ρ</b><span>平均相关高<br>≠　困难边界可靠</span></div>
-          <div class="hard-cases">
-            <div class="hard-row"><b>Freeze</b><span>人看到世界停了，局部一致性却可能更高。</span></div>
-            <div class="hard-row"><b>Repetition</b><span>每个循环都顺滑，但事件没有推进。</span></div>
-            <div class="hard-row"><b>Geometry break</b><span>外观相似，跨视角却无法由同一几何解释。</span></div>
-            <div class="hard-row"><b>Hidden-state error</b><span>再出现时画面合理，却不是正确演化后的状态。</span></div>
-          </div>
+        <div class="kicker rose">10 · What later work refutes</div>
+        <h2 class="title small">后续工作推翻的，是“对齐可以外推”</h2>
+        <div class="align-definition"><strong>Human alignment</strong>　同一问题、同一样本、同一聚合层级下，metric 分数与 human judgment 的偏好或排序一致。</div>
+        <div class="refute-chain">
+          <article class="refute-step">
+            <div class="refute-tag">VBench · 局部命题</div>
+            <h3>逐维验证可见质量</h3>
+            <p>每个 dimension 配自己的 prompts、metric 与 human preference。</p>
+            <div class="refute-stat">成立范围：<b>原 16 维</b></div>
+          </article>
+          <div class="refute-arrow">→<span>范围外推失败</span></div>
+          <article class="refute-step">
+            <div class="refute-tag">VBench-2.0 · 范围反驳</div>
+            <h3>可见质量 ≠ 内在可信</h3>
+            <p>旧维度分高，仍可能违反 physics、commonsense 与 human fidelity。</p>
+            <div class="refute-stat">反驳：<b>superficial → intrinsic</b></div>
+          </article>
+          <div class="refute-arrow">→<span>目标外推失败</span></div>
+          <article class="refute-step">
+            <div class="refute-tag">SGC · 目标反驳</div>
+            <h3>背景相似 ≠ 3D 稳定</h3>
+            <p>当人只判断静态背景几何，VBench-BC 的对齐明显下降。</p>
+            <div class="refute-stat">Spearman ρ　<b>.400 → .945</b></div>
+          </article>
+          <div class="refute-arrow">→<span>条件外推失败</span></div>
+          <article class="refute-step">
+            <div class="refute-tag">MBench + STEVO · 条件反驳</div>
+            <h3>对齐随接口与判据变化</h3>
+            <p>同一 epipolar metric 在 text／action setting 下差异巨大；还要与人际一致率比较。</p>
+            <div class="refute-stat"><b>ρ .16 ↔ .94</b>　+ V-H vs H-H</div>
+          </article>
         </div>
-        <div class="source"><a href="https://arxiv.org/abs/2311.17982">VBench human alignment</a><a href="https://arxiv.org/abs/2503.21755">VBench-2.0</a><span>建议：按 failure type 报 disagreement</span></div>
+        <div class="align-conclusion"><strong>结论</strong>　不能只写“与人类高度一致”；必须同时交代 rubric、distribution、H-H ceiling 与 hard-case disagreement。</div>
+        <div class="source"><a href="https://arxiv.org/abs/2311.17982">VBench</a><a href="https://arxiv.org/abs/2503.21755">VBench-2.0</a><a href="https://arxiv.org/abs/2603.19048">SGC</a><a href="https://arxiv.org/abs/2606.00793">MBench</a><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a></div>
       </div>
     </section>
 
