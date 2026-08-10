@@ -20,7 +20,7 @@ https://alphaxiv.org/abs/2602.08025
 
 MIND is the first open-domain, closed-loop revisit benchmark. It uses return trajectories to test long-term memory consistency while covering first- and third-person views, diverse scenes, and generalization across action spaces.
 
-## 4. STEVO-Bench — Dynamic Out-of-Sight Consistency (2026-03)
+## 4. STEVO-Bench — Out-of-Sight Consistency (2026-03)
 
 https://alphaxiv.org/abs/2603.13215
 
