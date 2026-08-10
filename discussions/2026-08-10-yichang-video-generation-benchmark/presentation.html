@@ -332,7 +332,7 @@
           </div>
           <div class="world-orbit" aria-hidden="true"><div class="orbit"><i class="orbit-dot"></i></div><div class="orbit two"><i class="orbit-dot"></i></div><div class="world-core">WORLD<br>STATE</div></div>
         </div>
-        <div class="source"><span>基于</span><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">video_generation_benchmark_data_audit_2026-08-05.xlsx</a></div>
+        <div class="source"><span>基于内部数据审计</span></div>
       </div>
     </section>
 
@@ -361,7 +361,7 @@
         </div>
         <div class="scope-note" aria-label="paper track distribution"><div title="35 video generation / long video"></div><div title="25 world model / prediction"></div><div title="6 narrative / other"></div></div>
         <div class="scope-labels"><span><b class="em">35</b> video / long</span><span><b class="violet">25</b> world model</span><span><b class="amber">6</b> narrative / other</span></div>
-        <div class="source"><span>来源</span><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">00_README · 01_Paper_Index · 03_Eval_Runs</a></div>
+        <div class="source"><span>来源</span><span>00_README · 01_Paper_Index · 03_Eval_Runs</span></div>
       </div>
     </section>
 
@@ -374,7 +374,7 @@
           <article class="lane"><div class="lane-label">Generalist semantic judge</div><h3>VLM-as-judge</h3><p>人物属性、叙事关系、物理异常、交互结果与复杂 rubric。</p><strong>覆盖面大；提示、采样、模型版本都是 metric</strong></article>
           <article class="lane"><div class="lane-label">Target calibration</div><h3>人工评测</h3><p>偏好、排序、绝对评分、真实辨别，以及难例上的分歧解释。</p><strong>最接近目标；昂贵且协议不可随意合并</strong></article>
         </div>
-        <div class="source"><span>数据</span><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">04_Metric_Uses · 06_Human_Eval</a></div>
+        <div class="source"><span>数据</span><span>04_Metric_Uses · 06_Human_Eval</span></div>
       </div>
     </section>
 
@@ -388,7 +388,7 @@
           <div class="lineage-side metrics"><div class="lineage-big violet">30 / 35</div><h3>VBench metrics</h3><p>forcing／长视频论文的主流 metric lineage，但经常不使用 VBench official prompts。</p></div>
         </div>
         <div class="sample-line"><div><b>CausVid</b><br>前 128 条</div><div><b>Rolling Forcing</b><br>随机 200 条</div><div><b>Self Forcing human</b><br>全部 1,003 条</div></div>
-        <div class="source"><a href="https://github.com/facebookresearch/MovieGenBench">MovieGen Video Bench</a><a href="https://arxiv.org/abs/2311.17982">VBench</a><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">05_Prompt_Protocols</a></div>
+        <div class="source"><a href="https://github.com/facebookresearch/MovieGenBench">MovieGen Video Bench</a><a href="https://arxiv.org/abs/2311.17982">VBench</a><span>05_Prompt_Protocols</span></div>
       </div>
     </section>
 
@@ -402,7 +402,7 @@
           <article class="proxy"><div class="proxy-code">Δpx</div><h3>Temporal Flickering</h3><p>在低运动帧上算相邻像素差，再转成无闪烁分数。</p><strong>局部亮度变化</strong></article>
           <article class="proxy"><div class="proxy-code">AMT</div><h3>Motion Smoothness</h3><p>用插帧先验重建中间帧，聚合插值一致性。</p><strong>局部运动可插值性</strong></article>
         </div>
-        <div class="source"><a href="https://arxiv.org/abs/2311.17982">VBench</a><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">04_Metric_Uses</a></div>
+        <div class="source"><a href="https://arxiv.org/abs/2311.17982">VBench</a><span>04_Metric_Uses</span></div>
       </div>
     </section>
 
@@ -416,7 +416,7 @@
           <div class="seq-label"><strong class="amber">循环重复</strong><br>局部顺滑，世界不前进</div><div class="frames repeat"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
           <div class="seq-label"><strong class="rose">缓慢漂移</strong><br>每步都小，累计很大</div><div class="frames drift"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
         </div>
-        <div class="source"><span>审计警告</span><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">09_Alerts · VBench on long videos</a></div>
+        <div class="source"><span>审计警告</span><span>09_Alerts · VBench on long videos</span></div>
       </div>
     </section>
 
@@ -432,7 +432,7 @@
           <div class="time-node"><div><div class="time-year">2026</div><b>Relax / Ms.</b><span>漂移 × 重复平衡<br>分段 IQ 波动</span></div><i class="time-dot"></i></div>
           <div class="time-node"><i class="time-dot"></i><div><div class="time-year">2026</div><b>TinyHistory</b><span>属性级 VLM gate<br>+ FaceID</span></div></div>
         </div>
-        <div class="source"><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">04_Metric_Uses</a><span>共同问题：custom definitions are not standardized</span></div>
+        <div class="source"><span>04_Metric_Uses</span><span>共同问题：custom definitions are not standardized</span></div>
       </div>
     </section>
 
@@ -450,7 +450,7 @@
             <div class="evidence-callout"><strong>证据边界</strong>　Self-Forcing++ 的 judge validation 是 2 位论文作者 × 20 prompts；它支持局部排名，不是通用金标准。</div>
           </div>
         </div>
-        <div class="source"><a href="https://arxiv.org/abs/2510.02283">Self-Forcing++</a><a href="https://arxiv.org/abs/2512.23851">TinyHistory</a><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">06_Human_Eval</a></div>
+        <div class="source"><a href="https://arxiv.org/abs/2510.02283">Self-Forcing++</a><a href="https://arxiv.org/abs/2512.23851">TinyHistory</a><span>06_Human_Eval</span></div>
       </div>
     </section>
 
@@ -466,7 +466,7 @@
           <div class="protocol"><div class="protocol-no">TIES</div><b>GSB</b><span>Good／Same／Bad；tie 的编码会改变最终估计。</span></div>
           <div class="protocol"><div class="protocol-no">REALITY</div><b>Real vs Gen</b><span>测可辨别性，不等同于文本对齐或世界一致性。</span></div>
         </div>
-        <div class="source"><span>31 protocols</span><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">06_Human_Eval · 09_Alerts</a></div>
+        <div class="source"><span>31 protocols</span><span>06_Human_Eval · 09_Alerts</span></div>
       </div>
     </section>
 
@@ -588,7 +588,7 @@
             <div class="bar-row"><div class="bar-label">Dynamic out-of-sight</div><div class="bar-track"><div class="bar-fill" style="--w:0%"></div></div><div class="bar-value rose">0 / 25</div></div>
           </div>
         </div>
-        <div class="source"><span>Scope caveat：不把 leaderboard 分数当作算法论文自跑证据</span><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">11_WM_Consistency_Audit</a></div>
+        <div class="source"><span>Scope caveat：不把 leaderboard 分数当作算法论文自跑证据</span><span>11_WM_Consistency_Audit</span></div>
       </div>
     </section>
 
@@ -633,7 +633,7 @@
             <div class="rec-row"><b>报告 failure vector</b><span>状态、身份、几何、进度分别报告，不急着压成总分。</span></div>
           </div>
         </div>
-        <div class="source"><span>判断依据</span><a href="video_generation_benchmark_data_audit_2026-08-05.xlsx">11_WM_Consistency_Audit</a><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a><a href="https://arxiv.org/abs/2606.27537">MemoBench</a></div>
+        <div class="source"><span>判断依据</span><span>11_WM_Consistency_Audit</span><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a><a href="https://arxiv.org/abs/2606.27537">MemoBench</a></div>
       </div>
     </section>
 
