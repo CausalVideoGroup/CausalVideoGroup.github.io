@@ -209,7 +209,7 @@
     .axis p { color:var(--muted); font-size:clamp(11px,.86vw,14px); line-height:1.55; }
     .axis strong { margin-top:auto; padding-top:14px; border-top:1px solid var(--line); font-size:clamp(11px,.84vw,14px); }
 
-    .metric-flow { flex:1; display:grid; grid-template-columns:1fr 70px 1fr 70px 1fr; align-items:center; gap:14px; }
+    .metric-flow { flex:1; display:grid; grid-template-columns:repeat(3,1fr); align-items:center; gap:clamp(24px,3vw,48px); }
     .metric-step { min-height:290px; padding:21px 18px; border-top:3px solid var(--sky); background:rgba(100,202,255,.025); }
     .metric-step:nth-of-type(2){border-color:var(--violet)} .metric-step:nth-of-type(3){border-color:var(--mint)}
     .metric-step h3 { font-size:clamp(20px,1.65vw,28px); }
@@ -329,13 +329,13 @@
   <div class="brand"><span class="brand-mark">CV</span><span>CAUSAL VIDEO GROUP</span></div>
   <div class="counter" id="counter">01 / 23</div>
   <main class="deck" id="deck">
-    <section class="slide" data-title="封面 · 从视频分数到世界一致性" data-note="开场只给一条主线：短视频评测问看起来像不像，世界模型评测要问同一个世界是否持续存在。">
+    <section class="slide" data-title="封面 · 从视频分数到世界一致性" data-note="开场只给一条主线：短视频评测关注可感知质量，世界模型评测进一步关注同一世界是否持续存在。">
       <div class="stage cover-stage">
         <div class="cover">
           <div>
             <div class="kicker">Video generation benchmark evolution</div>
             <h1>从视频分数到<span>世界一致性</span></h1>
-            <p class="cover-copy">AR／长视频的评测为何不断打补丁？到了 video world model，哪些问题终于被测到，哪些仍是一片空白？</p>
+            <p class="cover-copy">AR／长视频评测为何持续增加针对性指标？到了 video world model，哪些问题已能测量，哪些仍缺乏有效协议？</p>
             <div class="cover-meta">Yichang Jian · 2026.08.10 · 66-paper data audit</div>
           </div>
           <div class="world-orbit" aria-hidden="true"><div class="orbit"><i class="orbit-dot"></i></div><div class="orbit two"><i class="orbit-dot"></i></div><div class="world-core">WORLD<br>STATE</div></div>
@@ -344,12 +344,12 @@
       </div>
     </section>
 
-    <section class="slide" data-title="主线 · 评价对象已经变了" data-note="把发展压成三段。短视频看局部质量，长视频暴露累积失败，世界模型还要在干预后保持同一个状态空间。">
+    <section class="slide" data-title="主线 · 评价对象已经变化" data-note="将发展分为三个阶段。短视频关注局部质量，长视频暴露累积失败，世界模型还要求干预后的状态空间保持一致。">
       <div class="stage">
         <div class="kicker rose">01 · The evaluation target moved</div>
-        <h2 class="title">评价对象已经变了，分数却还停在上一代</h2>
+        <h2 class="title">评价对象已发生变化，评测指标尚未同步</h2>
         <div class="thesis-grid">
-          <article class="chapter"><div class="chapter-no">VISIBLE CLIP</div><h3>短视频</h3><p>画质、运动、文本对齐、可见帧之间的连续。</p><div class="question">这段视频<strong class="sky">看起来好吗？</strong></div></article>
+          <article class="chapter"><div class="chapter-no">VISIBLE CLIP</div><h3>短视频</h3><p>画质、运动、文本对齐、可见帧之间的连续。</p><div class="question">这段视频的<strong class="sky">可感知质量如何？</strong></div></article>
           <article class="chapter"><div class="chapter-no">LONG ROLLOUT</div><h3>长视频</h3><p>误差累积、身份漂移、重复、坍缩与历史退化。</p><div class="question">它能否<strong class="amber">一直生成下去？</strong></div></article>
           <article class="chapter"><div class="chapter-no">PERSISTENT WORLD</div><h3>世界模型</h3><p>相机与动作改变后，几何、记忆和隐藏状态仍需自洽。</p><div class="question">这还是<strong class="em">同一个世界吗？</strong></div></article>
         </div>
@@ -360,7 +360,7 @@
     <section class="slide" data-title="证据 · 66 篇论文的数据审计" data-note="说明口径：evaluation run 是可复现设置，metric-use 是 paper × run × metric。Metric 和 prompt 的 lineage 分开记录。">
       <div class="stage">
         <div class="kicker sky">02 · Evidence boundary</div>
-        <h2 class="title small">先看证据边界：不是凭印象讲趋势</h2>
+        <h2 class="title small">证据边界与数据审计口径</h2>
         <div class="stat-rail">
           <div class="stat"><b>66</b><span>papers<br>覆盖 AR、长视频、叙事与世界模型</span></div>
           <div class="stat"><b>137</b><span>evaluation runs<br>每行是一套可复现设置</span></div>
@@ -386,10 +386,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="Prompts · 没有神秘配方，协议才重要" data-note="MovieGenBench 是 prompt pool，VBench 是 metric suite。不同论文重组两者，子集、改写和时长改变可比性。">
+    <section class="slide" data-title="Prompts · 选择协议决定可比性" data-note="MovieGenBench 是 prompt pool，VBench 是 metric suite。不同论文重组两者，子集、改写和时长都会改变可比性。">
       <div class="stage">
         <div class="kicker amber">04 · Prompt lineage ≠ metric lineage</div>
-        <h2 class="title small">Prompt 没有神秘配方，真正重要的是选择协议</h2>
+        <h2 class="title small">Prompt 的选择协议决定实验可比性</h2>
         <div class="lineage">
           <div class="lineage-side"><div class="lineage-big em">17 / 35</div><h3>MovieGen prompts</h3><p>常见的 1,003 条人写 prompt pool。它没有 canonical metric。</p></div>
           <div class="mix-arrow">×</div>
@@ -414,10 +414,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="盲点 · 不动也可能被算作稳定" data-note="冻结、重复和缓慢漂移可能在某些局部相似度上表现不差。长视频至少要联合读一致、动态、重复和退化。">
+    <section class="slide" data-title="盲点 · 静止可能被误判为稳定" data-note="冻结、重复和缓慢漂移可能获得较高的局部相似度。长视频评测至少应联合考察一致性、动态性、重复与退化。">
       <div class="stage">
         <div class="kicker rose">06 · The static-video loophole</div>
-        <h2 class="title small">一致性分数最怕把不动误认成稳定</h2>
+        <h2 class="title small">局部一致性指标可能将静止误判为稳定</h2>
         <div class="sequence-grid">
           <div class="seq-label"><strong class="em">真实稳定</strong><br>身份保留，状态继续</div><div class="frames true"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
           <div class="seq-label"><strong class="sky">冻结</strong><br>高相似，低动态</div><div class="frames freeze"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
@@ -428,10 +428,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="长视频 · 演进更像补丁史" data-note="这条时间线只挑能改变判断的 custom metric。共同趋势是失败模式变细，但定义没有标准化。">
+    <section class="slide" data-title="长视频 · 针对性指标持续扩展" data-note="这条时间线只选择会改变评测结论的自定义指标。共同趋势是失败模式不断细化，但定义尚未标准化。">
       <div class="stage">
-        <div class="kicker amber">07 · Long-video metric patchwork</div>
-        <h2 class="title small">长视频的演进更像补丁史，而不是新标准诞生</h2>
+        <div class="kicker amber">07 · Long-video metric extensions</div>
+        <h2 class="title small">长视频评测持续增加针对性指标，尚未形成新标准</h2>
         <div class="timeline">
           <div class="time-node"><div><div class="time-year">2025</div><b>Rolling</b><span>首 5 秒 vs 末 5 秒<br>Imaging Quality 差</span></div><i class="time-dot"></i></div>
           <div class="time-node"><i class="time-dot"></i><div><div class="time-year">2025</div><b>Self-Forcing++</b><span>Gemini 看采样帧<br>判断 drift／collapse</span></div></div>
@@ -444,10 +444,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="VLM judge · 难题被搬进协议" data-note="VLM 的价值是问复杂问题。风险不只是模型会错，而是帧采样、提示、版本和缺失对象处理都会改变统计量。">
+    <section class="slide" data-title="VLM judge · 不确定性转移到协议设计" data-note="VLM 能够处理复杂判断，但帧采样、提示、版本和缺失对象处理都会改变统计量。">
       <div class="stage">
         <div class="kicker violet">08 · VLM-as-judge</div>
-        <h2 class="title small">VLM 能问更难的问题，也把难题搬进了评测协议</h2>
+        <h2 class="title small">VLM 扩展了判断范围，也增加了协议依赖</h2>
         <div class="judge-layout">
           <div class="judge-question">同一个人物的<strong class="violet">脸、衣服、身体结构</strong>，一分钟后还一致吗？<small>这类属性级问题比 CLIP 相似度更接近人类描述，也更依赖判断器的语言与视觉能力。</small></div>
           <div class="judge-pipe">
@@ -455,7 +455,7 @@
             <div class="judge-step"><b>怎么提问</b><span>绝对分、二元题、属性 gate，还是 pairwise？</span></div>
             <div class="judge-step"><b>锁哪个版本</b><span>模型更新会让同一视频得到不同分数。</span></div>
             <div class="judge-step"><b>怎么校准</b><span>对齐人类排序，还是只看平均相关？</span></div>
-            <div class="evidence-callout"><strong>证据边界</strong>　Self-Forcing++ 的 judge validation 是 2 位论文作者 × 20 prompts；它支持局部排名，不是通用金标准。</div>
+            <div class="evidence-callout"><strong>证据边界</strong>　Self-Forcing++ 的 judge validation 是 2 位论文作者 × 20 prompts；它支持该样本范围内的排名，尚不足以证明普遍有效性。</div>
           </div>
         </div>
         <div class="source"><a href="https://arxiv.org/abs/2510.02283">Self-Forcing++</a><a href="https://arxiv.org/abs/2512.23851">TinyHistory</a><span>06_Human_Eval</span></div>
@@ -478,10 +478,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="Human alignment · 后续工作逐层推翻外推" data-note="Human alignment 只表示在同一 rubric、样本分布和聚合层级下，metric 与人的判断一致。VBench 的逐维结论在原任务内成立；VBench-2.0 否定从可见质量外推到 intrinsic faithfulness；SGC 在 3D 静态背景 rubric 下得到 VBench-BC ρ=.400、SGC ρ=.945；MBench 显示同一几何指标在 text／action setting 下 ρ=.16／.94；STEVO 进一步要求同时报告 verifier-human 与 human-human。">
+    <section class="slide" data-title="Human alignment · 后续工作限制外推范围" data-note="Human alignment 只表示在同一 rubric、样本分布和聚合层级下，metric 与人的判断一致。VBench 的逐维结论在原任务内成立；VBench-2.0 否定从可见质量外推到 intrinsic faithfulness；SGC 在 3D 静态背景 rubric 下得到 VBench-BC ρ=.400、SGC ρ=.945；MBench 显示同一几何指标在 text／action setting 下 ρ=.16／.94；STEVO 进一步要求同时报告 verifier-human 与 human-human。">
       <div class="stage">
         <div class="kicker rose">10 · What later work refutes</div>
-        <h2 class="title small">后续工作推翻的，是“对齐可以外推”</h2>
+        <h2 class="title small">后续工作限制了 human alignment 结论的适用范围</h2>
         <div class="align-definition"><strong>Human alignment</strong>　同一问题、同一样本、同一聚合层级下，metric 分数与 human judgment 的偏好或排序一致。</div>
         <div class="refute-chain">
           <article class="refute-step">
@@ -512,7 +512,7 @@
             <div class="refute-stat"><b>ρ .16 ↔ .94</b>　+ V-H vs H-H</div>
           </article>
         </div>
-        <div class="align-conclusion"><strong>结论</strong>　不能只写“与人类高度一致”；必须同时交代 rubric、distribution、H-H ceiling 与 hard-case disagreement。</div>
+        <div class="align-conclusion"><strong>结论</strong>　不能只写“与人类高度一致”；必须同时交代 rubric、distribution、H-H ceiling 与高难样本分歧。</div>
         <div class="source"><a href="https://arxiv.org/abs/2311.17982">VBench</a><a href="https://arxiv.org/abs/2503.21755">VBench-2.0</a><a href="https://arxiv.org/abs/2603.19048">SGC</a><a href="https://arxiv.org/abs/2606.00793">MBench</a><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a></div>
       </div>
     </section>
@@ -530,10 +530,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="基准演进 · 从像真走向可用" data-note="用 benchmark 的目标变化而非论文堆砌串起来：可见质量、内在可信、相机定义世界、功能效用、世界反应。">
+    <section class="slide" data-title="基准演进 · 从感知质量走向功能效用" data-note="按 benchmark 的目标变化组织文献：可见质量、内在可信、相机定义世界、功能效用与世界反应。">
       <div class="stage">
         <div class="kicker sky">12 · Benchmark frontier</div>
-        <h2 class="title small">Benchmark 的目标正在从像真走向可用</h2>
+        <h2 class="title small">Benchmark 的目标正从感知质量扩展到功能效用</h2>
         <div class="road">
           <div class="road-step" style="--h:205px"><div class="road-year">2023</div><b>VBench</b><span>可见质量、运动、语义条件与逐维 human alignment。</span></div>
           <div class="road-step" style="--h:245px"><div class="road-year">2025</div><b>VBench-2.0</b><span>Physics、commonsense、human fidelity 等 intrinsic faithfulness。</span></div>
@@ -550,7 +550,7 @@
         <div class="kicker violet">13 · Three advanced consistency axes</div>
         <h2 class="title small">三种 consistency 回答三个不同问题</h2>
         <div class="axis-grid">
-          <article class="axis"><div class="axis-symbol">⌘</div><h3>3D consistency</h3><p>不同视角是否能被<strong>同一几何</strong>解释？</p><strong>Sampson · reprojection · pose divergence · 3DGS · MEt3R</strong></article>
+          <article class="axis"><div class="axis-symbol">⌘</div><h3>3D consistency</h3><p>不同视角是否能被<strong>同一几何</strong>解释？</p><strong>对应约束 · 深度／点云 · 3DGS 重建</strong></article>
           <article class="axis"><div class="axis-symbol">↩</div><h3>Revisit consistency</h3><p>离开并回来时，旧地点与状态是否<strong>被正确恢复</strong>？</p><strong>loop closure · pose-matched pairs · return-view fidelity</strong></article>
           <article class="axis"><div class="axis-symbol">◌</div><h3>Out-of-sight</h3><p>对象不可见时，隐藏状态是否<strong>继续正确演化</strong>？</p><strong>occlusion · lights-off · look-away · reappearance state</strong></article>
         </div>
@@ -558,18 +558,17 @@
       </div>
     </section>
 
-    <section class="slide" data-title="3D consistency · 有效像素决定指标" data-note="3D metric 的关键不是名字，而是对应点、动态区域和重建失败怎么处理。三个常见替代物都不等于 3D consistency。">
+    <section class="slide" data-title="3D consistency · 三类评测方法" data-note="3D consistency 的评测方法可按证据形式分为三类：图像对应约束、深度或点云几何、逐视频 3DGS 重建。Cosmos-Predict1 是第三类的代表工作；它使用 Nerfstudio 实现拟合 3DGS，而不是使用 NeRF 作为评测器。">
       <div class="stage">
-        <div class="kicker sky">14 · Devils in 3D consistency</div>
-        <h2 class="title small">3D consistency 的 devil，是哪些像素真的属于同一世界</h2>
+        <div class="kicker sky">14 · Three families of 3D evaluation</div>
+        <h2 class="title small">3D consistency 的评测方法可分为三类</h2>
         <div class="metric-flow">
-          <div class="metric-step"><h3>对应与动静分离</h3><p>先判断哪些区域可跨帧对应，哪些是合理运动的前景。</p><b>SGC：分离动态区域，再比较静态子区域的局部相机位姿</b><div class="not-equal">DINO similarity ≠ geometry</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="metric-step"><h3>几何证据</h3><p>极线误差、深度与相机重投影、局部 pose divergence。</p><b>适合定位跨视图结构破裂</b><div class="not-equal">Camera RPE ≠ scene consistency</div></div>
-          <div class="flow-arrow">→</div>
-          <div class="metric-step"><h3>可重建性</h3><p>用生成视频拟合 3DGS／点云，再在 held-out view 验证。</p><b>PSNR · SSIM · LPIPS · MEt3R</b><div class="not-equal">VLM geometric reasoning ≠ reconstruction</div></div>
+          <div class="metric-step"><h3>图像对应约束</h3><p>在帧间建立像素或特征对应，检验这些对应是否满足同一相机几何。</p><b>Epipolar constraint · Sampson error · reprojection error</b><div class="not-equal">代表：WorldScore</div></div>
+          <div class="metric-step"><h3>深度／点云几何</h3><p>估计深度、point map 与相机，将多个视图投影到共同三维坐标系后比较。</p><b>Point-cloud alignment · cross-view warping · MEt3R</b><div class="not-equal">代表：MEt3R</div></div>
+          <div class="metric-step"><h3>逐视频 3DGS 重建</h3><p>用生成视频拟合 3DGS，再在未参与拟合的视角上验证重建一致性。</p><b>3DGS · held-out-view PSNR／SSIM／LPIPS</b><div class="not-equal">代表：Cosmos-Predict1</div></div>
         </div>
-        <div class="source"><a href="https://arxiv.org/abs/2603.19048">SGC</a><a href="https://arxiv.org/abs/2501.03575">Cosmos Predict1</a><a href="https://arxiv.org/abs/2606.18375">PAIWorld</a></div>
+        <div class="align-conclusion"><strong>共同边界</strong>　DINO／CLIP 相似度与 VLM 判断可以作为补充证据，但不构成三维几何测量。</div>
+        <div class="source"><a href="https://arxiv.org/abs/2504.00983">WorldScore</a><a href="https://arxiv.org/abs/2501.06336">MEt3R</a><a href="https://arxiv.org/abs/2501.03575">Cosmos-Predict1</a></div>
       </div>
     </section>
 
@@ -590,10 +589,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="Out-of-sight · 隐藏状态是否继续变化" data-note="STEVO 和 MemoBench 的核心是观察控制。常见失败包括冻结、重置、跳进度和生成一个看似合理但不对的状态。">
+    <section class="slide" data-title="Out-of-sight · 隐藏状态是否继续变化" data-note="STEVO 和 MemoBench 的核心是观察控制。常见失败包括冻结、重置、进度跳跃和生成表面合理但状态错误的结果。">
       <div class="stage">
         <div class="kicker mint">16 · Dynamic out-of-sight consistency</div>
-        <h2 class="title small">真正的新问题：看不见时，世界还会继续发生吗？</h2>
+        <h2 class="title small">Out-of-sight 评测关注不可见期间的状态演化</h2>
         <div class="oos">
           <div class="oos-step"><div class="state-icon">◒</div><b>初始状态</b><span>冰块开始融化，水位与形状可观测。</span></div>
           <div class="oos-step hidden"><div class="state-icon">▧</div><b>控制观察</b><span>遮挡、关灯，或相机 look away。</span></div>
@@ -636,17 +635,17 @@
       </div>
     </section>
 
-    <section class="slide" data-title="团队规模 · 真正差距是 breadth" data-note="五篇样本显示，小组不明显输在数据量或模型覆盖，差距在评测树宽度。WorldScore 当前摘要是 19 个模型，已修正。">
+    <section class="slide" data-title="团队规模 · 主要差异是 evaluation breadth" data-note="五篇样本显示，小组在数据量或模型覆盖上没有明显劣势，主要差异在评测维度的广度。WorldScore 当前摘要是 19 个模型，已修正。">
       <div class="stage">
         <div class="kicker sky">19 · Small-team economics</div>
-        <h2 class="title small">小组并不输在 N，真正的差距是能并行开的战线</h2>
+        <h2 class="title small">小组的主要约束是可并行覆盖的评测维度</h2>
         <div class="team-grid">
           <article class="team-metric"><b>2.17×</b><h3>小组平均数据更多</h3><p>2,148 vs 991 cases／videos，五篇样本内没有数据规模劣势。</p></article>
           <article class="team-metric"><b>≈ 1×</b><h3>模型覆盖几乎相同</h3><p>14.5 vs 14.0 models。WorldScore 按当前摘要修正为 19。</p></article>
           <article class="team-metric"><b>2.44×</b><h3>大组评测树更宽</h3><p>18.3 vs 7.5 细粒度评测单元，差距集中在 breadth。</p></article>
           <article class="team-metric"><b>2.91×</b><h3>作者规模差</h3><p>16.0 vs 5.5 authors，最容易扩出来的是平行能力线。</p></article>
         </div>
-        <div class="team-conclusion">五篇样本的硬结论：<strong class="em">小组适合做窄而深，不适合复制一棵大而松的能力树。</strong></div>
+        <div class="team-conclusion">五篇样本支持的规划判断：<strong class="em">小组更适合聚焦单一问题并深入验证，而非复制宽泛的能力树。</strong></div>
         <div class="source"><a href="https://arxiv.org/abs/2504.00983">WorldScore</a><a href="https://arxiv.org/abs/2603.19048">SGC</a><a href="https://arxiv.org/abs/2602.08971">WorldArena</a><a href="https://arxiv.org/abs/2606.11129">WorldOlympiad</a><a href="https://arxiv.org/abs/2608.02603">WorldExam</a></div>
       </div>
     </section>
@@ -654,23 +653,23 @@
     <section class="slide" data-title="建议 · 动态实体级 out-of-sight" data-note="推荐把核心榜放在可控世界模型，T2V 只做独立 stress track。这样不会把控制失败误判为记忆失败。">
       <div class="stage">
         <div class="kicker mint">20 · Recommended wedge</div>
-        <h2 class="title small">最合适的切口，不是再造综合榜</h2>
+        <h2 class="title small">建议聚焦动态实体级 out-of-sight，而非构建综合基准</h2>
         <div class="rec-layout">
           <div class="rec-hero">做一个<span>动态、实体级<br>out-of-sight</span><br>诊断 benchmark</div>
           <div class="rec-side">
             <div class="rec-row"><b>核心榜：可控世界模型</b><span>相机／动作明确，遮挡与回访可复现，因果干预成立。</span></div>
             <div class="rec-row"><b>独立 stress track：T2V／I2V</b><span>用结构化脚本控制可见性，但不与交互模型混榜。</span></div>
-            <div class="rec-row"><b>报告 failure vector</b><span>状态、身份、几何、进度分别报告，不急着压成总分。</span></div>
+            <div class="rec-row"><b>报告 failure vector</b><span>状态、身份、几何、进度分别报告，不立即聚合为总分。</span></div>
           </div>
         </div>
         <div class="source"><span>判断依据</span><span>11_WM_Consistency_Audit</span><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a><a href="https://arxiv.org/abs/2606.27537">MemoBench</a></div>
       </div>
     </section>
 
-    <section class="slide" data-title="协议 · 小而硬的评测流水线" data-note="MVP 的价值来自匹配干预和可审计证据，不来自 metric 名字多。VLM 与人工只处理剩余语义和分歧。">
+    <section class="slide" data-title="协议 · 聚焦且可审计的评测流程" data-note="初始协议的价值来自匹配干预和可审计证据，而不是指标数量。VLM 与人工负责处理剩余语义和分歧。">
       <div class="stage">
         <div class="kicker amber">21 · A lean but hard protocol</div>
-        <h2 class="title small">一套小而硬的协议，比一棵大而松的指标树更值钱</h2>
+        <h2 class="title small">聚焦且可审计的协议，优于宽泛而松散的指标集合</h2>
         <div class="pipeline">
           <article class="pipe"><div class="pipe-no">INTERVENTION</div><h3>匹配可见／不可见轨迹</h3><p>同一过程只改变遮挡、灯光或相机朝向。</p></article>
           <article class="pipe"><div class="pipe-no">STATE</div><h3>结构化状态标签</h3><p>实体身份、阶段进度、位置、形状与几何。</p></article>
@@ -682,10 +681,10 @@
       </div>
     </section>
 
-    <section class="slide" data-title="结论 · 测镜头离开后的世界" data-note="收束成三句话：分开 lineage，承认 proxy 的边界，测隐藏状态。最后把讨论引向 benchmark 是否进入小试。">
+    <section class="slide" data-title="结论 · 评测观察中断后的世界状态" data-note="结论包括三个方面：区分 lineage，明确 proxy 的边界，并评测隐藏状态。最后讨论 benchmark 是否进入初步实验。">
       <div class="stage">
         <div class="kicker mint">22 · Takeaway</div>
-        <h2 class="title">别再只问视频像不像</h2>
+        <h2 class="title">评测目标应超越表面视频质量</h2>
         <div class="closing">
           <div class="closing-line"><span>分开</span> metric lineage 与 prompt lineage</div>
           <div class="closing-line"><span>承认</span> DINO、CLIP、VLM 都只是证据，不是世界本身</div>
