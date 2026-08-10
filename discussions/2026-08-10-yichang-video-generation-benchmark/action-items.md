@@ -1,5 +1,5 @@
 # Action Items
 
-- [ ] Yichang：说明 metric lineage 与 prompt lineage 为什么必须分开。
-- [ ] All participants：挑一个 VBench 高分但世界状态明显错误的反例。
-- [ ] All participants：判断动态 out-of-sight benchmark 的最小可行任务边界。
+- [ ] Yichang: Explain why metric lineage and prompt lineage must be analyzed separately.
+- [ ] All participants: Find a counterexample that scores well on VBench despite an obvious world-state error.
+- [ ] All participants: Define the minimum viable task boundary for a dynamic out-of-sight benchmark.

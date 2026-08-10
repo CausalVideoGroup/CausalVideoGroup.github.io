@@ -1,3 +1,3 @@
 # Meeting Note
 
-讨论安排在 2026-08-10。会后在这里记录被推翻或加强的判断、benchmark 边界、可执行实验，以及负责人。
+The discussion is scheduled for 2026-08-10. After the meeting, record which claims were overturned or strengthened, the agreed benchmark boundary, executable experiments, and their owners.
