@@ -248,21 +248,6 @@
     .bar-row:nth-child(2) .bar-fill{background:var(--violet)} .bar-row:nth-child(3) .bar-fill{background:var(--amber)} .bar-row:nth-child(4) .bar-fill{background:var(--rose)}
     .bar-value { color:var(--muted); font:700 clamp(10px,.75vw,13px)/1 ui-monospace,Consolas,monospace; }
 
-    .breadth { flex:1; display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(16px,2vw,32px); align-items:end; }
-    .bench { min-height:var(--h,300px); padding:18px 15px; border-top:3px solid var(--sky); background:linear-gradient(180deg,rgba(100,202,255,.045),transparent); }
-    .bench:nth-child(2){border-color:var(--violet)} .bench:nth-child(3){border-color:var(--amber)} .bench:nth-child(4){border-color:var(--mint)}
-    .bench h3 { margin:0 0 8px; font-size:clamp(18px,1.45vw,25px); }
-    .bench .bench-n { color:var(--text); font-size:clamp(29px,2.8vw,48px); font-weight:850; letter-spacing:-.05em; }
-    .bench p { color:var(--muted); font-size:clamp(9px,.68vw,12px); line-height:1.48; }
-
-    .team-grid { flex:1; display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(18px,2.2vw,36px); align-items:center; }
-    .team-metric { border-top:2px solid var(--line-strong); padding-top:18px; }
-    .team-metric b { display:block; font-size:clamp(41px,4.2vw,70px); line-height:.95; letter-spacing:-.06em; color:var(--mint); }
-    .team-metric:nth-child(2) b{color:var(--sky)} .team-metric:nth-child(3) b{color:var(--violet)} .team-metric:nth-child(4) b{color:var(--amber)}
-    .team-metric h3 { margin:12px 0 7px; font-size:clamp(14px,1.05vw,18px); }
-    .team-metric p { color:var(--muted); font-size:clamp(9px,.68vw,12px); line-height:1.45; }
-    .team-conclusion { margin-top:17px; padding-top:15px; border-top:1px solid var(--line); color:var(--text); font-size:clamp(12px,.95vw,16px); }
-
     .rec-layout { flex:1; display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(42px,5vw,90px); align-items:center; }
     .rec-hero { font-size:clamp(45px,5.3vw,88px); line-height:.98; letter-spacing:-.065em; }
     .rec-hero span { color:var(--mint); }
@@ -327,7 +312,7 @@
 </head>
 <body>
   <div class="brand"><span class="brand-mark">CV</span><span>CAUSAL VIDEO GROUP</span></div>
-  <div class="counter" id="counter">01 / 23</div>
+  <div class="counter" id="counter">01 / 21</div>
   <main class="deck" id="deck">
     <section class="slide" data-title="封面 · 从视频分数到世界一致性" data-note="开场只给一条主线：短视频评测关注可感知质量，世界模型评测进一步关注同一世界是否持续存在。">
       <div class="stage cover-stage">
@@ -621,38 +606,9 @@
       </div>
     </section>
 
-    <section class="slide" data-title="宽 benchmark · 从画面覆盖到功能" data-note="宽 benchmark 的价值是平行诊断更多能力，但 breadth 会直接消耗团队并行度。">
-      <div class="stage">
-        <div class="kicker amber">18 · Benchmark breadth</div>
-        <h2 class="title small">宽 benchmark 正在从画面覆盖到功能</h2>
-        <div class="breadth">
-          <article class="bench" style="--h:270px"><h3>WorldScore</h3><div class="bench-n">3,000</div><p>cases · camera-defined next scene<br>controllability · quality · dynamics</p></article>
-          <article class="bench" style="--h:315px"><h3>WorldArena</h3><div class="bench-n">14</div><p>models · 16 video metrics + 3 downstream tasks<br>perception ↔ functionality</p></article>
-          <article class="bench" style="--h:360px"><h3>WorldOlympiad</h3><div class="bench-n">1,000</div><p>videos · physics · geometry · interaction<br>gaming · robotics · real world</p></article>
-          <article class="bench" style="--h:405px"><h3>WorldExam</h3><div class="bench-n">1,474</div><p>cases · 20 models · 8 tasks<br>visual → control → spatial → reactivity</p></article>
-        </div>
-        <div class="source"><a href="https://arxiv.org/abs/2504.00983">WorldScore</a><a href="https://arxiv.org/abs/2602.08971">WorldArena</a><a href="https://arxiv.org/abs/2606.11129">WorldOlympiad</a><a href="https://arxiv.org/abs/2608.02603">WorldExam</a></div>
-      </div>
-    </section>
-
-    <section class="slide" data-title="团队规模 · 主要差异是 evaluation breadth" data-note="五篇样本显示，小组在数据量或模型覆盖上没有明显劣势，主要差异在评测维度的广度。WorldScore 当前摘要是 19 个模型，已修正。">
-      <div class="stage">
-        <div class="kicker sky">19 · Small-team economics</div>
-        <h2 class="title small">小组的主要约束是可并行覆盖的评测维度</h2>
-        <div class="team-grid">
-          <article class="team-metric"><b>2.17×</b><h3>小组平均数据更多</h3><p>2,148 vs 991 cases／videos，五篇样本内没有数据规模劣势。</p></article>
-          <article class="team-metric"><b>≈ 1×</b><h3>模型覆盖几乎相同</h3><p>14.5 vs 14.0 models。WorldScore 按当前摘要修正为 19。</p></article>
-          <article class="team-metric"><b>2.44×</b><h3>大组评测树更宽</h3><p>18.3 vs 7.5 细粒度评测单元，差距集中在 breadth。</p></article>
-          <article class="team-metric"><b>2.91×</b><h3>作者规模差</h3><p>16.0 vs 5.5 authors，最容易扩出来的是平行能力线。</p></article>
-        </div>
-        <div class="team-conclusion">五篇样本支持的规划判断：<strong class="em">小组更适合聚焦单一问题并深入验证，而非复制宽泛的能力树。</strong></div>
-        <div class="source"><a href="https://arxiv.org/abs/2504.00983">WorldScore</a><a href="https://arxiv.org/abs/2603.19048">SGC</a><a href="https://arxiv.org/abs/2602.08971">WorldArena</a><a href="https://arxiv.org/abs/2606.11129">WorldOlympiad</a><a href="https://arxiv.org/abs/2608.02603">WorldExam</a></div>
-      </div>
-    </section>
-
     <section class="slide" data-title="建议 · 动态实体级 out-of-sight" data-note="推荐把核心榜放在可控世界模型，T2V 只做独立 stress track。这样不会把控制失败误判为记忆失败。">
       <div class="stage">
-        <div class="kicker mint">20 · Recommended wedge</div>
+        <div class="kicker mint">18 · Recommended direction</div>
         <h2 class="title small">建议聚焦动态实体级 out-of-sight，而非构建综合基准</h2>
         <div class="rec-layout">
           <div class="rec-hero">做一个<span>动态、实体级<br>out-of-sight</span><br>诊断 benchmark</div>
@@ -668,7 +624,7 @@
 
     <section class="slide" data-title="协议 · 聚焦且可审计的评测流程" data-note="初始协议的价值来自匹配干预和可审计证据，而不是指标数量。VLM 与人工负责处理剩余语义和分歧。">
       <div class="stage">
-        <div class="kicker amber">21 · A lean but hard protocol</div>
+        <div class="kicker amber">19 · Focused evaluation protocol</div>
         <h2 class="title small">聚焦且可审计的协议，优于宽泛而松散的指标集合</h2>
         <div class="pipeline">
           <article class="pipe"><div class="pipe-no">INTERVENTION</div><h3>匹配可见／不可见轨迹</h3><p>同一过程只改变遮挡、灯光或相机朝向。</p></article>
@@ -683,7 +639,7 @@
 
     <section class="slide" data-title="结论 · 评测观察中断后的世界状态" data-note="结论包括三个方面：区分 lineage，明确 proxy 的边界，并评测隐藏状态。最后讨论 benchmark 是否进入初步实验。">
       <div class="stage">
-        <div class="kicker mint">22 · Takeaway</div>
+        <div class="kicker mint">20 · Takeaway</div>
         <h2 class="title">评测目标应超越表面视频质量</h2>
         <div class="closing">
           <div class="closing-line"><span>分开</span> metric lineage 与 prompt lineage</div>
