@@ -12,7 +12,8 @@
     "status",
     "summary",
     "tags",
-    "related_projects"
+    "related_projects",
+    "slides"
   ],
   "properties": {
     "title": { "type": "string", "minLength": 1 },
@@ -79,7 +80,8 @@
         }
       }
     },
-    "slides": { "type": "string" },
+    "slides": { "const": "presentation-standard.html" },
+    "original_slides": { "const": "presentation.html" },
     "recording": { "type": "string", "format": "uri" }
   }
 }

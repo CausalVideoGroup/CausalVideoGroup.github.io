@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The evolution of video-generation benchmark evaluation: from VBench proxy metrics to 3D, revisit, and dynamic out-of-sight consistency." />
+  <title>From Video Scores to World Consistency</title>
+  <style>
+    :root {
+      --bg: #06111c;
+      --bg-2: #091929;
+      --panel: rgba(14, 34, 52, .84);
+      --panel-soft: rgba(12, 29, 45, .66);
+      --line: rgba(173, 207, 222, .16);
+      --line-strong: rgba(173, 207, 222, .3);
+      --text: #eff9f7;
+      --muted: #94aab5;
+      --faint: #627b88;
+      --mint: #56e4c2;
+      --violet: #aa91ff;
+      --amber: #ffbd68;
+      --rose: #ff8296;
+      --sky: #64caff;
+      --shadow: 0 32px 110px rgba(0,0,0,.42);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+    body {
+      color: var(--text);
+      background:
+        radial-gradient(circle at 9% 7%, rgba(86,228,194,.12), transparent 31rem),
+        radial-gradient(circle at 91% 14%, rgba(170,145,255,.11), transparent 34rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .28;
+      background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 42px 42px; mask-image: linear-gradient(to bottom,#000 8%,transparent 95%);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; }
+    .deck { position: relative; width: 100%; height: 100%; z-index: 1; }
+    .slide { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; visibility: hidden; transform: translateX(4%) scale(.985); transition: opacity .38s ease, transform .38s ease, visibility .38s; overflow: hidden; }
+    .slide.active { opacity: 1; visibility: visible; transform: none; z-index: 2; }
+    .slide.previous { transform: translateX(-4%) scale(.985); }
+    .stage {
+      width: min(94vw, 1600px); height: min(90vh, 900px); aspect-ratio: 16 / 9;
+      position: relative; display: flex; flex-direction: column; padding: clamp(34px,4vw,68px) clamp(40px,4.8vw,82px);
+      border: 1px solid var(--line); border-radius: clamp(18px,2vw,30px);
+      background: linear-gradient(145deg, rgba(10,28,44,.95), rgba(5,17,29,.97)); box-shadow: var(--shadow); overflow: hidden;
+    }
+    .stage::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 12% 14%,rgba(86,228,194,.065),transparent 29%), radial-gradient(circle at 88% 16%,rgba(170,145,255,.065),transparent 31%); }
+    .stage > * { position: relative; z-index: 1; }
+    .kicker { color: var(--mint); font-size: clamp(9px,.76vw,13px); font-weight: 800; text-transform: uppercase; letter-spacing: .16em; }
+    .kicker.violet { color: var(--violet); } .kicker.amber { color: var(--amber); } .kicker.sky { color: var(--sky); } .kicker.rose { color: var(--rose); }
+    h1, h2, h3, p { margin-top: 0; }
+    .title { margin: .28em 0 .18em; font-size: clamp(33px,3.7vw,62px); line-height: 1.07; letter-spacing: -.052em; max-width: 1320px; }
+    .title.small { font-size: clamp(30px,3.25vw,54px); }
+    .subtitle { margin: 0; color: var(--muted); font-size: clamp(13px,1.05vw,18px); line-height: 1.62; max-width: 1120px; }
+    .subtitle strong { color: var(--text); }
+    .grow { flex: 1; min-height: 0; }
+    .source { margin-top: auto; min-height: 24px; display: flex; gap: 13px; align-items: center; color: var(--faint); font-size: clamp(8px,.6vw,10px); }
+    .source a { border-bottom: 1px solid rgba(98,123,136,.5); }
+    .source a:hover { color: var(--mint); border-color: var(--mint); }
+    .brand { position: fixed; left: clamp(20px,2vw,38px); top: clamp(17px,1.8vw,31px); z-index: 30; display: flex; align-items: center; gap: 9px; color: rgba(239,249,247,.72); font-size: 10px; font-weight: 800; letter-spacing: .08em; }
+    .brand-mark { width: 26px; height: 26px; display: grid; place-items: center; border: 1px solid rgba(86,228,194,.38); border-radius: 8px; color: var(--mint); background: rgba(86,228,194,.06); }
+    .counter { position: fixed; right: clamp(21px,2vw,39px); top: clamp(20px,1.9vw,34px); z-index: 30; color: var(--faint); font: 700 10px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .1em; }
+    .progress { position: fixed; left: 0; right: 0; bottom: 0; height: 3px; z-index: 40; background: rgba(255,255,255,.035); }
+    .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg,var(--mint),var(--violet)); box-shadow: 0 0 18px rgba(86,228,194,.5); transition: width .28s ease; }
+    .controls { position: fixed; right: clamp(19px,1.9vw,36px); bottom: clamp(18px,1.9vw,34px); z-index: 45; display: flex; gap: 6px; }
+    .control { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 10px; background: rgba(7,19,31,.76); backdrop-filter: blur(12px); cursor: pointer; color: var(--muted); transition: .18s ease; }
+    .control:hover { color: var(--text); border-color: rgba(86,228,194,.52); transform: translateY(-2px); }
+    .hint { position: fixed; left: clamp(19px,1.9vw,36px); bottom: clamp(18px,1.9vw,34px); z-index: 30; color: var(--faint); font-size: 9px; padding: 7px 9px; border: 1px solid var(--line); border-radius: 8px; background: rgba(7,19,31,.55); }
+    .em { color: var(--mint); } .violet { color: var(--violet); } .amber { color: var(--amber); } .rose { color: var(--rose); } .sky { color: var(--sky); }
+
+    .cover-stage { justify-content: center; }
+    .cover { display: grid; grid-template-columns: 1.16fr .84fr; gap: clamp(35px,5vw,90px); align-items: center; }
+    .cover h1 { margin: .18em 0 .2em; font-size: clamp(52px,6.6vw,108px); line-height: .93; letter-spacing: -.074em; }
+    .cover h1 span { display: block; color: transparent; background: linear-gradient(90deg,var(--mint),#c9fff2 50%,var(--violet)); background-clip: text; -webkit-background-clip: text; }
+    .cover-copy { color: var(--muted); font-size: clamp(14px,1.25vw,21px); line-height: 1.68; max-width: 760px; }
+    .cover-meta { margin-top: 27px; color: var(--faint); font-size: clamp(10px,.75vw,13px); letter-spacing: .07em; }
+    .world-orbit { position: relative; aspect-ratio: 1; display: grid; place-items: center; }
+    .world-core { width: 36%; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(86,228,194,.45); color: var(--mint); background: radial-gradient(circle,rgba(86,228,194,.12),rgba(86,228,194,.02)); box-shadow: 0 0 70px rgba(86,228,194,.11); font-weight: 850; font-size: clamp(13px,1.05vw,18px); }
+    .orbit { position: absolute; inset: 15%; border: 1px solid rgba(170,145,255,.25); border-radius: 50%; transform: rotate(-18deg); }
+    .orbit.two { inset: 3%; border-color: rgba(100,202,255,.2); transform: rotate(28deg); }
+    .orbit-dot { position: absolute; width: 13px; height: 13px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 20px rgba(170,145,255,.55); }
+    .orbit .orbit-dot { left: 13%; top: 16%; } .orbit.two .orbit-dot { right: 8%; bottom: 25%; background: var(--sky); }
+
+    .thesis-grid { flex: 1; display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(20px,2.5vw,42px); align-items: stretch; padding: clamp(24px,3vh,42px) 0 8px; }
+    .chapter { position: relative; padding: 0 0 0 22px; border-left: 2px solid var(--line-strong); }
+    .chapter:nth-child(1) { border-color: var(--sky); } .chapter:nth-child(2) { border-color: var(--amber); } .chapter:nth-child(3) { border-color: var(--mint); }
+    .chapter-no { color: var(--faint); font: 800 clamp(11px,.8vw,14px)/1 ui-monospace,Consolas,monospace; }
+    .chapter h3 { margin: 16px 0 9px; font-size: clamp(23px,2vw,34px); letter-spacing: -.035em; }
+    .chapter p { color: var(--muted); font-size: clamp(11px,.9vw,15px); line-height: 1.6; }
+    .chapter .question { position: absolute; bottom: 0; left: 22px; right: 0; color: var(--text); font-size: clamp(12px,1vw,17px); line-height: 1.45; }
+
+    .stat-rail { flex: 1; display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(18px,2.4vw,38px); align-items: center; }
+    .stat { border-top: 1px solid var(--line-strong); padding-top: 19px; }
+    .stat b { display: block; color: var(--mint); font-size: clamp(44px,5vw,82px); line-height: .95; letter-spacing: -.06em; }
+    .stat span { display: block; margin-top: 10px; color: var(--muted); font-size: clamp(11px,.86vw,15px); }
+    .scope-note { display: grid; grid-template-columns: 35fr 25fr 6fr; gap: 5px; height: 20px; margin: 6px 0 22px; }
+    .scope-note div { border-radius: 99px; background: var(--mint); opacity: .78; } .scope-note div:nth-child(2){background:var(--violet)} .scope-note div:nth-child(3){background:var(--amber)}
+    .scope-labels { display: flex; gap: 24px; color: var(--faint); font-size: clamp(9px,.68vw,12px); }
+
+    .lane-map { flex: 1; display: grid; grid-template-columns: repeat(3,1fr); gap: clamp(24px,3vw,52px); align-items: center; }
+    .lane { min-height: 350px; padding-top: 18px; border-top: 3px solid var(--sky); display: flex; flex-direction: column; }
+    .lane:nth-child(2){border-color:var(--violet)} .lane:nth-child(3){border-color:var(--amber)}
+    .lane-label { color: var(--faint); font-size: clamp(9px,.68vw,12px); letter-spacing: .12em; text-transform: uppercase; }
+    .lane h3 { margin: 13px 0 12px; font-size: clamp(25px,2.25vw,38px); }
+    .lane p { color: var(--muted); font-size: clamp(11px,.9vw,15px); line-height: 1.55; }
+    .lane strong { display: block; margin-top: auto; padding-top: 17px; border-top: 1px solid var(--line); font-size: clamp(12px,.95vw,16px); }
+
+    .lineage { flex: 1; display: grid; grid-template-columns: 1fr 110px 1fr; gap: clamp(20px,2.8vw,46px); align-items: center; }
+    .lineage-side { border-top: 2px solid var(--mint); padding-top: 20px; }
+    .lineage-side.metrics { border-color: var(--violet); }
+    .lineage-big { font-size: clamp(49px,5.2vw,88px); line-height: .95; letter-spacing: -.06em; font-weight: 850; }
+    .lineage-side h3 { margin: 13px 0 7px; font-size: clamp(20px,1.7vw,29px); }
+    .lineage-side p { color: var(--muted); font-size: clamp(11px,.85vw,15px); line-height: 1.52; }
+    .mix-arrow { text-align: center; color: var(--amber); font-size: clamp(35px,3.5vw,58px); }
+    .sample-line { margin-top: 18px; display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; color: var(--muted); font-size: clamp(10px,.76vw,13px); }
+    .sample-line div { padding-top: 10px; border-top: 1px solid var(--line); }
+    .sample-line b { color: var(--text); }
+
+    .proxy-grid { flex: 1; display: grid; grid-template-columns: repeat(4,1fr); gap: clamp(14px,1.7vw,28px); align-items: center; }
+    .proxy { min-height: 320px; display: flex; flex-direction: column; padding: 19px 18px; border-top: 2px solid var(--mint); background: linear-gradient(180deg,rgba(255,255,255,.025),transparent); }
+    .proxy:nth-child(2){border-color:var(--violet)} .proxy:nth-child(3){border-color:var(--rose)} .proxy:nth-child(4){border-color:var(--sky)}
+    .proxy-code { font: 850 clamp(28px,3vw,49px)/1 ui-monospace,Consolas,monospace; color: var(--mint); }
+    .proxy:nth-child(2) .proxy-code{color:var(--violet)} .proxy:nth-child(3) .proxy-code{color:var(--rose)} .proxy:nth-child(4) .proxy-code{color:var(--sky)}
+    .proxy h3 { margin: 18px 0 9px; font-size: clamp(16px,1.25vw,22px); }
+    .proxy p { color: var(--muted); font-size: clamp(10px,.78vw,13px); line-height: 1.5; }
+    .proxy strong { margin-top: auto; color: var(--text); font-size: clamp(10px,.8vw,14px); }
+
+    .sequence-grid { flex: 1; display: grid; grid-template-columns: 155px 1fr; gap: 14px 26px; align-content: center; }
+    .seq-label { align-self: center; color: var(--muted); font-size: clamp(11px,.86vw,15px); }
+    .frames { display: grid; grid-template-columns: repeat(8,1fr); gap: 8px; }
+    .frame { aspect-ratio: 4/3; border-radius: 8px; border: 1px solid var(--line-strong); background: linear-gradient(135deg,rgba(86,228,194,.16),rgba(100,202,255,.04)); position: relative; overflow: hidden; }
+    .frame::after { content:""; position:absolute; width:27%; aspect-ratio:1; border-radius:50%; left:var(--x,35%); top:var(--y,35%); background:var(--dot,var(--mint)); opacity:.9; }
+    .frames.freeze .frame { --x:35%; --y:35%; } .frames.repeat .frame:nth-child(even){--x:63%;--y:24%} .frames.repeat .frame:nth-child(odd){--x:22%;--y:55%}
+    .frames.drift .frame:nth-child(1){opacity:1}.frames.drift .frame:nth-child(2){opacity:.9}.frames.drift .frame:nth-child(3){opacity:.8}.frames.drift .frame:nth-child(4){opacity:.7}.frames.drift .frame:nth-child(5){opacity:.6}.frames.drift .frame:nth-child(6){opacity:.5}.frames.drift .frame:nth-child(7){opacity:.4}.frames.drift .frame:nth-child(8){opacity:.3}
+    .frames.true .frame:nth-child(2){--x:42%}.frames.true .frame:nth-child(3){--x:48%}.frames.true .frame:nth-child(4){--x:55%}.frames.true .frame:nth-child(5){--x:61%}.frames.true .frame:nth-child(6){--x:55%}.frames.true .frame:nth-child(7){--x:48%}.frames.true .frame:nth-child(8){--x:42%}
+
+    .timeline { flex: 1; display: grid; grid-template-columns: repeat(6,1fr); gap: 0; align-items: center; position: relative; padding-top: 16px; }
+    .timeline::before { content:""; position:absolute; left:5%; right:5%; top:50%; height:2px; background:linear-gradient(90deg,var(--sky),var(--violet),var(--amber),var(--mint)); opacity:.55; }
+    .time-node { position: relative; z-index: 1; min-height: 255px; display: flex; flex-direction: column; justify-content: flex-start; padding: 0 13px; }
+    .time-node:nth-child(even) { justify-content: flex-end; }
+    .time-dot { width: 17px; height: 17px; border-radius:50%; border:4px solid var(--mint); background:var(--bg-2); margin: auto auto 14px; box-shadow:0 0 18px rgba(86,228,194,.28); }
+    .time-node:nth-child(even) .time-dot { order:2; margin:14px auto auto; }
+    .time-node b { font-size: clamp(11px,.83vw,14px); }
+    .time-node span { display:block; margin-top:5px; color:var(--muted); font-size:clamp(8px,.62vw,11px); line-height:1.45; }
+    .time-year { color:var(--faint); font:700 9px/1 ui-monospace,Consolas,monospace; margin-bottom:7px; }
+
+    .judge-layout { flex: 1; display: grid; grid-template-columns: .92fr 1.08fr; gap: clamp(38px,4.5vw,78px); align-items: center; }
+    .judge-question { font-size: clamp(29px,3vw,50px); line-height:1.14; letter-spacing:-.045em; }
+    .judge-question small { display:block; margin-top:18px; color:var(--muted); font-size:clamp(12px,.9vw,16px); line-height:1.6; letter-spacing:0; }
+    .judge-pipe { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; align-items:center; }
+    .judge-step { min-height:145px; padding:15px 12px; border-top:2px solid var(--violet); background:rgba(170,145,255,.035); }
+    .judge-step:nth-child(2){border-color:var(--sky)} .judge-step:nth-child(3){border-color:var(--amber)} .judge-step:nth-child(4){border-color:var(--mint)}
+    .judge-step b { display:block; font-size:clamp(12px,.9vw,16px); }
+    .judge-step span { display:block; margin-top:9px; color:var(--muted); font-size:clamp(9px,.67vw,11px); line-height:1.45; }
+    .evidence-callout { grid-column:1/-1; margin-top:18px; padding:14px 0; border-top:1px solid var(--line); color:var(--muted); font-size:clamp(11px,.85vw,14px); }
+    .evidence-callout strong { color:var(--rose); }
+
+    .protocol-line { flex:1; display:grid; grid-template-columns:repeat(6,1fr); align-items:center; gap:12px; }
+    .protocol { min-height:240px; padding:18px 13px; border-top:2px solid var(--line-strong); }
+    .protocol:nth-child(1){border-color:var(--sky)} .protocol:nth-child(2){border-color:var(--mint)} .protocol:nth-child(3){border-color:var(--violet)} .protocol:nth-child(4){border-color:var(--amber)} .protocol:nth-child(5){border-color:var(--rose)} .protocol:nth-child(6){border-color:var(--sky)}
+    .protocol b { font-size:clamp(18px,1.45vw,25px); }
+    .protocol span { display:block; margin-top:10px; color:var(--muted); font-size:clamp(9px,.68vw,12px); line-height:1.48; }
+    .protocol-no { color:var(--faint); font:700 9px/1 ui-monospace,Consolas,monospace; margin-bottom:18px; }
+
+    .align-definition { margin: 10px 0 2px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--muted); font-size: clamp(11px,.86vw,15px); line-height: 1.45; }
+    .align-definition strong { color: var(--text); }
+    .refute-chain { flex:1; display:grid; grid-template-columns:1fr 54px 1fr 54px 1fr 54px 1.08fr; gap:8px; align-items:center; padding:14px 0 8px; }
+    .refute-step { min-height:250px; padding:17px 12px 14px; border-top:3px solid var(--sky); display:flex; flex-direction:column; background:linear-gradient(180deg,rgba(100,202,255,.04),transparent); }
+    .refute-step:nth-of-type(2){border-color:var(--violet);background:linear-gradient(180deg,rgba(170,145,255,.04),transparent)}
+    .refute-step:nth-of-type(3){border-color:var(--amber);background:linear-gradient(180deg,rgba(255,189,104,.04),transparent)}
+    .refute-step:nth-of-type(4){border-color:var(--mint);background:linear-gradient(180deg,rgba(86,228,194,.04),transparent)}
+    .refute-tag { color:var(--faint); font:750 clamp(8px,.62vw,10px)/1.2 ui-monospace,Consolas,monospace; letter-spacing:.08em; text-transform:uppercase; }
+    .refute-step h3 { margin:12px 0 8px; font-size:clamp(16px,1.28vw,22px); line-height:1.14; }
+    .refute-step p { margin:0; color:var(--muted); font-size:clamp(9px,.69vw,12px); line-height:1.48; }
+    .refute-stat { margin-top:auto; padding-top:11px; border-top:1px solid var(--line); color:var(--text); font-size:clamp(10px,.75vw,13px); line-height:1.36; }
+    .refute-stat b { color:var(--mint); font-size:clamp(17px,1.45vw,25px); letter-spacing:-.04em; }
+    .refute-arrow { text-align:center; color:var(--rose); font-size:clamp(24px,2.4vw,40px); line-height:1; }
+    .refute-arrow span { display:block; margin-top:8px; color:var(--muted); font:700 clamp(9px,.66vw,11px)/1.25 ui-monospace,Consolas,monospace; letter-spacing:.03em; }
+    .align-conclusion { margin:4px 0 8px; color:var(--text); font-size:clamp(11px,.84vw,14px); line-height:1.45; }
+    .align-conclusion strong { color:var(--rose); }
+
+    .prompt-shift { flex:1; display:grid; grid-template-columns:1fr 120px 1fr; gap:clamp(24px,3vw,48px); align-items:center; }
+    .prompt-side { min-height:355px; padding-top:19px; border-top:3px solid var(--violet); }
+    .prompt-side.world { border-color:var(--mint); }
+    .prompt-side h3 { font-size:clamp(29px,2.7vw,46px); margin:11px 0 13px; }
+    .prompt-side p { color:var(--muted); font-size:clamp(11px,.9vw,15px); line-height:1.58; }
+    .prompt-example { margin-top:24px; padding:14px 0; border-top:1px solid var(--line); color:var(--text); font:650 clamp(10px,.76vw,13px)/1.55 ui-monospace,Consolas,monospace; }
+    .shift-arrow { text-align:center; color:var(--amber); font-size:clamp(39px,4vw,66px); }
+
+    .road { flex:1; display:grid; grid-template-columns:repeat(5,1fr); gap:16px; align-items:end; padding:18px 0 6px; }
+    .road-step { min-height:var(--h,220px); padding:17px 14px; border-top:3px solid var(--sky); background:linear-gradient(180deg,rgba(100,202,255,.055),transparent); }
+    .road-step:nth-child(2){border-color:var(--violet)} .road-step:nth-child(3){border-color:var(--amber)} .road-step:nth-child(4){border-color:var(--mint)} .road-step:nth-child(5){border-color:var(--rose)}
+    .road-step b { display:block; font-size:clamp(14px,1.1vw,19px); }
+    .road-step span { display:block; margin-top:9px; color:var(--muted); font-size:clamp(9px,.66vw,11px); line-height:1.45; }
+    .road-year { color:var(--faint); font:700 9px/1 ui-monospace,Consolas,monospace; margin-bottom:12px; }
+
+    .axis-grid { flex:1; display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(24px,3vw,50px); align-items:center; }
+    .axis { min-height:360px; display:flex; flex-direction:column; padding:20px 0 0; border-top:3px solid var(--sky); }
+    .axis:nth-child(2){border-color:var(--violet)} .axis:nth-child(3){border-color:var(--mint)}
+    .axis-symbol { font-size:clamp(48px,5vw,82px); line-height:1; color:var(--sky); }
+    .axis:nth-child(2) .axis-symbol{color:var(--violet)} .axis:nth-child(3) .axis-symbol{color:var(--mint)}
+    .axis h3 { margin:17px 0 8px; font-size:clamp(22px,1.9vw,32px); }
+    .axis p { color:var(--muted); font-size:clamp(11px,.86vw,14px); line-height:1.55; }
+    .axis strong { margin-top:auto; padding-top:14px; border-top:1px solid var(--line); font-size:clamp(11px,.84vw,14px); }
+
+    .metric-flow { flex:1; display:grid; grid-template-columns:repeat(3,1fr); align-items:center; gap:clamp(24px,3vw,48px); }
+    .metric-step { min-height:290px; padding:21px 18px; border-top:3px solid var(--sky); background:rgba(100,202,255,.025); }
+    .metric-step:nth-of-type(2){border-color:var(--violet)} .metric-step:nth-of-type(3){border-color:var(--mint)}
+    .metric-step h3 { font-size:clamp(20px,1.65vw,28px); }
+    .metric-step p { color:var(--muted); font-size:clamp(10px,.78vw,13px); line-height:1.55; }
+    .metric-step b { display:block; margin-top:18px; color:var(--text); font-size:clamp(10px,.78vw,13px); }
+    .flow-arrow { text-align:center; color:var(--faint); font-size:30px; }
+    .not-equal { margin-top:12px; color:var(--rose); font-size:clamp(10px,.76vw,13px); }
+
+    .loop-layout { flex:1; display:grid; grid-template-columns:.9fr 1.1fr; gap:clamp(40px,5vw,86px); align-items:center; }
+    .loop-track { position:relative; aspect-ratio:1.7; border:2px solid rgba(170,145,255,.26); border-radius:50%; transform:rotate(-8deg); }
+    .loop-track::after { content:"↩"; position:absolute; right:-2%; bottom:8%; color:var(--violet); font-size:50px; transform:rotate(8deg); }
+    .loop-place { position:absolute; width:78px; height:58px; display:grid; place-items:center; border:1px solid var(--line-strong); border-radius:10px; background:var(--bg-2); color:var(--muted); font-size:11px; transform:rotate(8deg); }
+    .loop-place.a { left:3%; top:47%; border-color:rgba(86,228,194,.42); color:var(--mint); }
+    .loop-place.b { right:13%; top:3%; } .loop-place.c { right:5%; bottom:9%; }
+    .loop-copy { display:grid; gap:13px; }
+    .loop-row { padding-bottom:13px; border-bottom:1px solid var(--line); }
+    .loop-row b { font-size:clamp(13px,1vw,17px); }
+    .loop-row span { display:block; margin-top:5px; color:var(--muted); font-size:clamp(10px,.76vw,13px); line-height:1.45; }
+
+    .oos { flex:1; display:grid; grid-template-columns:repeat(5,1fr); gap:12px; align-items:center; }
+    .oos-step { position:relative; min-height:265px; padding:17px 14px; border-top:3px solid var(--mint); background:linear-gradient(180deg,rgba(86,228,194,.055),transparent); }
+    .oos-step.hidden { border-color:var(--faint); background:repeating-linear-gradient(135deg,rgba(98,123,136,.055) 0 8px,transparent 8px 16px); }
+    .oos-step.fail { border-color:var(--rose); }
+    .oos-step b { display:block; font-size:clamp(14px,1.08vw,19px); }
+    .oos-step span { display:block; margin-top:10px; color:var(--muted); font-size:clamp(9px,.66vw,11px); line-height:1.45; }
+    .state-icon { height:75px; margin-bottom:18px; display:grid; place-items:center; font-size:42px; color:var(--mint); }
+
+    .bar-layout { flex:1; display:grid; grid-template-columns:.88fr 1.12fr; gap:clamp(42px,5vw,90px); align-items:center; }
+    .big-audit b { display:block; font-size:clamp(96px,10vw,165px); line-height:.86; color:var(--violet); letter-spacing:-.08em; }
+    .big-audit span { color:var(--muted); font-size:clamp(12px,.92vw,16px); }
+    .bars { display:grid; gap:18px; }
+    .bar-row { display:grid; grid-template-columns:155px 1fr 72px; gap:14px; align-items:center; }
+    .bar-label { font-size:clamp(11px,.83vw,14px); }
+    .bar-track { height:16px; border-radius:99px; background:rgba(255,255,255,.04); overflow:hidden; }
+    .bar-fill { height:100%; width:var(--w); border-radius:99px; background:var(--mint); }
+    .bar-row:nth-child(2) .bar-fill{background:var(--violet)} .bar-row:nth-child(3) .bar-fill{background:var(--amber)} .bar-row:nth-child(4) .bar-fill{background:var(--rose)}
+    .bar-value { color:var(--muted); font:700 clamp(10px,.75vw,13px)/1 ui-monospace,Consolas,monospace; }
+
+    .rec-layout { flex:1; display:grid; grid-template-columns:1.15fr .85fr; gap:clamp(42px,5vw,90px); align-items:center; }
+    .rec-hero { font-size:clamp(45px,5.3vw,88px); line-height:.98; letter-spacing:-.065em; }
+    .rec-hero span { color:var(--mint); }
+    .rec-side { display:grid; gap:18px; }
+    .rec-row { padding:0 0 15px 18px; border-left:2px solid var(--mint); border-bottom:1px solid var(--line); }
+    .rec-row:nth-child(2){border-left-color:var(--violet)} .rec-row:nth-child(3){border-left-color:var(--amber)}
+    .rec-row b { font-size:clamp(14px,1.05vw,18px); }
+    .rec-row span { display:block; margin-top:5px; color:var(--muted); font-size:clamp(10px,.76vw,13px); line-height:1.48; }
+
+    .pipeline { flex:1; display:grid; grid-template-columns:repeat(5,1fr); gap:12px; align-items:center; }
+    .pipe { min-height:265px; padding:18px 14px; border-top:3px solid var(--mint); background:rgba(86,228,194,.025); position:relative; }
+    .pipe:nth-child(2){border-color:var(--sky)} .pipe:nth-child(3){border-color:var(--violet)} .pipe:nth-child(4){border-color:var(--amber)} .pipe:nth-child(5){border-color:var(--rose)}
+    .pipe:not(:last-child)::after { content:"→"; position:absolute; right:-15px; top:44%; color:var(--faint); z-index:2; }
+    .pipe-no { color:var(--faint); font:700 9px/1 ui-monospace,Consolas,monospace; }
+    .pipe h3 { margin:17px 0 8px; font-size:clamp(15px,1.18vw,20px); }
+    .pipe p { color:var(--muted); font-size:clamp(9px,.68vw,12px); line-height:1.5; }
+    .pipe strong { display:block; margin-top:auto; color:var(--text); font-size:clamp(9px,.7vw,12px); }
+
+    .closing { flex:1; display:grid; align-content:center; gap:21px; max-width:1240px; }
+    .closing-line { padding-bottom:18px; border-bottom:1px solid var(--line); font-size:clamp(27px,2.8vw,47px); line-height:1.18; letter-spacing:-.04em; }
+    .closing-line span { color:var(--mint); }
+    .closing-line:nth-child(2) span{color:var(--violet)} .closing-line:nth-child(3) span{color:var(--amber)}
+
+    .notes-panel { position:fixed; left:50%; bottom:70px; z-index:65; width:min(980px,calc(100vw - 40px)); transform:translate(-50%,14px); opacity:0; visibility:hidden; padding:17px 20px; border:1px solid rgba(86,228,194,.34); border-radius:14px; background:rgba(5,17,29,.96); box-shadow:0 18px 65px rgba(0,0,0,.48); transition:.18s ease; }
+    .notes-panel.open { opacity:1; visibility:visible; transform:translate(-50%,0); }
+    .notes-panel b { color:var(--mint); font-size:11px; }
+    .notes-panel p { margin:6px 0 0; color:var(--text); font-size:clamp(11px,.85vw,14px); line-height:1.55; }
+    .overlay { position:fixed; inset:0; z-index:70; display:none; place-items:center; padding:60px 28px 36px; background:rgba(3,11,19,.86); backdrop-filter:blur(14px); }
+    .overlay.open { display:grid; }
+    .glossary { width:min(1120px,94vw); max-height:82vh; overflow:auto; padding:clamp(24px,2.7vw,42px); border:1px solid var(--line-strong); border-radius:23px; background:linear-gradient(145deg,rgba(10,30,47,.98),rgba(5,18,30,.99)); box-shadow:var(--shadow); }
+    .glossary-head { display:flex; justify-content:space-between; gap:20px; align-items:center; }
+    .glossary-head h2 { margin:0; font-size:clamp(26px,2.4vw,42px); }
+    .glossary-close { width:38px; height:38px; border-radius:10px; border:1px solid var(--line-strong); background:rgba(255,255,255,.03); cursor:pointer; }
+    .glossary-grid { margin-top:22px; display:grid; grid-template-columns:repeat(3,1fr); gap:10px 22px; }
+    .glossary-item { padding:12px 0; border-top:1px solid var(--line); }
+    .glossary-item dt { color:var(--mint); font-weight:800; font-size:12px; }
+    .glossary-item dd { margin:5px 0 0; color:var(--muted); font-size:11px; line-height:1.5; }
+
+    body.overview { overflow:auto; }
+    body.overview .deck { height:auto; min-height:100%; display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:17px; padding:76px 24px 92px; }
+    body.overview .slide { position:relative; inset:auto; opacity:1; visibility:visible; transform:none!important; aspect-ratio:16/9; cursor:pointer; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg,rgba(10,28,44,.95),rgba(5,17,29,.97)); overflow:hidden; }
+    body.overview .slide::after { content:attr(data-title); position:absolute; inset:auto 17px 16px; color:var(--text); font-size:13px; font-weight:750; z-index:3; }
+    body.overview .slide:hover { border-color:rgba(86,228,194,.5); }
+    body.overview .stage { width:100%; height:100%; border:0; border-radius:0; box-shadow:none; opacity:.18; padding:18px; }
+    body.overview .stage > * { display:none!important; }
+    body.overview .counter, body.overview .hint { display:none; }
+    @media (max-width:900px) {
+      .stage { width:96vw; height:auto; max-height:88vh; padding:30px 31px; }
+      .title { font-size:clamp(28px,6vw,46px); }
+      .controls { right:12px; bottom:12px; }
+      .hint { display:none; }
+      .glossary-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media print {
+      html,body { width:auto; height:auto; overflow:visible; background:#06111c; }
+      body::before,.brand,.counter,.progress,.controls,.hint,.notes-panel,.overlay { display:none!important; }
+      .deck { height:auto; }
+      .slide { position:relative; opacity:1; visibility:visible; transform:none; page-break-after:always; height:100vh; }
+      .stage { width:94vw; height:auto; box-shadow:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand"><span class="brand-mark">CV</span><span>CAUSAL VIDEO GROUP</span></div>
+  <div class="counter" id="counter">01 / 21</div>
+  <main class="deck" id="deck">
+    <section class="slide" data-title="Cover · From Video Scores to World Consistency" data-note="Opening thesis: short-video evaluation focuses on perceptual quality, while world-model evaluation additionally asks whether the same world persists.">
+      <div class="stage cover-stage">
+        <div class="cover">
+          <div>
+            <div class="kicker">Video generation benchmark evolution</div>
+            <h1>From Video Scores to<span>World Consistency</span></h1>
+            <p class="cover-copy">Why do AR and long-video evaluations continue to add targeted metrics? For video world models, which questions can already be measured, and which still lack effective protocols?</p>
+            <div class="cover-meta">Yichang Jian · 2026.08.10 · 66-paper data audit</div>
+          </div>
+          <div class="world-orbit" aria-hidden="true"><div class="orbit"><i class="orbit-dot"></i></div><div class="orbit two"><i class="orbit-dot"></i></div><div class="world-core">WORLD<br>STATE</div></div>
+        </div>
+        <div class="source"><span>Based on an internal data audit</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Thesis · The evaluation target has changed" data-note="The progression has three stages. Short-video evaluation emphasizes local quality, long videos expose cumulative failures, and world models further require a consistent state space under intervention.">
+      <div class="stage">
+        <div class="kicker rose">01 · The evaluation target moved</div>
+        <h2 class="title">The evaluation target has changed, but metrics have not kept pace</h2>
+        <div class="thesis-grid">
+          <article class="chapter"><div class="chapter-no">VISIBLE CLIP</div><h3>Short Video</h3><p>Visual quality, motion, text alignment, and continuity across visible frames.</p><div class="question">What is the clip's <strong class="sky">perceptual quality?</strong></div></article>
+          <article class="chapter"><div class="chapter-no">LONG ROLLOUT</div><h3>Long Video</h3><p>Error accumulation, identity drift, repetition, collapse, and history degradation.</p><div class="question">Can it <strong class="amber">keep generating indefinitely?</strong></div></article>
+          <article class="chapter"><div class="chapter-no">PERSISTENT WORLD</div><h3>World Model</h3><p>After camera or action changes, geometry, memory, and hidden state must remain coherent.</p><div class="question">Is this still <strong class="em">the same world?</strong></div></article>
+        </div>
+        <div class="source"><span>Narrative framework</span><a href="https://www.xunhuang.me/blogs/world_model.html">Towards Video World Model</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Evidence · Data audit of 66 papers" data-note="Definitions: an evaluation run is a reproducible setup; a metric-use atom is paper × run × metric. Metric lineage and prompt lineage are recorded separately.">
+      <div class="stage">
+        <div class="kicker sky">02 · Evidence boundary</div>
+        <h2 class="title small">Evidence boundary and data-audit methodology</h2>
+        <div class="stat-rail">
+          <div class="stat"><b>66</b><span>papers<br>spanning AR, long video, narrative, and world models</span></div>
+          <div class="stat"><b>137</b><span>evaluation runs<br>each row represents a reproducible setup</span></div>
+          <div class="stat"><b>780</b><span>metric-use atoms<br>resolved to measurement method and aggregation</span></div>
+          <div class="stat"><b>31</b><span>human protocols<br>design, workload, and ties recorded separately</span></div>
+        </div>
+        <div class="scope-note" aria-label="paper track distribution"><div title="35 video generation / long video"></div><div title="25 world model / prediction"></div><div title="6 narrative / other"></div></div>
+        <div class="scope-labels"><span><b class="em">35</b> video / long</span><span><b class="violet">25</b> world model</span><span><b class="amber">6</b> narrative / other</span></div>
+        <div class="source"><span>Source</span><span>00_README · 01_Paper_Index · 03_Eval_Runs</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Framework · Three evaluator families play distinct roles" data-note="The three evaluator families are complementary. Classical metrics measure explicit visual signals, VLMs handle complex semantics, and human evaluation calibrates the target and resolves difficult disagreements.">
+      <div class="stage">
+        <div class="kicker violet">03 · Three evaluator families</div>
+        <h2 class="title small">The three evaluator families form an evidence chain, not a substitution ladder</h2>
+        <div class="lane-map">
+          <article class="lane"><div class="lane-label">Deterministic / specialist</div><h3>Classical Automatic Metrics</h3><p>DINO, CLIP, pixel difference, optical flow, depth, pose, and reconstruction error.</p><strong>Inexpensive and stable; limited to predefined signals</strong></article>
+          <article class="lane"><div class="lane-label">Generalist semantic judge</div><h3>VLM-as-Judge</h3><p>Character attributes, narrative relations, physical anomalies, interaction outcomes, and complex rubrics.</p><strong>Broad coverage; prompt, sampling, and model version are all part of the metric</strong></article>
+          <article class="lane"><div class="lane-label">Target calibration</div><h3>Human Evaluation</h3><p>Preference, ranking, absolute scores, real-vs-generated discrimination, and explanations of hard-case disagreements.</p><strong>Closest to the target; costly, and protocols cannot be merged indiscriminately</strong></article>
+        </div>
+        <div class="source"><span>Data</span><span>04_Metric_Uses · 06_Human_Eval</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Prompts · Selection protocols determine comparability" data-note="MovieGenBench is a prompt pool; VBench is a metric suite. Papers recombine the two, and subsets, rewrites, and duration all affect comparability.">
+      <div class="stage">
+        <div class="kicker amber">04 · Prompt lineage ≠ metric lineage</div>
+        <h2 class="title small">Prompt-selection protocols determine experimental comparability</h2>
+        <div class="lineage">
+          <div class="lineage-side"><div class="lineage-big em">17 / 35</div><h3>MovieGen prompts</h3><p>A widely used pool of 1,003 human-written prompts. It has no canonical metric.</p></div>
+          <div class="mix-arrow">×</div>
+          <div class="lineage-side metrics"><div class="lineage-big violet">30 / 35</div><h3>VBench metrics</h3><p>The dominant metric lineage in forcing and long-video papers, though often used without official VBench prompts.</p></div>
+        </div>
+        <div class="sample-line"><div><b>CausVid</b><br>first 128</div><div><b>Rolling Forcing</b><br>200 random prompts</div><div><b>Self Forcing human</b><br>all 1,003 prompts</div></div>
+        <div class="source"><a href="https://github.com/facebookresearch/MovieGenBench">MovieGen Video Bench</a><a href="https://arxiv.org/abs/2311.17982">VBench</a><span>05_Prompt_Protocols</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="VBench · It measures visible proxy signals" data-note="Four concrete implementations illustrate VBench's value and limits. They are auditable proxies, not the world state itself.">
+      <div class="stage">
+        <div class="kicker sky">05 · What classic metrics actually see</div>
+        <h2 class="title small">VBench consistency is, first and foremost, a proxy over visible frames</h2>
+        <div class="proxy-grid">
+          <article class="proxy"><div class="proxy-code">DINO</div><h3>Subject Consistency</h3><p>Compares cosine similarity of visual features between adjacent frames and the first frame.</p><strong>Similarity in appearance and structure</strong></article>
+          <article class="proxy"><div class="proxy-code">CLIP</div><h3>Background Consistency</h3><p>Measures cross-frame similarity of CLIP image features to reflect background stability.</p><strong>Similarity in semantic appearance</strong></article>
+          <article class="proxy"><div class="proxy-code">Δpx</div><h3>Temporal Flickering</h3><p>Computes adjacent-frame pixel differences in low-motion segments, then converts them to a flicker-free score.</p><strong>Local luminance variation</strong></article>
+          <article class="proxy"><div class="proxy-code">AMT</div><h3>Motion Smoothness</h3><p>Uses a frame-interpolation prior to reconstruct intermediate frames and aggregate interpolation consistency.</p><strong>Local motion interpolability</strong></article>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2311.17982">VBench</a><span>04_Metric_Uses</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Blind spot · Static output may be mistaken for stability" data-note="Freezing, repetition, and slow drift can receive high local-similarity scores. Long-video evaluation should jointly assess consistency, dynamics, repetition, and degradation.">
+      <div class="stage">
+        <div class="kicker rose">06 · The static-video loophole</div>
+        <h2 class="title small">Local consistency metrics may mistake stillness for stability</h2>
+        <div class="sequence-grid">
+          <div class="seq-label"><strong class="em">True stability</strong><br>Identity persists; state progresses</div><div class="frames true"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
+          <div class="seq-label"><strong class="sky">Freeze</strong><br>High similarity, low dynamics</div><div class="frames freeze"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
+          <div class="seq-label"><strong class="amber">Looped repetition</strong><br>Locally smooth; the world does not advance</div><div class="frames repeat"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
+          <div class="seq-label"><strong class="rose">Slow drift</strong><br>Each step is small; cumulative error is large</div><div class="frames drift"><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i><i class="frame"></i></div>
+        </div>
+        <div class="source"><span>Audit warning</span><span>09_Alerts · VBench on long videos</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Long video · Targeted metrics continue to expand" data-note="This timeline includes only custom metrics that can change an evaluation conclusion. Failure modes are becoming increasingly specific, but their definitions remain unstandardized.">
+      <div class="stage">
+        <div class="kicker amber">07 · Long-video metric extensions</div>
+        <h2 class="title small">Long-video evaluation keeps adding targeted metrics, but no new standard has emerged</h2>
+        <div class="timeline">
+          <div class="time-node"><div><div class="time-year">2025</div><b>Rolling</b><span>first 5 s vs last 5 s<br>imaging-quality difference</span></div><i class="time-dot"></i></div>
+          <div class="time-node"><i class="time-dot"></i><div><div class="time-year">2025</div><b>Self-Forcing++</b><span>Gemini judges sampled frames<br>for drift and collapse</span></div></div>
+          <div class="time-node"><div><div class="time-year">2026</div><b>LoL</b><span>normalized L2 collapse<br>to sink or initial frame</span></div><i class="time-dot"></i></div>
+          <div class="time-node"><i class="time-dot"></i><div><div class="time-year">2026</div><b>Context</b><span>DINO identity<br>CLIP-F context</span></div></div>
+          <div class="time-node"><div><div class="time-year">2026</div><b>Relax / Ms.</b><span>drift × repetition balance<br>segment-level IQ variation</span></div><i class="time-dot"></i></div>
+          <div class="time-node"><i class="time-dot"></i><div><div class="time-year">2026</div><b>TinyHistory</b><span>attribute-level VLM gate<br>+ FaceID</span></div></div>
+        </div>
+        <div class="source"><span>04_Metric_Uses</span><span>Shared limitation: custom definitions are not standardized</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="VLM judge · Uncertainty shifts to protocol design" data-note="VLMs can handle complex judgments, but frame sampling, prompting, model version, and missing-object handling all alter the resulting statistic.">
+      <div class="stage">
+        <div class="kicker violet">08 · VLM-as-judge</div>
+        <h2 class="title small">VLMs broaden the scope of judgment while increasing protocol dependence</h2>
+        <div class="judge-layout">
+          <div class="judge-question">Are the same person's <strong class="violet">face, clothing, and body structure</strong> still consistent one minute later?<small>Such attribute-level questions are closer to human descriptions than CLIP similarity, but depend more heavily on the judge's language and vision capabilities.</small></div>
+          <div class="judge-pipe">
+            <div class="judge-step"><b>Which frames?</b><span>Uniform, event-adjacent, endpoints, or segment-wise sampling?</span></div>
+            <div class="judge-step"><b>How to ask?</b><span>Absolute scores, binary questions, attribute gates, or pairwise comparisons?</span></div>
+            <div class="judge-step"><b>Which version?</b><span>Model updates can assign different scores to the same video.</span></div>
+            <div class="judge-step"><b>How to calibrate?</b><span>Align with human rankings, or consider only mean correlation?</span></div>
+            <div class="evidence-callout"><strong>Evidence boundary</strong> Self-Forcing++ validates its judge with two paper authors × 20 prompts; this supports ranking within that sample, but does not establish general validity.</div>
+          </div>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2510.02283">Self-Forcing++</a><a href="https://arxiv.org/abs/2512.23851">TinyHistory</a><span>06_Human_Eval</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Human evaluation · Not a single unified number" data-note="These common protocols estimate different quantities. Human-preference percentages cannot be compared directly without accounting for design, ties, and workload.">
+      <div class="stage">
+        <div class="kicker amber">09 · Human evaluation</div>
+        <h2 class="title small">Human evaluation is not a single unified number</h2>
+        <div class="protocol-line">
+          <div class="protocol"><div class="protocol-no">PAIR</div><b>2AFC</b><span>Forced binary choice; yields a win rate but cannot express absolute quality.</span></div>
+          <div class="protocol"><div class="protocol-no">ORDER</div><b>Rank</b><span>Ranks multiple models at once; cognitive load and the candidate set affect results.</span></div>
+          <div class="protocol"><div class="protocol-no">SCALE</div><b>Likert</b><span>Absolute rating; scales must be calibrated across raters.</span></div>
+          <div class="protocol"><div class="protocol-no">ARENA</div><b>Elo / BT</b><span>Fits relative strength from pairwise outcomes; depends on the comparison graph and update rules.</span></div>
+          <div class="protocol"><div class="protocol-no">TIES</div><b>GSB</b><span>Good / Same / Bad; tie encoding changes the final estimate.</span></div>
+          <div class="protocol"><div class="protocol-no">REALITY</div><b>Real vs Gen</b><span>Measures discriminability, not text alignment or world consistency.</span></div>
+        </div>
+        <div class="source"><span>31 protocols</span><span>06_Human_Eval · 09_Alerts</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Human alignment · Later work limits extrapolation" data-note="Human alignment means only that, under the same rubric, sample distribution, and aggregation level, a metric agrees with human judgment. VBench's dimension-wise conclusions hold within its original task; VBench-2.0 rejects extrapolation from visible quality to intrinsic faithfulness; under a 3D static-background rubric, SGC reports VBench-BC ρ=.400 and SGC ρ=.945; MBench finds ρ=.16 and .94 for the same geometry metric under text and action settings; STEVO further requires reporting both verifier–human and human–human agreement.">
+      <div class="stage">
+        <div class="kicker rose">10 · What later work refutes</div>
+        <h2 class="title small">Later work constrains the scope of human-alignment claims</h2>
+        <div class="align-definition"><strong>Human alignment</strong> Under the same question, sample set, and aggregation level, metric scores agree with human preferences or rankings.</div>
+        <div class="refute-chain">
+          <article class="refute-step">
+            <div class="refute-tag">VBench · Local claim</div>
+            <h3>Dimension-wise validation of visible quality</h3>
+            <p>Each dimension has its own prompts, metric, and human preference judgment.</p>
+            <div class="refute-stat">Valid scope: <b>original 16 dimensions</b></div>
+          </article>
+          <div class="refute-arrow">→<span>scope extrapolation fails</span></div>
+          <article class="refute-step">
+            <div class="refute-tag">VBench-2.0 · Scope rebuttal</div>
+            <h3>Visible quality ≠ intrinsic faithfulness</h3>
+            <p>High scores on legacy dimensions may still violate physics, commonsense, and human fidelity.</p>
+            <div class="refute-stat">Refutes: <b>superficial → intrinsic</b></div>
+          </article>
+          <div class="refute-arrow">→<span>target extrapolation fails</span></div>
+          <article class="refute-step">
+            <div class="refute-tag">SGC · Target rebuttal</div>
+            <h3>Background similarity ≠ 3D stability</h3>
+            <p>When humans judge only static-background geometry, VBench-BC alignment drops markedly.</p>
+            <div class="refute-stat">Spearman ρ <b>.400 → .945</b></div>
+          </article>
+          <div class="refute-arrow">→<span>condition extrapolation fails</span></div>
+          <article class="refute-step">
+            <div class="refute-tag">MBench + STEVO · Condition rebuttal</div>
+            <h3>Alignment changes with interface and criterion</h3>
+            <p>The same epipolar metric differs sharply between text and action settings; it must also be compared against inter-human agreement.</p>
+            <div class="refute-stat"><b>ρ .16 ↔ .94</b> + V-H vs H-H</div>
+          </article>
+        </div>
+        <div class="align-conclusion"><strong>Conclusion</strong> It is insufficient to claim “high agreement with humans”; the rubric, distribution, H-H ceiling, and disagreements on difficult samples must also be reported.</div>
+        <div class="source"><a href="https://arxiv.org/abs/2311.17982">VBench</a><a href="https://arxiv.org/abs/2503.21755">VBench-2.0</a><a href="https://arxiv.org/abs/2603.19048">SGC</a><a href="https://arxiv.org/abs/2606.00793">MBench</a><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Turning point · Caption becomes intervention" data-note="In world models, a prompt is no longer merely a content description; it specifies camera and action interventions. Prompt design therefore becomes a scientific question.">
+      <div class="stage">
+        <div class="kicker mint">11 · From description to intervention</div>
+        <h2 class="title small">World models turn captions into interventions</h2>
+        <div class="prompt-shift">
+          <div class="prompt-side"><div class="kicker violet">Open-loop video</div><h3>Describe Content</h3><p>Characters, scenes, actions, style, and cinematography. After sampling, evaluation mainly asks whether the result matches the text.</p><div class="prompt-example">a red car turns left<br>under the rain</div></div>
+          <div class="shift-arrow">→</div>
+          <div class="prompt-side world"><div class="kicker">Interactive world</div><h3>Intervene on State</h3><p>Camera paths, action sequences, revisit trajectories, occlusion, lights-off conditions, and event triggers. The condition itself defines the causal test.</p><div class="prompt-example">look away 4 s → object evolves<br>return to pose p₀ → inspect state</div></div>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2602.08025">MIND</a><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Benchmark evolution · From perceptual quality to functional utility" data-note="The literature is organized by changes in benchmark targets: visible quality, intrinsic faithfulness, camera-defined worlds, functional utility, and world reactivity.">
+      <div class="stage">
+        <div class="kicker sky">12 · Benchmark frontier</div>
+        <h2 class="title small">Benchmark targets are expanding from perceptual quality to functional utility</h2>
+        <div class="road">
+          <div class="road-step" style="--h:205px"><div class="road-year">2023</div><b>VBench</b><span>Visible quality, motion, semantic conditioning, and dimension-wise human alignment.</span></div>
+          <div class="road-step" style="--h:245px"><div class="road-year">2025</div><b>VBench-2.0</b><span>Intrinsic faithfulness, including physics, commonsense, and human fidelity.</span></div>
+          <div class="road-step" style="--h:285px"><div class="road-year">2025</div><b>WorldScore</b><span>Defines next-scene generation through camera trajectories, unifying multiple forms of world generation.</span></div>
+          <div class="road-step" style="--h:325px"><div class="road-year">2026</div><b>WorldArena</b><span>Connects perceptual quality to data engines, policy evaluation, and planning.</span></div>
+          <div class="road-step" style="--h:365px"><div class="road-year">2026</div><b>WorldExam</b><span>Advances from visual quality and control to spatial consistency and world reactivity.</span></div>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2503.21755">VBench-2.0</a><a href="https://arxiv.org/abs/2504.00983">WorldScore</a><a href="https://arxiv.org/abs/2602.08971">WorldArena</a><a href="https://arxiv.org/abs/2608.02603">WorldExam</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="World consistency · Three distinct questions" data-note="3D, revisit, and out-of-sight consistency are not synonyms. The representative anchors in this talk are WorldScore, MIND, and STEVO-Bench, respectively.">
+      <div class="stage">
+        <div class="kicker violet">13 · Three advanced consistency axes</div>
+        <h2 class="title small">Three forms of consistency answer three distinct questions</h2>
+        <div class="axis-grid">
+          <article class="axis"><div class="axis-symbol">⌘</div><h3>3D Consistency</h3><p>Can different viewpoints be explained by <strong>the same geometry</strong>?</p><strong>correspondence constraints · depth / point clouds · 3DGS reconstruction</strong></article>
+          <article class="axis"><div class="axis-symbol">↩</div><h3>Revisit Consistency</h3><p>After leaving and returning, are the prior location and state <strong>correctly restored</strong>?</p><strong>loop closure · pose-matched pairs · return-view fidelity</strong></article>
+          <article class="axis"><div class="axis-symbol">◌</div><h3>Out-of-Sight</h3><p>While an object is invisible, does its hidden state <strong>continue to evolve correctly</strong>?</p><strong>occlusion · lights-off · look-away · reappearance state</strong></article>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2504.00983">WorldScore · 3D</a><a href="https://arxiv.org/abs/2602.08025">MIND · revisit</a><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench · out-of-sight</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="3D consistency · Three evaluation families" data-note="Methods for evaluating 3D consistency fall into three families by evidence type: image-correspondence constraints, depth or point-cloud geometry, and per-video 3DGS reconstruction. Cosmos-Predict1 represents the third family; it fits 3DGS with a Nerfstudio implementation rather than using NeRF as the evaluator.">
+      <div class="stage">
+        <div class="kicker sky">14 · Three families of 3D evaluation</div>
+        <h2 class="title small">Methods for evaluating 3D consistency fall into three families</h2>
+        <div class="metric-flow">
+          <div class="metric-step"><h3>Image-Correspondence Constraints</h3><p>Establish pixel or feature correspondences across frames and test whether they satisfy a shared camera geometry.</p><b>Epipolar constraint · Sampson error · reprojection error</b><div class="not-equal">Representative: WorldScore</div></div>
+          <div class="metric-step"><h3>Depth / Point-Cloud Geometry</h3><p>Estimate depth, point maps, and cameras, then project multiple views into a shared 3D coordinate system for comparison.</p><b>Point-cloud alignment · cross-view warping · MEt3R</b><div class="not-equal">Representative: MEt3R</div></div>
+          <div class="metric-step"><h3>Per-Video 3DGS Reconstruction</h3><p>Fit 3DGS to a generated video, then validate reconstruction consistency on views withheld from fitting.</p><b>3DGS · held-out-view PSNR / SSIM / LPIPS</b><div class="not-equal">Representative: Cosmos-Predict1</div></div>
+        </div>
+        <div class="align-conclusion"><strong>Shared boundary</strong> DINO / CLIP similarity and VLM judgments can provide supplementary evidence, but they do not constitute measurements of 3D geometry.</div>
+        <div class="source"><a href="https://arxiv.org/abs/2504.00983">WorldScore</a><a href="https://arxiv.org/abs/2501.06336">MEt3R</a><a href="https://arxiv.org/abs/2501.03575">Cosmos-Predict1</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Revisit consistency · A genuine revisit is required" data-note="Comparing only the first and last frames measures drift. Rigorous revisit evaluation requires trajectories or poses to define revisit pairs and must distinguish automatic quantification, human evaluation, and qualitative evidence.">
+      <div class="stage">
+        <div class="kicker violet">15 · Revisit consistency</div>
+        <h2 class="title small">Revisit is not a simple comparison of beginning and end</h2>
+        <div class="loop-layout">
+          <div class="loop-track" aria-label="camera loop trajectory"><div class="loop-place a">pose p₀</div><div class="loop-place b">leave</div><div class="loop-place c">return</div></div>
+          <div class="loop-copy">
+            <div class="loop-row"><b>Define the revisit from the trajectory</b><span>Cycle, out-and-back, or pose proximity + temporal separation.</span></div>
+            <div class="loop-row"><b>Return views provide multiple forms of evidence</b><span>PSNR / SSIM / LPIPS, DINO / VPR, SuperPoint, and MEt3R.</span></div>
+            <div class="loop-row"><b>Evidence levels must remain separate</b><span>Automatic metrics, human memory scores, and qualitative return demonstrations cannot be pooled.</span></div>
+            <div class="loop-row"><b class="rose">Endpoint CLIP drift only quantifies how much changed</b><span>It does not know whether the camera actually returned to the same place.</span></div>
+          </div>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2602.08025">MIND</a><a href="https://arxiv.org/abs/2512.14614">WorldPlay</a><a href="https://arxiv.org/abs/2606.16993">DreamX-World</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Out-of-sight · Does hidden state continue to change?" data-note="Observation control is central to STEVO and MemoBench. Common failures include freezing, resetting, skipping progress, and generating superficially plausible but state-incorrect outcomes.">
+      <div class="stage">
+        <div class="kicker mint">16 · Dynamic out-of-sight consistency</div>
+        <h2 class="title small">Out-of-sight evaluation targets state evolution during invisibility</h2>
+        <div class="oos">
+          <div class="oos-step"><div class="state-icon">◒</div><b>Initial State</b><span>An ice cube begins to melt; water level and shape are observable.</span></div>
+          <div class="oos-step hidden"><div class="state-icon">▧</div><b>Observation Control</b><span>Occlude the object, turn off the lights, or direct the camera to look away.</span></div>
+          <div class="oos-step hidden"><div class="state-icon">⋯</div><b>Hidden Evolution</b><span>The physical process should continue rather than depend on being observed.</span></div>
+          <div class="oos-step"><div class="state-icon">◕</div><b>Reappearance</b><span>The state should match the elapsed time and process.</span></div>
+          <div class="oos-step fail"><div class="state-icon">×</div><b>Failure Spectrum</b><span>freeze · reset · skip · plausible hallucination</span></div>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a><a href="https://arxiv.org/abs/2606.27537">MemoBench</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Audit result · OOS incidence is zero in algorithm papers" data-note="Among 25 world-model algorithm papers, 3D and revisit consistency are explicitly quantified, yet dynamic OOS incidence is zero. This count excludes benchmark papers themselves.">
+      <div class="stage">
+        <div class="kicker rose">17 · Algorithm-paper incidence</div>
+        <h2 class="title small">Algorithm papers now measure 3D and revisit consistency, but not hidden dynamics</h2>
+        <div class="bar-layout">
+          <div class="big-audit"><b>25</b><span>world model / prediction papers<br>counting only protocols actually run by each paper</span></div>
+          <div class="bars">
+            <div class="bar-row"><div class="bar-label">Strict quantitative 3D</div><div class="bar-track"><div class="bar-fill" style="--w:20%"></div></div><div class="bar-value">5 / 25</div></div>
+            <div class="bar-row"><div class="bar-label">Automatic revisit</div><div class="bar-track"><div class="bar-fill" style="--w:24%"></div></div><div class="bar-value">6 / 25</div></div>
+            <div class="bar-row"><div class="bar-label">Human / qualitative revisit</div><div class="bar-track"><div class="bar-fill" style="--w:12%"></div></div><div class="bar-value">1 + 2</div></div>
+            <div class="bar-row"><div class="bar-label">Dynamic out-of-sight</div><div class="bar-track"><div class="bar-fill" style="--w:0%"></div></div><div class="bar-value rose">0 / 25</div></div>
+          </div>
+        </div>
+        <div class="source"><span>Scope caveat: leaderboard scores are not treated as evidence run by the algorithm paper itself</span><span>11_WM_Consistency_Audit</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Recommendation · Dynamic entity-level out-of-sight consistency" data-note="The core leaderboard should focus on controllable world models, with T2V as a separate stress track. This prevents control failures from being misclassified as memory failures.">
+      <div class="stage">
+        <div class="kicker mint">18 · Recommended direction</div>
+        <h2 class="title small">Focus on dynamic entity-level out-of-sight consistency, not an omnibus benchmark</h2>
+        <div class="rec-layout">
+          <div class="rec-hero">Build a <span>dynamic, entity-level<br>out-of-sight</span><br>diagnostic benchmark</div>
+          <div class="rec-side">
+            <div class="rec-row"><b>Core leaderboard: controllable world models</b><span>Explicit cameras and actions, reproducible occlusion and revisit, and valid causal interventions.</span></div>
+            <div class="rec-row"><b>Separate stress track: T2V / I2V</b><span>Use structured scripts to control visibility, but do not combine rankings with interactive models.</span></div>
+            <div class="rec-row"><b>Report a failure vector</b><span>Report state, identity, geometry, and progress separately rather than immediately aggregating them into one score.</span></div>
+          </div>
+        </div>
+        <div class="source"><span>Rationale</span><span>11_WM_Consistency_Audit</span><a href="https://arxiv.org/abs/2603.13215">STEVO-Bench</a><a href="https://arxiv.org/abs/2606.27537">MemoBench</a></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Protocol · A focused, auditable evaluation workflow" data-note="The initial protocol derives its value from matched interventions and auditable evidence, not metric count. VLMs and humans address residual semantics and disagreements.">
+      <div class="stage">
+        <div class="kicker amber">19 · Focused evaluation protocol</div>
+        <h2 class="title small">A focused, auditable protocol outperforms a broad, loosely defined metric collection</h2>
+        <div class="pipeline">
+          <article class="pipe"><div class="pipe-no">INTERVENTION</div><h3>Match Visible / Hidden Trajectories</h3><p>For the same process, vary only occlusion, lighting, or camera orientation.</p></article>
+          <article class="pipe"><div class="pipe-no">STATE</div><h3>Structured State Labels</h3><p>Entity identity, process stage, position, shape, and geometry.</p></article>
+          <article class="pipe"><div class="pipe-no">SPECIALIST</div><h3>Auditable Automatic Metrics</h3><p>Segmentation, tracking, pose, reconstruction, and process-specific measurements.</p></article>
+          <article class="pipe"><div class="pipe-no">SEMANTICS</div><h3>VLMs Handle Residual Semantics</h3><p>Fix sampling, rubric, model version, and missing-object rules.</p></article>
+          <article class="pipe"><div class="pipe-no">CALIBRATION</div><h3>Human Review Only for Disagreements</h3><p>Report human–metric disagreement by failure type.</p></article>
+        </div>
+        <div class="source"><span>Recommended outputs</span><span>state accuracy · memory · geometry · artifact · disagreement</span></div>
+      </div>
+    </section>
+
+    <section class="slide" data-title="Conclusion · Evaluate world state after observation is interrupted" data-note="The conclusion has three parts: distinguish lineages, state the limits of proxies, and evaluate hidden state. The closing discussion asks whether to advance the benchmark to a pilot experiment.">
+      <div class="stage">
+        <div class="kicker mint">20 · Takeaway</div>
+        <h2 class="title">Evaluation targets must go beyond surface-level video quality</h2>
+        <div class="closing">
+          <div class="closing-line"><span>Separate</span> metric lineage from prompt lineage</div>
+          <div class="closing-line"><span>Recognize</span> that DINO, CLIP, and VLMs are evidence—not the world itself</div>
+          <div class="closing-line"><span>Measure</span> whether the world remembers itself and continues to evolve after the camera leaves</div>
+        </div>
+        <div class="source"><span>Discussion decision</span><span class="em">Should dynamic out-of-sight consistency advance to formal problem definition and a small-scale data pilot?</span></div>
+      </div>
+    </section>
+  </main>
+  <div class="hint">← → Navigate · O Overview · N Notes · G Glossary · F Fullscreen</div>
+  <div class="controls" aria-label="Presentation controls">
+    <button class="control" id="prevBtn" aria-label="Previous slide">←</button>
+    <button class="control" id="nextBtn" aria-label="Next slide">→</button>
+    <button class="control" id="overviewBtn" aria-label="Overview">O</button>
+    <button class="control" id="notesBtn" aria-label="Speaker notes">N</button>
+    <button class="control" id="glossaryBtn" aria-label="Glossary">G</button>
+    <button class="control" id="fullscreenBtn" aria-label="Fullscreen">F</button>
+  </div>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+  <aside class="notes-panel" id="notesPanel" aria-live="polite"><b id="notesTitle">Speaker Notes</b><p id="notesText"></p></aside>
+  <div class="overlay" id="glossaryOverlay" aria-hidden="true">
+    <section class="glossary" role="dialog" aria-modal="true" aria-labelledby="glossaryTitle">
+      <div class="glossary-head"><h2 id="glossaryTitle">Glossary</h2><button class="glossary-close" id="glossaryClose" aria-label="Close">×</button></div>
+      <dl class="glossary-grid">
+        <div class="glossary-item"><dt>Metric lineage</dt><dd>The algorithmic and protocol origin of a metric, such as VBench, a paper-specific custom metric, or an environment-task score.</dd></div>
+        <div class="glossary-item"><dt>Prompt lineage</dt><dd>The origin of input content and selection rules, such as MovieGenBench, official VBench prompts, or custom trajectories.</dd></div>
+        <div class="glossary-item"><dt>Proxy metric</dt><dd>A measurable signal used to approximate a target capability, such as DINO feature similarity as a proxy for identity consistency.</dd></div>
+        <div class="glossary-item"><dt>3D consistency</dt><dd>Whether different viewpoints can be explained by the same spatial geometry.</dd></div>
+        <div class="glossary-item"><dt>Revisit consistency</dt><dd>Whether a scene or state is correctly restored after leaving and returning to a prior location.</dd></div>
+        <div class="glossary-item"><dt>Out-of-sight consistency</dt><dd>Whether hidden state continues to evolve correctly while an object is invisible and is rendered correctly when the object reappears.</dd></div>
+        <div class="glossary-item"><dt>Sampson error</dt><dd>An approximate epipolar-geometry error derived from feature correspondences and the fundamental matrix.</dd></div>
+        <div class="glossary-item"><dt>3DGS</dt><dd>3D Gaussian Splatting. A 3D representation is fitted to generated video and then validated for reconstructability on held-out views.</dd></div>
+        <div class="glossary-item"><dt>MEt3R</dt><dd>Evidence of geometric consistency based on cross-view projection of point clouds.</dd></div>
+      </dl>
+    </section>
+  </div>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    const progressBar = document.getElementById('progressBar');
+    const notesPanel = document.getElementById('notesPanel');
+    const notesTitle = document.getElementById('notesTitle');
+    const notesText = document.getElementById('notesText');
+    const glossaryOverlay = document.getElementById('glossaryOverlay');
+    let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.slice(1)) - 1 || 0));
+    let touchStartX = 0;
+    let wheelLocked = false;
+
+    function refreshNotes() {
+      notesTitle.textContent = `Speaker Notes · ${slides[current].dataset.title}`;
+      notesText.textContent = slides[current].dataset.note || '';
+    }
+
+    function show(index, updateHash = true) {
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === current);
+        slide.classList.toggle('previous', i < current);
+      });
+      counter.textContent = `${String(current + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      document.title = `${slides[current].dataset.title} | Evolution of Video-Generation Evaluation`;
+      refreshNotes();
+      if (updateHash) history.replaceState(null, '', `#${current + 1}`);
+    }
+
+    function next() { if (!document.body.classList.contains('overview')) show(current + 1); }
+    function prev() { if (!document.body.classList.contains('overview')) show(current - 1); }
+
+    function toggleOverview(force) {
+      const open = typeof force === 'boolean' ? force : !document.body.classList.contains('overview');
+      document.body.classList.toggle('overview', open);
+      notesPanel.classList.remove('open');
+      if (!open) show(current);
+    }
+
+    function toggleNotes(force) {
+      if (document.body.classList.contains('overview')) return;
+      const open = typeof force === 'boolean' ? force : !notesPanel.classList.contains('open');
+      refreshNotes();
+      notesPanel.classList.toggle('open', open);
+    }
+
+    function toggleGlossary(force) {
+      const open = typeof force === 'boolean' ? force : !glossaryOverlay.classList.contains('open');
+      glossaryOverlay.classList.toggle('open', open);
+      glossaryOverlay.setAttribute('aria-hidden', String(!open));
+      notesPanel.classList.remove('open');
+      if (open) document.getElementById('glossaryClose').focus();
+    }
+
+    async function toggleFullscreen() {
+      if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.();
+      else await document.exitFullscreen?.();
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('overviewBtn').addEventListener('click', () => toggleOverview());
+    document.getElementById('notesBtn').addEventListener('click', () => toggleNotes());
+    document.getElementById('glossaryBtn').addEventListener('click', () => toggleGlossary());
+    document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+    document.getElementById('glossaryClose').addEventListener('click', () => toggleGlossary(false));
+    glossaryOverlay.addEventListener('click', event => { if (event.target === glossaryOverlay) toggleGlossary(false); });
+
+    document.getElementById('deck').addEventListener('click', event => {
+      if (!document.body.classList.contains('overview')) return;
+      const slide = event.target.closest('.slide');
+      if (!slide) return;
+      current = slides.indexOf(slide);
+      toggleOverview(false);
+    });
+
+    window.addEventListener('keydown', event => {
+      const key = event.key.toLowerCase();
+      if (glossaryOverlay.classList.contains('open')) {
+        if (event.key === 'Escape' || key === 'g') { event.preventDefault(); toggleGlossary(false); }
+        return;
+      }
+      if (event.key === 'Escape' && notesPanel.classList.contains('open')) { event.preventDefault(); toggleNotes(false); return; }
+      if (['ArrowRight','ArrowDown','PageDown',' '].includes(event.key)) { event.preventDefault(); next(); }
+      if (['ArrowLeft','ArrowUp','PageUp'].includes(event.key)) { event.preventDefault(); prev(); }
+      if (event.key === 'Home') show(0);
+      if (event.key === 'End') show(slides.length - 1);
+      if (key === 'o' || event.key === 'Escape' && document.body.classList.contains('overview')) toggleOverview();
+      if (key === 'n') toggleNotes();
+      if (key === 'g') toggleGlossary();
+      if (key === 'f') toggleFullscreen();
+    });
+
+    window.addEventListener('wheel', event => {
+      if (glossaryOverlay.classList.contains('open') || document.body.classList.contains('overview') || wheelLocked || Math.abs(event.deltaY) < 30) return;
+      wheelLocked = true;
+      event.deltaY > 0 ? next() : prev();
+      setTimeout(() => wheelLocked = false, 600);
+    }, { passive: true });
+
+    window.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].clientX; }, { passive: true });
+    window.addEventListener('touchend', event => {
+      if (glossaryOverlay.classList.contains('open')) return;
+      const delta = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(delta) > 55) delta < 0 ? next() : prev();
+    }, { passive: true });
+
+    window.addEventListener('hashchange', () => {
+      const index = Number(location.hash.slice(1)) - 1;
+      if (Number.isFinite(index)) show(index, false);
+    });
+
+    show(current, false);
+  </script>
+</body>
+</html>

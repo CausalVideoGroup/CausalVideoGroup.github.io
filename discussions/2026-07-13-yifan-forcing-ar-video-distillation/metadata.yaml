@@ -29,3 +29,5 @@ papers:
     role: method
     note: Aligns the initialization teacher with the student's causal architecture.
 external_videos: []
+slides: presentation-standard.html
+original_slides: presentation.html

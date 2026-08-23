@@ -28,6 +28,7 @@ class Leader:
 TEMPLATE_OUTPUTS = {
     "discussion-metadata-template.yaml": "metadata.yaml",
     "discussion-index-template.html": "index.html",
+    "discussion-presentation-template.html": "presentation-standard.html",
     "discussion-summary-template.html": "summary.html",
     "references-template.md": "references.md",
     "meeting-note-template.md": "meeting-note.md",

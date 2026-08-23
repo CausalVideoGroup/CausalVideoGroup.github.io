@@ -30,6 +30,8 @@ class Discussion:
     summary: str
     tags: tuple[str, ...]
     related_projects: tuple[str, ...]
+    slides: str
+    original_slides: str | None
 
 
 @dataclass(frozen=True)
@@ -95,7 +97,7 @@ def read_discussion_metadata(path: Path) -> Discussion:
         scalar[key] = unquote(raw_value)
         index += 1
 
-    required = ("title", "date", "topic_slug", "status", "summary")
+    required = ("title", "date", "topic_slug", "status", "summary", "slides")
     missing = [key for key in required if not scalar.get(key)]
     missing.extend(key for key in ("name", "short_name") if not leader.get(key))
     if missing:
@@ -111,6 +113,8 @@ def read_discussion_metadata(path: Path) -> Discussion:
         summary=scalar["summary"],
         tags=tuple(lists["tags"]),
         related_projects=tuple(lists["related_projects"]),
+        slides=scalar["slides"],
+        original_slides=scalar.get("original_slides") or None,
     )
 
 
@@ -293,7 +297,7 @@ def discussion_material_page(item: Discussion, source_path: Path) -> str:
 <body>
   <header class="site-header"><div class="nav-wrap">
     <a class="brand" href="../../">CausalVideoGroup</a>
-    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="{html.escape(item.slides, quote=True)}">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
   </div></header>
   <main>
     <header class="page-header"><p class="eyebrow">{html.escape(item.date)} · {html.escape(item.leader_name)}</p><h1>{html.escape(title)}</h1><p class="lede">{html.escape(item.title)}</p></header>
@@ -448,13 +452,16 @@ def build(root: Path) -> None:
     urls.extend(f"{base}/projects/{item.slug}/" for item in projects)
     urls.extend(f"{base}/discussions/{item.directory}/" for item in discussions)
     for item in discussions:
+        public_pages = [
+            item.slides,
+            "summary.html",
+            "references.html",
+            "meeting-note.html",
+        ]
+        if item.original_slides:
+            public_pages.append(item.original_slides)
         urls.extend(
-            f"{base}/discussions/{item.directory}/{page}"
-            for page in (
-                "summary.html",
-                "references.html",
-                "meeting-note.html",
-            )
+            f"{base}/discussions/{item.directory}/{page}" for page in public_pages
         )
     sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     sitemap += "\n".join(f"  <url><loc>{html.escape(url)}</loc></url>" for url in urls)

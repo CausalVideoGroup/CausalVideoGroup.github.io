@@ -28,4 +28,5 @@ papers:
     role: benchmark
     note: Tests whether hidden dynamic state continues to evolve while it is not observed.
 external_videos: []
-slides: presentation.html
+slides: presentation-standard.html
+original_slides: presentation.html

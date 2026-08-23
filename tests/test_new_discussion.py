@@ -36,6 +36,7 @@ class NewDiscussionTests(unittest.TestCase):
         for filename in (
             "metadata.yaml",
             "index.html",
+            "presentation-standard.html",
             "summary.html",
             "references.md",
             "meeting-note.md",
@@ -47,6 +48,13 @@ class NewDiscussionTests(unittest.TestCase):
         metadata = (destination / "metadata.yaml").read_text(encoding="utf-8")
         self.assertIn("name: \"Yifan Shen\"", metadata)
         self.assertIn("short_name: yifan", metadata)
+        self.assertIn("slides: presentation-standard.html", metadata)
+        index = (destination / "index.html").read_text(encoding="utf-8")
+        self.assertIn('href="presentation-standard.html"', index)
+        self.assertIn("Standard (English)", index)
+        presentation = (destination / "presentation-standard.html").read_text(encoding="utf-8")
+        self.assertIn('<html lang="en">', presentation)
+        self.assertIn("Standard presentation · English", presentation)
 
     def test_rejects_unknown_leader(self) -> None:
         with self.assertRaisesRegex(ValueError, "unknown leader"):

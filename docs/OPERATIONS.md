@@ -16,8 +16,12 @@ python3 scripts/new_discussion.py \
 ```
 
 Complete `metadata.yaml`, `summary.html`, `references.md`, and the idea map.
-Use `presentation.html` for a large self-contained slide deck and keep
-`summary.html` as the standard research-summary entry point.
+Use `presentation-standard.html` for the canonical English slide deck. If an
+existing Chinese deck must be preserved, keep it unchanged as
+`presentation.html`, label it `Original (中文)` on the discussion overview, and
+keep the English deck as the default presentation link. New presentation pages
+are English by default. Keep `summary.html` as the standard research-summary
+entry point.
 
 Markdown files are editable sources. `build_site.py` converts references and
 meeting notes into styled `.html` pages; public navigation must always link to

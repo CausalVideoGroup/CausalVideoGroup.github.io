@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multi-Shot Video Generation · Literature Review</title>
+<link rel="stylesheet" href="assets/runtime/fonts.css">
+<link rel="stylesheet" href="assets/runtime/base.css">
+<link rel="stylesheet" href="assets/runtime/animations.css">
+<link rel="stylesheet" href="assets/liquid-glass.css">
+</head>
+<body class="tpl-presenter-mode-reveal">
+<div class="deck">
+
+  <section class="slide cover" data-title="Multi-Shot Video Generation">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">Causal Video Group · Literature Review</p>
+        <h1 class="h1 anim-fade-up" data-anim="fade-up"><span class="gradient-text">Multi-Shot</span><br>Video Generation</h1>
+        <p class="lede">From Joint Denoising to Online Directing · 2023–2026</p>
+        <div class="row mt-l"><span class="chip p1">Holistic Joint</span><span class="chip p2">Shot-Level AR</span><span class="chip p3">Causal Streaming</span><span class="chip p4">System / Agent</span></div>
+      </div>
+      <div class="glass glass-strong panel-lg">
+        <div class="storyboard">
+          <div class="shot-card">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Wide establishing shot"><rect width="320" height="200" fill="#8bb8e8"/><circle cx="258" cy="43" r="23" fill="#ffd28c"/><path d="M0 118 Q80 82 160 116 T320 105 V200 H0Z" fill="#6d8a8c"/><rect x="0" y="142" width="320" height="58" fill="#3c5668"/><circle cx="137" cy="111" r="10" fill="#f2b092"/><path d="M123 142 Q137 118 151 142Z" fill="#5b3f86"/><circle cx="180" cy="110" r="10" fill="#bd7b63"/><path d="M165 142 Q180 118 195 142Z" fill="#244f76"/><rect x="113" y="145" width="92" height="7" rx="3" fill="#c38a61"/></svg>
+            <div class="shot-label-line"><span class="shot-index">SHOT 01</span><span class="shot-type">ESTABLISHING WIDE</span></div>
+          </div>
+          <div class="shot-card">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Close-up shot"><rect width="320" height="200" fill="#d7b8d8"/><rect y="132" width="320" height="68" fill="#72516e"/><circle cx="160" cy="82" r="52" fill="#f1b498"/><path d="M108 75 Q117 17 164 22 Q209 24 215 79 Q190 53 160 48 Q132 50 108 75Z" fill="#3d2c47"/><circle cx="142" cy="82" r="5" fill="#3e3541"/><circle cx="178" cy="82" r="5" fill="#3e3541"/><path d="M145 105 Q160 115 176 104" fill="none" stroke="#a75561" stroke-width="4" stroke-linecap="round"/><path d="M84 200 Q94 132 160 132 Q226 132 239 200Z" fill="#5b3f86"/></svg>
+            <div class="shot-label-line"><span class="shot-index">SHOT 02</span><span class="shot-type">CLOSE-UP</span></div>
+          </div>
+          <div class="shot-card">
+            <svg viewBox="0 0 320 200" role="img" aria-label="Reverse over-shoulder shot"><rect width="320" height="200" fill="#78a7aa"/><circle cx="222" cy="78" r="38" fill="#efb196"/><path d="M185 71 Q191 30 224 33 Q257 33 263 76 Q243 54 222 53 Q202 54 185 71Z" fill="#3d2c47"/><circle cx="210" cy="78" r="4" fill="#313845"/><circle cx="235" cy="78" r="4" fill="#313845"/><path d="M195 200 Q199 120 225 117 Q275 123 289 200Z" fill="#5b3f86"/><circle cx="70" cy="92" r="55" fill="#8b5c50"/><path d="M0 200 Q6 119 70 116 Q125 127 142 200Z" fill="#244f76"/><path d="M116 101 Q156 76 181 83" fill="none" stroke="#dce9ea" stroke-width="4" stroke-dasharray="7 7"/></svg>
+            <div class="shot-label-line"><span class="shot-index">SHOT 03</span><span class="shot-type">REVERSE OTS</span></div>
+          </div>
+        </div>
+        <div class="rule mt-l"></div>
+        <p class="quote mt-m">A good shot is only the beginning:<br><span class="gradient-text">change needs cinematic language; consistency must survive the cuts.</span></p>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Literature report · 2026.07</span><span class="slide-number" data-current="1" data-total="30"></span></div>
+    <aside class="notes"><p>This presentation examines multi-shot video generation. Rather than cataloguing papers one by one, it asks a shared question: how should multiple shots exchange information during generation? We organize the literature into four routes, from joint denoising in a single pass, to shot-by-shot generation, causal streaming, and finally planning and feedback systems outside the video model.</p><p>Our guiding view is that multi-shot generation is not merely the concatenation of short clips. A hard cut must introduce change while controlling which aspects of characters, props, environments, and narrative state persist and which are allowed to evolve.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Task Definition">
+    <p class="kicker">01 · Task boundary</p>
+    <h2 class="h2">Multi-shot: <span class="gradient-text">continuous narrative generation</span> with explicit shot boundaries</h2>
+    <div class="content grid g31" style="align-items:center">
+      <div class="glass panel-lg vcenter">
+        <div class="definition"><div class="label">Input</div><div class="text">Global story / character setup + an ordered sequence of per-shot descriptions</div></div>
+        <div class="rule mt-m mb-m"></div>
+        <div class="definition"><div class="label">Output</div><div class="text">Multiple shots separated by hard cuts; viewpoint, composition, action, space, or time may change</div></div>
+        <div class="storyboard large mt-l">
+          <div class="shot-card"><svg viewBox="0 0 320 200"><rect width="320" height="200" fill="#8bb8e8"/><circle cx="258" cy="43" r="23" fill="#ffd28c"/><path d="M0 118 Q80 82 160 116 T320 105 V200 H0Z" fill="#6d8a8c"/><rect y="142" width="320" height="58" fill="#3c5668"/><circle cx="137" cy="111" r="10" fill="#f2b092"/><path d="M123 142 Q137 118 151 142Z" fill="#5b3f86"/><circle cx="180" cy="110" r="10" fill="#bd7b63"/><path d="M165 142 Q180 118 195 142Z" fill="#244f76"/></svg><div class="shot-label-line"><span class="shot-index">SHOT 01</span><span class="shot-type">WIDE · ESTABLISH SPACE</span></div></div>
+          <div class="shot-card"><svg viewBox="0 0 320 200"><rect width="320" height="200" fill="#d7b8d8"/><rect y="132" width="320" height="68" fill="#72516e"/><circle cx="160" cy="82" r="52" fill="#f1b498"/><path d="M108 75 Q117 17 164 22 Q209 24 215 79 Q190 53 160 48 Q132 50 108 75Z" fill="#3d2c47"/><circle cx="142" cy="82" r="5" fill="#3e3541"/><circle cx="178" cy="82" r="5" fill="#3e3541"/><path d="M145 105 Q160 115 176 104" fill="none" stroke="#a75561" stroke-width="4" stroke-linecap="round"/><path d="M84 200 Q94 132 160 132 Q226 132 239 200Z" fill="#5b3f86"/></svg><div class="shot-label-line"><span class="shot-index">SHOT 02</span><span class="shot-type">CLOSE-UP · EMPHASIZE EXPRESSION</span></div></div>
+          <div class="shot-card"><svg viewBox="0 0 320 200"><rect width="320" height="200" fill="#78a7aa"/><circle cx="222" cy="78" r="38" fill="#efb196"/><path d="M185 71 Q191 30 224 33 Q257 33 263 76 Q243 54 222 53 Q202 54 185 71Z" fill="#3d2c47"/><circle cx="210" cy="78" r="4" fill="#313845"/><circle cx="235" cy="78" r="4" fill="#313845"/><path d="M195 200 Q199 120 225 117 Q275 123 289 200Z" fill="#5b3f86"/><circle cx="70" cy="92" r="55" fill="#8b5c50"/><path d="M0 200 Q6 119 70 116 Q125 127 142 200Z" fill="#244f76"/></svg><div class="shot-label-line"><span class="shot-index">SHOT 03</span><span class="shot-type">REVERSE · SWITCH VIEWPOINT</span></div></div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="glass panel-sm"><span class="chip">≠ Long video</span><p class="body">Long video emphasizes duration; multi-shot emphasizes shot boundaries and inter-shot dependencies.</p></div>
+        <div class="glass panel-sm"><span class="chip">≠ Multi-scene</span><p class="body">A scene is a narrative unit of space and time; one scene may contain multiple shots.</p></div>
+        <div class="glass panel-sm"><span class="chip">≠ Story video</span><p class="body">This review is limited to video methods that explicitly model shot boundaries and shot-level dependencies.</p></div>
+        <div class="callout warm"><span class="strong">Central challenge: consistency</span><br>Not every shot should look alike: preserve what should persist, and change what should change.</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Boundary: a model chunk counts as a shot only when it aligns with a semantic shot boundary</span><span class="slide-number" data-current="2" data-total="30"></span></div>
+    <aside class="notes"><p>We begin with the task definition. The input may be a complete story, or a global setup plus per-shot descriptions; the output is a video separated by explicit cuts. Viewpoint, composition, action, space, and time may change between shots, while the sequence still expresses a coherent narrative.</p><p>This is neither simply long-video generation nor multi-scene generation. The central challenge is consistency: because hard cuts inherently require change, evaluation cannot reward similarity alone. It must determine which aspects of character identity, prop state, environment, style, and causal structure should persist.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Taxonomy & Contents">
+    <p class="kicker">02 · Unified framework</p>
+    <h2 class="h2">Four method families—and four parts of this review</h2>
+    <p class="lede-tight">The first three ask how shots are generated and how history enters the video model; the fourth examines planning, inspection, and correction outside the model.</p>
+    <div class="content grid g4" style="align-items:center">
+      <div class="glass glass-blue panel route-card"><div><div class="route-n">PART I · 04–10</div><div class="route-title">Holistic Joint</div><p class="small">One bidirectional model jointly generates all shots in a single call.</p></div><div class="route-flow">all shots ↔ all shots</div></div>
+      <div class="glass glass-purple panel route-card"><div><div class="route-n">PART II · 11–16</div><div class="route-title">Shot-Level AR</div><p class="small">The model is called repeatedly, producing one complete shot per round.</p></div><div class="route-flow">shotᵢ ← finished shots&lt;ᵢ</div></div>
+      <div class="glass glass-mint panel route-card"><div><div class="route-n">PART III · 17–21</div><div class="route-title">Causal Streaming</div><p class="small">Causal rollout by frame or chunk, with bounded reusable state.</p></div><div class="route-flow">chunkᵢ ← causal state&lt;ᵢ</div></div>
+      <div class="glass glass-warm panel route-card"><div><div class="route-n">PART IV · 22–27</div><div class="route-title">System / Agent</div><p class="small">Plan, manage references, inspect, and retry outside the model.</p></div><div class="route-flow">plan → render → inspect ↻</div></div>
+    </div>
+    <div class="grid g2 mt-m"><div class="callout"><span class="strong">Key boundary:</span> shot-AR with bidirectional within-shot diffusion is not causal streaming; systems are orthogonal to the first three families.</div><div class="callout purple"><span class="strong">Synthesis · 28–30:</span> trade-offs, the benchmark landscape, and discussion.</div></div>
+    <div class="deck-footer"><span>Taxonomy follows inference interface, not module names</span><span class="slide-number" data-current="3" data-total="30"></span></div>
+    <aside class="notes"><p>This slide serves as both the taxonomy and the table of contents. Holistic Joint allows all shots to interact bidirectionally within one call; Shot-Level AR invokes the model repeatedly, producing one complete shot each time; Causal Streaming reduces the generation unit further to a frame or chunk; and the System route plans, inspects, and corrects outside the video model.</p><p>The classification follows the primary inference interface, not the names of modules in individual papers. We now examine the four parts in sequence, then conclude with three slides comparing trade-offs, the benchmark landscape, and open questions.</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part I · Holistic Joint">
+    <div class="section-tag"><span class="dot"></span><span class="chip p1">PART I</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1040px;margin:auto">
+      <p class="kicker">PART I</p>
+      <h2 class="section-title gradient-text">Holistic Joint Generation</h2>
+      <p class="section-subtitle">All shots are denoised jointly and bidirectionally in a single call</p>
+      <div class="flow mt-l"><div class="node">Shot plan<small>captions · boundary · duration</small></div><div class="arrow">→</div><div class="node">Joint DiT<small>all visual tokens ↔ all visual tokens</small></div><div class="arrow">→</div><div class="node">Multi-shot video<small>no rollout error accumulation</small></div></div>
+      <div class="grid g3 mt-l">
+        <div class="callout"><b>Common interface</b><br>Per-shot captions and boundaries are usually specified before inference.</div>
+        <div class="callout mint"><b>Core problem</b><br>Caption–shot alignment.</div>
+        <div class="callout warm"><b>Main costs</b><br>Total token scaling, a complete script, and recomputation for local edits.</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Future shots may influence earlier shots</span><span class="slide-number" data-current="4" data-total="30"></span></div>
+    <aside class="notes"><p>The defining feature of Holistic Joint methods is that the number, boundaries, or durations of shots are fixed before inference, together with per-shot captions. An LLM may derive these captions automatically from the story, but they already exist when the video model is invoked. All visual tokens interact bidirectionally within the same denoising process, avoiding round-by-round rollout error accumulation.</p><p>The real challenge is that one context contains several captions: how can shot i primarily execute caption i while preserving visual communication across shots? This is the caption–shot alignment problem addressed in the next three slides.</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Holistic Joint Timeline">
+    <div class="section-tag"><span class="chip p1">PART I · TIMELINE</span></div>
+    <p class="kicker">04 · Evolution</p>
+    <h2 class="h2">From alignment primitives to long-form and directorial control</h2>
+    <div class="timeline content">
+      <div class="glass time-item"><div class="time">2024.12</div><div class="phase">Temporally grounded event control</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2412.05263">MinT</a><span class="meta-badge">CVPR 2025</span><span class="paper-desc">event captions aligned to one joint video</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.03–05</div><div class="phase">Alignment and boundary primitives</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2503.10589">LCT</a><span class="meta-badge">ICCV 2025</span><span class="paper-desc">interleaved RoPE</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2503.19881">Mask²DiT</a><span class="meta-badge">CVPR 2025</span><span class="paper-desc">text–segment mask</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2505.07652">ShotAdapter</a><span class="meta-badge">CVPR 2025</span><span class="paper-desc">transition token</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.06–08</div><div class="phase">Problem-specific methods</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2506.15838">EchoShot</a><span class="meta-badge">NeurIPS 2025</span><span class="paper-desc">portrait identity alignment</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2508.11484">CineTrans</a><span class="meta-badge">ICLR 2026</span><span class="paper-desc">hard cuts from real films</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.10–12</div><div class="phase">Scale and directorial control</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2510.20822">HoloCine</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">minute-scale joint context</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.03041">MultiShotMaster</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">reference grounding</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.10286">ShotDirector</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">transition and camera control</span></div></div></div>
+      <div class="glass time-item"><div class="time">2026.03–06</div><div class="phase">Convergence of planners and audiovisual generation</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2603.11421">ShotVerse</a><span class="meta-badge">arXiv</span><span class="paper-desc">automatic camera-trajectory planning</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.29473">MAVIN</a><span class="meta-badge">arXiv</span><span class="paper-desc">binding visuals, sound, and character identity</span></div></div></div>
+    </div>
+    <div class="callout mt-m"><span class="strong">Cross-shot consistency remains the goal throughout.</span> What evolves is local semantics, longer context, and director-level control.</div>
+    <div class="deck-footer"><span>Paper dates: first public release</span><span class="slide-number" data-current="5" data-total="30"></span></div>
+    <aside class="notes"><p>This timeline does not treat consistency as a distinct phase because it remains an evaluation objective throughout. What changes are the mechanisms and capability boundaries: temporally grounded event control appears first, followed in early 2025 by three alignment primitives—masks, RoPE, and transition tokens.</p><p>Later work targets specific failure modes such as portrait identity and the distribution of cuts in real films. By the end of 2025, attention shifts to longer joint contexts, reference grounding, and camera control. In 2026, planners and renderers begin to converge with richer audiovisual conditioning.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Alignment I · Attention Mask">
+    <div class="section-tag"><span class="chip p1">ALIGNMENT I</span></div>
+    <p class="kicker">Caption–shot alignment</p>
+    <h2 class="h2">Attention masks: explicitly specify “who can see whom”</h2>
+    <div class="content mask-layout">
+      <div class="glass panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2503.19881">Mask²DiT</a></span><span class="venue meta-badge">CVPR 2025</span></div>
+        <p class="lede-tight">Satisfy two constraints at once: <b>each shot receives only its own caption</b>, while all shots still share visual information to maintain consistency.</p>
+        <div class="mask-matrix mt-l">
+          <div></div><div class="mask-label">CAP 1</div><div class="mask-label">CAP 2</div><div class="mask-label">CAP 3</div><div class="mask-label">VISUAL</div>
+          <div class="mask-label">SHOT 1</div><div class="mask-cell mask-on">align</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-visual">full</div>
+          <div class="mask-label">SHOT 2</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-on">align</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-visual">full</div>
+          <div class="mask-label">SHOT 3</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-off">×</div><div class="mask-cell mask-on">align</div><div class="mask-cell mask-visual">full</div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="glass panel"><div class="paper-head"><span class="paper" style="font-size:19px"><a href="https://arxiv.org/abs/2508.11484">CineTrans</a></span><span class="venue meta-badge">ICLR 2026</span></div><p class="body">Uses a visual block-diagonal mask only in selected DiT layers: masked layers reinforce hard cuts, while unmasked layers continue to transmit global information across shots.</p></div>
+        <div class="glass panel"><div class="paper-head"><span class="paper" style="font-size:19px"><a href="https://arxiv.org/abs/2512.10286">ShotDirector</a></span><span class="venue meta-badge">CVPR 2026</span></div><p class="body">Global–Local Shot-Aware Mask: character, story, and transition text are visible to all shots; cinematography and camera descriptions are visible only to their designated shot.</p></div>
+        <div class="callout warm"><b>Inference interface</b><br>Masks encode boundaries directly, but cut positions must still be specified in advance.</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Diagram redrawn from Mask²DiT / CineTrans / ShotDirector</span><span class="slide-number" data-current="6" data-total="30"></span></div>
+    <aside class="notes"><p>The first family designs attention masks directly. Mask²DiT allows shot i to see only caption i, preventing text from leaking into the wrong shot. At the same time, visual tokens remain mutually visible across shots to preserve character and style consistency.</p><p>CineTrans cuts cross-shot visual attention only in selected layers so that those layers specialize in hard cuts while the others retain global communication. ShotDirector's Global–Local mask makes character and story conditions globally visible, while cinematography and camera descriptions apply only to their assigned shot.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Alignment II · Special RoPE">
+    <div class="section-tag"><span class="chip p1">ALIGNMENT II</span></div>
+    <p class="kicker">Caption–shot alignment</p>
+    <h2 class="h2">Specialized RoPE: rewrite <span class="gradient-text">positional geometry</span> without blocking attention</h2>
+    <div class="content grid g31" style="align-items:center">
+      <div class="glass panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2503.10589">LCT</a></span><span class="venue meta-badge">ICCV 2025</span></div>
+        <div class="lct-board mt-m">
+          <div class="lct-sequence-label"><span>ACTUAL TOKEN ORDER</span><span>scene tokens →</span></div>
+          <div class="lct-sequence">
+            <div class="lct-token caption">Caption 1<small>E₁</small></div><div class="lct-token noise">Noisy video 1<small>V₁(t,h,w)</small></div><div class="lct-divider">|</div>
+            <div class="lct-token caption">Caption 2<small>E₂</small></div><div class="lct-token noise">Noisy video 2<small>V₂(t,h,w)</small></div><div class="lct-divider">|</div>
+            <div class="lct-token caption">Caption 3<small>E₃</small></div><div class="lct-token noise">Noisy video 3<small>V₃(t,h,w)</small></div>
+          </div>
+          <div class="lct-pair-braces"><div>[ caption₁, noise₁ ]</div><div>[ caption₂, noise₂ ]</div><div>[ caption₃, noise₃ ]</div></div>
+          <div class="lct-rope-rule"><b>Interleaved 3D RoPE = local 3D position + pair-specific offset</b></div>
+          <div class="lct-offsets">
+            <div class="lct-offset"><b>Pair 1 · offset Δ₁</b><code>local (t,h,w) + Δ₁</code><br>caption₁ and video₁ occupy the same positional block.</div>
+            <div class="lct-offset"><b>Pair 2 · offset Δ₂</b><code>local (t,h,w) + Δ₂</code><br>The entire pair shifts to the next non-overlapping positional block.</div>
+            <div class="lct-offset"><b>Pair 3 · offset Δ₃</b><code>local (t,h,w) + Δ₃</code><br>Within-pair geometry is preserved, while pair order remains distinguishable.</div>
+          </div>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="glass glass-purple panel"><div class="paper-head"><span class="paper" style="font-size:18px"><a href="https://arxiv.org/abs/2506.15838">EchoShot</a></span><span class="venue meta-badge">NeurIPS 2025</span></div><p class="body"><b>SaRoPE</b> marks shot-local time and cuts; <b>TaRoPE</b> gives captions and video intervals a shared shot identity.</p></div>
+        <div class="glass glass-blue panel"><div class="paper-head"><span class="paper" style="font-size:18px"><a href="https://arxiv.org/abs/2512.03041">MultiShotMaster</a></span><span class="venue meta-badge">CVPR 2026</span></div><p class="body"><b>Narrative RoPE</b> marks boundaries with a fixed phase shift; <b>STPA RoPE</b> binds a reference to a designated shot, time, and region.</p></div>
+        <div class="callout"><b>Why does it work?</b><br>The model can distinguish the “next frame” of continuous motion from local time restarting in a new shot.</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram · positional intervals are illustrative</span><span class="slide-number" data-current="7" data-total="30"></span></div>
+    <aside class="notes"><p>The second family modifies positional encoding instead of directly blocking attention. The difficulty is that local time may restart from zero in every shot: the model must represent both continuous time within a shot and the ordering of shots and their corresponding captions.</p><p>LCT assigns interleaved text–video pairs to non-overlapping positional intervals; EchoShot explicitly separates shot-aware and text-aware RoPE; MultiShotMaster marks shot boundaries with fixed phase discontinuities and binds reference tokens to specific shots and spatial regions. All three use positional geometry to represent identity and boundaries.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Alignment III · Transition Token">
+    <div class="section-tag"><span class="chip p1">ALIGNMENT III</span></div>
+    <p class="kicker">Caption–shot alignment</p>
+    <h2 class="h2">Transition tokens: an explicit, learnable control signal for cuts</h2>
+    <div class="content transition-layout">
+      <div class="glass transition-main">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2505.07652">ShotAdapter</a></span><span class="venue meta-badge">CVPR 2025</span></div>
+        <div class="token-diagram mt-l">
+          <div class="tok">Caption 1<br>frames</div><div class="tok">Visual<br>tokens</div><div class="tok transition">TT₁<br>cut</div><div class="tok">Caption 2<br>frames</div><div class="tok">Visual<br>tokens</div><div class="tok transition">TT₂<br>cut</div><div class="tok">Caption 3<br>frames</div>
+        </div>
+        <p class="small mt-m">K shots correspond to K−1 Transition Tokens. The count merely reflects the interface; the key is how TTs and local masks divide responsibilities.</p>
+      </div>
+      <div class="grid g3">
+        <div class="callout"><b>Where is the boundary?</b><br>Duration plus a local mask determines the interval controlled by each caption.</div>
+        <div class="callout warm"><b>What does the boundary do?</b><br>A Transition Token reinforces the learnable signal to “perform a cut here.”</div>
+        <div class="glass panel-sm"><p class="body" style="margin:0"><b>Key ablation:</b> removing TTs while retaining the local mask still produces multi-shot video.</p><p class="small">TT is a control handle, not the sole source of multi-shot behavior; training still relies mainly on manually concatenated 2–3-shot clips.</p></div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Diagram redrawn from ShotAdapter</span><span class="slide-number" data-current="8" data-total="30"></span></div>
+    <aside class="notes"><p>The third family uses transition tokens. ShotAdapter inserts K−1 copies of a shared token for K shots, giving the model an explicit control handle for “cut here.” The division of labor matters: duration and the local mask determine where the cut occurs, while the transition token reinforces the cutting operation itself.</p><p>Ablations show that the model can still generate multi-shot video when transition tokens are removed and only the local mask remains. Thus, the token is not the sole source of multi-shot capability. Its value lies in making a cut a learnable and controllable signal, although it does not yet distinguish complex editing patterns such as shot–reverse-shot.</p></aside>
+  </section>
+
+  <section class="slide" data-title="HoloCine · Long Holistic Generation">
+    <div class="section-tag"><span class="chip p1">KEY PAPER</span></div>
+    <p class="kicker">Scaling the joint context</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2510.20822">HoloCine</a><span class="meta-badge">CVPR 2026</span></span>: extending Holistic Joint generation to <span class="gradient-text">longer durations</span></h2>
+    <div class="content grid g55" style="align-items:center">
+      <div class="stack">
+        <div class="glass panel"><div class="row" style="align-items:flex-end"><div class="big-number gradient-text" style="font-size:64px;line-height:1.06;padding-right:4px">≈60s</div><span class="chip">training coverage</span></div><p class="body">Data are grouped at approximately 5 / 15 / 60 seconds; the longest training samples contain up to roughly 13 shots. This is not a hard inference limit.</p></div>
+        <div class="glass glass-mint panel"><h3 class="h3">Sparse Inter-Shot Self-Attention</h3><p class="body">Dense attention is retained within each shot; across shots, only representative / summary tokens communicate bidirectionally, reducing the quadratic cost of the full sequence.</p></div>
+        <div class="callout"><b>Window Cross-Attention</b> continues to address per-shot prompt alignment, but it is not the principal advance over the preceding three slides.</div>
+        <div class="callout warm"><b>Trade-off:</b> it still requires a complete script and offline joint generation; sparse summaries may omit fine-grained long-range state.</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:2.30"><img src="assets/papers/holocine.png" alt="HoloCine architecture"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: HoloCine paper, Figure 2</span><span class="slide-number" data-current="9" data-total="30"></span></div>
+    <aside class="notes"><p>HoloCine does not introduce a fourth caption-alignment primitive; instead, it extends one-pass joint generation to longer durations. Its training data cover approximately 5, 15, and 60 seconds, with up to roughly 13 shots in the longest examples. These figures describe training coverage, not a hard inference limit.</p><p>The key mechanism is sparse inter-shot self-attention: modeling remains dense within a shot, while representative or summary tokens provide bidirectional communication across shots, avoiding the quadratic cost of dense attention over the full sequence. The method still requires a complete script, and fine-grained long-range state may be lost in summary-based communication.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Joint Route Trends">
+    <div class="section-tag"><span class="chip p1">PART I · TAKEAWAY</span></div>
+    <p class="kicker">Beyond generation structure</p>
+    <h2 class="h2">The Joint route is evolving toward a <span class="gradient-text">directorial interface</span></h2>
+    <div class="content grid g3">
+      <div class="glass glass-blue panel-lg"><div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2512.10286">ShotDirector</a></span><span class="venue meta-badge">CVPR 2026</span></div><div class="agent-icon">🎥</div><h3 class="h3">Camera grammar</h3><p class="body">cut-in / cut-out / shot-reverse-shot / multi-angle + 6-DoF camera.</p></div>
+      <div class="glass glass-purple panel-lg"><div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2603.11421">ShotVerse</a></span><span class="venue meta-badge">arXiv</span></div><div class="agent-icon">🧭</div><h3 class="h3">Planner → trajectory</h3><p class="body">A VLM planner automatically produces globally aligned camera trajectories, connecting intent to the renderer.</p></div>
+      <div class="glass glass-mint panel-lg"><div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2606.29473">MAVIN</a></span><span class="venue meta-badge">arXiv</span></div><div class="agent-icon">🔊</div><h3 class="h3">Audiovisual and identity binding</h3><p class="body">Routes visuals and sound by shot boundary while binding character appearance, voiceprint, and role ID.</p></div>
+    </div>
+    <div class="callout mt-m"><span class="strong">Trend:</span> the marginal value of yet another mask or RoPE variant is shrinking; value is shifting toward camera, audio, reference, and planner–renderer alignment.</div>
+    <div class="deck-footer"><span>End of Part I</span><span class="slide-number" data-current="10" data-total="30"></span></div>
+    <aside class="notes"><p>The trend in Part I is not an endless subdivision of alignment operators, but the transformation of generation structure into a directorial interface. ShotDirector introduces explicit editing types and a 6-DoF camera; ShotVerse uses a VLM planner to produce globally coordinated camera trajectories; MAVIN jointly designs character appearance, voiceprints, layered audiovisual captions, and the generator.</p><p>Accordingly, the locus of value is moving from “can the model distinguish three captions?” to “can directorial intent be structured, can references and sound be grounded, and can camera trajectories be coordinated globally?”</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part II · Shot-Level Autoregressive">
+    <div class="section-tag"><span class="dot" style="background:#735cff"></span><span class="chip p2">PART II</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1040px;margin:auto">
+      <p class="kicker">PART II</p>
+      <h2 class="section-title gradient-text">Shot-Level Autoregressive</h2>
+      <p class="section-subtitle">Each diffusion sampling call generates one complete shot</p>
+      <div class="flow mt-l"><div class="node">History shots<small>fixed visual evidence</small></div><div class="arrow">→</div><div class="node">Select / compress<small>frames · entities · tokens</small></div><div class="arrow">→</div><div class="node">Denoise shotᵢ<small>within-shot bidirectional</small></div><div class="arrow">→</div><div class="node">Write memory<small>append / update</small></div></div>
+      <div class="grid g3 mt-l"><div class="callout purple"><b>vs. holistic</b><br>The past is fixed and cannot be revised by the future.</div><div class="callout mint"><b>vs. causal</b><br>A full bidirectional DiT can still be used within each shot.</div><div class="callout warm"><b>Core risks</b><br>Memory drift and exposure bias.</div></div>
+    </div>
+    <div class="deck-footer"><span>Generation unit = one completed shot</span><span class="slide-number" data-current="11" data-total="30"></span></div>
+    <aside class="notes"><p>Shot-Level AR uses a complete shot as the autoregressive unit. In each round, it first selects or compresses information from completed history, generates the current shot with one full diffusion sampling process, and then writes the result back to memory.</p><p>Unlike holistic generation, the past is fixed once generated and cannot be revised by future content. Unlike causal streaming, attention may remain bidirectional within a shot, and output usually appears only after the entire sampling process completes. Progress therefore centers not on accumulating more history frames, but on how memory is organized, retrieved, updated, and verified.</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Shot-Level AR Timeline">
+    <div class="section-tag"><span class="chip p2">PART II · TIMELINE</span></div>
+    <p class="kicker">Memory evolution</p>
+    <h2 class="h2">From next-shot context to verifiable memory</h2>
+    <div class="timeline content">
+      <div class="glass time-item"><div class="time">2025.08</div><div class="phase">Next-shot starting point</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2508.08244">Cut2Next</a><span class="meta-badge">arXiv</span><span class="paper-desc">preceding context + editing relation</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.12.08</div><div class="phase">Full history, compact retrieval</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.07802">OneStory</a><span class="meta-badge">CVPR 2026</span><span class="paper-desc">caption-guided frame selection</span></div></div></div>
+      <div class="glass time-item"><div class="time">2025.12</div><div class="phase">Specialized memory</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.11274">FilmWeaver</a><span class="meta-badge">AAAI 2026</span><span class="paper-desc">Shot Cache + Temporal Cache</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2512.19539">StoryMem</a><span class="meta-badge">arXiv</span><span class="paper-desc">dynamic keyframe memory</span></div></div></div>
+      <div class="glass time-item"><div class="time">2026.05</div><div class="phase">Entity-aware memory</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2605.23610">EM-Vid</a><span class="meta-badge">arXiv</span><span class="paper-desc">entity-indexed latent patches</span></div></div></div>
+      <div class="glass time-item"><div class="time">2026.06</div><div class="phase">Memory verification</div><div class="paper-list"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.14667">Memento</a><span class="meta-badge">arXiv</span><span class="paper-desc">subject reconstruction supervision</span></div></div></div>
+    </div>
+    <div class="callout purple mt-m"><b>Trajectory:</b> passive visual conditioning → selection / compression / specialization / updating → memory verification through auxiliary tasks.</div>
+    <div class="deck-footer"><span>First-public dates</span><span class="slide-number" data-current="12" data-total="30"></span></div>
+    <aside class="notes"><p>The Shot-AR timeline begins with Cut2Next's next-shot conditioning, which still centers on relationships between adjacent shots. OneStory expands the historical scope to all preceding shots while controlling the budget through semantic selection and compression. FilmWeaver and StoryMem then manage history at different temporal scales separately.</p><p>By 2026, EM-Vid stores entity-specific latent patches rather than full frames; Memento goes further by requiring memory to reconstruct the subject. Memory thus evolves from a passive input into generative state with mechanisms for selection, compression, specialization, updating, and verification.</p></aside>
+  </section>
+
+  <section class="slide" data-title="OneStory">
+    <div class="section-tag"><span class="chip p2">KEY PAPER</span></div>
+    <p class="kicker">Global yet compact history</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2512.07802">OneStory</a><span class="meta-badge">CVPR 2026</span></span>: retrieve the memory required by the current shot from all history</h2>
+    <div class="content grid g55" style="align-items:center">
+      <div class="stack">
+        <div class="glass glass-purple panel"><h3 class="h3">1 · Frame Selection</h3><p class="body">The current caption serves as a query to select semantically relevant frames from all previous shots—not merely the most recent shot.</p></div>
+        <div class="glass glass-blue panel"><h3 class="h3">2 · Adaptive Conditioner</h3><p class="body">Adaptive patchification by importance compresses the visual context into memory tokens, which are then concatenated with the current noise tokens.</p></div>
+        <div class="flow"><div class="node">all history</div><div class="arrow">→</div><div class="node">caption-guided select</div><div class="arrow">→</div><div class="node">compact tokens</div></div>
+        <div class="callout warm"><b>Limitation:</b> no automatic story planner; memory quality depends on previously generated history.</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:2.05"><img src="assets/papers/onestory.png" alt="OneStory framework"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: OneStory paper, Figure 3</span><span class="slide-number" data-current="13" data-total="30"></span></div>
+    <aside class="notes"><p>OneStory's central contribution is to reformulate multi-shot generation as next-shot generation while allowing the current caption to select evidence from the entire history. Frame Selection queries historical latent frames with the caption, avoiding a mechanical reliance on only the latest shot; the Adaptive Conditioner then compresses the selected context according to importance.</p><p>The compressed memory tokens enter the generator alongside the current noise tokens, enabling global historical scope within a compact conditioning budget. Shot captions can be appended iteratively, but the method does not plan the story automatically, and any historical error may become incorrect evidence for later retrieval.</p></aside>
+  </section>
+
+  <section class="slide" data-title="FilmWeaver">
+    <div class="section-tag"><span class="chip p2">KEY PAPER</span></div>
+    <p class="kicker">Dual-level cache</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2512.11274">FilmWeaver</a><span class="meta-badge">AAAI 2026</span></span>: separate memory for cross-shot identity and within-shot motion</h2>
+    <div class="content grid g55" style="align-items:center">
+      <div class="stack">
+        <div class="cache-diagram" style="grid-template-columns:1fr 30px 1fr">
+          <div class="cache global"><div class="cache-title">Shot Cache</div><div class="cache-sub">Top-K keyframes from old shots<br>identity · background</div></div><div class="arrow">+</div><div class="cache local"><div class="cache-title">Temporal Cache</div><div class="cache-sub">recent current-shot frames<br>motion · extension</div></div>
+        </div>
+        <div class="glass panel"><h3 class="h3">One model, four modes</h3><p class="body">T2V · new shot · shot extension · full-cache extension.</p></div>
+        <div class="callout purple"><b>Division of labor:</b> Shot Cache handles long-range concept recall; Temporal Cache handles within-shot continuity.</div>
+        <div class="callout warm"><b>Do not overinterpret:</b> “arbitrary length” means architectural extensibility, not drift-free infinite rollout.</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:1.80"><img src="assets/papers/filmweaver.png" alt="FilmWeaver dual cache"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: FilmWeaver paper, Figure 2</span><span class="slide-number" data-current="14" data-total="30"></span></div>
+    <aside class="notes"><p>FilmWeaver's main insight is to separate two temporal scales. Shot Cache retrieves keyframes from all earlier shots according to the current prompt, supporting long-range recall of characters and backgrounds; Temporal Cache stores recent frames from the current shot, supporting motion continuity and shot extension.</p><p>Both caches condition the same diffusion model in context, covering text-to-video, new-shot, and shot-extension modes. This shows that cross-shot identity and within-shot motion should not be addressed by the same memory. However, “arbitrary length” describes interface extensibility, not drift-free infinite rollout.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Memento">
+    <div class="section-tag"><span class="chip p2">KEY PAPER</span></div>
+    <p class="kicker">Reconstruction-supervised memory</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2606.14667">Memento</a><span class="meta-badge">arXiv</span></span>: good memory should be able to <span class="gradient-text">reconstruct the subject</span></h2>
+    <div class="content grid g2" style="align-items:center">
+      <div class="glass panel-lg vcenter">
+        <div class="flow">
+          <div class="node">History bank<small>generated visual evidence</small></div><div class="arrow">→</div>
+          <div class="node" style="background:rgba(238,232,255,.70)">Dual-query retrieval<small>identity · continuity</small></div><div class="arrow">→</div>
+          <div class="node">Next-shot generator<small>target caption + memory</small></div>
+        </div>
+        <div class="flow mt-l">
+          <div class="node" style="background:rgba(230,251,246,.75)">Identity evidence</div><div class="arrow">→</div><div class="node">Subject reconstruction</div><div class="arrow">→</div><div class="node" style="background:rgba(255,238,227,.75)">Auxiliary loss ✓</div>
+        </div>
+        <div class="callout purple mt-l"><b>Key shift:</b> next-shot generation is jointly trained with memory-based subject reconstruction.</div>
+      </div>
+      <div class="stack vcenter">
+        <div class="glass panel"><h3 class="h3">Long-term query</h3><p class="body">Find the most identity-stable evidence across the longest temporal span.</p></div>
+        <div class="glass panel"><h3 class="h3">Short-term query</h3><p class="body">Find cues for motion, pose, and local continuity.</p></div>
+        <div class="callout warm"><b>Open question:</b> can reconstruction supervision extend to prop states, spatial relations, and event outcomes?</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram redrawn from Memento</span><span class="slide-number" data-current="15" data-total="30"></span></div>
+    <aside class="notes"><p>Memento turns the question “is this memory useful?” into a supervised objective. It not only optimizes next-shot generation but also requires the retrieved memory to reconstruct the subject, so identity preservation no longer depends solely on implicit similarity.</p><p>Dual-query separates two retrieval goals: one query seeks long-range identity evidence, while the other seeks short-term pose and continuity. The importance of this design lies in establishing an auxiliary verification task for memory quality. A natural next step is to extend such verifiability beyond subject appearance to prop states, character relations, spatial layout, and event outcomes.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Shot-AR Trends">
+    <div class="section-tag"><span class="chip p2">PART II · TAKEAWAY</span></div>
+    <p class="kicker">Memory becomes state</p>
+    <h2 class="h2">Shot-AR: from “which frames to store” toward <span class="gradient-text">writable, retrievable, verifiable state</span></h2>
+    <div class="content grid g4">
+      <div class="glass panel route-card"><div><span class="meta-badge">arXiv</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2508.08244">Cut2Next</a></div><p class="small">Adjacent-shot relations and next-shot references.</p></div><div class="route-flow">previous → next</div></div>
+      <div class="glass panel route-card"><div><span class="meta-badge">arXiv</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2512.19539">StoryMem</a></div><p class="small">Dynamic keyframe selection; latent concatenation + negative RoPE.</p></div><div class="route-flow">frames → compact context</div></div>
+      <div class="glass glass-purple panel route-card"><div><span class="meta-badge">arXiv</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2605.23610">EM-Vid</a></div><p class="small">Stores only entity-related latent patches, retrieved by entity index and updated within a fixed budget.</p></div><div class="route-flow">entity → sparse patches</div></div>
+      <div class="glass glass-blue panel route-card"><div><span class="chip">HYBRID</span><div class="route-title"><a class="paper-link" href="https://arxiv.org/abs/2503.10589">LCT</a> / <a class="paper-link" href="https://arxiv.org/abs/2503.19881">Mask²DiT</a></div><p class="small">Boundary capabilities through context-causal or conditional extension modes.</p></div><div class="route-flow">joint model + causal mode</div></div>
+    </div>
+    <div class="callout purple mt-m"><span class="strong">Trend:</span> memory is organized by entity / state rather than frame, while update strategies move from unbounded accumulation to fixed budgets and auxiliary verification.</div>
+    <div class="deck-footer"><span>End of Part II</span><span class="slide-number" data-current="16" data-total="30"></span></div>
+    <aside class="notes"><p>This slide consolidates the side branches into one trend. Cut2Next begins with adjacent-shot conditioning; StoryMem uses dynamic keyframe memory; EM-Vid goes further by storing only entity-related latent patches, reducing background leakage and updating them under a fixed budget.</p><p>LCT's context-causal mode and Mask²DiT's conditional extension also demonstrate hybrid capability between joint and shot-AR methods, although we still classify them by their primary inference interface. Overall, memory is evolving from “store more frames” into entity-organized generative state that is writable, retrievable, budget-controlled, and verifiable through auxiliary tasks.</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part III · Causal Streaming">
+    <div class="section-tag"><span class="dot" style="background:#00a47d"></span><span class="chip p3">PART III</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1030px;margin:auto">
+      <p class="kicker">PART III</p>
+      <h2 class="section-title gradient-text">Causal Streaming</h2>
+      <p class="section-subtitle">Causal rollout by frame / chunk, generating and emitting output incrementally</p>
+      <div class="flow mt-l"><div class="node">Promptᵢ<small>can arrive at runtime</small></div><div class="arrow">→</div><div class="node">Causal chunkᵢ<small>cannot revise the past</small></div><div class="arrow">→</div><div class="node">Bounded state<small>KV / latent / anchor frames</small></div><div class="arrow">↻</div></div>
+      <div class="grid g3 mt-l"><div class="callout mint"><b>Online operation</b><br>Receive prompts shot by shot and emit output as early as possible.</div><div class="callout"><b>History reuse</b><br>Use reusable or bounded cache / state.</div><div class="callout warm"><b>Strict boundary</b><br>Generating one complete shot per call is insufficient.</div></div>
+    </div>
+    <div class="deck-footer"><span>Generation unit = frame / latent chunk</span><span class="slide-number" data-current="17" data-total="30"></span></div>
+    <aside class="notes"><p>A strict definition of Causal Streaming has three components: generation continues causally by frame or latent chunk within each shot; history is reused through bounded KV, latent state, or reference frames; and new prompts may arrive during generation without recomputing already emitted content.</p><p>Merely calling a model repeatedly to complete one whole shot at a time does not qualify. The advantages are low time to first frame, open-ended extension, and runtime interaction; the costs are that future content cannot revise the past and errors propagate through causal state.</p></aside>
+  </section>
+
+  <section class="slide" data-title="Causal Technical Prehistory">
+    <div class="section-tag"><span class="chip p3">TECHNICAL CONTEXT</span></div>
+    <p class="kicker">One-slide prehistory</p>
+    <h2 class="h2">Multi-shot streaming builds on causal video distillation</h2>
+    <div class="content content-center">
+      <div style="width:100%">
+        <div class="flow">
+          <div class="node glass-blue">CausVid<small>block-causal architecture</small></div><div class="arrow">→</div>
+          <div class="node glass-purple">Self Forcing / AAPT<small>train on self-generated history</small></div><div class="arrow">→</div>
+          <div class="node glass-mint">Rolling Forcing / LongLive<small>long-horizon rollout</small></div><div class="arrow">→</div>
+          <div class="node glass-warm">Causal Forcing<small>few-step causal distillation</small></div>
+        </div>
+        <div class="glass glass-strong panel-lg mt-l" style="text-align:center">
+          <p class="quote">For equations, training stages, and the technical evolution of forcing methods,<br>see the group presentation below.</p>
+          <a class="chip mt-m" href="https://causalvideogroup.github.io/discussions/2026-07-13-yifan-forcing-ar-video-distillation/presentation-standard.html">The Forcing Family | Evolution of AR Video Distillation ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Detailed background: Causal Video Group · 2026-07-13</span><span class="slide-number" data-current="18" data-total="30"></span></div>
+    <aside class="notes"><p>This slide provides only the technical background. CausVid makes the architecture causal; Self Forcing and AAPT address the history gap between ground-truth context during training and self-generated outputs during inference; Rolling Forcing and LongLive target long-horizon rollout; Causal Forcing further systematizes few-step causal distillation.</p><p>ShotStream, CausalCine, and LongLive 2.0 all build on this infrastructure. For detailed equations, forcing variants, and training stages, please consult the group presentation linked at the bottom of the slide.</p></aside>
+  </section>
+
+  <section class="slide" data-title="ShotStream">
+    <div class="section-tag"><span class="chip p3">KEY PAPER</span></div>
+    <p class="kicker">Teacher → causal student</p>
+    <h2 class="h2" style="max-width:1500px"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2603.25746">ShotStream</a><span class="meta-badge">arXiv · 2026.03</span></span>: distilling a bidirectional next-shot teacher into a real-time causal student</h2>
+    <div class="content vcenter">
+      <div class="glass panel-lg">
+        <div class="method-ribbon">
+          <div class="method-stage"><h3>① Next-shot teacher</h3><p>Sparse historical frames + global / local captions<br>Bidirectionally denoise one complete target shot</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(241,237,255,.67)"><h3>② Teacher → student</h3><p>DMD distills the roughly 50-step teacher<br>into a 4-step causal student</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(230,251,246,.67)"><h3>③ Streaming rollout</h3><p>Append one shot at a time across shots<br>Emit causal chunks within each shot</p></div>
+        </div>
+      </div>
+      <div class="grid g3 mt-m">
+        <div class="glass glass-blue panel"><h3 class="h3">Dual cache</h3><div class="cache-flow mt-m"><div class="cache global"><b>Global</b><p class="tiny">Sparse cross-shot frames</p></div><div class="arrow">+</div><div class="cache local"><b>Local</b><p class="tiny">Recent chunks in the current shot</p></div><div class="arrow">→</div><div class="cache"><b>next chunk</b></div></div></div>
+        <div class="glass glass-purple panel"><h3 class="h3">RoPE discontinuity</h3><p class="body">Introduces a positional phase discontinuity at each cut, preventing global cross-shot frames from being mistaken for consecutive preceding frames in the current shot.</p></div>
+        <div class="glass glass-mint panel"><h3 class="h3">Two-stage self-forcing</h3><p class="body">First adapts to the model's own chunk history within the current shot, then to historical shots generated by the model itself.</p></div>
+      </div>
+      <div class="callout mt-m"><b>Core idea:</b> first use a bidirectional model to learn “what the next shot should look like,” then transfer that capability to causal rollout with real-time output.</div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram redrawn from ShotStream</span><span class="slide-number" data-current="19" data-total="30"></span></div>
+    <aside class="notes"><p>ShotStream first fine-tunes a text-to-video model into a bidirectional next-shot teacher: sparse historical frames from earlier shots condition generation of a complete target shot. The teacher is then distilled into a four-step causal student, enabling chunk-wise generation within each shot.</p><p>History is divided into Global Cache and Local Cache, which store cross-shot conditioning frames and the current shot's generated history, respectively; a RoPE discontinuity distinguishes the two. Two-stage self-forcing first addresses within-shot error, then extends training to self-generated historical shots. The paper reports approximately 15.95 FPS on a single H200.</p></aside>
+  </section>
+
+  <section class="slide" data-title="CausalCine">
+    <div class="section-tag"><span class="chip p3">KEY PAPER</span></div>
+    <p class="kicker">Native causal prior</p>
+    <h2 class="h2" style="max-width:1500px"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2605.12496">CausalCine</a><span class="meta-badge">arXiv · 2026.05</span></span>: learn a multi-shot causal prior before few-step real-time distillation</h2>
+    <div class="content vcenter">
+      <div class="glass panel-lg">
+        <div class="method-ribbon">
+          <div class="method-stage" style="background:rgba(232,244,255,.70)"><h3>① Native causal prior</h3><p>Real multi-shot long video<br>Parallel teacher forcing</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(241,237,255,.70)"><h3>② Content-aware history</h3><p>CAMR retrieves the portions of remote KV<br>that are genuinely relevant to current content</p></div>
+          <div class="arrow">→</div>
+          <div class="method-stage" style="background:rgba(230,251,246,.70)"><h3>③ Few-step causal student</h3><p>ODE initialization<br>→ self-forcing DMD + adversarial</p></div>
+        </div>
+      </div>
+      <div class="grid g23 mt-m" style="align-items:stretch">
+        <div class="glass glass-purple panel-lg">
+          <h3 class="h3">CAMR · Content-Aware Memory Routing</h3>
+          <div class="flow mt-l"><div class="node">current query</div><div class="arrow">⇢</div><div class="node glass-blue">Top-K remote KV</div><div class="arrow">+</div><div class="node glass-mint">recent local KV</div><div class="arrow">→</div><div class="node">causal attention</div></div>
+          <p class="small mt-m">Under a fixed KV budget, remote history is retained by content relevance, while recent history continues to support local continuity.</p>
+        </div>
+        <div class="stack">
+          <div class="callout purple"><b>Difference from ShotStream:</b> first train the generator itself as a native multi-shot causal base, then perform real-time distillation.</div>
+          <div class="callout warm"><b>Speed is not the main contribution:</b> FPS values across different backbones and hardware are not directly comparable; the focus here is the causal prior and history routing.</div>
+        </div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Diagram redrawn from CausalCine</span><span class="slide-number" data-current="20" data-total="30"></span></div>
+    <aside class="notes"><p>CausalCine takes a different approach: through 2N packing and parallel teacher forcing, it directly learns a native multi-shot causal base rather than treating a next-shot teacher as the final prior. It then uses ODE initialization, self-forcing DMD, and adversarial refinement to distill a four-step student.</p><p>CAMR is the central history-management mechanism: remote KV is not truncated mechanically by temporal distance, but retrieved according to relevance to the current content and then merged with recent local KV. The paper uses a 14B backbone and reports 16 FPS on eight H200 GPUs, so the figure is not directly comparable to ShotStream's single-GPU result.</p></aside>
+  </section>
+
+  <section class="slide" data-title="LongLive 2.0 · Multi-Shot">
+    <div class="section-tag"><span class="chip p3">KEY PAPER</span></div>
+    <p class="kicker">Runtime shot switching</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2605.18739">LongLive 2.0</a><span class="meta-badge">arXiv · 2026.05</span></span>: two reference-frame sets for successive shot transitions</h2>
+    <div class="content vcenter">
+      <div class="glass panel-lg">
+        <div class="row" style="justify-content:space-between"><b>Chunk-wise prompting</b><span class="small">the prompt switch itself defines the scene cut</span></div>
+        <div class="prompt-track">
+          <div class="prompt-chunk global">G<small>global sink</small></div><div class="prompt-chunk global">G<small>global sink</small></div><div class="prompt-chunk">A<small>recent KV</small></div><div class="prompt-chunk">A<small>recent KV</small></div><div class="prompt-chunk cut">A → B<small>cut</small></div><div class="prompt-chunk shot">S₂<small>shot sink</small></div><div class="prompt-chunk">B<small>recent KV</small></div><div class="prompt-chunk cut">B → C<small>cut</small></div><div class="prompt-chunk shot">S₃<small>shot sink</small></div>
+        </div>
+        <p class="small mt-m"><b>Effective KV:</b> global sink ∪ current shot sink ∪ recent sliding-window history.</p>
+      </div>
+      <div class="grid g3 mt-m">
+        <div class="glass glass-blue panel"><h3 class="h3">Global sink</h3><p class="body">Permanently retains a small set of frames from the beginning of the video as a cross-shot identity anchor.</p></div>
+        <div class="glass glass-mint panel"><h3 class="h3">Shot-level sink</h3><p class="body">When the prompt changes, the opening of the new shot is rebound as a local anchor; earlier history and the global sink are not recomputed.</p></div>
+        <div class="glass glass-purple panel"><h3 class="h3">Direct multi-shot AR training</h3><p class="body">Each latent chunk is bound to independent text, directly learning clean-history → noisy-target on real multi-shot long videos.</p></div>
+      </div>
+      <div class="callout mint mt-m"><b>This slide focuses only on multi-shot generation:</b> the key elements are interactive chunk prompts and dual-scale sinks; NVFP4, parallelism, and asynchronous decoding are omitted.</div>
+    </div>
+    <div class="deck-footer"><span>Conceptual diagram redrawn from LongLive 2.0</span><span class="slide-number" data-current="21" data-total="30"></span></div>
+    <aside class="notes"><p>Two aspects of LongLive 2.0 are especially relevant to multi-shot generation. First, each latent chunk may be bound to independent text; switching the prompt during generation starts a new shot at the current position, so a complete storyboard need not be specified in advance. Second, training directly uses real multi-shot long videos with per-shot descriptions.</p><p>Multi-Shot Attention Sink preserves two temporal scales: global reference frames from the beginning of the video remain permanently available to maintain the subject across shots, while a new set of current-shot reference frames is refreshed after every cut to preserve within-shot coherence. Quantization and deployment optimizations are beyond the scope of this slide.</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Part IV · System / Agent">
+    <div class="section-tag"><span class="dot" style="background:#f08a45"></span><span class="chip p4">PART IV</span></div>
+    <div class="glass glass-strong panel-lg" style="max-width:1040px;margin:auto">
+      <p class="kicker">PART IV</p>
+      <h2 class="section-title gradient-text">System / Agent</h2>
+      <p class="section-subtitle">Decide how to decompose, generate, inspect, and retry outside the video model</p>
+      <div class="agent-pipeline mt-l"><div class="agent-box"><div class="agent-icon">✍️</div><b>Decompose story</b><p class="small">shots · assets · camera</p></div><div class="arrow">→</div><div class="agent-box"><div class="agent-icon">🗂️</div><b>Manage references</b><p class="small">character · prop · bg</p></div><div class="arrow">→</div><div class="agent-box"><div class="agent-icon">🎬</div><b>Invoke generator</b><p class="small">joint · shot-AR · causal</p></div><div class="arrow">→</div><div class="agent-box"><div class="agent-icon">🔎</div><b>Inspect and retry</b><p class="small">verify · repair · update</p></div></div>
+      <div class="grid g3 mt-l"><div class="callout warm"><b>Stage 1</b><br>Plan in advance and generate unidirectionally.</div><div class="callout purple"><b>Stage 2</b><br>Selection and state management during generation.</div><div class="callout mint"><b>Stage 3</b><br>A closed loop driven by visual feedback.</div></div>
+    </div>
+    <div class="deck-footer"><span>System is orthogonal to the renderer architecture</span><span class="slide-number" data-current="22" data-total="30"></span></div>
+    <aside class="notes"><p>The System route does not prescribe how generation occurs inside the video model. Instead, it decides outside the model how to decompose the story, in what order to generate, which references to preserve, and when to retry or revise subsequent inputs. It may call a joint, shot-AR, or causal renderer.</p><p>We distinguish stages not by the number of agents or module names, but by whether actual generated results affect subsequent decisions. This yields three clear stages: advance planning with unidirectional execution; candidate selection and external state management during generation; and a closed loop in which visual feedback truly alters shot order, prompts, memory, or retry strategy.</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="System Timeline">
+    <div class="section-tag"><span class="chip p4">PART IV · TIMELINE</span></div>
+    <p class="kicker">Decision loop evolution</p>
+    <h2 class="h2">From advance planning to a visual-feedback loop</h2>
+    <div class="content system-timeline" style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start;flex:none;margin:auto 0">
+      <div class="glass glass-blue panel-lg system-stage"><div class="time">2023.09–2024.12</div><div class="phase" style="font-size:21px">Advance planning, one-way generation</div><div class="paper-list mt-m"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2309.15091">VideoDirectorGPT</a><span class="meta-badge">COLM 2024</span><span class="paper-desc">scene, layout, and entity plans</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2408.11788">DreamFactory</a><span class="meta-badge">arXiv</span><span class="paper-desc">multi-agent scripts and keyframes</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2412.02259">ViGoT</a><span class="meta-badge">NeurIPS 2025 Workshop</span><span class="paper-desc">keyframe-first one-way pipeline</span></div></div><p class="small mt-m">The rendered video usually does not revise the original plan.</p></div>
+      <div class="glass glass-purple panel-lg system-stage"><div class="time">2025.06–2026.01</div><div class="phase" style="font-size:21px">Selection and state management</div><div class="paper-list mt-m"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2506.10540">AniMaker</a><span class="meta-badge">SIGGRAPH Asia 2025</span><span class="paper-desc">evaluate and select candidate clips</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a><span class="meta-badge">arXiv</span><span class="paper-desc">maintain character, prop, and background references</span></div></div><p class="small mt-m">Decisions enter the generation process, but mainly as local selection or external state maintenance.</p></div>
+      <div class="glass glass-mint panel-lg system-stage"><div class="time">2026.05–06</div><div class="phase" style="font-size:21px">Visual-feedback-driven loop</div><div class="paper-list mt-m"><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2605.06924">A²RD</a><span class="meta-badge">arXiv</span><span class="paper-desc">retrieve–synthesize–refine–update</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2605.18733">IAMFlow</a><span class="meta-badge">arXiv</span><span class="paper-desc">asynchronous visual inspection and identity memory</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.16184">CoTriSyGen</a><span class="meta-badge">arXiv</span><span class="paper-desc">rendered results revise future prompts and memory</span></div><div class="paper-row"><a class="paper-link" href="https://arxiv.org/abs/2606.20799">GroundShot</a><span class="meta-badge">arXiv</span><span class="paper-desc">reorder shots and verify references</span></div></div><p class="small mt-m">Generated results directly change subsequent strategy.</p></div>
+    </div>
+    <div class="callout warm mt-m"><b>Key distinction:</b> are images merely stored / selected, or do they alter subsequent generation strategy?</div>
+    <div class="deck-footer"><span>Stages reflect decision flow, not number of agents</span><span class="slide-number" data-current="23" data-total="30"></span></div>
+    <aside class="notes"><p>The System timeline has three stages. Early systems such as VideoDirectorGPT, DreamFactory, and ViGoT complete most planning before generation, then execute a fixed sequence of steps; actual rendered images rarely return to the planning module.</p><p>From 2025 to early 2026, AniMaker evaluates and selects among candidates, while VideoMemory maintains reference assets during shot-by-shot generation, bringing decision-making into the process. By mid-2026, A²RD, IAMFlow, CoTriSyGen, and GroundShot allow visual inspection to trigger retries, state updates, prompt revision, or shot reordering, creating a more complete feedback loop.</p></aside>
+  </section>
+
+  <section class="slide" data-title="VideoDirectorGPT to DreamFactory">
+    <div class="section-tag"><span class="chip p4">EARLY SYSTEMS</span></div>
+    <p class="kicker">Plan first, render later</p>
+    <h2 class="h2">Early starting point: the LLM directs before handing off to the video generator</h2>
+    <div class="content grid g2">
+      <div class="glass glass-blue panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2309.15091">VideoDirectorGPT</a></span><span class="venue meta-badge">COLM 2024</span></div>
+        <div class="flow vertical mt-l"><div class="node">GPT-4 story decomposition</div><div class="arrow">↓</div><div class="node">scene · layout · entities</div><div class="arrow">↓</div><div class="node">consistency grouping</div><div class="arrow">↓</div><div class="node">Layout2Vid segments</div></div>
+      </div>
+      <div class="glass glass-purple panel-lg">
+        <div class="paper-head"><span class="paper"><a href="https://arxiv.org/abs/2408.11788">DreamFactory</a></span><span class="venue meta-badge">arXiv</span></div>
+        <div class="flow vertical mt-l"><div class="node">script agents</div><div class="arrow">↓</div><div class="node">character / keyframe design</div><div class="arrow">↓</div><div class="node">shot rendering</div><div class="arrow">↓</div><div class="node">assemble video</div></div>
+      </div>
+    </div>
+    <div class="callout warm mt-m"><span class="strong">Shared limitation:</span> however detailed the plan, actual generated results usually do not return to the planning module; the system largely executes the initial plan in one direction.</div>
+    <div class="deck-footer"><span>Early stage: structured plan without visual feedback</span><span class="slide-number" data-current="24" data-total="30"></span></div>
+    <aside class="notes"><p>VideoDirectorGPT is an early example of the LLM-as-Director paradigm. GPT-4 first decomposes text into scenes, layouts, entities, and consistency groups, after which Layout2Vid generates each segment. DreamFactory divides script, character, and keyframe design among several agent roles.</p><p>Their important contribution is to introduce structured intermediate representations from film production into video generation. Their shared limitation is equally clear: planning happens first and rendering afterward, while generated imagery rarely returns to the planning module. The system knows what it intends to generate, but does not revise the plan using evidence from the rendered video.</p></aside>
+  </section>
+
+  <section class="slide" data-title="ViGoT">
+    <div class="section-tag"><span class="chip p4">KEY PAPER</span></div>
+    <p class="kicker">Training-free keyframe-first pipeline</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2412.02259">ViGoT</a><span class="meta-badge">NeurIPS 2025 Workshop</span></span>: a complete keyframe-first system baseline</h2>
+    <div class="content grid g23">
+      <div class="stack">
+        <div class="flow vertical"><div class="node">GPT-4o<br><small>5-field per-shot script</small></div><div class="arrow">↓</div><div class="node glass-purple">Portrait / IP embedding<br><small>identity anchor</small></div><div class="arrow">↓</div><div class="node glass-blue">Per-shot keyframes<br><small>text-to-image</small></div><div class="arrow">↓</div><div class="node glass-mint">DynamiCrafter I2V<br><small>shot clips</small></div><div class="arrow">↓</div><div class="node glass-warm">Adjacent latent transition</div></div>
+        <div class="callout warm"><b>Critique:</b> identity relies mainly on explicit references; memory for long-term action, prop state, and world state is weak.</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:1.84"><img src="assets/papers/ViGoT.png" alt="ViGoT flowchart"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: ViGoT paper, Figure 2</span><span class="slide-number" data-current="25" data-total="30"></span></div>
+    <aside class="notes"><p>ViGoT is a useful training-free system baseline. GPT-4o first produces a five-field script for each shot; portrait or IP embeddings anchor characters; a keyframe is generated for every shot, followed by I2V generation with DynamiCrafter; adjacent latent transitions soften the boundaries.</p><p>Its advantage is that a user can provide a single-sentence story and receive a complete pipeline from planning to final video. However, the paper's “end-to-end” claim is closer to one-click completion from the user's perspective than to joint training. Identity consistency relies mainly on explicit references, while memory for long-term actions, prop state, and world state remains weak.</p></aside>
+  </section>
+
+  <section class="slide" data-title="VideoMemory">
+    <div class="section-tag"><span class="chip p4">KEY PAPER</span></div>
+    <p class="kicker">Persistent external assets</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a><span class="meta-badge">arXiv</span></span>: maintain characters, props, and backgrounds separately</h2>
+    <div class="content grid g2" style="align-items:center">
+      <div class="stack">
+        <div class="grid g3">
+          <div class="glass glass-blue panel-sm tc"><div class="agent-icon">👤</div><b>Character bank</b><p class="tiny">identity + age / costume state</p></div>
+          <div class="glass glass-purple panel-sm tc"><div class="agent-icon">🧳</div><b>Prop bank</b><p class="tiny">object appearance + attributes</p></div>
+          <div class="glass glass-mint panel-sm tc"><div class="agent-icon">🏞️</div><b>Background bank</b><p class="tiny">recurring environments</p></div>
+        </div>
+        <div class="flow"><div class="node">Storyboard Agent</div><div class="arrow">→</div><div class="node">retrieve / create</div><div class="arrow">→</div><div class="node">keyframe + I2V</div><div class="arrow">→</div><div class="node">update bank</div></div>
+        <div class="callout purple"><b>Value:</b> supports long-range entity recurrence and state changes within the story, instead of resampling appearance in every shot.</div>
+        <div class="callout warm"><b>Boundary:</b> it maintains reference information but does not inspect the rendered video, diagnose errors, or trigger local regeneration; it is therefore not yet a visual-feedback loop.</div>
+      </div>
+      <figure class="figure-frame paper-crop" style="margin:0;aspect-ratio:2.49"><img src="assets/papers/videomemory.png" alt="VideoMemory framework"></figure>
+    </div>
+    <div class="deck-footer"><span>Source: VideoMemory paper, Figure 3</span><span class="slide-number" data-current="26" data-total="30"></span></div>
+    <aside class="notes"><p>VideoMemory centers on a Dynamic Memory Bank that stores characters, props, and backgrounds separately as image references and textual attributes. A Storyboard Agent plans the script and retrieves required entities before generating each shot; when state changes or no match exists, it creates or updates a reference.</p><p>This is better suited to long stories than simply reusing the first frame: a character can change clothes or age, and a prop can change while remaining recognizable. However, the system mainly maintains the references it intends to use. It does not verify whether the final video is actually correct or trigger local regeneration accordingly, so it remains state management rather than a complete visual-feedback loop.</p></aside>
+  </section>
+
+  <section class="slide" data-title="GroundShot and Visual Feedback">
+    <div class="section-tag"><span class="chip p4">CLOSED LOOP</span></div>
+    <p class="kicker">Generated frames become evidence</p>
+    <h2 class="h2"><span class="title-paper"><a class="paper-link" href="https://arxiv.org/abs/2606.20799">GroundShot</a><span class="meta-badge">arXiv · 2026.06</span></span>: generate the shot best suited to serve as a reference first</h2>
+    <div class="content grid g31" style="align-items:center">
+      <div class="glass panel-lg feedback-loop vcenter" style="min-height:510px">
+        <div class="agent-pipeline">
+          <div class="agent-box"><div class="agent-icon">🗓️</div><b>Schedule</b><p class="small">choose best anchor shot</p></div><div class="arrow">→</div>
+          <div class="agent-box"><div class="agent-icon">🎞️</div><b>Generate</b><p class="small">create candidate frame / shot</p></div><div class="arrow">→</div>
+          <div class="agent-box"><div class="agent-icon">✅</div><b>Verify</b><p class="small">entity grounding quality</p></div><div class="arrow">→</div>
+          <div class="agent-box"><div class="agent-icon">🧠</div><b>Write</b><p class="small">reference memory</p></div>
+        </div>
+        <div class="callout mint mt-l"><b>A genuine closed loop:</b> generated results affect shot order, whether a reference is saved, subsequent prompts, and whether to retry.</div>
+      </div>
+      <div class="stack">
+        <div class="glass panel"><b><a class="paper-link" href="https://arxiv.org/abs/2506.10540">AniMaker</a></b><p class="small">Generates candidates for local evaluation / selection by a reviewer.</p><span class="meta-badge">SIGGRAPH Asia 2025</span></div>
+        <div class="glass panel"><b><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a></b><p class="small">Continuously maintains character, prop, and background references, but does not diagnose rendered output.</p><span class="meta-badge">arXiv</span></div>
+        <div class="glass panel"><b><a class="paper-link" href="https://arxiv.org/abs/2605.06924">A²RD</a> · <a class="paper-link" href="https://arxiv.org/abs/2605.18733">IAMFlow</a> · <a class="paper-link" href="https://arxiv.org/abs/2606.16184">CoTriSyGen</a></b><p class="small">Inspect after generation, update state, revise subsequent inputs, or trigger regeneration.</p><span class="meta-badge">arXiv · 2026</span></div>
+        <div class="callout warm"><b>The change in 2026:</b> not more agent roles, but visual evidence entering the decision process.</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Conceptual pipeline redrawn from GroundShot</span><span class="slide-number" data-current="27" data-total="30"></span></div>
+    <aside class="notes"><p>GroundShot's key contribution is not adding more agents, but changing the order in which shots are generated. Rather than following story order mechanically, it first identifies, generates, and verifies the shot best suited to serve as an entity reference. Only a reliable reference is written to memory and used for other shots.</p><p>This makes actual imagery evidence for subsequent decisions. Compared with AniMaker's local candidate selection and VideoMemory's continuous state maintenance, GroundShot and contemporaneous closed-loop methods adjust shot order, state records, prompts, and retry strategies according to the rendered output. This marks a genuine phase transition for the System route.</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Four-Route Comparison">
+    <div class="section-tag"><span class="chip">SYNTHESIS</span></div>
+    <p class="kicker">No single SOTA</p>
+    <h2 class="h2">A unified trade-off across four routes</h2>
+    <div class="content">
+      <table class="compare route-compare">
+        <thead><tr><th>Dimension</th><th>Holistic joint</th><th>Shot-level AR</th><th>Causal streaming</th><th>Agentic system</th></tr></thead>
+        <tbody>
+          <tr><td>Global bidirectional coordination</td><td>Strong</td><td>Weak / indirect</td><td>Weak / indirect</td><td>Depends on planner / repair</td></tr>
+          <tr><td>Open-ended extension</td><td>Weak</td><td>Strong</td><td>Strong</td><td>Strong</td></tr>
+          <tr><td>Time to first frame</td><td>High</td><td>Medium</td><td>Low</td><td>Usually high and variable</td></tr>
+          <tr><td>History cost</td><td>Full context</td><td>Memory-dependent</td><td>Bounded cache</td><td>External asset / API dependent</td></tr>
+          <tr><td>Local correction</td><td>Usually regenerate everything</td><td>Regenerate subsequent shots from the target shot onward</td><td>Past output is difficult to modify; rollout can continue</td><td>Regenerate a specified shot and update subsequent shots</td></tr>
+          <tr><td>Primary risk</td><td>Context scaling</td><td>Memory drift / exposure bias</td><td>Causal error accumulation</td><td>Cost / verifier bias / mismatch</td></tr>
+        </tbody>
+      </table>
+      <div class="glass glass-strong panel-sm mt-m tc"><p class="quote" style="font-size:18px;margin:0">There is no single SOTA: the <span class="gradient-text">task interface</span> determines the appropriate architecture.</p></div>
+    </div>
+    <div class="deck-footer"><span>Choose architecture after fixing interaction and editing requirements</span><span class="slide-number" data-current="28" data-total="30"></span></div>
+    <aside class="notes"><p>The unified comparison shows that no single route wins on every dimension. Holistic methods excel at global bidirectional coordination under a fixed script, but have high time to first frame and expensive local edits. Shot-AR supports extension and reuses a fully bidirectional generator, but is vulnerable to memory drift. Causal Streaming has the lowest latency, but continually accumulates error.</p><p>Agentic systems can reorder, inspect, and regenerate, yet their cost and verifier bias cannot be ignored. Before discussing SOTA, we must therefore fix whether the user requires online extension or local editing, and how many retries and external API calls are permitted.</p></aside>
+  </section>
+
+  <section class="slide compact" data-title="Benchmark Landscape">
+    <div class="section-tag"><span class="chip">EVALUATION</span></div>
+    <p class="kicker">Status in 2026.07</p>
+    <h2 class="h2">Benchmark efforts exist, but there is no <span class="gradient-text">unified standard</span></h2>
+    <div class="content eval-grid">
+      <div class="glass panel-lg">
+        <h3 class="h3">Still dominant: paper-specific test sets</h3>
+        <table class="compare mt-m">
+          <tbody>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2505.07652">ShotAdapter</a></td><td>48 prompts · 2/3/4 shots · same/different BG</td></tr>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2512.11274">FilmWeaver</a></td><td>20 Gemini-generated five-shot stories</td></tr>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2603.25746">ShotStream</a> / <a class="paper-link" href="https://arxiv.org/abs/2605.12496">CausalCine</a></td><td>Separate 100-prompt multi-shot tests</td></tr>
+            <tr><td><a class="paper-link" href="https://arxiv.org/abs/2601.03655">VideoMemory</a></td><td>54 cases · 4/8/12 shots · entity recurrence</td></tr>
+          </tbody>
+        </table>
+        <div class="callout warm mt-m">Prompts, shot counts, references, resolution, evaluators, and hardware all differ; the reported numbers cannot be assembled into a direct ranking.</div>
+      </div>
+      <div class="benchmark-list">
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2602.23969">MSVBench</a> <span class="meta-badge">arXiv</span></h4><p>Hierarchical scripts + references; 20 methods. Primarily an offline comprehensive evaluation.</p></div>
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2605.15199">EntityBench</a> <span class="meta-badge">arXiv</span></h4><p>140 episodes · 2,491 shots · up to 50; long-range entity recurrence.</p></div>
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2606.20799">GroundBench</a> <span class="meta-badge">arXiv</span></h4><p>Diagnoses consistency of characters, objects, and scenes under controlled difficulty.</p></div>
+        <div class="glass benchmark"><h4><a class="paper-link" href="https://arxiv.org/abs/2604.23789">MuSS</a> <span class="meta-badge">arXiv</span></h4><p>Multi-shot subject-to-video with a more specialized input condition.</p></div>
+        <div class="glass benchmark" style="grid-column:1/-1"><h4><a class="paper-link" href="https://arxiv.org/abs/2605.20183">MSAVBench</a> <span class="meta-badge">arXiv</span></h4><p>Multi-shot audio-video; it does not directly cover every setting in video-only generation, online interaction, or agentic systems.</p></div>
+        <div class="callout mint" style="grid-column:1/-1"><b>Conclusion:</b> benchmarks are not absent; they are just beginning to take shape and have not yet become a shared de facto standard across all four routes.</div>
+      </div>
+    </div>
+    <div class="deck-footer"><span>Benchmark landscape · snapshot at 2026-07</span><span class="slide-number" data-current="29" data-total="30"></span></div>
+    <aside class="notes"><p>The accurate characterization of evaluation today is not that benchmarks are entirely absent, but that specialized benchmarks are only beginning to emerge and no unified de facto standard exists. Most papers still use custom prompts: 48 for ShotAdapter, 20 five-shot stories for FilmWeaver, separate 100-prompt tests for ShotStream and CausalCine, and 54 cases for VideoMemory.</p><p>MSVBench, EntityBench, GroundBench, MuSS, and MSAVBench appeared in 2026, but emphasize offline comprehensive evaluation, entity recurrence, grounding, subject-to-video, and audiovisual generation, respectively. They do not directly cover every route.</p></aside>
+  </section>
+
+  <section class="slide section-open" data-title="Discussion">
+    <div class="section-tag"><span class="chip">DISCUSSION</span></div>
+    <div style="width:100%">
+      <p class="kicker">Takeaways &amp; open questions</p>
+      <h2 class="h2">From “shared pixel history” toward <span class="gradient-text">shared world state</span></h2>
+      <div class="discussion mt-l">
+        <div class="glass"><div class="n">01</div><h3>Where is the architectural boundary?</h3><p>When should holistic generation define the global quality ceiling, and when should causal rollout be used with periodic repair?</p><div class="chip p1" style="margin-top:auto;width:max-content">architecture</div></div>
+        <div class="glass"><div class="n">02</div><h3>What should memory store?</h3><p>Frames, latent patches, entity assets, or an updatable world state? How can prop and event state be verified rather than only character appearance?</p><div class="chip p2" style="margin-top:auto;width:max-content">representation</div></div>
+        <div class="glass"><div class="n">03</div><h3>How should closed-loop systems be compared fairly?</h3><p>If systems may use different numbers of candidates, API calls, and retries, how should quality, latency, and cost be combined into an interpretable evaluation?</p><div class="chip p4" style="margin-top:auto;width:max-content">evaluation</div></div>
+      </div>
+      <div class="glass glass-strong panel mt-l tc"><p class="quote" style="font-size:22px;margin:0">2025: bring multiple shots into one generative context.<br>2026: extend online, manage history, and bring visual results into the decision loop.</p></div>
+    </div>
+    <div class="deck-footer"><span>Questions?</span><span class="slide-number" data-current="30" data-total="30"></span></div>
+    <aside class="notes"><p>We conclude with three questions for discussion. First, where should holistic and causal approaches meet? Can causal generation preserve interactivity while periodic bidirectional repair restores global quality? Second, should memory ultimately store frames, latent patches, entity assets, or explicit world state—and how should prop and event outcomes be verified?</p><p>Third, once agentic systems allow candidates, retries, and external APIs, how can quality, latency, and cost be compared fairly? Broadly, 2025 focused on bringing multiple shots into one generative context; in 2026, the emphasis shifts to online extension, historical state management, and using visual results in subsequent decisions.</p></aside>
+  </section>
+</div>
+
+<div style="position:fixed;bottom:11px;left:14px;font-size:10px;color:#52627a88;z-index:100;pointer-events:none">S Presenter View · ← → Navigate · F Fullscreen · O Overview · Hover dotted terms</div>
+<div class="term-popover" id="termPopover" role="status" aria-live="polite"><b id="termPopoverLabel"></b><span id="termPopoverText"></span></div>
+<script src="assets/runtime/runtime.js"></script>
+<script>
+  document.querySelectorAll('.slide').forEach((slide, index, slides) => {
+    const number = slide.querySelector('.slide-number');
+    if (number) {
+      number.dataset.current = String(index + 1);
+      number.dataset.total = String(slides.length);
+    }
+  });
+  document.querySelectorAll('a[href^="https://"]').forEach((link) => {
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+  });
+
+  const glossary = [
+    { label: 'Multi-shot video generation', aliases: ['Multi-Shot Video Generation', 'Multi-shot video generation', 'multi-shot video generation'], def: 'Generation of multiple shots separated by explicit shot boundaries and linked through characters, props, environments, and narrative state.' },
+    { label: 'Hard cut', aliases: ['hard cut', 'Hard cut'], def: 'An editing boundary that switches directly from one shot to another without a fade or dissolve.' },
+    { label: 'Consistency', aliases: ['consistency', 'Consistency'], def: 'Preserving identities, props, environments, and style that should remain stable across shots while allowing script-required state changes.' },
+    { label: 'Holistic joint generation', aliases: ['Holistic Joint Generation', 'Holistic Joint', 'holistic joint'], def: 'Generating all shots jointly within one model call and one denoising context, with bidirectional information exchange across shots.' },
+    { label: 'DiT', aliases: ['DiT'], def: 'Diffusion Transformer: a generative backbone that uses a Transformer for diffusion or flow-matching denoising.' },
+    { label: 'Caption–shot alignment', aliases: ['Caption–shot alignment', 'caption–shot alignment', 'caption-shot alignment'], def: 'Ensuring that shot description i primarily controls shot i, avoiding interference among text conditions for different shots.' },
+    { label: 'Attention mask', aliases: ['Attention mask', 'attention mask'], def: 'A visibility matrix that explicitly specifies which other tokens each text or visual token may read.' },
+    { label: 'RoPE', aliases: ['RoPE'], def: 'Rotary Position Embedding: encodes relative position by rotating features; video models often encode temporal and spatial coordinates together.' },
+    { label: 'Transition token', aliases: ['Transition token', 'transition token'], def: 'A learnable token inserted near a shot boundary to provide an explicit control signal for cutting to a new shot.' },
+    { label: 'Shot-level autoregressive', aliases: ['Shot-Level Autoregressive', 'shot-level autoregressive', 'Shot-Level AR'], def: 'Generation in complete-shot units: fix the shots already generated, then use them to generate the next shot.' },
+    { label: 'Memory', aliases: ['memory', 'Memory'], def: 'A historical representation stored for later shots to read, such as frames, latent tokens, entity assets, or structured state.' },
+    { label: 'Exposure bias', aliases: ['exposure bias', 'Exposure bias'], def: 'The training–inference gap created when a model sees clean history during training but only its own error-bearing outputs at inference.' },
+    { label: 'Causal streaming', aliases: ['Causal Streaming', 'causal streaming'], def: 'Causal generation by frame or video chunk using only past state, enabling incremental output and runtime instruction updates.' },
+    { label: 'Chunk', aliases: ['chunks', 'chunk', 'Chunk'], def: 'A video block containing several consecutive frames; streaming models typically generate one chunk at a time rather than an entire video.' },
+    { label: 'KV cache', aliases: ['KV cache', 'KV Cache', 'KV'], def: 'Stored key/value intermediates from historical attention that later generation can reuse to avoid redundant computation.' },
+    { label: 'Teacher forcing', aliases: ['teacher forcing', 'Teacher forcing', 'teacher-forcing'], def: 'Training with ground-truth or clean history as context, which enables parallel supervision but may differ from real inference history.' },
+    { label: 'Self-forcing', aliases: ['self-forcing', 'Self-forcing', 'Self Forcing'], def: 'Training a model to continue rollout from its own generated history so that the training condition more closely matches inference.' },
+    { label: 'DMD', aliases: ['DMD'], def: 'Distribution Matching Distillation: trains a few-step student distribution to approximate a high-quality teacher or the real data distribution.' },
+    { label: 'Attention sink', aliases: ['Attention Sink', 'attention sink', 'Global sink', 'Shot-level sink'], def: 'A small set of early frames or features retained long term as a stable anchor accessible beyond the sliding window.' },
+    { label: 'Agentic system', aliases: ['Agentic system', 'System / Agent', 'agentic'], def: 'A system in which external planners, tool calls, memory, and inspection modules determine shot decomposition, generation order, and retry strategy.' },
+    { label: 'Benchmark', aliases: ['benchmark', 'Benchmark'], def: 'An evaluation suite with fixed data, task protocol, and metrics; cross-method numbers are directly comparable only under a shared protocol.' },
+    { label: 'Rollout', aliases: ['rollout', 'Rollout'], def: 'The process in which a model repeatedly uses its own output as history to continue generation.' }
+  ];
+
+  function annotateGlossary() {
+    const root = document.querySelector('.deck');
+    glossary.forEach((entry) => {
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let node;
+      while ((node = walker.nextNode())) {
+        const parent = node.parentElement;
+        if (!parent || parent.closest('.term, a, .notes, .deck-footer, script, style, svg')) continue;
+        let match = null;
+        entry.aliases.forEach((alias) => {
+          const index = node.data.indexOf(alias);
+          if (index >= 0 && (!match || index < match.index || (index === match.index && alias.length > match.alias.length))) match = { index, alias };
+        });
+        if (!match) continue;
+        const before = document.createTextNode(node.data.slice(0, match.index));
+        const term = document.createElement('span');
+        term.className = 'term';
+        term.tabIndex = 0;
+        term.dataset.label = entry.label;
+        term.dataset.definition = entry.def;
+        term.textContent = match.alias;
+        const after = document.createTextNode(node.data.slice(match.index + match.alias.length));
+        node.replaceWith(before, term, after);
+        break;
+      }
+    });
+  }
+
+  annotateGlossary();
+  const termPopover = document.getElementById('termPopover');
+  const termPopoverLabel = document.getElementById('termPopoverLabel');
+  const termPopoverText = document.getElementById('termPopoverText');
+  let termTimer;
+  function showTerm(term) {
+    clearTimeout(termTimer);
+    termPopoverLabel.textContent = `Term · ${term.dataset.label}`;
+    termPopoverText.textContent = term.dataset.definition;
+    termPopover.classList.add('show');
+  }
+  function hideTerm() {
+    clearTimeout(termTimer);
+    termTimer = setTimeout(() => termPopover.classList.remove('show'), 120);
+  }
+  document.querySelectorAll('.term').forEach((term) => {
+    term.addEventListener('mouseenter', () => showTerm(term));
+    term.addEventListener('mouseleave', hideTerm);
+    term.addEventListener('focus', () => showTerm(term));
+    term.addEventListener('blur', hideTerm);
+  });
+</script>
+</body>
+</html>

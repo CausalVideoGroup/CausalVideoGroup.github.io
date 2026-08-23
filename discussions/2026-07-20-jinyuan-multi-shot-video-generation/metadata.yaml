@@ -38,3 +38,5 @@ papers:
     role: system
     note: Closes the loop between shot scheduling, entity grounding, reference verification, and memory updates.
 external_videos: []
+slides: presentation-standard.html
+original_slides: presentation.html

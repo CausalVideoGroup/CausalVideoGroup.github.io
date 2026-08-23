@@ -38,7 +38,8 @@ class BuildSiteTests(unittest.TestCase):
                 "  First line\n"
                 "  second line.\n"
                 "tags:\n"
-                "  - video-generation\n",
+                "  - video-generation\n"
+                "slides: presentation-standard.html\n",
                 encoding="utf-8",
             )
             item = read_discussion_metadata(path)
@@ -46,6 +47,18 @@ class BuildSiteTests(unittest.TestCase):
             self.assertEqual(item.topic_slug, "topic")
             self.assertEqual(item.summary, "First line second line.")
             self.assertEqual(item.tags, ("video-generation",))
+            self.assertEqual(item.slides, "presentation-standard.html")
+            self.assertIsNone(item.original_slides)
+
+    def test_reads_standard_and_original_presentations(self) -> None:
+        item = read_discussion_metadata(
+            REPOSITORY_ROOT
+            / "discussions"
+            / "2026-07-13-yifan-forcing-ar-video-distillation"
+            / "metadata.yaml"
+        )
+        self.assertEqual(item.slides, "presentation-standard.html")
+        self.assertEqual(item.original_slides, "presentation.html")
 
     def test_replaces_only_named_region(self) -> None:
         source = "before\n<!-- GENERATED:x:START -->\nold\n<!-- GENERATED:x:END -->\nafter"
@@ -62,6 +75,7 @@ class BuildSiteTests(unittest.TestCase):
     def test_public_example_is_present_in_sitemap(self) -> None:
         sitemap = (REPOSITORY_ROOT / "sitemap.xml").read_text(encoding="utf-8")
         self.assertIn("2026-07-13-yifan-forcing-ar-video-distillation", sitemap)
+        self.assertIn("presentation-standard.html", sitemap)
 
     def test_renders_discussion_markdown_as_styled_content(self) -> None:
         title, body, uses_mermaid = render_markdown(

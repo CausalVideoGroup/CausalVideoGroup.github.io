@@ -44,6 +44,11 @@ The command creates:
 discussions/2026-07-13-yifan-forcing-ar-video-distillation/
 ```
 
+Each new discussion includes `presentation-standard.html`, the canonical
+English presentation page. If a Chinese source deck is retained, keep it as
+`presentation.html` and expose it from the discussion overview as
+`Original (中文)`; public navigation should default to the English page.
+
 It refuses to overwrite an existing entry unless `--force` is explicitly used.
 
 ## Rebuild indexes

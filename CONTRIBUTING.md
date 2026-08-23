@@ -22,7 +22,10 @@ been approved for public release.
      --title "Forcing Series: The Evolution of AR Video Distillation"
    ```
 
-3. Complete the summary, idea map, references, and metadata.
+3. Complete the English `presentation-standard.html`, summary, idea map,
+   references, and metadata. A retained Chinese source deck belongs in
+   `presentation.html`; the discussion overview must label it `Original (中文)`
+   and keep the English presentation as the default link.
 4. Rebuild and validate:
 
    ```bash
@@ -37,6 +40,8 @@ been approved for public release.
 ## Before-meeting quality bar
 
 - Metadata, summary, idea map, and references are complete.
+- The standard presentation is written in English and is the default public
+  presentation link.
 - At least three important references are analyzed, not merely listed.
 - At least five open questions are provided.
 - Central claim, hidden assumption, failure boundary, connection, concrete

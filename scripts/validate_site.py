@@ -27,6 +27,7 @@ REQUIRED_FILES = {
     "action-items.md",
 }
 REQUIRED_PUBLIC_PAGES = {
+    "presentation-standard.html",
     "references.html",
     "meeting-note.html",
 }
@@ -41,6 +42,10 @@ QUALITY_LABELS = (
 )
 MEDIA_SUFFIXES = {".mp4", ".webm", ".mov", ".avi", ".mkv"}
 MAX_MEDIA_BYTES = 10 * 1024 * 1024
+NON_ENGLISH_PRESENTATION_TEXT = re.compile(
+    r"[\u3000-\u30ff\u31f0-\u31ff\u3400-\u4dbf\u4e00-\u9fff"
+    r"\uac00-\ud7af\uf900-\ufaff\uff00-\uffef]"
+)
 
 
 @dataclass(frozen=True)
@@ -107,6 +112,38 @@ def validate(root: Path) -> list[Finding]:
         for filename in sorted(REQUIRED_PUBLIC_PAGES):
             if not (folder / filename).is_file():
                 findings.append(Finding("ERROR", str(folder.relative_to(root)), f"missing rendered public page: {filename}"))
+
+        if item.slides != "presentation-standard.html":
+            findings.append(Finding("ERROR", str((folder / 'metadata.yaml').relative_to(root)), "slides must point to the canonical English presentation-standard.html"))
+        if item.original_slides not in (None, "presentation.html"):
+            findings.append(Finding("ERROR", str((folder / 'metadata.yaml').relative_to(root)), "original_slides, when present, must point to presentation.html"))
+        original_presentation = folder / "presentation.html"
+        if original_presentation.is_file() and item.original_slides != "presentation.html":
+            findings.append(Finding("ERROR", str((folder / 'metadata.yaml').relative_to(root)), "original_slides must point to presentation.html when an original deck is retained"))
+        if item.original_slides and not (folder / item.original_slides).is_file():
+            findings.append(Finding("ERROR", str((folder / 'metadata.yaml').relative_to(root)), f"original slides file does not exist: {item.original_slides}"))
+
+        standard_presentation = folder / "presentation-standard.html"
+        if standard_presentation.is_file():
+            presentation_text = standard_presentation.read_text(encoding="utf-8")
+            if not re.search(r'<html\b[^>]*\blang=["\']en(?:-[A-Za-z]+)?["\']', presentation_text, re.IGNORECASE):
+                findings.append(Finding("ERROR", str(standard_presentation.relative_to(root)), "standard presentation must declare English as the document language"))
+            if NON_ENGLISH_PRESENTATION_TEXT.search(presentation_text):
+                findings.append(Finding("ERROR", str(standard_presentation.relative_to(root)), "standard presentation must not contain untranslated CJK or full-width text"))
+
+        index_path = folder / "index.html"
+        if index_path.is_file():
+            index_text = index_path.read_text(encoding="utf-8")
+            index_links = LinkCollector()
+            index_links.feed(index_text)
+            if "presentation-standard.html" not in index_links.links:
+                findings.append(Finding("ERROR", str(index_path.relative_to(root)), "discussion overview must link to the standard English presentation"))
+            if "Standard (English)" not in index_text:
+                findings.append(Finding("ERROR", str(index_path.relative_to(root)), "discussion overview must label the standard presentation as English"))
+            if item.original_slides and item.original_slides not in index_links.links:
+                findings.append(Finding("ERROR", str(index_path.relative_to(root)), "discussion overview must link to the original presentation"))
+            if item.original_slides and "Original (中文)" not in index_text:
+                findings.append(Finding("ERROR", str(index_path.relative_to(root)), "discussion overview must label the original presentation as Chinese"))
 
         summary_path = folder / "summary.html"
         if summary_path.is_file():

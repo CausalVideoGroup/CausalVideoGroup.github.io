@@ -1,0 +1,1399 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Presentation on the evolution of autoregressive video distillation in the Forcing family" />
+  <title>Forcing Family | The Evolution of AR Video Distillation</title>
+  <style>
+    :root {
+      --bg: #06111c;
+      --bg-2: #091929;
+      --panel: rgba(15, 35, 53, .82);
+      --panel-2: rgba(11, 27, 43, .88);
+      --line: rgba(168, 203, 220, .16);
+      --line-strong: rgba(168, 203, 220, .28);
+      --text: #eef8f7;
+      --muted: #90a8b5;
+      --faint: #637c89;
+      --mint: #56e4c2;
+      --violet: #a892ff;
+      --amber: #ffbd68;
+      --rose: #ff8296;
+      --sky: #63c9ff;
+      --shadow: 0 32px 110px rgba(0,0,0,.42);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+    body {
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 8%, rgba(86,228,194,.12), transparent 30rem),
+        radial-gradient(circle at 90% 15%, rgba(168,146,255,.11), transparent 34rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .3;
+      background-image: linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, #000 10%, transparent 94%);
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; }
+
+    .deck { position: relative; width: 100%; height: 100%; z-index: 1; }
+    .slide {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; visibility: hidden; transform: translateX(4%) scale(.985);
+      transition: opacity .42s ease, transform .42s ease, visibility .42s;
+      overflow: hidden;
+    }
+    .slide.active { opacity: 1; visibility: visible; transform: translateX(0) scale(1); z-index: 2; }
+    .slide.previous { transform: translateX(-4%) scale(.985); }
+    .stage {
+      width: min(94vw, 1660px); height: min(91vh, 934px); aspect-ratio: 16 / 9;
+      position: relative; display: flex; flex-direction: column; padding: clamp(38px, 4.2vw, 74px) clamp(42px, 5vw, 88px);
+      border: 1px solid var(--line); border-radius: clamp(18px, 2vw, 30px);
+      background: linear-gradient(145deg, rgba(10,28,44,.94), rgba(5,17,29,.96));
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .stage::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(86,228,194,.07), transparent 28%),
+        radial-gradient(circle at 88% 15%, rgba(168,146,255,.07), transparent 30%);
+    }
+    .stage > * { position: relative; z-index: 1; }
+    .stage-mark { position: absolute; right: -2%; bottom: -14%; width: 44%; opacity: .035; color: var(--mint); }
+    .slide-kicker { color: var(--mint); font-size: clamp(10px, .85vw, 15px); font-weight: 760; text-transform: uppercase; letter-spacing: .15em; }
+    .slide-kicker.violet { color: var(--violet); }
+    .slide-kicker.amber { color: var(--amber); }
+    .slide-kicker.sky { color: var(--sky); }
+    .slide-title { margin: .28em 0 .2em; font-size: clamp(36px, 4.1vw, 70px); line-height: 1.06; letter-spacing: -.055em; max-width: 1280px; }
+    .slide-title.small { font-size: clamp(31px, 3.4vw, 58px); }
+    .slide-subtitle { margin: 0; color: var(--muted); font-size: clamp(14px, 1.25vw, 22px); max-width: 1100px; line-height: 1.68; }
+    .slide-subtitle strong { color: var(--text); }
+    .grow { flex: 1; min-height: 0; }
+    .source-row { margin-top: auto; display: flex; align-items: center; gap: 14px; min-height: 28px; color: var(--faint); font-size: clamp(9px, .68vw, 12px); }
+    .source-row a { border-bottom: 1px solid rgba(99,124,137,.45); }
+    .source-row a:hover { color: var(--mint); border-color: var(--mint); }
+
+    .brand {
+      position: fixed; left: clamp(22px, 2.2vw, 42px); top: clamp(18px, 2vw, 34px); z-index: 20;
+      display: flex; align-items: center; gap: 10px; color: rgba(238,248,247,.72); font-size: 11px; font-weight: 760; letter-spacing: .08em;
+    }
+    .brand-icon { width: 27px; height: 27px; border: 1px solid rgba(86,228,194,.38); border-radius: 8px; display: grid; place-items: center; color: var(--mint); background: rgba(86,228,194,.06); }
+    .brand-icon svg { width: 15px; }
+    .counter { position: fixed; right: clamp(22px, 2.2vw, 42px); top: clamp(20px, 2vw, 35px); z-index: 20; color: var(--faint); font: 650 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .1em; }
+    .progress { position: fixed; left: 0; right: 0; bottom: 0; height: 3px; z-index: 30; background: rgba(255,255,255,.035); }
+    .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--mint), var(--violet)); box-shadow: 0 0 18px rgba(86,228,194,.55); transition: width .35s ease; }
+    .controls { position: fixed; right: clamp(20px, 2vw, 38px); bottom: clamp(20px, 2vw, 36px); z-index: 30; display: flex; gap: 7px; }
+    .control { width: 38px; height: 38px; border-radius: 11px; border: 1px solid var(--line-strong); background: rgba(7,19,31,.74); backdrop-filter: blur(12px); cursor: pointer; display: grid; place-items: center; color: var(--muted); transition: .18s ease; }
+    .control:hover { border-color: rgba(86,228,194,.55); color: var(--text); transform: translateY(-2px); }
+    .control svg { width: 16px; height: 16px; }
+    .hint { position: fixed; left: clamp(20px, 2vw, 38px); bottom: clamp(20px, 2vw, 36px); z-index: 30; color: var(--faint); font-size: 10px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 9px; background: rgba(7,19,31,.56); }
+
+    /* First-use terminology help */
+    .term { color: #c7fff2; border-bottom: 1px dotted rgba(86,228,194,.85); cursor: help; outline: none; white-space: nowrap; }
+    .term::after { content: "?"; display: inline-grid; place-items: center; width: 12px; height: 12px; margin-left: 3px; border-radius: 50%; color: var(--mint); background: rgba(86,228,194,.09); font: 800 8px/1 ui-monospace, Consolas, monospace; vertical-align: .35em; }
+    .term:focus { border-bottom-color: var(--amber); color: #fff2d8; }
+    .term-popover { position: fixed; left: 50%; bottom: 68px; transform: translate(-50%, 10px); z-index: 80; width: min(760px, calc(100vw - 34px)); padding: 15px 18px; border: 1px solid rgba(86,228,194,.36); border-radius: 14px; background: rgba(5,17,29,.96); box-shadow: 0 18px 60px rgba(0,0,0,.48); opacity: 0; visibility: hidden; pointer-events: none; transition: .18s ease; }
+    .term-popover.show { opacity: 1; visibility: visible; transform: translate(-50%,0); }
+    .term-popover b { color: var(--mint); font-size: 12px; margin-right: 8px; }
+    .term-popover span { color: var(--text); font-size: clamp(11px,.86vw,14px); line-height: 1.55; }
+    .glossary-overlay { position: fixed; inset: 0; z-index: 70; display: none; place-items: center; padding: 60px 28px 38px; background: rgba(3,11,19,.86); backdrop-filter: blur(14px); }
+    .glossary-overlay.open { display: grid; }
+    .glossary-panel { width: min(1180px,94vw); max-height: 82vh; overflow: auto; border: 1px solid var(--line-strong); border-radius: 24px; padding: clamp(24px,2.6vw,42px); background: linear-gradient(145deg, rgba(10,30,47,.98), rgba(5,18,30,.99)); box-shadow: var(--shadow); }
+    .glossary-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 22px; }
+    .glossary-head h2 { margin: 0; font-size: clamp(27px,2.5vw,43px); }
+    .glossary-head p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+    .glossary-close { flex: none; width: 39px; height: 39px; border-radius: 11px; border: 1px solid var(--line-strong); background: rgba(255,255,255,.025); cursor: pointer; }
+    .glossary-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px 18px; }
+    .glossary-item { border-top: 1px solid var(--line); padding: 12px 0; }
+    .glossary-item dt { color: var(--mint); font-weight: 760; font-size: 12px; }
+    .glossary-item dd { margin: 4px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    /* Cover */
+    .cover-stage { justify-content: center; }
+    .cover-grid { display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: clamp(36px, 5vw, 90px); }
+    .cover-title { font-size: clamp(54px, 7vw, 118px); line-height: .94; letter-spacing: -.072em; margin: .2em 0 .22em; }
+    .cover-title span { display: block; color: transparent; background: linear-gradient(90deg, var(--mint), #c6fff2 48%, var(--violet)); background-clip: text; -webkit-background-clip: text; }
+    .cover-copy { color: var(--muted); font-size: clamp(15px, 1.35vw, 23px); max-width: 780px; line-height: 1.72; }
+    .cover-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
+    .pill { border: 1px solid var(--line-strong); border-radius: 999px; padding: 7px 13px; color: var(--muted); font-size: clamp(10px, .75vw, 13px); background: rgba(255,255,255,.025); }
+    .cover-visual { position: relative; min-height: 460px; display: grid; place-items: center; }
+    .ring { position: absolute; width: 430px; max-width: 36vw; aspect-ratio: 1; border: 1px solid rgba(86,228,194,.16); border-radius: 50%; }
+    .ring.r2 { width: 320px; border-color: rgba(168,146,255,.17); }
+    .ring::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 18px var(--mint); position: absolute; top: 15%; right: 18%; }
+    .formula-card { width: min(360px, 31vw); border-radius: 24px; padding: clamp(22px,2vw,34px); border: 1px solid var(--line-strong); background: rgba(12,31,48,.92); box-shadow: 0 26px 80px rgba(0,0,0,.35); }
+    .formula-label { color: var(--faint); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+    .formula-main { margin: 17px 0; font-size: clamp(21px, 2.05vw, 35px); font-weight: 780; letter-spacing: -.04em; }
+    .formula-flow { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px; color: var(--muted); font-size: clamp(10px, .82vw, 14px); }
+    .formula-flow b { display: block; color: var(--text); font-size: 1.4em; }
+    .formula-arrow { color: var(--mint); font-size: 24px; }
+    .formula-note { margin-top: 21px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--mint); font-size: clamp(10px,.78vw,13px); }
+
+    /* Reusable grids */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 3.2vw, 56px); align-items: stretch; margin-top: clamp(24px, 3vh, 44px); flex: 1; min-height: 0; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(15px, 1.6vw, 28px); margin-top: clamp(22px, 2.7vh, 40px); flex: 1; min-height: 0; }
+    .four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.35vw, 23px); margin-top: clamp(20px, 2.6vh, 38px); flex: 1; min-height: 0; }
+    .panel { border: 1px solid var(--line); border-radius: clamp(15px, 1.4vw, 23px); background: linear-gradient(150deg, rgba(17,38,57,.76), rgba(8,23,37,.8)); padding: clamp(18px, 1.9vw, 32px); min-height: 0; }
+    .panel.mint { box-shadow: inset 3px 0 0 rgba(86,228,194,.82); }
+    .panel.violet { box-shadow: inset 3px 0 0 rgba(168,146,255,.82); }
+    .panel.amber { box-shadow: inset 3px 0 0 rgba(255,189,104,.82); }
+    .panel.sky { box-shadow: inset 3px 0 0 rgba(99,201,255,.82); }
+    .panel h3 { margin: 0 0 .5em; font-size: clamp(17px, 1.55vw, 27px); line-height: 1.25; letter-spacing: -.028em; }
+    .panel p { color: var(--muted); margin: 0; font-size: clamp(11px, .92vw, 16px); line-height: 1.65; }
+    .panel-tag { display: inline-block; color: var(--mint); font-size: clamp(9px,.68vw,11px); text-transform: uppercase; letter-spacing: .12em; margin-bottom: 12px; }
+    .panel-tag.violet { color: var(--violet); }
+    .panel-tag.amber { color: var(--amber); }
+    .panel-tag.sky { color: var(--sky); }
+    .big-number { font-size: clamp(44px, 5.2vw, 86px); font-weight: 820; line-height: 1; letter-spacing: -.06em; color: var(--mint); }
+
+    /* Slide 2 coupled errors */
+    .error-grid { display: grid; grid-template-columns: 1fr auto 1fr; align-items: stretch; gap: clamp(20px, 2.5vw, 44px); margin: auto 0; }
+    .error-card { border: 1px solid var(--line-strong); border-radius: 25px; padding: clamp(26px, 2.6vw, 44px); background: rgba(10,28,44,.72); }
+    .error-card:first-child { box-shadow: inset 0 3px 0 var(--violet); }
+    .error-card:last-child { box-shadow: inset 0 3px 0 var(--mint); }
+    .error-axis { color: var(--faint); text-transform: uppercase; letter-spacing: .13em; font-size: clamp(9px,.7vw,12px); }
+    .error-card h3 { font-size: clamp(25px, 2.5vw, 43px); margin: .35em 0 .4em; letter-spacing: -.045em; }
+    .error-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+    .error-card li { color: var(--muted); font-size: clamp(12px,1vw,17px); padding-left: 18px; position: relative; }
+    .error-card li::before { content: ""; position: absolute; left: 0; top: .72em; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .couple { align-self: center; width: clamp(64px, 6vw, 104px); aspect-ratio: 1; border: 1px solid var(--line-strong); border-radius: 50%; display: grid; place-items: center; color: var(--amber); font-size: clamp(19px,2vw,34px); background: rgba(255,189,104,.05); box-shadow: 0 0 45px rgba(255,189,104,.08); }
+    .error-result { margin-top: 25px; text-align: center; font-size: clamp(15px,1.25vw,22px); color: var(--text); }
+    .error-result span { color: var(--rose); }
+
+    /* Problem chain */
+    .problem-chain { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.3vw, 22px); margin-top: clamp(22px, 2.5vh, 38px); }
+    .problem { position: relative; border: 1px solid var(--line); border-radius: 17px; padding: clamp(16px, 1.45vw, 25px); background: rgba(10,27,42,.7); min-height: clamp(122px, 15vh, 170px); }
+    .problem-no { color: var(--mint); font: 750 clamp(10px,.7vw,12px)/1 ui-monospace, Consolas, monospace; }
+    .problem h3 { font-size: clamp(14px,1.2vw,21px); margin: 10px 0 6px; line-height: 1.3; }
+    .problem p { margin: 0; color: var(--muted); font-size: clamp(9px,.75vw,13px); line-height: 1.52; }
+    .problem .paper-name { color: var(--violet); font-size: clamp(9px,.68vw,12px); margin-top: 9px; display: block; }
+
+    /* Pipeline */
+    .recipe { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(30px,4vw,72px); align-items: center; margin: auto 0; }
+    .recipe-thesis { font-size: clamp(25px, 2.7vw, 46px); line-height: 1.32; letter-spacing: -.04em; }
+    .recipe-thesis strong { color: var(--mint); }
+    .recipe-note { margin-top: 24px; color: var(--muted); font-size: clamp(11px,.9vw,15px); }
+    .pipeline { display: grid; gap: 13px; }
+    .pipe { display: grid; grid-template-columns: 56px 1fr auto; align-items: center; gap: 16px; padding: clamp(14px,1.25vw,21px); border: 1px solid var(--line); border-radius: 16px; background: rgba(13,32,49,.74); }
+    .pipe-icon { width: 48px; height: 48px; border-radius: 13px; display: grid; place-items: center; color: var(--mint); background: rgba(86,228,194,.07); border: 1px solid rgba(86,228,194,.22); font-weight: 800; }
+    .pipe h3 { margin: 0; font-size: clamp(14px,1.12vw,19px); }
+    .pipe p { margin: 2px 0 0; color: var(--muted); font-size: clamp(9px,.7vw,12px); }
+    .pipe-value { color: var(--mint); font-size: clamp(11px,.85vw,14px); border-radius: 999px; padding: 5px 9px; background: rgba(86,228,194,.07); }
+    .pipe-link { height: 13px; margin-left: 39px; border-left: 1px dashed rgba(86,228,194,.45); }
+
+    /* CausVid recipe details */
+    .detail-layout { display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(28px,3.5vw,62px); align-items: center; margin: auto 0; }
+    .detail-copy { display: grid; gap: 18px; }
+    .detail-step { display: grid; grid-template-columns: 38px 1fr; gap: 13px; align-items: start; }
+    .detail-step .step-id { width: 34px; height: 34px; border: 1px solid rgba(86,228,194,.28); border-radius: 10px; display: grid; place-items: center; color: var(--mint); background: rgba(86,228,194,.05); font: 760 10px/1 ui-monospace, Consolas, monospace; }
+    .detail-step h3 { margin: 1px 0 4px; font-size: clamp(14px,1.15vw,20px); }
+    .detail-step p { margin: 0; color: var(--muted); font-size: clamp(9px,.77vw,13px); line-height: 1.55; }
+    .detail-chip { display: inline-flex; width: max-content; align-items: center; gap: 7px; padding: 6px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--mint); background: rgba(86,228,194,.045); font-size: clamp(9px,.68vw,11px); }
+    .diagram-card { border: 1px solid var(--line); border-radius: 23px; padding: clamp(20px,2vw,34px); background: rgba(9,26,41,.78); box-shadow: inset 0 1px 0 rgba(255,255,255,.025); }
+    .diagram-label { color: var(--faint); font-size: clamp(8px,.64vw,11px); text-transform: uppercase; letter-spacing: .12em; }
+
+    .latent-flow { display: grid; grid-template-columns: auto 25px 1fr; gap: 12px; align-items: center; padding-bottom: 21px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .vae-box { padding: 12px 14px; border: 1px solid rgba(99,201,255,.28); border-radius: 12px; color: var(--sky); text-align: center; font-size: clamp(9px,.74vw,12px); background: rgba(99,201,255,.045); }
+    .latent-arrow { text-align: center; color: var(--faint); }
+    .chunk-strip { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+    .latent-chunk { border: 1px solid rgba(168,146,255,.28); border-radius: 11px; padding: 10px 6px; color: var(--violet); text-align: center; font-size: clamp(9px,.7vw,12px); background: rgba(168,146,255,.045); }
+    .latent-chunk span { display: block; color: var(--faint); font-size: .78em; margin-top: 3px; }
+    .mask-wrap { display: grid; grid-template-columns: minmax(230px,.82fr) 1fr; gap: clamp(18px,2vw,30px); align-items: center; }
+    .mask-block { display: grid; grid-template-columns: 27px repeat(4,1fr); grid-template-rows: 27px repeat(4,1fr); gap: 5px; }
+    .mask-axis { display: grid; place-items: center; color: var(--faint); font: 700 clamp(8px,.62vw,10px)/1 ui-monospace, Consolas, monospace; }
+    .mask-cell { min-height: 37px; border-radius: 8px; display: grid; place-items: center; font-size: clamp(10px,.78vw,13px); }
+    .mask-cell.within { color: var(--mint); border: 1px solid rgba(86,228,194,.42); background: rgba(86,228,194,.12); }
+    .mask-cell.past { color: var(--sky); border: 1px solid rgba(99,201,255,.25); background: rgba(99,201,255,.065); }
+    .mask-cell.future { color: rgba(255,130,150,.52); border: 1px dashed rgba(255,130,150,.18); background: rgba(255,130,150,.02); }
+    .mask-legend { display: grid; gap: 12px; }
+    .legend-row { display: grid; grid-template-columns: 12px 1fr; gap: 10px; align-items: start; color: var(--muted); font-size: clamp(9px,.72vw,12px); line-height: 1.42; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 3px; margin-top: 3px; background: var(--mint); }
+    .legend-row:nth-child(2) .legend-dot { background: var(--sky); }
+    .legend-row:nth-child(3) .legend-dot { background: var(--rose); opacity: .62; }
+
+    .trajectory-card { padding: clamp(24px,2.2vw,38px); }
+    .trajectory-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+    .trajectory-badge { padding: 5px 9px; border-radius: 999px; color: var(--violet); background: rgba(168,146,255,.07); font-size: clamp(8px,.65vw,11px); }
+    .trajectory { position: relative; display: grid; grid-template-columns: repeat(9,1fr); align-items: center; gap: 0; padding: 18px 8px 30px; }
+    .trajectory::before { content: ""; position: absolute; left: 5%; right: 5%; top: 30px; height: 2px; background: linear-gradient(90deg, var(--violet), var(--sky), var(--mint)); opacity: .66; }
+    .ode-node { position: relative; z-index: 1; display: grid; justify-items: center; gap: 8px; color: var(--faint); font: 650 clamp(8px,.62vw,10px)/1 ui-monospace, Consolas, monospace; }
+    .ode-dot { width: 16px; height: 16px; border-radius: 50%; background: var(--bg-2); border: 3px solid var(--violet); box-shadow: 0 0 15px rgba(168,146,255,.22); }
+    .ode-node.selected .ode-dot { width: 23px; height: 23px; border-color: var(--mint); box-shadow: 0 0 22px rgba(86,228,194,.32); }
+    .select-lines { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; padding: 0 5%; }
+    .select-line { height: 35px; border-left: 1px dashed rgba(86,228,194,.4); justify-self: center; }
+    .student-path { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; padding: 0 5%; }
+    .student-node { border: 1px solid rgba(86,228,194,.3); border-radius: 13px; padding: 12px 8px; text-align: center; color: var(--mint); background: rgba(86,228,194,.05); font-size: clamp(9px,.72vw,12px); position: relative; }
+    .student-node:not(:last-child)::after { content: "→"; position: absolute; right: -17px; color: var(--faint); }
+    .student-node span { display: block; color: var(--faint); font-size: .78em; margin-top: 3px; }
+    .regression-box { margin-top: 20px; padding: 12px 15px; border-radius: 12px; background: rgba(168,146,255,.055); border: 1px solid rgba(168,146,255,.2); display: flex; justify-content: space-between; gap: 18px; color: var(--muted); font-size: clamp(9px,.72vw,12px); }
+    .regression-box strong { color: var(--violet); }
+
+    .dmd-layout { display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(25px,3vw,52px); align-items: center; margin: auto 0; }
+    .dmd-graph { display: grid; grid-template-columns: .82fr 38px 1fr 40px 1.08fr; align-items: center; gap: 10px; }
+    .graph-node { border: 1px solid var(--line); border-radius: 15px; padding: clamp(13px,1.15vw,19px); text-align: center; background: rgba(255,255,255,.025); min-height: 78px; display: grid; place-items: center; }
+    .graph-node b { display: block; font-size: clamp(11px,.9vw,15px); }
+    .graph-node span { display: block; color: var(--faint); font-size: clamp(8px,.62vw,10px); margin-top: 4px; }
+    .graph-node.student { border-color: rgba(86,228,194,.35); color: var(--mint); background: rgba(86,228,194,.045); }
+    .graph-node.noise { border-color: rgba(99,201,255,.25); color: var(--sky); }
+    .graph-arrow { color: var(--faint); text-align: center; }
+    .score-branches { display: grid; gap: 10px; }
+    .score-node { position: relative; border-radius: 13px; padding: 11px 12px; border: 1px solid rgba(168,146,255,.28); color: var(--violet); background: rgba(168,146,255,.045); font-size: clamp(9px,.73vw,12px); }
+    .score-node.gen { border-color: rgba(255,189,104,.28); color: var(--amber); background: rgba(255,189,104,.045); }
+    .state-badge { float: right; padding: 3px 6px; border-radius: 999px; background: rgba(255,255,255,.045); color: var(--faint); font-size: .72em; }
+    .gradient-box { border: 1px solid rgba(255,130,150,.3); border-radius: 14px; padding: 14px; text-align: center; color: var(--rose); background: rgba(255,130,150,.045); }
+    .gradient-box b { display: block; font-size: clamp(13px,1.05vw,18px); }
+    .gradient-box span { color: var(--muted); font-size: clamp(8px,.64vw,11px); }
+    .update-loop { grid-column: 3 / 6; margin-top: 11px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; color: var(--muted); font-size: clamp(8px,.65vw,11px); }
+    .update-line { height: 1px; border-top: 1px dashed rgba(255,189,104,.36); }
+    .dmd-note { margin-top: 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dmd-note div { padding: 11px 12px; border: 1px solid var(--line); border-radius: 11px; color: var(--muted); font-size: clamp(8px,.67vw,11px); }
+    .dmd-note strong { color: var(--text); }
+
+    /* Teacher vs self */
+    .compare { display: grid; grid-template-columns: 1fr 80px 1fr; gap: clamp(15px,2vw,35px); align-items: center; margin: auto 0; }
+    .compare-card { border: 1px solid var(--line); border-radius: 23px; padding: clamp(23px,2.3vw,40px); min-height: 360px; background: rgba(10,28,44,.72); }
+    .compare-card.bad { box-shadow: inset 0 3px 0 var(--rose); }
+    .compare-card.good { box-shadow: inset 0 3px 0 var(--mint); }
+    .compare-card h3 { font-size: clamp(23px,2.1vw,36px); margin: 0 0 16px; }
+    .history { display: flex; align-items: center; gap: 7px; margin: 25px 0; }
+    .frame { width: clamp(37px,3.2vw,54px); aspect-ratio: 4/3; border-radius: 8px; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--faint); font-size: 10px; background: rgba(255,255,255,.035); }
+    .frame.clean { border-color: rgba(99,201,255,.45); color: var(--sky); }
+    .frame.self { border-color: rgba(86,228,194,.45); color: var(--mint); background: rgba(86,228,194,.05); }
+    .frame.target { border-color: rgba(168,146,255,.45); color: var(--violet); }
+    .compare-arrow { text-align: center; color: var(--amber); font-size: 30px; }
+    .compare-card p { color: var(--muted); font-size: clamp(11px,.9vw,15px); line-height: 1.65; }
+    .mismatch { display: inline-block; margin-top: 15px; border-radius: 999px; padding: 6px 11px; font-size: clamp(9px,.72vw,12px); }
+    .bad .mismatch { color: var(--rose); background: rgba(255,130,150,.08); }
+    .good .mismatch { color: var(--mint); background: rgba(86,228,194,.08); }
+
+    /* Causal */
+    .causal-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: clamp(30px,4vw,70px); align-items: center; margin: auto 0; }
+    .flow-map { border: 1px solid var(--line); border-radius: 22px; padding: clamp(22px,2.3vw,40px); background: rgba(10,28,44,.7); }
+    .flow-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 15px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .flow-row:last-child { border-bottom: 0; }
+    .flow-model { padding: 12px; border-radius: 12px; border: 1px solid var(--line); font-size: clamp(11px,.88vw,15px); }
+    .flow-model.bi { color: var(--violet); }
+    .flow-model.ar { color: var(--mint); }
+    .flow-symbol { color: var(--faint); font-size: 20px; }
+    .flow-result { font-size: clamp(10px,.8vw,14px); color: var(--muted); }
+    .flow-result.bad { color: var(--rose); }
+    .flow-result.good { color: var(--mint); }
+    .stages { display: grid; gap: 14px; }
+    .causal-stage { display: grid; grid-template-columns: 42px 1fr; gap: 15px; align-items: start; }
+    .causal-stage .num { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; border: 1px solid rgba(86,228,194,.25); color: var(--mint); background: rgba(86,228,194,.05); font-size: 11px; font-weight: 800; }
+    .causal-stage h3 { margin: 0 0 4px; font-size: clamp(15px,1.2vw,21px); }
+    .causal-stage p { margin: 0; color: var(--muted); font-size: clamp(10px,.8vw,14px); }
+
+    /* Lineage map */
+    .map { display: grid; grid-template-columns: .78fr 88px 1.22fr; gap: clamp(18px,2vw,34px); align-items: center; margin: auto 0; }
+    .map-col { display: grid; gap: 13px; }
+    .lineage-spine { gap: 7px; }
+    .map-node { border: 1px solid var(--line); border-radius: 16px; padding: clamp(12px,1.05vw,18px); background: rgba(11,29,45,.74); position: relative; }
+    .map-node.root { border-color: rgba(86,228,194,.38); box-shadow: 0 0 36px rgba(86,228,194,.05); }
+    .map-node h3 { margin: 0 0 4px; font-size: clamp(14px,1.2vw,21px); }
+    .map-node p { margin: 0; color: var(--muted); font-size: clamp(9px,.72vw,12px); }
+    .map-arrow { color: rgba(86,228,194,.55); text-align: center; font-size: 20px; line-height: 1; }
+    .branch-connector { align-self: stretch; color: var(--mint); min-height: 360px; }
+    .branch-connector svg { width: 100%; height: 100%; overflow: visible; }
+    .branch-side { display: grid; gap: 13px; }
+    .branch-label { color: var(--faint); font-size: clamp(9px,.7vw,12px); text-transform: uppercase; letter-spacing: .12em; }
+    .branch-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+    .branch { border: 1px solid var(--line); border-radius: 15px; padding: clamp(14px,1.2vw,21px); min-height: 118px; background: rgba(11,29,45,.68); }
+    .branch:nth-child(1) { box-shadow: inset 3px 0 0 var(--mint); }
+    .branch:nth-child(2) { box-shadow: inset 3px 0 0 var(--violet); }
+    .branch:nth-child(3) { box-shadow: inset 3px 0 0 var(--amber); }
+    .branch:nth-child(4) { box-shadow: inset 3px 0 0 var(--sky); }
+    .branch h3 { margin: 0 0 5px; font-size: clamp(13px,1.05vw,18px); }
+    .branch p { margin: 0; color: var(--muted); font-size: clamp(8px,.68vw,11px); line-height: 1.5; }
+
+    /* Long horizon */
+    .layer-label { color: var(--faint); font-size: clamp(9px,.7vw,12px); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 13px; }
+    .method-card { height: 100%; display: flex; flex-direction: column; }
+    .method-card h3 { font-size: clamp(17px,1.48vw,25px); }
+    .method-card .question { color: var(--rose); font-size: clamp(10px,.82vw,14px); margin-bottom: 12px; }
+    .method-card .answer { color: var(--text); font-size: clamp(11px,.9vw,15px); margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); }
+
+    /* Problem → intuition → mechanism cards */
+    .method-grid { display: grid; gap: clamp(14px,1.45vw,25px); margin-top: clamp(20px,2.4vh,34px); flex: 1; min-height: 0; }
+    .method-grid.two { grid-template-columns: repeat(2,1fr); }
+    .method-grid.three { grid-template-columns: repeat(3,1fr); }
+    .method-grid.four { grid-template-columns: repeat(4,1fr); }
+    .method-sheet { min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 21px; padding: clamp(18px,1.7vw,29px); background: linear-gradient(155deg, rgba(15,36,54,.82), rgba(8,23,37,.82)); position: relative; overflow: hidden; }
+    .method-sheet::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--mint); }
+    .method-sheet.violet::before { background: var(--violet); }
+    .method-sheet.amber::before { background: var(--amber); }
+    .method-sheet.sky::before { background: var(--sky); }
+    .method-sheet.rose::before { background: var(--rose); }
+    .method-family { color: var(--faint); font-size: clamp(8px,.62vw,10px); letter-spacing: .11em; text-transform: uppercase; }
+    .method-sheet h3 { margin: 7px 0 14px; font-size: clamp(18px,1.55vw,27px); letter-spacing: -.025em; }
+    .method-question { padding: 10px 12px; border-radius: 11px; background: rgba(255,130,150,.055); color: var(--rose); font-size: clamp(9px,.73vw,12px); line-height: 1.45; }
+    .method-intuition { margin: 15px 0 12px; color: var(--text); font-size: clamp(12px,1vw,17px); line-height: 1.48; }
+    .method-intuition strong { color: var(--mint); }
+    .mechanism-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+    .mechanism-list li { color: var(--muted); font-size: clamp(9px,.72vw,12px); line-height: 1.42; padding-left: 14px; position: relative; }
+    .mechanism-list li::before { content: ""; position: absolute; left: 0; top: .58em; width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .65; }
+    .method-result { margin-top: auto; padding-top: 13px; border-top: 1px solid var(--line); color: var(--mint); font-size: clamp(9px,.72vw,12px); }
+    .cluster-note { display: grid; grid-template-columns: auto minmax(60px,.28fr) 1fr; gap: 12px; align-items: center; margin-top: 15px; color: var(--muted); font-size: clamp(9px,.72vw,12px); }
+    .cluster-note b { color: var(--text); }
+    .cluster-line { height: 1px; background: linear-gradient(90deg, rgba(86,228,194,.5), transparent); }
+
+    /* Mutual Forcing dual-mode loop */
+    .mutual-loop { display: grid; grid-template-columns: 1fr 150px 1fr; gap: clamp(18px,2vw,34px); align-items: center; margin: auto 0; }
+    .mode-card { border: 1px solid var(--line); border-radius: 22px; padding: clamp(22px,2vw,34px); background: rgba(10,29,45,.78); min-height: 330px; display: flex; flex-direction: column; }
+    .mode-card.fast { box-shadow: inset 3px 0 0 var(--mint); }
+    .mode-card.slow { box-shadow: inset 3px 0 0 var(--violet); }
+    .mode-badge { color: var(--faint); font-size: clamp(8px,.65vw,11px); text-transform: uppercase; letter-spacing: .12em; }
+    .mode-card h3 { margin: 9px 0 6px; font-size: clamp(24px,2.2vw,38px); }
+    .mode-steps { color: var(--mint); font-size: clamp(13px,1.05vw,18px); }
+    .mode-card.slow .mode-steps { color: var(--violet); }
+    .mode-card p { color: var(--muted); font-size: clamp(10px,.8vw,14px); line-height: 1.55; }
+    .mode-train { margin-top: auto; border-top: 1px solid var(--line); padding-top: 13px; color: var(--text); font-size: clamp(10px,.8vw,14px); line-height: 1.5; }
+    .mutual-center { display: grid; gap: 18px; text-align: center; }
+    .shared-weights { width: 94px; height: 94px; margin: auto; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,189,104,.36); color: var(--amber); background: rgba(255,189,104,.055); font-weight: 800; font-size: 13px; }
+    .mutual-flow { color: var(--muted); font-size: clamp(9px,.7vw,12px); line-height: 1.5; }
+    .mutual-flow b { display: block; color: var(--mint); font-size: 18px; letter-spacing: .08em; }
+    .mutual-flow.reverse b { color: var(--violet); }
+
+    /* Steps */
+    .step-rail { display: grid; grid-template-columns: repeat(4, 1fr); align-items: end; gap: clamp(14px,1.8vw,30px); margin: auto 0 35px; }
+    .step-block { border: 1px solid var(--line); border-radius: 18px 18px 6px 6px; padding: clamp(17px,1.6vw,28px); background: rgba(10,28,44,.72); position: relative; }
+    .step-block:nth-child(1) { height: 310px; }
+    .step-block:nth-child(2) { height: 245px; border-color: rgba(168,146,255,.34); }
+    .step-block:nth-child(3) { height: 190px; border-color: rgba(86,228,194,.34); }
+    .step-block:nth-child(4) { height: 150px; border-color: rgba(255,189,104,.34); }
+    .step-nfe { font-size: clamp(35px,4vw,68px); font-weight: 820; line-height: 1; letter-spacing: -.06em; }
+    .step-name { margin-top: 10px; font-size: clamp(12px,1vw,17px); }
+    .step-paper { position: absolute; left: clamp(17px,1.6vw,28px); right: 15px; bottom: 18px; color: var(--muted); font-size: clamp(8px,.7vw,12px); }
+    .step-caption { text-align: center; color: var(--muted); font-size: clamp(12px,1vw,17px); }
+
+    /* Spectrum */
+    .spectrum { margin: auto 0; }
+    .spectrum-line { height: 4px; margin: 55px 5% 0; background: linear-gradient(90deg, var(--violet), var(--amber), var(--mint)); position: relative; }
+    .spectrum-line::before, .spectrum-line::after { position: absolute; top: -40px; color: var(--muted); font-size: clamp(10px,.8vw,14px); }
+    .spectrum-line::before { content: "External bidirectional teacher"; left: -2%; }
+    .spectrum-line::after { content: "Native causal / teacher-free"; right: -2%; }
+    .spectrum-points { display: grid; grid-template-columns: repeat(5,1fr); gap: 15px; margin-top: -12px; }
+    .spectrum-point { text-align: center; }
+    .dot { width: 20px; height: 20px; border-radius: 50%; margin: 0 auto 18px; background: var(--bg); border: 4px solid var(--mint); box-shadow: 0 0 20px rgba(86,228,194,.24); }
+    .spectrum-point:nth-child(1) .dot, .spectrum-point:nth-child(2) .dot { border-color: var(--violet); }
+    .spectrum-point:nth-child(3) .dot { border-color: var(--amber); }
+    .spectrum-point h3 { margin: 0 0 7px; font-size: clamp(13px,1.15vw,20px); }
+    .spectrum-point p { margin: 0 auto; max-width: 210px; color: var(--muted); font-size: clamp(8px,.68vw,12px); }
+
+    /* System stack */
+    .stack { display: grid; grid-template-columns: 220px 1fr; gap: clamp(25px,3vw,50px); align-items: stretch; margin: auto 0; }
+    .stack-labels { display: grid; grid-template-rows: repeat(3, 1fr); gap: 13px; }
+    .stack-label { display: flex; align-items: center; gap: 13px; color: var(--muted); font-size: clamp(12px,1vw,17px); }
+    .stack-label b { color: var(--text); display: block; }
+    .stack-icon { width: 44px; height: 44px; flex: none; border-radius: 13px; display: grid; place-items: center; border: 1px solid var(--line-strong); color: var(--mint); }
+    .stack-layers { display: grid; grid-template-rows: repeat(3, 1fr); gap: 13px; }
+    .stack-layer { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; border: 1px solid var(--line); border-radius: 17px; padding: 13px; background: rgba(9,25,39,.68); }
+    .stack-paper { border-radius: 11px; padding: clamp(11px,1vw,17px); background: rgba(255,255,255,.025); }
+    .stack-paper h3 { font-size: clamp(11px,.92vw,16px); margin: 0 0 4px; }
+    .stack-paper p { font-size: clamp(8px,.65vw,11px); color: var(--muted); margin: 0; }
+
+    /* Apps */
+    .app-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(12px,1.4vw,23px); margin: auto 0; }
+    .app { border: 1px solid var(--line); border-radius: 20px; padding: clamp(17px,1.6vw,28px); background: rgba(10,28,44,.72); min-height: 270px; display: flex; flex-direction: column; }
+    .app-icon { width: 48px; height: 48px; border-radius: 14px; display: grid; place-items: center; color: var(--mint); border: 1px solid rgba(86,228,194,.25); background: rgba(86,228,194,.05); margin-bottom: 20px; }
+    .app-icon svg { width: 23px; }
+    .app h3 { font-size: clamp(14px,1.16vw,20px); margin: 0 0 6px; }
+    .app p { color: var(--muted); font-size: clamp(9px,.73vw,13px); margin: 0; }
+    .app .methods { margin-top: auto; padding-top: 18px; color: var(--violet); font-size: clamp(8px,.66vw,11px); }
+
+    /* Conclusion */
+    .conclusion-grid { display: grid; grid-template-columns: 1.14fr .86fr; gap: clamp(34px,4vw,75px); margin: auto 0; align-items: center; }
+    .takeaways { display: grid; gap: 12px; }
+    .takeaway { display: grid; grid-template-columns: 46px 1fr; gap: 14px; align-items: center; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .takeaway:last-child { border-bottom: 0; }
+    .takeaway-no { color: var(--mint); font: 750 12px/1 ui-monospace, Consolas, monospace; }
+    .takeaway p { margin: 0; font-size: clamp(13px,1.1vw,19px); }
+    .takeaway p strong { color: var(--mint); }
+    .open-box { border: 1px solid rgba(168,146,255,.3); border-radius: 24px; padding: clamp(23px,2.3vw,40px); background: rgba(168,146,255,.045); }
+    .open-box h3 { margin: 0 0 18px; font-size: clamp(21px,1.8vw,31px); }
+    .open-box ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 13px; }
+    .open-box li { position: relative; padding-left: 18px; color: var(--muted); font-size: clamp(10px,.82vw,14px); }
+    .open-box li::before { content: "?"; position: absolute; left: 0; color: var(--violet); font-weight: 800; }
+
+    /* Overview mode */
+    body.overview { overflow: auto; }
+    body.overview .deck { height: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; padding: 80px 28px 50px; }
+    body.overview .slide { position: relative; inset: auto; opacity: 1; visibility: visible; transform: none; display: block; overflow: visible; cursor: pointer; }
+    body.overview .stage { width: 100%; height: auto; min-height: 0; padding: 25px; border-radius: 17px; pointer-events: none; }
+    body.overview .slide-title { font-size: 28px; }
+    body.overview .slide-subtitle { font-size: 11px; }
+    body.overview .stage > :not(.slide-kicker):not(.slide-title):not(.slide-subtitle) { display: none; }
+    body.overview .brand, body.overview .counter, body.overview .controls, body.overview .hint, body.overview .progress { position: fixed; }
+
+    /* Keep dense four-column English slides readable on short widescreen displays. */
+    @media (max-height: 800px) and (min-aspect-ratio: 3/2) {
+      .stage { padding-top: 34px; padding-bottom: 34px; }
+      .method-grid.four { gap: 12px; margin-top: 12px; }
+      .method-grid.four .method-sheet { padding: 14px 13px; }
+      .method-grid.four .method-sheet h3 { margin: 4px 0 8px; font-size: clamp(15px,1.25vw,20px); }
+      .method-grid.four .method-question { padding: 7px 9px; line-height: 1.35; }
+      .method-grid.four .method-intuition { margin: 9px 0 7px; font-size: clamp(10px,.85vw,14px); line-height: 1.35; }
+      .method-grid.four .mechanism-list { gap: 3px; }
+      .method-grid.four .mechanism-list li, .method-grid.four .method-result { line-height: 1.3; }
+      .method-grid.four .method-result { padding-top: 7px; }
+    }
+
+    @media (max-aspect-ratio: 4/3) {
+      .stage { width: 96vw; height: 90vh; aspect-ratio: auto; padding: 54px 46px; overflow-y: auto; }
+      .cover-grid, .recipe, .causal-grid, .conclusion-grid, .detail-layout, .dmd-layout { grid-template-columns: 1fr; }
+      .mutual-loop { grid-template-columns: 1fr; }
+      .mutual-center { grid-template-columns: 1fr 1fr 1fr; align-items: center; }
+      .cover-visual { display: none; }
+      .problem-chain { grid-template-columns: 1fr 1fr; }
+      .four-col { grid-template-columns: 1fr 1fr; }
+      .method-grid.four { grid-template-columns: 1fr 1fr; }
+      .app-grid { grid-template-columns: repeat(3, 1fr); }
+      .compare { grid-template-columns: 1fr; }
+      .compare-arrow { transform: rotate(90deg); }
+      .compare-card { min-height: 0; }
+      .map { grid-template-columns: 1fr; }
+      .branch-connector { min-height: 54px; display: grid; place-items: center; }
+      .branch-connector svg { display: none; }
+      .branch-connector::after { content: "↓"; color: var(--mint); font-size: 25px; }
+      .stack { grid-template-columns: 1fr; }
+      .mask-wrap { grid-template-columns: 1fr; }
+      .stack-labels { display: none; }
+      .step-rail { align-items: stretch; }
+      .step-block:nth-child(n) { height: auto; min-height: 170px; }
+      body.overview .deck { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      .stage { width: 100vw; height: 100dvh; border: 0; border-radius: 0; padding: 70px 24px 76px; }
+      .brand { left: 18px; top: 17px; }
+      .brand span:last-child { display: none; }
+      .counter { right: 18px; top: 24px; }
+      .hint { display: none; }
+      .glossary-grid { grid-template-columns: 1fr; }
+      .term-popover { bottom: 65px; }
+      .controls { right: 14px; bottom: 15px; }
+      .slide-title { font-size: 34px; }
+      .slide-subtitle { font-size: 13px; }
+      .two-col, .three-col, .four-col, .problem-chain, .app-grid, .branch-grid, .method-grid.two, .method-grid.three, .method-grid.four { grid-template-columns: 1fr; }
+      .error-grid { grid-template-columns: 1fr; }
+      .couple { width: 54px; margin: auto; }
+      .map { grid-template-columns: 1fr; }
+      .step-rail { grid-template-columns: 1fr 1fr; }
+      .spectrum-points { grid-template-columns: 1fr 1fr; margin-top: 25px; }
+      .spectrum-line { display: none; }
+      .stack-layer { grid-template-columns: 1fr; }
+      .dmd-graph { grid-template-columns: 1fr; }
+      .graph-arrow { transform: rotate(90deg); }
+      .update-loop { grid-column: auto; }
+      body.overview .deck { grid-template-columns: 1fr; padding: 65px 14px 35px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide, .progress-bar { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand">
+    <span class="brand-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4v16M5 8h6l3 4-3 4H5M14 12h5"/></svg></span>
+    <span>FORCING / AR VIDEO DISTILLATION</span>
+  </div>
+  <div class="counter" id="counter">01 / 28</div>
+
+  <main class="deck" id="deck">
+    <!-- 01 Cover -->
+    <section class="slide active" data-title="Cover">
+      <div class="stage cover-stage">
+        <svg class="stage-mark" viewBox="0 0 500 500" fill="none" stroke="currentColor"><circle cx="250" cy="250" r="210"/><circle cx="250" cy="250" r="145"/><path d="M65 250h370M250 65v370"/></svg>
+        <div class="cover-grid">
+          <div>
+            <div class="slide-kicker">Technical Evolution · 2024—2026</div>
+            <h1 class="cover-title">The Forcing Family<span>AR Video Distillation</span></h1>
+            <p class="cover-copy">From bidirectional video diffusion to few-step, causal, streaming generators: core challenges, key corrections, and divergent technical paths.</p>
+            <div class="cover-meta"><span class="pill">28 slides</span><span class="pill">Problem-chain narrative</span><span class="pill">Updated July 2026</span></div>
+          </div>
+          <div class="cover-visual" aria-hidden="true">
+            <div class="ring"></div><div class="ring r2"></div>
+            <div class="formula-card">
+              <div class="formula-label">Core transformation</div>
+              <div class="formula-main">Bidirectional → Causal</div>
+              <div class="formula-flow"><div><b>50</b>diffusion steps</div><div class="formula-arrow">→</div><div><b>1–4</b>streaming steps</div></div>
+              <div class="formula-note">ODE / CM Initialization + Self-Rollout + DMD</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Two errors -->
+    <section class="slide" data-title="Two Coupled Errors">
+      <div class="stage">
+        <div class="slide-kicker">01 · Core tension</div>
+        <h2 class="slide-title">The entire family tackles two coupled errors</h2>
+        <p class="slide-subtitle">Few-step diffusion errors enter the autoregressive history; that corrupted history then amplifies errors in the next round of few-step generation.</p>
+        <div class="grow error-grid">
+          <article class="error-card">
+            <div class="error-axis">Diffusion axis</div>
+            <h3>Diffusion-axis error</h3>
+            <ul><li>Compressing 50 steps into 1–4</li><li>Degraded visual quality and motion</li><li>DMD blur / insufficient motion with CM</li></ul>
+          </article>
+          <div class="couple">×</div>
+          <article class="error-card">
+            <div class="error-axis">Autoregressive axis</div>
+            <h3>Autoregressive-axis error</h3>
+            <ul><li>Generated outputs re-enter the KV cache</li><li>Local errors accumulate continuously</li><li>Drift, forgetting, repetition, and motion collapse</li></ul>
+          </article>
+        </div>
+        <div class="error-result">Goal: achieve <span>high quality + low latency + long-horizon stability + interactivity</span> simultaneously</div>
+      </div>
+    </section>
+
+    <!-- 03 Problem chain -->
+    <section class="slide" data-title="Problem Chain">
+      <div class="stage">
+        <div class="slide-kicker">02 · Problem chain</div>
+        <h2 class="slide-title small">The problems are revealed layer by layer</h2>
+        <p class="slide-subtitle">Each generation of work corrects a new bottleneck exposed by the previous recipe.</p>
+        <div class="problem-chain grow">
+          <article class="problem"><span class="problem-no">01</span><h3>No streaming</h3><p>Bidirectional attention requires the entire future.</p><span class="paper-name">CausVid</span></article>
+          <article class="problem"><span class="problem-no">02</span><h3>History distribution mismatch</h3><p>Training sees clean history; inference sees the model's own errors.</p><span class="paper-name">Self Forcing</span></article>
+          <article class="problem"><span class="problem-no">03</span><h3>Initialization architecture mismatch</h3><p>A bidirectional teacher cannot directly define a causal flow map.</p><span class="paper-name">Causal Forcing</span></article>
+          <article class="problem"><span class="problem-no">04</span><h3>Long-horizon error accumulation</h3><p>Drift, overexposure, and repetition beyond the training horizon.</p><span class="paper-name">Rolling / Self-Forcing++</span></article>
+          <article class="problem"><span class="problem-no">05</span><h3>Long student, short teacher</h3><p>A 5-second teacher cannot teach dependencies spanning tens of seconds.</p><span class="paper-name">Context Forcing</span></article>
+          <article class="problem"><span class="problem-no">06</span><h3>Fixed-sink side effects</h3><p>First-frame copying and gradually decaying motion.</p><span class="paper-name">Reward Forcing</span></article>
+          <article class="problem"><span class="problem-no">07</span><h3>One-step collapse</h3><p>Quality, motion, and stability conflict at one step.</p><span class="paper-name">Causal++ / One / rCM</span></article>
+          <article class="problem"><span class="problem-no">08</span><h3>Ever-costlier history</h3><p>The KV cache grows while irrelevant history pollutes attention.</p><span class="paper-name">Light / Dummy / Relax / Echo</span></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 CausVid -->
+    <section class="slide" data-title="CausVid">
+      <div class="stage">
+        <div class="slide-kicker">03 · Basic recipe</div>
+        <h2 class="slide-title">CausVid: making bidirectional diffusion autoregressive</h2>
+        <div class="grow recipe">
+          <div>
+            <div class="recipe-thesis">It established the shared foundation for subsequent work: <strong>causal architecture, ODE initialization, and asymmetric DMD</strong>.</div>
+            <div class="recipe-note">Later Forcing methods largely modify one component of the recipe shown on the right.</div>
+          </div>
+          <div class="pipeline">
+            <div class="pipe"><div class="pipe-icon">T</div><div><h3>Bidirectional Teacher</h3><p>High quality, many steps, full-video attention</p></div><span class="pipe-value">≈ 50 NFE</span></div>
+            <div class="pipe-link"></div>
+            <div class="pipe"><div class="pipe-icon">↯</div><div><h3>Teacher ODE Trajectory</h3><p>Initialize the few-step student with the teacher's PF-ODE trajectory</p></div><span class="pipe-value">ODE init</span></div>
+            <div class="pipe-link"></div>
+            <div class="pipe"><div class="pipe-icon">S</div><div><h3>Causal Student + Asymmetric DMD</h3><p>The student uses block-causal attention while the teacher remains bidirectional</p></div><span class="pipe-value">4 NFE</span></div>
+          </div>
+        </div>
+        <div class="source-row">Source: <a href="https://openaccess.thecvf.com/content/CVPR2025/html/Yin_From_Slow_Bidirectional_to_Fast_Autoregressive_Video_Diffusion_Models_CVPR_2025_paper.html" target="_blank">From Slow Bidirectional to Fast Autoregressive Video Diffusion Models · CVPR 2025</a></div>
+      </div>
+    </section>
+
+    <!-- 05 CausVid Stage 1 -->
+    <section class="slide" data-title="CausVid · Causal Architecture">
+      <div class="stage">
+        <div class="slide-kicker">03A · Stage 1 / Architecture</div>
+        <h2 class="slide-title small">Convert the video DiT to block-causal form</h2>
+        <p class="slide-subtitle">This is not frame-wise unidirectional modeling: <strong>bidirectional modeling is retained within each chunk, while each chunk attends only to preceding chunks</strong>, preserving as much of the pretrained weights as possible.</p>
+        <div class="grow detail-layout">
+          <div class="detail-copy">
+            <div class="detail-chip">CausVid configuration: each chunk = 5 latent frames</div>
+            <div class="detail-step"><span class="step-id">01</span><div><h3>Split into latent chunks</h3><p>A 3D VAE encodes the video; each chunk is encoded independently to form C₁…C₄.</p></div></div>
+            <div class="detail-step"><span class="step-id">02</span><div><h3>Replace the attention mask</h3><p>Attention is bidirectional within a chunk; across chunks, only the current and past chunks are visible.</p></div></div>
+            <div class="detail-step"><span class="step-id">03</span><div><h3>Sequential generation + KV cache</h3><p>After completing one chunk, cache its K/V states before generating the next.</p></div></div>
+          </div>
+          <div class="diagram-card">
+            <div class="latent-flow">
+              <div class="vae-box">Video<br>3D VAE</div><div class="latent-arrow">→</div>
+              <div class="chunk-strip"><div class="latent-chunk">C₁<span>frames 1–5</span></div><div class="latent-chunk">C₂<span>6–10</span></div><div class="latent-chunk">C₃<span>11–15</span></div><div class="latent-chunk">C₄<span>16–20</span></div></div>
+            </div>
+            <div class="mask-wrap">
+              <div>
+                <div class="diagram-label" style="margin-bottom:10px">Block-causal attention mask · Query ↓ / Key →</div>
+                <div class="mask-block">
+                  <span></span><span class="mask-axis">C₁</span><span class="mask-axis">C₂</span><span class="mask-axis">C₃</span><span class="mask-axis">C₄</span>
+                  <span class="mask-axis">C₁</span><span class="mask-cell within">↔</span><span class="mask-cell future">×</span><span class="mask-cell future">×</span><span class="mask-cell future">×</span>
+                  <span class="mask-axis">C₂</span><span class="mask-cell past">←</span><span class="mask-cell within">↔</span><span class="mask-cell future">×</span><span class="mask-cell future">×</span>
+                  <span class="mask-axis">C₃</span><span class="mask-cell past">←</span><span class="mask-cell past">←</span><span class="mask-cell within">↔</span><span class="mask-cell future">×</span>
+                  <span class="mask-axis">C₄</span><span class="mask-cell past">←</span><span class="mask-cell past">←</span><span class="mask-cell past">←</span><span class="mask-cell within">↔</span>
+                </div>
+              </div>
+              <div class="mask-legend">
+                <div class="legend-row"><span class="legend-dot"></span><span><strong>Bidirectional within chunk</strong><br>Reconstruct a short local motion segment jointly</span></div>
+                <div class="legend-row"><span class="legend-dot"></span><span><strong>History visible</strong><br>Maintain coherence across chunks</span></div>
+                <div class="legend-row"><span class="legend-dot"></span><span><strong>Future masked</strong><br>Enable streaming AR generation</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="source-row">Source: CausVid Section 4.1 · <a href="https://arxiv.org/html/2412.07772" target="_blank">Autoregressive Architecture</a></div>
+      </div>
+    </section>
+
+    <!-- 06 CausVid Stage 2 -->
+    <section class="slide" data-title="CausVid · ODE Initialization">
+      <div class="stage">
+        <div class="slide-kicker violet">03B · Stage 2 / Initialization</div>
+        <h2 class="slide-title small">Compress the teacher's long trajectory into four student steps</h2>
+        <p class="slide-subtitle">First compute a high-quality trajectory by solving the bidirectional teacher's PF-ODE, then regress the student to the solutions at the corresponding student timesteps; this provides a stable starting point before DMD.</p>
+        <div class="grow detail-layout">
+          <div class="detail-copy">
+            <div class="detail-step"><span class="step-id">01</span><div><h3>Sample video noise</h3><p>Start from z ∼ N(0, I) as the ODE initial state for the entire video.</p></div></div>
+            <div class="detail-step"><span class="step-id">02</span><div><h3>Compute a dense teacher trajectory</h3><p>Use a multi-step ODE solver to integrate from pure noise to a clean video, saving solution pairs offline.</p></div></div>
+            <div class="detail-step"><span class="step-id">03</span><div><h3>Regress the student on selected points</h3><p>Select the solutions corresponding to the student's four inference timesteps and fit the causal student to those trajectory points.</p></div></div>
+            <div class="detail-chip">Paper implementation: approximately 1,000 teacher ODE solution pairs</div>
+          </div>
+          <div class="diagram-card trajectory-card">
+            <div class="trajectory-head"><span class="diagram-label">Dense teacher PF-ODE trajectory</span><span class="trajectory-badge">Bidirectional · many-step</span></div>
+            <div class="trajectory">
+              <div class="ode-node selected"><span class="ode-dot"></span><span>x<sub>T</sub></span></div>
+              <div class="ode-node"><span class="ode-dot"></span><span>t₈</span></div>
+              <div class="ode-node selected"><span class="ode-dot"></span><span>t₇</span></div>
+              <div class="ode-node"><span class="ode-dot"></span><span>t₆</span></div>
+              <div class="ode-node selected"><span class="ode-dot"></span><span>t₅</span></div>
+              <div class="ode-node"><span class="ode-dot"></span><span>t₄</span></div>
+              <div class="ode-node"><span class="ode-dot"></span><span>t₃</span></div>
+              <div class="ode-node selected"><span class="ode-dot"></span><span>t₂</span></div>
+              <div class="ode-node"><span class="ode-dot"></span><span>x₀</span></div>
+            </div>
+            <div class="select-lines"><span class="select-line"></span><span class="select-line"></span><span class="select-line"></span><span class="select-line"></span></div>
+            <div class="student-path"><div class="student-node">Step 1<span>noise → coarse</span></div><div class="student-node">Step 2<span>structure</span></div><div class="student-node">Step 3<span>detail</span></div><div class="student-node">Step 4<span>clean latent</span></div></div>
+            <div class="regression-box"><span><strong>Supervision</strong>: ODE solutions at selected points on the teacher trajectory</span><span><strong>Updated model</strong>: causal student</span></div>
+          </div>
+        </div>
+        <div class="source-row">Source: CausVid Section 4.3 · <a href="https://arxiv.org/html/2412.07772" target="_blank">Student Initialization</a></div>
+      </div>
+    </section>
+
+    <!-- 07 CausVid Stage 3 -->
+    <section class="slide" data-title="CausVid · Asymmetric DMD">
+      <div class="stage">
+        <div class="slide-kicker amber">03C · Stage 3 / Distillation</div>
+        <h2 class="slide-title small">Asymmetric DMD: a bidirectional teacher trains a causal student</h2>
+        <p class="slide-subtitle">The teacher retains full access to the future while the student sees only the past; the difference between their two scores provides the distribution-matching direction.</p>
+        <div class="grow dmd-layout">
+          <div class="detail-copy">
+            <div class="detail-step"><span class="step-id">01</span><div><h3>Student rolls out first</h3><p>The four-step causal student generates an entire video, after which a noise time t is sampled at random.</p></div></div>
+            <div class="detail-step"><span class="step-id">02</span><div><h3>Two scores inspect the same x̂<sub>t</sub></h3><p>The frozen bidirectional teacher estimates the data score; an online critic estimates the generator score.</p></div></div>
+            <div class="detail-step"><span class="step-id">03</span><div><h3>The score difference updates the student</h3><p>s<sub>data</sub> − s<sub>gen</sub> forms the DMD gradient; the critic is trained separately with a denoising loss on generated samples.</p></div></div>
+            <div class="detail-chip">"Asymmetric" = bidirectional teacher / causal student</div>
+          </div>
+          <div class="diagram-card">
+            <div class="dmd-graph">
+              <div class="graph-node student"><div><b>G<sub>θ</sub> causal student</b><span>z → 4-step rollout → x̂</span></div></div>
+              <div class="graph-arrow">→</div>
+              <div class="graph-node noise"><div><b>add noise at t</b><span>x̂ → x̂<sub>t</sub></span></div></div>
+              <div class="graph-arrow">→</div>
+              <div class="score-branches">
+                <div class="score-node"><span class="state-badge">frozen</span><b>s<sub>data</sub></b> · bidirectional teacher</div>
+                <div class="score-node gen"><span class="state-badge">online</span><b>s<sub>gen</sub></b> · generator critic</div>
+              </div>
+              <div class="update-loop"><span class="update-line"></span><span>generated samples + denoising loss → update s<sub>gen</sub></span><span class="update-line"></span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 42px 1fr;gap:10px;align-items:center;margin-top:22px">
+              <div class="gradient-box"><b>s<sub>data</sub> − s<sub>gen</sub></b><span>DMD distribution gradient</span></div><div class="graph-arrow">→</div><div class="graph-node student"><div><b>update G<sub>θ</sub></b><span>Move the generated distribution toward the data distribution</span></div></div>
+            </div>
+            <div class="dmd-note"><div><strong>Teacher remains frozen</strong><br>Continues to provide high-quality global supervision</div><div><strong>Student can stream</strong><br>Generates chunks sequentially after training</div></div>
+          </div>
+        </div>
+        <div class="source-row">Source: CausVid Section 4.2 · <a href="https://arxiv.org/html/2412.07772" target="_blank">Asymmetric Distillation</a></div>
+      </div>
+    </section>
+
+    <!-- 08 Self Forcing -->
+    <section class="slide" data-title="Self Forcing">
+      <div class="stage">
+        <div class="slide-kicker">04 · First correction</div>
+        <h2 class="slide-title">Self Forcing: the student must see its own history</h2>
+        <div class="grow compare">
+          <article class="compare-card bad">
+            <h3>Teacher Forcing</h3>
+            <div class="history"><span class="frame clean">GT</span><span class="frame clean">GT</span><span class="frame clean">GT</span><span>→</span><span class="frame target">Prediction</span></div>
+            <p>Training conditions come from ground-truth or clean history, whereas inference can only use the student's own error-bearing outputs.</p>
+            <span class="mismatch">Train ≠ Test · Exposure Bias</span>
+          </article>
+          <div class="compare-arrow">→</div>
+          <article class="compare-card good">
+            <h3>Self Forcing</h3>
+            <div class="history"><span class="frame self">Ŷ₁</span><span class="frame self">Ŷ₂</span><span class="frame self">Ŷ₃</span><span>→</span><span class="frame target">Ŷ₄</span></div>
+            <p>Training performs an actual AR rollout: the current chunk is conditioned on chunks previously generated by the student, and DMD is applied over the full video.</p>
+            <span class="mismatch">Train ≈ Test · On-policy</span>
+          </article>
+        </div>
+        <div class="source-row">Source: <a href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/f4823f831af67a3ef15e41a85434422a-Abstract-Conference.html" target="_blank">Self Forcing · NeurIPS 2025</a></div>
+      </div>
+    </section>
+
+    <!-- 06 Causal Forcing -->
+    <section class="slide" data-title="Causal Forcing">
+      <div class="stage">
+        <div class="slide-kicker">05 · Second correction</div>
+        <h2 class="slide-title">Causal Forcing: the teacher used for initialization must also be causal</h2>
+        <p class="slide-subtitle">Self Forcing corrects the rollout distribution, but still inherits the ODE initialization mismatch between a bidirectional teacher and a causal student.</p>
+        <div class="grow causal-grid">
+          <div class="flow-map">
+            <div class="flow-row"><div class="flow-model bi">Bidirectional Teacher<br><small>Sees the full video</small></div><div class="flow-symbol">→</div><div class="flow-result bad">Conditional-expectation solution<br>≠ causal flow map</div></div>
+            <div class="flow-row"><div class="flow-model ar">AR Teacher<br><small>Sees only history</small></div><div class="flow-symbol">→</div><div class="flow-result good">Correct causal<br>conditional flow</div></div>
+          </div>
+          <div class="stages">
+            <div class="causal-stage"><span class="num">01</span><div><h3>Train a Multi-step AR Diffusion Teacher</h3><p>First use teacher forcing to obtain a causal teacher architecturally aligned with the student.</p></div></div>
+            <div class="causal-stage"><span class="num">02</span><div><h3>Causal ODE Initialization</h3><p>Initialize the few-step student with the AR teacher's PF-ODE trajectory.</p></div></div>
+            <div class="causal-stage"><span class="num">03</span><div><h3>Self-Rollout DMD Refinement</h3><p>Finally, retain Self Forcing's on-policy asymmetric DMD.</p></div></div>
+          </div>
+        </div>
+        <div class="source-row">Source: <a href="https://arxiv.org/abs/2602.02214" target="_blank">Causal Forcing · ICML 2026</a></div>
+      </div>
+    </section>
+
+    <!-- 07 Map -->
+    <section class="slide" data-title="Technical Branches">
+      <div class="stage">
+        <div class="slide-kicker">06 · Main lineage</div>
+        <h2 class="slide-title small">The main lineage undergoes successive corrections, then branches into four task families</h2>
+        <div class="grow map">
+          <div class="map-col lineage-spine">
+            <div class="map-node"><h3>Bidirectional Video Diffusion</h3><p>High quality, but slow and non-streaming.</p></div>
+            <div class="map-arrow">↓</div>
+            <div class="map-node"><h3>CausVid</h3><p>Establishes the ODE initialization + asymmetric DMD recipe.</p></div>
+            <div class="map-arrow">↓</div>
+            <div class="map-node root"><h3>Self Forcing</h3><p>Trains on the student's own rollout distribution.</p></div>
+            <div class="map-arrow">↓</div>
+            <div class="map-node root"><h3>Causal Forcing</h3><p>Uses an AR teacher to recover the correct causal flow map.</p></div>
+          </div>
+          <div class="branch-connector" aria-hidden="true">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs><marker id="lineage-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L8,4 L0,8 Z" fill="#56e4c2"/></marker></defs>
+              <path d="M0 75 H44 V50 H92" fill="none" stroke="rgba(86,228,194,.62)" stroke-width="1.4" stroke-dasharray="4 4" vector-effect="non-scaling-stroke" marker-end="url(#lineage-arrow)"/>
+            </svg>
+          </div>
+          <div class="branch-side">
+            <div class="branch-label">Four task families after Causal Forcing</div>
+            <div class="branch-grid">
+              <div class="branch"><h3>Few steps and latency</h3><p>Causal Forcing++<br>One-Forcing · Causal-rCM</p></div>
+              <div class="branch"><h3>Long-video stability</h3><p>Rolling · Self-Forcing++ · Reward · Context<br>LongLive · 2.0 · RAG</p></div>
+              <div class="branch"><h3>Systems and memory</h3><p>Light · Dummy · Relax<br>Deep · Echo · Pyramid</p></div>
+              <div class="branch"><h3>Interactive applications</h3><p>MotionStream · RealCam<br>Lip · MV · minWM</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11 Long horizon overview -->
+    <section class="slide" data-title="Long Video · Method Overview">
+      <div class="stage">
+        <div class="slide-kicker violet">07 · Long-horizon overview</div>
+        <h2 class="slide-title small">Long video: four works modify four different components</h2>
+        <p class="slide-subtitle">Their shared goal is to stop errors from accumulating beyond the training horizon, but they intervene respectively in generation, supervision, memory, and teacher context.</p>
+        <div class="four-col grow">
+          <article class="panel mint method-card"><div class="layer-label">Modify generation</div><h3>Rolling Forcing</h3><div class="question">Strict chunk-wise causality propagates errors too quickly</div><p>Jointly denoise chunks at different noise levels within a rolling window.</p><div class="answer">Joint denoising · Progressive noise</div></article>
+          <article class="panel violet method-card"><div class="layer-label">Modify supervision samples</div><h3>Self-Forcing++</h3><div class="question">A short teacher cannot directly generate long videos</div><p>Extract short clips from a long student rollout so the short teacher can correct them locally.</p><div class="answer">Long rollout · Window correction</div></article>
+          <article class="panel amber method-card"><div class="layer-label">Modify anchor and objective</div><h3>Reward Forcing</h3><div class="question">A fixed first-frame sink causes copying and stasis</div><p>Dynamically update the EMA-Sink and bias DMD toward high-motion samples.</p><div class="answer">Dynamic memory · Rewarded DMD</div></article>
+          <article class="panel sky method-card"><div class="layer-label">Modify teacher information</div><h3>Context Forcing</h3><div class="question">A short teacher cannot teach dependencies spanning tens of seconds</div><p>Give the teacher access to the full long history and compress it into Slow-Fast Memory.</p><div class="answer">Long teacher · Long student</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2509.25161" target="_blank">Rolling</a><a href="https://arxiv.org/abs/2510.02283" target="_blank">Self-Forcing++</a><a href="https://arxiv.org/abs/2512.04678" target="_blank">Reward</a><a href="https://arxiv.org/abs/2602.06028" target="_blank">Context</a></div>
+      </div>
+    </section>
+
+    <!-- 12 Long horizon: rollout side -->
+    <section class="slide" data-title="Long Video · Generation and Memory">
+      <div class="stage">
+        <div class="slide-kicker violet">07A · Long horizon / rollout side</div>
+        <h2 class="slide-title small">First control error propagation, then keep history dynamic</h2>
+        <p class="slide-subtitle">These methods retain the teacher and directly modify the <strong>generation process and long-term anchor</strong>.</p>
+        <div class="method-grid two grow">
+          <article class="method-sheet">
+            <div class="method-family">Generation process</div><h3>Rolling Forcing</h3>
+            <div class="method-question">Problem: strict frame-wise or chunk-wise causality immediately propagates each error to the next timestep.</div>
+            <div class="method-intuition"><strong>Do not complete only one frame at a time:</strong> denoise multiple frames jointly in a rolling window, locally relaxing strict causality.</div>
+            <ul class="mechanism-list"><li>Joint multi-frame denoising within the window</li><li>Progressively increasing noise toward the future</li><li>A first-frame attention sink preserves the global anchor</li><li>Few-step distillation over an expanded window</li></ul>
+            <div class="method-result">Result: suppresses error growth and supports real-time, minute-scale generation</div>
+          </article>
+          <article class="method-sheet amber">
+            <div class="method-family">Dynamic anchor + objective</div><h3>Reward Forcing</h3>
+            <div class="method-question">Problem: although a fixed first-frame sink is stable, it makes later frames copy the beginning and gradually lose motion.</div>
+            <div class="method-intuition"><strong>The anchor must evolve with the video:</strong> long-term memory cannot remain fixed at the first frame forever.</div>
+            <ul class="mechanism-list"><li>EMA-Sink incorporates historical tokens evicted from the sliding window</li><li>Maintains fixed cache size while absorbing recent dynamics</li><li>Re-DMD reweights samples using motion rewards from a vision-language model</li></ul>
+            <div class="method-result">Result: preserves stability while reducing first-frame copying and motion decay</div>
+          </article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2509.25161" target="_blank">Rolling Forcing</a><a href="https://arxiv.org/abs/2512.04678" target="_blank">Reward Forcing</a></div>
+      </div>
+    </section>
+
+    <!-- 12 Long horizon: supervision side -->
+    <section class="slide" data-title="Long Video · Teacher Supervision">
+      <div class="stage">
+        <div class="slide-kicker violet">07B · Long horizon / supervision side</div>
+        <h2 class="slide-title small">How can a short-horizon teacher train a student to generate videos tens of times longer?</h2>
+        <p class="slide-subtitle">Both works correct the teacher-student horizon gap, but one <strong>extracts windows for correction</strong> while the other <strong>extends the teacher context</strong>.</p>
+        <div class="method-grid two grow">
+          <article class="method-sheet violet">
+            <div class="method-family">Long rollout → short correction</div><h3>Self-Forcing++</h3>
+            <div class="method-question">Problem: a short-video teacher cannot directly generate or supervise a complete multi-minute trajectory.</div>
+            <div class="method-intuition"><strong>The student travels far; the teacher only makes local corrections:</strong> extract short windows from the student's long rollout.</div>
+            <ul class="mechanism-list"><li>The student first generates a video beyond the training length</li><li>Randomly extract short clips for a short-horizon bidirectional teacher</li><li>The teacher corrects each local window, which is distilled back into the student</li><li>Backward-noise initialization: re-noise the extracted student latent while preserving its content relationship to the preceding context</li></ul>
+            <div class="method-result">Requires neither real long-video data nor a long-video teacher</div>
+          </article>
+          <article class="method-sheet sky">
+            <div class="method-family">Long teacher ↔ long student</div><h3>Context Forcing</h3>
+            <div class="method-question">Problem: the teacher sees only a short clip, while the student predicts from long history, so their conditioning information differs.</div>
+            <div class="method-intuition"><strong>The supervisor must also know the full history:</strong> give the teacher and student matching long contexts.</div>
+            <ul class="mechanism-list"><li>The teacher accesses long history, eliminating context mismatch</li><li>Slow Memory preserves sparse long-term semantics</li><li>Fast Memory retains recent details and motion</li><li>Extends the effective supervision horizon within the compute budget</li></ul>
+            <div class="method-result">Closes the information gap in short-teacher, long-student supervision</div>
+          </article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2510.02283" target="_blank">Self-Forcing++</a><a href="https://arxiv.org/abs/2602.06028" target="_blank">Context Forcing</a></div>
+      </div>
+    </section>
+
+    <!-- 14 LongLive series -->
+    <section class="slide" data-title="Long Video · LongLive Family">
+      <div class="stage">
+        <div class="slide-kicker sky">07C · LongLive family / direct AR training</div>
+        <h2 class="slide-title small">Another long-video lineage: train long, test long</h2>
+        <p class="slide-subtitle">It runs alongside the Forcing-distillation lineage but does not rely on ODE initialization followed by DMD; its progression is <strong>training horizon, system efficiency, then retrievable history</strong>.</p>
+        <div class="method-grid three grow">
+          <article class="method-sheet">
+            <div class="method-family">Model & long-horizon training</div><h3>LongLive</h3>
+            <div class="method-question">Problem: a short-clip model degrades when directly extrapolated; streaming prompt changes also contaminate stale KV states.</div>
+            <div class="method-intuition"><strong>Train for the full duration required at test time:</strong> directly narrow the train-long-test-long gap.</div>
+            <ul class="mechanism-list"><li>Frame-level causal AR</li><li>Streaming Long Tuning</li><li>Short-window attention + Frame Sink</li><li>KV-Recache refreshes prompt conditioning</li></ul>
+            <div class="method-result">Model level: minute-scale, real-time, interactive long-video generation</div>
+          </article>
+          <article class="method-sheet violet">
+            <div class="method-family">Training & inference infrastructure</div><h3>LongLive-2.0</h3>
+            <div class="method-question">Problem: long-sequence AR training consumes substantial memory and has imbalanced parallel workloads; deployment throughput remains limited by precision and the VAE.</div>
+            <div class="method-intuition"><strong>Instead of stacking more distillation stages, co-design AR training and hardware execution.</strong></div>
+            <ul class="mechanism-list"><li>Balanced Sequence Parallel teacher-forcing</li><li>NVFP4 training + W4A4 inference</li><li>NVFP4 KV cache + asynchronous streaming VAE</li><li>Optional LoRA converts four-step generation to two-step</li></ul>
+            <div class="method-result">System level: end-to-end acceleration for direct AR tuning</div>
+          </article>
+          <article class="method-sheet amber">
+            <div class="method-family">Retrieval-augmented history</div><h3>LongLive-RAG</h3>
+            <div class="method-question">Problem: once errors accumulate in the sliding window, the model can only continue along a degraded trajectory and cannot recover earlier identities.</div>
+            <div class="method-intuition">Turn self-generated latent history into <strong>content-addressable external memory</strong> rather than consulting only the most recent window.</div>
+            <ul class="mechanism-list"><li>Each new block queries relevant historical latents</li><li>Nonlocal retrieval results are fed back into the generator</li><li>Window Temporal Delta Loss suppresses local redundancy</li></ul>
+            <div class="method-result">Memory level: replaces an irreversible sliding window with retrievable history</div>
+          </article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2509.22622" target="_blank">LongLive</a><a href="https://arxiv.org/abs/2605.18739" target="_blank">LongLive-2.0</a><a href="https://arxiv.org/abs/2606.02553" target="_blank">LongLive-RAG</a></div>
+      </div>
+    </section>
+
+    <!-- 15 Few-step overview -->
+    <section class="slide" data-title="Few-Step · Method Overview">
+      <div class="stage">
+        <div class="slide-kicker amber">08 · Few-step overview</div>
+        <h2 class="slide-title small">The few-step race: from 50 steps to 1-2 frame-wise steps</h2>
+        <div class="grow step-rail">
+          <div class="step-block"><div class="step-nfe">50</div><div class="step-name">Bidirectional teacher</div><div class="step-paper">High quality, but incapable of real-time interaction</div></div>
+          <div class="step-block"><div class="step-nfe">4</div><div class="step-name">CausVid / Self / Causal</div><div class="step-paper">Mainstream chunk-wise configuration</div></div>
+          <div class="step-block"><div class="step-nfe">2</div><div class="step-name">Causal Forcing++ / rCM</div><div class="step-paper">Causal CD or TF-CM initialization</div></div>
+          <div class="step-block"><div class="step-nfe">1</div><div class="step-name">One-Forcing</div><div class="step-paper">DMD + GAN stabilize one-step generation</div></div>
+        </div>
+        <div class="step-caption">Core tension: <strong>consistency-based methods tend to lack motion, while DMD-based methods tend to blur at one step.</strong></div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2605.15141" target="_blank">Causal Forcing++</a><a href="https://arxiv.org/abs/2605.23458" target="_blank">One-Forcing</a><a href="https://arxiv.org/abs/2606.25473" target="_blank">Causal-rCM</a></div>
+      </div>
+    </section>
+
+    <!-- 15 Few-step details -->
+    <section class="slide" data-title="Few-Step Generation">
+      <div class="stage">
+        <div class="slide-kicker amber">08A · Few-step methods</div>
+        <h2 class="slide-title small">The key to 1-2 steps is not fewer evaluations, but redesigned initialization</h2>
+        <div class="method-grid three grow">
+          <article class="method-sheet">
+            <div class="method-family">Consistency initialization</div><h3>Causal Forcing++</h3>
+            <div class="method-question">Complete causal PF-ODE trajectories are expensive and difficult to scale to 1-2 frame-wise steps.</div>
+            <div class="method-intuition">Learn only <strong>a short flow-map segment between adjacent timesteps</strong>, eliminating the need to store an entire ODE trajectory.</div>
+            <ul class="mechanism-list"><li>Causal consistency distillation</li><li>Online single-step teacher ODE supervision</li><li>Followed by asymmetric DMD</li></ul>
+            <div class="method-result">Two steps · Lower first-frame latency and training cost</div>
+          </article>
+          <article class="method-sheet amber">
+            <div class="method-family">One-step refinement</div><h3>One-Forcing</h3>
+            <div class="method-question">One-step consistency tends to lack motion, while one-step DMD tends to blur.</div>
+            <div class="method-intuition">DMD governs <strong>distribution and motion</strong>; an auxiliary GAN governs <strong>one-step sharpness</strong>.</div>
+            <ul class="mechanism-list"><li>Retain the self-forcing DMD primary objective</li><li>Add adversarial image and video signals</li><li>Specifically stabilize one-step AR rollout</li></ul>
+            <div class="method-result">One step · Balances sharpness and motion</div>
+          </article>
+          <article class="method-sheet violet">
+            <div class="method-family">Forward + reverse divergence</div><h3>Causal-rCM</h3>
+            <div class="method-question">CM alone tends to average modes, while DMD alone lacks stable initialization.</div>
+            <div class="method-intuition">Turn them into two stages: <strong>TF-CM establishes coverage; SF-DMD sharpens the distribution</strong>.</div>
+            <ul class="mechanism-list"><li>Teacher-forcing continuous-time CM</li><li>Self-forcing on-policy DMD</li><li>A unified open recipe for frame-wise and chunk-wise models</li></ul>
+            <div class="method-result">1-2 steps · Complementary initialization and distribution refinement</div>
+          </article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2605.15141" target="_blank">Causal Forcing++</a><a href="https://arxiv.org/abs/2605.23458" target="_blank">One-Forcing</a><a href="https://arxiv.org/abs/2606.25473" target="_blank">Causal-rCM</a></div>
+      </div>
+    </section>
+
+    <!-- 16 Alternative overview -->
+    <section class="slide" data-title="Alternative Training · Method Overview">
+      <div class="stage">
+        <div class="slide-kicker amber">09 · Alternative overview</div>
+        <h2 class="slide-title small">Another question: can we eliminate the complex distillation pipeline?</h2>
+        <p class="slide-subtitle">From left to right, reliance on an external bidirectional teacher, ODE data, and an online critic progressively decreases.</p>
+        <div class="grow spectrum">
+          <div class="spectrum-line"></div>
+          <div class="spectrum-points">
+            <div class="spectrum-point"><div class="dot"></div><h3>CausVid / Self</h3><p>Bidirectional teacher + ODE initialization + DMD critic</p></div>
+            <div class="spectrum-point"><div class="dot"></div><h3>Causal Forcing</h3><p>Adds a multi-step AR teacher</p></div>
+            <div class="spectrum-point"><div class="dot"></div><h3>AAPT</h3><p>Student-forcing + adversarial post-training</p></div>
+            <div class="spectrum-point"><div class="dot"></div><h3>Resampling Forcing</h3><p>Self-resampling simulates inference errors; training starts from scratch</p></div>
+            <div class="spectrum-point"><div class="dot"></div><h3>Mutual Forcing</h3><p>Few-step and multi-step modes share parameters and distill each other</p></div>
+          </div>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2506.09350" target="_blank">AAPT</a><a href="https://arxiv.org/abs/2512.15702" target="_blank">Resampling</a><a href="https://arxiv.org/abs/2604.25819" target="_blank">Mutual</a></div>
+      </div>
+    </section>
+
+    <!-- 17 Alternative details -->
+    <section class="slide" data-title="Alternative Training Paths">
+      <div class="stage">
+        <div class="slide-kicker amber">09A · Alternative methods</div>
+        <h2 class="slide-title small">Three alternatives to the full DMD distillation pipeline</h2>
+        <p class="slide-subtitle">Their shared goal is to reduce reliance on a bidirectional teacher, ODE data, and an online critic.</p>
+        <div class="method-grid three grow">
+          <article class="method-sheet rose"><div class="method-family">Adversarial post-training</div><h3>AAPT</h3><div class="method-question">The few-step diffusion-distillation pipeline is complex, and inference still requires multiple network evaluations.</div><div class="method-intuition">Turn the causal generator directly into a <strong>1-NFE GAN</strong> and train it on its own history.</div><ul class="mechanism-list"><li>Student-forcing rollout</li><li>Causal adversarial post-training</li><li>Avoids the DMD critic recipe</li></ul><div class="method-result">Trades adversarial training for one-step speed</div></article>
+          <article class="method-sheet sky"><div class="method-family">Teacher-free training</div><h3>Resampling Forcing</h3><div class="method-question">Distillation relies on an expensive teacher, and training conditions still struggle to reproduce inference-time errors.</div><div class="method-intuition"><strong>Repeatedly resample the model's own outputs</strong> during training to proactively recreate the history distribution it will encounter at inference.</div><ul class="mechanism-list"><li>Self-resampling simulates accumulated errors</li><li>History routing controls the source of conditioning</li><li>End-to-end training from scratch</li></ul><div class="method-result">Bypasses both the teacher and online discriminator</div></article>
+          <article class="method-sheet violet"><div class="method-family">Shared-model self-distillation</div><h3>Mutual Forcing</h3><div class="method-question">An additional bidirectional teacher introduces architecture and capability mismatches.</div><div class="method-intuition">Let the <strong>multi-step and few-step modes of one natively causal model teach each other</strong>.</div><ul class="mechanism-list"><li>Shared-parameter slow / fast generation</li><li>Mutual self-distillation between the few-step and multi-step modes</li><li>Designed for synchronized audio-video generation</li></ul><div class="method-result">Internalizes the teacher as the model's own slow mode</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2506.09350" target="_blank">AAPT</a><a href="https://arxiv.org/abs/2512.15702" target="_blank">Resampling Forcing</a><a href="https://arxiv.org/abs/2604.25819" target="_blank">Mutual Forcing</a></div>
+      </div>
+    </section>
+
+    <!-- 18 Mutual Forcing detail -->
+    <section class="slide" data-title="Mutual Forcing · Fast and Slow Modes">
+      <div class="stage">
+        <div class="slide-kicker amber">09B · Mutual Forcing / dual-mode loop</div>
+        <h2 class="slide-title small">Fast and slow are not two models: one parameter set, two step sizes</h2>
+        <p class="slide-subtitle">The few-step mode reproduces the true inference history; the multi-step mode provides high-quality learning targets. Both training signals update the same parameters.</p>
+        <div class="grow mutual-loop">
+          <article class="mode-card fast">
+            <div class="mode-badge">Fast · Few-step mode</div><h3>A few large jumps</h3><div class="mode-steps">4–8 network evaluations</div>
+            <p>Predicts the average change across a large noise interval in one pass, rapidly jumping from noise to clean audio-video.</p>
+            <ul class="mechanism-list"><li><strong>Input:</strong> noisy current block x<sub>t</sub>, generated history ĉ, interval endpoint s, and text / first-frame / speech control</li><li><strong>Output:</strong> average velocity over the interval from t to s, i.e., how far one large jump should move</li><li><strong>Use:</strong> generate history during training; directly generate audio-video at deployment</li></ul>
+            <div class="mode-train"><strong>Supervision:</strong><br>The slow mode's multi-step output, treated as a stop-gradient target; ShortCut enforces large-jump consistency, while DMD improves few-step distribution quality.</div>
+          </article>
+          <div class="mutual-center" aria-label="Mutual Forcing mutual-training loop">
+            <div class="mutual-flow"><span>Provides the slow mode with<br>true inference history</span><b>→</b></div>
+            <div class="shared-weights">Shared parameters<br>θ</div>
+            <div class="mutual-flow reverse"><b>←</b><span>The slow mode provides<br>high-quality distillation targets</span></div>
+          </div>
+          <article class="mode-card slow">
+            <div class="mode-badge">Slow · Multi-step mode</div><h3>Many small steps</h3><div class="mode-steps">Denoise in small increments along the ODE path</div>
+            <p>Each prediction covers only the next short denoising segment from the current noise position, making it more precise and stable.</p>
+            <ul class="mechanism-list"><li><strong>Input:</strong> x<sub>t</sub>, obtained by adding noise to the real current block x₀; fast-mode history ĉ; time t; and control signals</li><li><strong>Output:</strong> instantaneous denoising velocity v<sub>θ</sub>(x<sub>t</sub>,t,ĉ) at the current time</li><li><strong>Use:</strong> obtain a high-quality trajectory through many small steps</li></ul>
+            <div class="mode-train"><strong>Supervision:</strong><br>A Flow Matching target velocity constructed from real paired audio-video x₀ and sampled noise.</div>
+          </article>
+        </div>
+        <div class="cluster-note"><b>Closed loop</b><span class="cluster-line"></span><span>The fast mode adapts the slow mode to the inference distribution; as the slow mode improves, it distills better capabilities back into the fast mode.</span></div>
+        <div class="source-row">Source: Mutual Forcing Section 3.3 · <a href="https://arxiv.org/html/2604.25819" target="_blank">Dual-Mode Self-Evolution</a></div>
+      </div>
+    </section>
+
+    <!-- 19 System overview -->
+    <section class="slide" data-title="Systems and Memory · Method Overview">
+      <div class="stage">
+        <div class="slide-kicker sky">10 · System overview</div>
+        <h2 class="slide-title small">After distillation, history itself becomes the new bottleneck</h2>
+        <p class="slide-subtitle">The question shifts from how to train an AR model to how to manage history that is ever longer, noisier, and more expensive.</p>
+        <div class="grow stack">
+          <div class="stack-labels">
+            <div class="stack-label"><span class="stack-icon">⚡</span><span><b>Compress computation</b>Which attention computations can be skipped?</span></div>
+            <div class="stack-label"><span class="stack-icon">⌁</span><span><b>Select history</b>Which frames are genuinely useful?</span></div>
+            <div class="stack-label"><span class="stack-icon">◇</span><span><b>Build memory</b>How can scenes be preserved and recalled?</span></div>
+          </div>
+          <div class="stack-layers">
+            <div class="stack-layer" style="grid-template-columns:repeat(4,1fr)"><div class="stack-paper"><h3>Light</h3><p>Chunk-aware sparse attention</p></div><div class="stack-paper"><h3>Dummy</h3><p>Heads that do not use history</p></div><div class="stack-paper"><h3>Forcing-KV</h3><p>Static / dynamic partitioning</p></div><div class="stack-paper"><h3>Pyramid</h3><p>Anchor / Wave / Veil</p></div></div>
+            <div class="stack-layer"><div class="stack-paper"><h3>Relax</h3><p>Sink · Tail · Dynamic History</p></div><div class="stack-paper"><h3>Deep</h3><p>Deep Sink + participative compression</p></div><div class="stack-paper"><h3>LongLive-2.0</h3><p>NVFP4 + Balanced SP</p></div></div>
+            <div class="stack-layer"><div class="stack-paper"><h3>Echo</h3><p>Scene Recall and active forgetting</p></div><div class="stack-paper"><h3>Context</h3><p>Slow-Fast Memory</p></div><div class="stack-paper"><h3>Shared goal</h3><p>Long-term consistency under a bounded cache</p></div></div>
+          </div>
+        </div>
+        <div class="source-row">Next: sparse computation · Then: history and scene memory</div>
+      </div>
+    </section>
+
+    <!-- 19 System: compute -->
+    <section class="slide" data-title="Systems · Sparse Computation">
+      <div class="stage">
+        <div class="slide-kicker sky">10A · System / sparse compute</div>
+        <h2 class="slide-title small">Not all history and attention heads merit equal computation</h2>
+        <p class="slide-subtitle">Shared intuition: first identify attention patterns, then allocate different budgets to different chunks or heads.</p>
+        <div class="method-grid four grow">
+          <article class="method-sheet"><div class="method-family">Chunk-aware sparsity</div><h3>Light Forcing</h3><div class="method-question">Generic sparse attention ignores the historical dependencies of AR chunks.</div><div class="method-intuition">As generation proceeds, <strong>progressively increase sparsity</strong> according to each chunk's contribution.</div><ul class="mechanism-list"><li>Chunk-Aware Growth</li><li>Hierarchical Sparse Attention</li><li>Select masks at both frame and block levels</li></ul><div class="method-result">Preserves critical history while reducing quadratic complexity</div></article>
+          <article class="method-sheet sky"><div class="method-family">Head-wise context</div><h3>Dummy Forcing</h3><div class="method-question">Roughly one quarter of heads attend almost exclusively to the current frame, making historical caching wasteful.</div><div class="method-intuition">Give these "dummy heads" <strong>short memory</strong>, while other heads retain long memory.</div><ul class="mechanism-list"><li>Dynamic head classification</li><li>Heterogeneous memory allocation</li><li>Context packing</li></ul><div class="method-result">Compresses the cache and accelerates inference without training</div></article>
+          <article class="method-sheet amber"><div class="method-family">Hybrid pruning</div><h3>Forcing-KV</h3><div class="method-question">Uniform pruning harms both image-quality heads and motion heads.</div><div class="method-intuition">First separate their functions: <strong>static heads model structure; dynamic heads model motion</strong>.</div><ul class="mechanism-list"><li>Static: structured pruning</li><li>Dynamic: pruning by clip similarity</li><li>Head types remain stable across samples</li></ul><div class="method-result">Selects different KV compression strategies by function</div></article>
+          <article class="method-sheet violet"><div class="method-family">Pyramidal cache</div><h3>Pyramid Forcing</h3><div class="method-question">Different heads have different temporal dependency patterns, making a uniform cache length inappropriate.</div><div class="method-intuition">Divide heads into three classes: <strong>Anchor / Wave / Veil</strong>.</div><ul class="mechanism-list"><li>Anchor: broad long-term history</li><li>Wave: periodic dependencies</li><li>Veil: first frame and neighboring frames</li></ul><div class="method-result">Heterogeneous lengths + ragged-cache attention</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2602.04789" target="_blank">Light</a><a href="https://arxiv.org/abs/2601.20499" target="_blank">Dummy</a><a href="https://arxiv.org/abs/2605.09681" target="_blank">Forcing-KV</a><a href="https://arxiv.org/abs/2605.13111" target="_blank">Pyramid</a></div>
+      </div>
+    </section>
+
+    <!-- 20 System: memory -->
+    <section class="slide" data-title="Systems · History and Scene Memory">
+      <div class="stage">
+        <div class="slide-kicker sky">10B · System / memory policy</div>
+        <h2 class="slide-title small">More long-term history is not always better: roles and forgetting matter</h2>
+        <div class="method-grid three grow">
+          <article class="method-sheet"><div class="method-family">Structured temporal memory</div><h3>Relax Forcing</h3><div class="method-question">Densely retaining all history is expensive and continues propagating errors and stale motion patterns.</div><div class="method-intuition">Decompose history into three roles: <strong>stability, continuity, and motion</strong>.</div><ul class="mechanism-list"><li>Sink: global stability</li><li>Tail: short-term continuity</li><li>Dynamic History: structural and motion guidance</li></ul><div class="method-result">Selects relevant history instead of enlarging a homogeneous buffer</div></article>
+          <article class="method-sheet violet"><div class="method-family">Training-free cache repair</div><h3>Deep Forcing</h3><div class="method-question">A standard sink causes quality degradation, repetition, and motion slowdown.</div><div class="method-intuition">The anchor should be deeper, and old history should retain only tokens that <strong>still participate in recent attention</strong>.</div><ul class="mechanism-list"><li>Deep Sink occupies half of the sliding window</li><li>RoPE phases are realigned to the current time</li><li>Participative Compression prunes degraded history</li></ul><div class="method-result">Extends generation by more than 12x without training</div></article>
+          <article class="method-sheet amber"><div class="method-family">Interactive scene memory</div><h3>Echo-Forcing</h3><div class="method-question">After a prompt switch, the old background contaminates the new scene; the model cannot recall it after switching back.</div><div class="method-intuition">Memory must simultaneously <strong>preserve scenes, respond to changes, and actively forget</strong>.</div><ul class="mechanism-list"><li>Hierarchical Temporal Memory</li><li>Scene Recall Frames compress old scenes</li><li>Difference-aware Memory Decay</li></ul><div class="method-result">Supports transitions and long-range scene recall with a fixed cache</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2603.21366" target="_blank">Relax</a><a href="https://arxiv.org/abs/2512.05081" target="_blank">Deep</a><a href="https://arxiv.org/abs/2605.16003" target="_blank">Echo</a></div>
+      </div>
+    </section>
+
+    <!-- 21 Applications overview -->
+    <section class="slide" data-title="Application Extensions · Method Overview">
+      <div class="stage">
+        <div class="slide-kicker sky">11 · Applications overview</div>
+        <h2 class="slide-title small">From real-time video generation to interactive world models</h2>
+        <p class="slide-subtitle">The underlying Forcing recipes are similar, but each application must redefine its control interface, supervision signal, and consistency constraints.</p>
+        <div class="grow app-grid">
+          <article class="app"><div class="app-icon">↝</div><h3>Motion and trajectory</h3><p>Draw trajectories, control objects and cameras, and observe results in real time.</p><div class="methods">MotionStream</div></article>
+          <article class="app"><div class="app-icon">⌗</div><h3>Camera and novel views</h3><p>Synthesize novel views from monocular video in real time under interactive camera control.</p><div class="methods">RealCam</div></article>
+          <article class="app"><div class="app-icon">◡</div><h3>Lip motion and audio-video</h3><p>Balance reference identity, visual quality, and speech synchronization.</p><div class="methods">Lip Forcing</div></article>
+          <article class="app"><div class="app-icon">◇</div><h3>Multi-view and 4D</h3><p>Jointly address temporal extension and cross-view geometric consistency.</p><div class="methods">MV-Forcing</div></article>
+          <article class="app"><div class="app-icon">◎</div><h3>Interactive world models</h3><p>Integrate data, control-conditioned training, distillation, and streaming deployment.</p><div class="methods">minWM</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2511.01266" target="_blank">MotionStream</a><a href="https://arxiv.org/abs/2605.06051" target="_blank">RealCam</a><a href="https://arxiv.org/abs/2606.11180" target="_blank">Lip</a><a href="https://arxiv.org/abs/2607.05376" target="_blank">MV</a><a href="https://arxiv.org/abs/2605.30263" target="_blank">minWM</a></div>
+      </div>
+    </section>
+
+    <!-- 22 Applications: control -->
+    <section class="slide" data-title="Applications · Real-Time Control">
+      <div class="stage">
+        <div class="slide-kicker sky">11A · Applications / real-time control</div>
+        <h2 class="slide-title small">Turn control signals into immediately responsive streaming video</h2>
+        <div class="method-grid two grow">
+          <article class="method-sheet"><div class="method-family">Trajectory & motion control</div><h3>MotionStream</h3><div class="method-question">Motion-control models require the full sequence, and minutes of generation latency make interaction impossible.</div><div class="method-intuition">First train a high-quality bidirectional control teacher, then <strong>distill it into a streaming student with Self Forcing</strong>.</div><ul class="mechanism-list"><li>Trajectory, camera, and motion-transfer control</li><li>Self-rollout + DMD</li><li>Sliding-window causal attention</li><li>Sink + rolling KV maintain constant context</li></ul><div class="method-result">Up to 29 FPS, supporting unbounded-length interaction</div></article>
+          <article class="method-sheet sky"><div class="method-family">Novel-view camera control</div><h3>RealCam</h3><div class="method-question">Novel-view synthesis from monocular video relies on bidirectional full-sequence processing and cannot generate while the camera is controlled.</div><div class="method-intuition">Interleave source and target frames into <strong>synchronized context pairs</strong>, naturally accommodating causal distillation.</div><ul class="mechanism-list"><li>Cross-frame in-context learning teacher</li><li>Self-Forcing + DMD causal student</li><li>LoopAug corrects inconsistencies in closed-loop camera trajectories</li></ul><div class="method-result">Real-time, variable-length, interactive camera-controlled V2V</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2511.01266" target="_blank">MotionStream</a><a href="https://arxiv.org/abs/2605.06051" target="_blank">RealCam</a></div>
+      </div>
+    </section>
+
+    <!-- 23 Applications: specialized worlds -->
+    <section class="slide" data-title="Applications · Specialized World Models">
+      <div class="stage">
+        <div class="slide-kicker sky">11B · Applications / specialized worlds</div>
+        <h2 class="slide-title small">The same Forcing recipe, with supervision rewritten for different constraints</h2>
+        <div class="method-grid three grow">
+          <article class="method-sheet amber"><div class="method-family">Audio-visual synchronization</div><h3>Lip Forcing</h3><div class="method-question">Lip motion must preserve the reference face while synchronizing precisely with speech; CFG creates tension between the two.</div><div class="method-intuition">Apply DMD only within <strong>the noise-time interval along the teacher trajectory where audio–video synchronization is most reliable</strong>.</div><ul class="mechanism-list"><li>14B teacher → two-step causal student</li><li>Sync-Window DMD</li><li>SyncNet reward + no CFG at inference</li></ul><div class="method-result">Real-time lip synchronization that preserves both identity and audio-visual alignment</div></article>
+          <article class="method-sheet violet"><div class="method-family">Temporal + view autoregression</div><h3>MV-Forcing</h3><div class="method-question">Temporal AR can generate long videos, whereas multi-view models produce only short clips; jointly maintaining both forms of consistency is difficult.</div><div class="method-intuition">Use <strong>3D reconstruction and rendering</strong> to build a 4D geometric bridge between consecutive views.</div><ul class="mechanism-list"><li>Dual autoregression over time and views</li><li>Source-view reconstruction → target-view geometry prior</li><li>Spatio-Temporal Self-Forcing + DMD</li></ul><div class="method-result">Geometrically consistent video of arbitrary duration and number of views</div></article>
+          <article class="method-sheet"><div class="method-family">Full-stack world model recipe</div><h3>minWM</h3><div class="method-question">A single algorithm cannot directly become a reproducible real-time world-model system.</div><div class="method-intuition">Connect <strong>data, control-conditioned training, causal distillation, and streaming deployment</strong> into an open-source pipeline.</div><ul class="mechanism-list"><li>First build a camera-controllable bidirectional model</li><li>AR diffusion teacher training</li><li>Causal ODE / causal CD + asymmetric DMD</li><li>Supports multiple open backbones</li></ul><div class="method-result">Engineers the Causal Forcing family into a complete framework</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2606.11180" target="_blank">Lip Forcing</a><a href="https://arxiv.org/abs/2607.05376" target="_blank">MV-Forcing</a><a href="https://arxiv.org/abs/2605.30263" target="_blank">minWM</a></div>
+      </div>
+    </section>
+
+    <!-- 26 Consistency overview -->
+    <section class="slide" data-title="Consistency · Problem Definition">
+      <div class="stage">
+        <div class="slide-kicker violet">12 · Consistency / two different axes</div>
+        <h2 class="slide-title small">First distinguish two meanings of consistency</h2>
+        <p class="slide-subtitle">One occurs along the <strong>diffusion-time axis</strong> and determines whether few-step generation is possible; the other occurs along the <strong>video-time axis</strong> and determines whether a long rollout remains coherent.</p>
+        <div class="two-col grow">
+          <article class="panel violet method-card">
+            <div class="layer-label">Diffusion-time consistency</div><div class="big-number" style="color:var(--violet)">τ</div><h3>The same content at different noise times should map to the same result</h3>
+            <div class="question">Core question: how can 50 small denoising steps be compressed into 1-2 large steps?</div>
+            <p>Starting from different noise positions, the student should recover the same clean result corresponding to one teacher trajectory. This is the consistency studied by consistency distillation, CM, and ShortCut.</p>
+            <div class="answer">Focus: correct target · ability to cross the trajectory in one step · stable initialization</div>
+          </article>
+          <article class="panel mint method-card">
+            <div class="layer-label">Video-time consistency</div><div class="big-number">t</div><h3>Within one world, consecutive frames should preserve identity, motion, and causality</h3>
+            <div class="question">Core question: why does an AR model drift after repeatedly consuming its own outputs?</div>
+            <p>People, objects, scenes, and dynamics should remain consistent over long durations, yet the model must also respond promptly to prompt changes. This is the consistency studied in exposure bias, memory, and long-context work.</p>
+            <div class="answer">Focus: history distribution · long-term memory · balance between stability and motion</div>
+          </article>
+        </div>
+        <div class="cluster-note"><b>The two are coupled</b><span class="cluster-line"></span><span>Few-step errors enter the next frame's history; temporal drift then makes every subsequent few-step denoising operation more difficult.</span></div>
+      </div>
+    </section>
+
+    <!-- 27 Diffusion-time consistency -->
+    <section class="slide" data-title="Consistency · Few-Step Distillation">
+      <div class="stage">
+        <div class="slide-kicker violet">12A · Diffusion-time consistency</div>
+        <h2 class="slide-title small">Few-step consistency: four failure modes and current solutions</h2>
+        <div class="method-grid four grow">
+          <article class="method-sheet rose"><div class="method-family">Problem 1 · Wrong target</div><h3>The teacher trajectory is not causal</h3><div class="method-question">The bidirectional teacher uses future frames; the causal student can never reproduce the same flow map.</div><div class="method-intuition"><strong>Solution:</strong> first obtain an AR teacher, or directly use causal CD to learn the correct AR conditional mapping.</div><ul class="mechanism-list"><li>Causal Forcing: causal ODE</li><li>Causal Forcing++: causal CD</li></ul><div class="method-result">Align the target before reducing the step count</div></article>
+          <article class="method-sheet sky"><div class="method-family">Problem 2 · Scaling cost</div><h3>Complete ODE trajectories are too expensive</h3><div class="method-question">Each sample requires generating and storing dozens of teacher trajectory steps; configuration changes require recomputation.</div><div class="method-intuition"><strong>Solution:</strong> align only adjacent noise times, using one online teacher ODE step for local supervision.</div><ul class="mechanism-list"><li>No offline trajectory bank required</li><li>Smaller optimization interval at each step</li></ul><div class="method-result">Causal Forcing++ · causal CD</div></article>
+          <article class="method-sheet amber"><div class="method-family">Problem 3 · One-step geometry</div><h3>Video trajectories curve too sharply</h3><div class="method-question">Trajectory curvature is high in high-noise regions; a single straight-line jump loses structure and motion.</div><div class="method-intuition"><strong>Solution:</strong> retain an intermediate anchor in a two-step scheme, or move beyond trajectory following and directly match the output distribution.</div><ul class="mechanism-list"><li>Two-step consistency: crosses the bend</li><li>One-Forcing: DMD + GAN</li></ul><div class="method-result">One-step generation requires an additional global realism constraint</div></article>
+          <article class="method-sheet violet"><div class="method-family">Problem 4 · Objective bias</div><h3>Coverage and sharpness are difficult to achieve together</h3><div class="method-question">CM is stable and covers modes but tends to average them; DMD is sharper but prone to mode-seeking and initialization sensitivity.</div><div class="method-intuition"><strong>Solution:</strong> let the forward objective provide stable coverage and the reverse objective perform on-policy distribution refinement.</div><ul class="mechanism-list"><li>Causal-rCM: TF-CM → SF-DMD</li><li>Mutual: ShortCut + DMD</li></ul><div class="method-result">Not either-or: stabilize first, then sharpen</div></article>
+        </div>
+        <div class="source-row"><a href="https://arxiv.org/html/2605.15141" target="_blank">Causal Forcing++</a><a href="https://arxiv.org/html/2606.25473" target="_blank">Causal-rCM</a><a href="https://arxiv.org/html/2605.23458" target="_blank">One-Forcing</a><a href="https://arxiv.org/html/2604.25819" target="_blank">Mutual Forcing</a></div>
+      </div>
+    </section>
+
+    <!-- 28 Video-time consistency -->
+    <section class="slide" data-title="Consistency · Long-Video Coherence">
+      <div class="stage">
+        <div class="slide-kicker sky">12B · Video-time consistency</div>
+        <h2 class="slide-title small">Video consistency: every problem begins when history is no longer reliable</h2>
+        <div class="method-grid four grow">
+          <article class="method-sheet"><div class="method-family">History distribution</div><h3>Training history is too clean</h3><div class="method-question">Training sees ground truth, while inference sees the model's own error-bearing outputs, causing exposure bias.</div><div class="method-intuition"><strong>Solution:</strong> perform an actual few-step rollout during training so the model learns to continue from its own errors.</div><ul class="mechanism-list"><li>Self Forcing</li><li>Mutual Forcing's Few-history</li><li>LongLive's long tuning</li></ul><div class="method-result">Aligns training history with test history</div></article>
+          <article class="method-sheet violet"><div class="method-family">Teacher horizon</div><h3>A short teacher cannot teach long dependencies</h3><div class="method-question">A short teacher knows only a local window, while the student must make decisions from tens of seconds of history.</div><div class="method-intuition"><strong>Solution:</strong> let the student travel far and the teacher correct locally, or give the teacher long context as well.</div><ul class="mechanism-list"><li>Self-Forcing++: extract windows from a long rollout</li><li>Context Forcing: long-context teacher</li></ul><div class="method-result">Corrects the student-teacher context gap</div></article>
+          <article class="method-sheet amber"><div class="method-family">Anchor trade-off</div><h3>Anchors stabilize but can freeze motion</h3><div class="method-question">A fixed first-frame sink suppresses drift but may copy the beginning and reduce motion.</div><div class="method-intuition"><strong>Solution:</strong> update the anchor with history and assign distinct roles to long-term, recent, and motion memories.</div><ul class="mechanism-list"><li>Reward: EMA-Sink + Re-DMD</li><li>Relax: Sink / Tail / Dynamic</li><li>Deep: Deep Sink + history compression</li></ul><div class="method-result">Stability and dynamism still require joint optimization</div></article>
+          <article class="method-sheet sky"><div class="method-family">Irreversible history</div><h3>No recovery after a sliding-window mistake</h3><div class="method-question">Once identity drifts within the recent window, the old scene has been evicted and generation can only continue along the erroneous trajectory.</div><div class="method-intuition"><strong>Solution:</strong> turn distant history into external memory that can be selected, recalled, and forgotten.</div><ul class="mechanism-list"><li>Echo: scene recall and difference-aware forgetting</li><li>LongLive-RAG: content-based latent retrieval</li><li>Pyramid: allocate long-term history by head</li></ul><div class="method-result">Moves from the recent window to addressable memory</div></article>
+        </div>
+        <div class="cluster-note"><b>Still unresolved</b><span class="cluster-line"></span><span>True event-level long-term memory, identity recovery after occlusion, 3D world state, and evaluation metrics that distinguish stability from stasis.</span></div>
+        <div class="source-row"><a href="https://arxiv.org/abs/2506.08009" target="_blank">Self Forcing</a><a href="https://arxiv.org/abs/2510.02283" target="_blank">Self-Forcing++</a><a href="https://arxiv.org/abs/2602.06028" target="_blank">Context</a><a href="https://arxiv.org/abs/2605.16003" target="_blank">Echo</a><a href="https://arxiv.org/abs/2606.02553" target="_blank">LongLive-RAG</a></div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="hint">← → / Space: navigate · F: fullscreen · O: overview · G: glossary · Hover over dotted terms</div>
+  <div class="controls">
+    <button class="control" id="glossaryBtn" aria-label="Open glossary" title="Glossary (G)">?</button>
+    <button class="control" id="overviewBtn" aria-label="Overview mode" title="Overview mode (O)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg></button>
+    <button class="control" id="prevBtn" aria-label="Previous slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button class="control" id="nextBtn" aria-label="Next slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m9 18 6-6-6-6"/></svg></button>
+    <button class="control" id="fullscreenBtn" aria-label="Fullscreen" title="Fullscreen (F)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 4H4v4M16 4h4v4M8 20H4v-4M16 20h4v-4"/></svg></button>
+  </div>
+  <div class="term-popover" id="termPopover" role="status" aria-live="polite"><b id="termPopoverLabel"></b><span id="termPopoverText"></span></div>
+  <div class="glossary-overlay" id="glossaryOverlay" aria-hidden="true">
+    <section class="glossary-panel" role="dialog" aria-modal="true" aria-labelledby="glossaryTitle">
+      <div class="glossary-head"><div><h2 id="glossaryTitle">Glossary</h2><p>A dotted term marks its first occurrence; hover, click, or focus it to see the definition.</p></div><button class="glossary-close" id="glossaryClose" aria-label="Close glossary">×</button></div>
+      <dl class="glossary-grid" id="glossaryGrid"></dl>
+    </section>
+  </div>
+  <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+  <script>
+    const glossary = [
+      { label: 'Distillation', aliases: ['distillation', 'Distillation'], def: 'Training a faster, smaller, or fewer-step student model from a capable but slower teacher model.' },
+      { label: 'AR / Autoregressive', aliases: ['AR', 'Autoregressive', 'autoregressive'], def: 'Generation in temporal order: earlier frames or clips are generated first and then condition later content.' },
+      { label: 'Video diffusion model', aliases: ['Video Diffusion', 'video diffusion', 'diffusion'], def: 'A generative model that starts from random noise and generates a video through repeated denoising.' },
+      { label: 'Bidirectional attention', aliases: ['Bidirectional', 'bidirectional'], def: 'Each position can attend to both past and future positions, offering high global quality but requiring the full video to be processed at once.' },
+      { label: 'Causal attention', aliases: ['Causal', 'causal'], def: 'The current frame can attend only to current and past content, enabling output to stream as it is generated.' },
+      { label: 'Teacher model', aliases: ['Teacher', 'teacher'], def: 'A strong model that supplies high-quality supervision; it is usually slower and uses more inference steps.' },
+      { label: 'Student model', aliases: ['Student', 'student'], def: 'The model trained under teacher supervision and ultimately used for fast generation.' },
+      { label: 'Denoising step / NFE', aliases: ['NFE', 'denoising steps', 'denoising step'], def: 'The number of neural-network evaluations used to denoise during generation; fewer evaluations are usually faster but make the task harder.' },
+      { label: 'ODE / PF-ODE', aliases: ['PF-ODE', 'ODE'], def: 'A view of iterative diffusion denoising as a continuous trajectory whose integration maps the same noise consistently to the same video.' },
+      { label: 'CM / Consistency Model', aliases: ['Consistency Model', 'consistency model', 'CM'], def: 'A model trained to map different noise positions directly to the same result, compressing many generation steps into one or two.' },
+      { label: 'Rollout', aliases: ['Self-Rollout', 'self-rollout', 'rollout', 'Rollout'], def: 'The process in which a model repeatedly uses its own outputs to generate subsequent content, reproducing the history encountered at inference.' },
+      { label: 'DMD', aliases: ['DMD'], def: 'Distribution Matching Distillation: moves the overall distribution of student outputs toward the real-data or teacher distribution.' },
+      { label: 'TF-CM', aliases: ['TF-CM'], def: 'Teacher-Forcing Consistency Model: trains a consistency model on teacher or clean history to provide stable, broad-coverage few-step initialization.' },
+      { label: 'SF-DMD', aliases: ['SF-DMD'], def: 'Self-Forcing DMD: performs distribution matching on the student\'s own generated history to improve realism and sharpness.' },
+      { label: 'rCM', aliases: ['rCM'], def: 'A distillation framework combining stable consistency-model initialization with DMD distribution refinement.' },
+      { label: 'Score', aliases: ['score function', 'data score', 'generator score', 'score'], def: 'A signal from a diffusion model indicating how a noisy sample should change; DMD compares the data and generator directions.' },
+      { label: 'Critic', aliases: ['critic', 'Critic'], def: 'An auxiliary network that estimates the student\'s current generated distribution during training; it supplies supervision and is usually unnecessary at deployment.' },
+      { label: 'Frame', aliases: ['frame-wise', 'Frame-level', 'frame-level'], def: 'A single image in a video; frame-wise generation produces one frame at a time.' },
+      { label: 'GT / Ground Truth', aliases: ['GT'], def: 'Real data or a reference answer; here, the real historical frames supplied to the model during training.' },
+      { label: 'Chunk', aliases: ['chunk', 'Chunk'], def: 'A short clip of consecutive frames; a chunk-wise model generates one video chunk rather than one frame at a time.' },
+      { label: 'Latent', aliases: ['latent', 'Latent'], def: 'A compressed internal numerical representation of video; models usually generate in this smaller space rather than directly in pixels.' },
+      { label: 'VAE', aliases: ['3D VAE', 'VAE'], def: 'A network that encodes and decodes between video pixels and compressed latent representations.' },
+      { label: 'DiT', aliases: ['DiT'], def: 'Diffusion Transformer: an attention-based network that models relationships across video positions and performs diffusion denoising.' },
+      { label: 'Block-causal', aliases: ['block-causal', 'Block-causal'], def: 'Attention is bidirectional within each block and restricted to the past across blocks, balancing local quality with streaming generation.' },
+      { label: 'Attention mask', aliases: ['attention mask', 'Attention mask'], def: 'The visibility rule specifying which other positions each position may attend to.' },
+      { label: 'KV cache', aliases: ['KV cache', 'KV Cache', 'KV-Cache'], def: 'Cached intermediate attention states from history that later generation can reuse to avoid redundant computation.' },
+      { label: 'Attention sink', aliases: ['attention sink', 'Attention Sink', 'Frame Sink', 'sink token', 'Sink'], def: 'A small set of early frames or features retained as a global stability anchor; overreliance can cause stasis or copying of the beginning.' },
+      { label: 'Sliding window', aliases: ['sliding window', 'Sliding-window'], def: 'A computation policy that retains only the most recent history and gradually evicts older content, keeping cost bounded.' },
+      { label: 'Exposure bias', aliases: ['Exposure Bias', 'exposure bias'], def: 'The train-test gap caused by seeing clean history during training but only the model\'s error-bearing outputs during inference.' },
+      { label: 'On-policy', aliases: ['On-policy', 'on-policy'], def: 'Training data come from the model\'s current policy rather than only from prepared teacher or real histories.' },
+      { label: 'Flow map', aliases: ['flow map', 'Flow map'], def: 'A mapping that describes how a sample evolves from one noise time to another.' },
+      { label: 'Architectural gap', aliases: ['Architectural Gap', 'architectural gap'], def: 'A mismatch in visible information or network structure between teacher and student, making the teacher trajectory inappropriate for the student.' },
+      { label: 'Teacher forcing', aliases: ['Teacher Forcing', 'teacher-forcing', 'Teacher-forcing'], def: 'Training with real or teacher-generated clean history; it is easy to optimize but may differ from actual inference conditions.' },
+      { label: 'Self forcing', aliases: ['Self Forcing', 'Self-Forcing', 'self-forcing'], def: 'Conditioning the model on its own generated history during training so the environment better matches actual inference.' },
+      { label: 'Consistency distillation / CD', aliases: ['consistency distillation', 'Consistency distillation', 'causal CD', 'CD'], def: 'Trains a few-step student to produce consistent results at different noise times, learning a fast mapping that spans multiple steps.' },
+      { label: 'Diffusion-time consistency', aliases: ['Diffusion-time consistency'], def: 'The same latent video at different noise times should map to the same final result, enabling fewer denoising steps.' },
+      { label: 'Video-time consistency', aliases: ['Video-time consistency'], def: 'People, objects, scenes, and motion laws remain coherent across consecutive frames and long generation horizons.' },
+      { label: 'Trajectory curvature', aliases: ['trajectory curvature'], def: 'How far a denoising path bends away from a straight line; stronger curvature makes accurate generation with one large linear jump harder.' },
+      { label: 'Mode coverage', aliases: ['mode coverage'], def: 'The ability of a generative model to cover many plausible outcomes in the data rather than concentrating on a few easy styles.' },
+      { label: 'GAN / Adversarial training', aliases: ['GAN', 'adversarial'], def: 'Training in which a generator and discriminator compete, often improving the sharpness and realism of one-step outputs.' },
+      { label: 'Forward / reverse divergence', aliases: ['forward divergence', 'reverse divergence'], def: 'Two directions for measuring distribution mismatch: the forward direction emphasizes covering possibilities, while the reverse direction favors high-quality modes.' },
+      { label: 'EMA-Sink', aliases: ['EMA-Sink'], def: 'Rather than fixing the first-frame anchor permanently, an exponential moving average absorbs history evicted from the window so the anchor evolves with the video.' },
+      { label: 'Re-DMD', aliases: ['Re-DMD'], def: 'Rewarded DMD: reweights distillation samples by rewards such as motion, increasing emphasis on dynamic content.' },
+      { label: 'Vision-language model', aliases: ['vision-language model'], def: 'A model that jointly understands images or video and text; here it scores the degree of motion in generated videos.' },
+      { label: 'Backward-noise initialization', aliases: ['Backward-noise initialization', 'backward-noise initialization'], def: 'Takes a generated latent from a long student rollout, adds noise according to the forward diffusion process, and uses it as a shared denoising starting point for teacher and student; unlike fresh random noise, it better preserves the connection to preceding context.' },
+      { label: 'Slow-Fast Memory', aliases: ['Slow-Fast Memory', 'Slow Memory', 'Fast Memory'], def: 'Slow memory stores sparse long-term information and fast memory stores recent detail, covering distant and recent history at low cost.' },
+      { label: 'Train-long-test-long', aliases: ['train-long-test-long'], def: 'Uses long sequences in training and generates long sequences at test time, avoiding direct extrapolation from short training to long video.' },
+      { label: 'Prompt', aliases: ['Prompt', 'prompt'], def: 'A user-provided text instruction describing the desired content or scene change.' },
+      { label: 'KV-Recache', aliases: ['KV-Recache', 'KV-recache'], def: 'Recomputes part of the historical cache after a prompt change so subsequent content responds promptly to the new instruction.' },
+      { label: 'Sequence Parallel / SP', aliases: ['Balanced Sequence Parallel', 'Sequence Parallel', 'Balanced SP'], def: 'Distributes one long video sequence across multiple GPUs; Balanced SP seeks to equalize each GPU\'s workload.' },
+      { label: 'NVFP4', aliases: ['NVFP4'], def: 'A 4-bit floating-point format for newer NVIDIA GPUs that reduces the memory footprint and compute cost of representing model data.' },
+      { label: 'W4A4', aliases: ['W4A4'], def: 'Uses 4-bit precision for both model weights and intermediate activations to accelerate inference and reduce memory use.' },
+      { label: 'LoRA', aliases: ['LoRA'], def: 'Adapts a large model by training a small set of additional parameters, using less compute and memory than full fine-tuning.' },
+      { label: 'RAG / Retrieval-Augmented Generation', aliases: ['RAG', 'Retrieval-Augmented Generation', 'retrieval-augmented generation', 'retrieval', 'Retrieval'], def: 'Retrieves relevant content from a history store before generation and supplies it as additional conditioning.' },
+      { label: 'Self-resampling', aliases: ['Self-resampling', 'self-resampling'], def: 'Repeatedly resamples the model\'s own outputs during training to simulate the errors that will accumulate at inference.' },
+      { label: 'History routing', aliases: ['History routing', 'history routing'], def: 'Rules that determine whether the current prediction uses real, teacher-generated, or model-generated history.' },
+      { label: 'Flow Matching', aliases: ['Flow Matching', 'flow matching'], def: 'Trains a model to predict the direction of motion at every point along a path from noise to real data, enabling iterative generation along that path.' },
+      { label: 'ShortCut objective', aliases: ['ShortCut'], def: 'Trains a model to cross large denoising-time intervals directly while requiring large-step predictions to agree with multiple small steps.' },
+      { label: 'Stop-gradient', aliases: ['stop-gradient'], def: 'Uses a model output only as a training target and prevents gradients through that target from updating the branch that produced it.' },
+      { label: 'Sparse attention', aliases: ['Sparse Attention', 'sparse attention'], def: 'Computes attention only among selected important positions instead of all pairs of positions.' },
+      { label: 'Attention head', aliases: ['attention head', 'heads', 'head'], def: 'An independent channel in multi-head attention; different heads often specialize in structure, motion, or long-term dependencies.' },
+      { label: 'Pruning', aliases: ['pruning'], def: 'Removes low-contribution cache entries, connections, or computations to reduce latency and memory cost.' },
+      { label: 'Ragged cache', aliases: ['ragged-cache', 'ragged cache'], def: 'Allows different attention heads to retain different history lengths instead of enforcing equal-length caches.' },
+      { label: 'RoPE', aliases: ['RoPE'], def: 'A positional encoding method that tells the model the relative temporal positions of frames.' },
+      { label: 'Token', aliases: ['token', 'Token'], def: 'The basic information unit processed by a model; in video it usually represents a compressed spatial or temporal patch.' },
+      { label: 'In-context learning', aliases: ['in-context learning', 'In-context Learning'], def: 'Places examples directly in the input context so the model can infer the current task without retraining for each sample.' },
+      { label: 'Context pair', aliases: ['context pairs', 'context pair'], def: 'A source frame and target frame paired in the context to show directly how an input view should transform into an output view.' },
+      { label: 'LoopAug', aliases: ['LoopAug'], def: 'Data augmentation that constructs closed-loop camera-motion training samples to reduce failure to return to the original scene after a full camera orbit.' },
+      { label: 'V2V', aliases: ['V2V'], def: 'Video-to-Video: takes an existing video and generates a controlled or edited video.' },
+      { label: 'CFG', aliases: ['CFG'], def: 'Classifier-Free Guidance strengthens conditional instructions to improve adherence, but excessive guidance can harm naturalness or identity preservation.' },
+      { label: 'Sync-Window DMD', aliases: ['Sync-Window DMD'], def: 'Applies DMD only within the noise interval of the teacher trajectory where audio-video synchronization is most reliable.' },
+      { label: 'SyncNet', aliases: ['SyncNet'], def: 'A model that evaluates whether lip motion is synchronized with audio; here it supplies a synchronization reward.' },
+      { label: '4D', aliases: ['4D'], def: 'Three spatial dimensions plus time; 4D consistency means object geometry remains plausible across views and times.' },
+      { label: 'Geometry prior', aliases: ['geometric prior', 'geometry prior'], def: 'A structural cue obtained from 3D reconstruction or rendering that helps a generator preserve cross-view geometric consistency.' },
+      { label: 'Backbone', aliases: ['backbone', 'Backbone'], def: 'The base network that provides the main generative capability and supports additional control or distillation modules.' },
+      { label: 'AAPT', aliases: ['AAPT'], def: 'Autoregressive Adversarial Post-Training: adversarially post-trains an autoregressive generator to enable one-step generation.' },
+      { label: 'FPS', aliases: ['FPS'], def: 'Frames Per Second: the number of frames generated or played each second; higher values indicate better real-time performance.' },
+      { label: 'Mode-seeking', aliases: ['mode-seeking'], def: 'A tendency to generate only a few outcomes that are easy to score highly, potentially reducing diversity.' },
+      { label: 'Gaussian noise', aliases: ['Gaussian', 'Gaussian noise', 'N(0, I)'], def: 'Random noise whose values follow a bell-shaped probability distribution, commonly used as the starting point for diffusion generation.' }
+    ];
+
+    function annotateGlossary() {
+      const root = document.getElementById('deck');
+      glossary.forEach(entry => {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        let node;
+        while ((node = walker.nextNode())) {
+          const parent = node.parentElement;
+          if (!parent || parent.closest('.term, a, .source-row, script, style, svg')) continue;
+          let match = null;
+          entry.aliases.forEach(alias => {
+            const index = node.data.indexOf(alias);
+            if (index >= 0 && (!match || index < match.index || index === match.index && alias.length > match.alias.length)) match = { index, alias };
+          });
+          if (!match) continue;
+          const before = document.createTextNode(node.data.slice(0, match.index));
+          const term = document.createElement('span');
+          term.className = 'term';
+          term.tabIndex = 0;
+          term.dataset.label = entry.label;
+          term.dataset.definition = entry.def;
+          term.textContent = match.alias;
+          const after = document.createTextNode(node.data.slice(match.index + match.alias.length));
+          node.replaceWith(before, term, after);
+          break;
+        }
+      });
+    }
+
+    annotateGlossary();
+    const glossaryGrid = document.getElementById('glossaryGrid');
+    glossary.forEach(entry => {
+      const item = document.createElement('div');
+      item.className = 'glossary-item';
+      item.innerHTML = `<dt>${entry.label}</dt><dd>${entry.def}</dd>`;
+      glossaryGrid.appendChild(item);
+    });
+
+    const termPopover = document.getElementById('termPopover');
+    const termPopoverLabel = document.getElementById('termPopoverLabel');
+    const termPopoverText = document.getElementById('termPopoverText');
+    let termTimer;
+    function showTerm(term, persist = false) {
+      clearTimeout(termTimer);
+      termPopoverLabel.textContent = `Term · ${term.dataset.label}`;
+      termPopoverText.textContent = term.dataset.definition;
+      termPopover.classList.add('show');
+      if (persist) termTimer = setTimeout(() => termPopover.classList.remove('show'), 6500);
+    }
+    function hideTerm() { clearTimeout(termTimer); termTimer = setTimeout(() => termPopover.classList.remove('show'), 120); }
+    document.querySelectorAll('.term').forEach(term => {
+      term.addEventListener('mouseenter', () => showTerm(term));
+      term.addEventListener('mouseleave', hideTerm);
+      term.addEventListener('focus', () => showTerm(term));
+      term.addEventListener('blur', hideTerm);
+      term.addEventListener('click', event => { event.stopPropagation(); showTerm(term, true); });
+    });
+
+    const glossaryOverlay = document.getElementById('glossaryOverlay');
+    function toggleGlossary(force) {
+      const open = typeof force === 'boolean' ? force : !glossaryOverlay.classList.contains('open');
+      glossaryOverlay.classList.toggle('open', open);
+      glossaryOverlay.setAttribute('aria-hidden', String(!open));
+      if (open) document.getElementById('glossaryClose').focus();
+    }
+
+    const slides = [...document.querySelectorAll('.slide')];
+    const counter = document.getElementById('counter');
+    const progressBar = document.getElementById('progressBar');
+    let current = Math.max(0, Math.min(slides.length - 1, Number(location.hash.replace('#','')) - 1 || 0));
+    let touchStartX = 0;
+    let wheelLocked = false;
+
+    function show(index, updateHash = true) {
+      termPopover.classList.remove('show');
+      current = Math.max(0, Math.min(slides.length - 1, index));
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === current);
+        slide.classList.toggle('previous', i < current);
+      });
+      counter.textContent = `${String(current + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+      document.title = `${slides[current].dataset.title} | Forcing AR Video`;
+      if (updateHash) history.replaceState(null, '', `#${current + 1}`);
+    }
+
+    function next() { if (!document.body.classList.contains('overview')) show(current + 1); }
+    function prev() { if (!document.body.classList.contains('overview')) show(current - 1); }
+    function toggleOverview(force) {
+      const nextState = typeof force === 'boolean' ? force : !document.body.classList.contains('overview');
+      document.body.classList.toggle('overview', nextState);
+      if (!nextState) show(current);
+    }
+    async function toggleFullscreen() {
+      if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.();
+      else await document.exitFullscreen?.();
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', next);
+    document.getElementById('prevBtn').addEventListener('click', prev);
+    document.getElementById('glossaryBtn').addEventListener('click', () => toggleGlossary());
+    document.getElementById('glossaryClose').addEventListener('click', () => toggleGlossary(false));
+    glossaryOverlay.addEventListener('click', event => { if (event.target === glossaryOverlay) toggleGlossary(false); });
+    document.getElementById('overviewBtn').addEventListener('click', () => toggleOverview());
+    document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
+    document.getElementById('deck').addEventListener('click', event => {
+      if (!document.body.classList.contains('overview')) return;
+      const slide = event.target.closest('.slide');
+      if (!slide) return;
+      current = slides.indexOf(slide);
+      toggleOverview(false);
+    });
+
+    window.addEventListener('keydown', event => {
+      if (glossaryOverlay.classList.contains('open')) {
+        if (event.key === 'Escape' || event.key.toLowerCase() === 'g') { event.preventDefault(); toggleGlossary(false); }
+        return;
+      }
+      if (['ArrowRight','ArrowDown','PageDown',' '].includes(event.key)) { event.preventDefault(); next(); }
+      if (['ArrowLeft','ArrowUp','PageUp'].includes(event.key)) { event.preventDefault(); prev(); }
+      if (event.key === 'Home') show(0);
+      if (event.key === 'End') show(slides.length - 1);
+      if (event.key.toLowerCase() === 'f') toggleFullscreen();
+      if (event.key.toLowerCase() === 'o' || event.key === 'Escape' && document.body.classList.contains('overview')) toggleOverview();
+      if (event.key.toLowerCase() === 'g') toggleGlossary();
+    });
+    window.addEventListener('wheel', event => {
+      if (glossaryOverlay.classList.contains('open') || document.body.classList.contains('overview') || wheelLocked || Math.abs(event.deltaY) < 30) return;
+      wheelLocked = true;
+      event.deltaY > 0 ? next() : prev();
+      setTimeout(() => wheelLocked = false, 650);
+    }, { passive: true });
+    window.addEventListener('touchstart', event => touchStartX = event.changedTouches[0].clientX, { passive: true });
+    window.addEventListener('touchend', event => {
+      if (glossaryOverlay.classList.contains('open')) return;
+      const delta = event.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(delta) > 55) delta < 0 ? next() : prev();
+    }, { passive: true });
+    window.addEventListener('hashchange', () => {
+      const index = Number(location.hash.replace('#','')) - 1;
+      if (Number.isFinite(index)) show(index, false);
+    });
+    show(current, false);
+  </script>
+</body>
+</html>

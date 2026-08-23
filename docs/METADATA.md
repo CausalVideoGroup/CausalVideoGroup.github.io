@@ -31,6 +31,8 @@ tags:
   - controllable-generation
 related_projects:
   - long-video-generation
+slides: presentation-standard.html
+original_slides: presentation.html
 ```
 
 This produces:
@@ -42,6 +44,11 @@ discussions/2026-07-13-yifan-forcing-ar-video-distillation/
 The full leader name is for display. `short_name` is the stable, URL-safe name
 used in the directory. If short names ever collide, group members must agree on
 a unique short name before the entry is created.
+
+`slides` always identifies the canonical English deck and must be
+`presentation-standard.html`. When a Chinese source deck is retained, record it
+separately as `original_slides: presentation.html`; omit `original_slides` when
+there is no earlier source deck.
 
 The approved leader names and URL short names are maintained in
 `data/people.yaml`:
