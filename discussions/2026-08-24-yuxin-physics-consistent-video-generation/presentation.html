@@ -1,0 +1,1817 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="物理一致性视频生成：谁在教生成模型物理？">
+  <title>物理一致性视频生成｜谁在教生成模型物理？</title>
+  <style>
+    :root {
+      --bg: #050c16;
+      --bg-2: #081321;
+      --stage: rgba(8, 22, 37, .96);
+      --stage-2: rgba(5, 15, 27, .98);
+      --panel: rgba(17, 38, 57, .72);
+      --line: rgba(180, 215, 232, .16);
+      --line-strong: rgba(180, 215, 232, .30);
+      --text: #f2f8fb;
+      --muted: #9bb0bd;
+      --faint: #7891a0;
+      --blue: #5cc8ff;
+      --orange: #ffad5c;
+      --mint: #58e1bd;
+      --violet: #ae93ff;
+      --rose: #ff8196;
+      --shadow: 0 32px 110px rgba(0,0,0,.46);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; }
+    body {
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(92,200,255,.13), transparent 31rem),
+        radial-gradient(circle at 90% 15%, rgba(255,173,92,.10), transparent 33rem),
+        var(--bg);
+    }
+    body::before {
+      content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .30;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, #000 6%, transparent 96%);
+    }
+    a { color: inherit; text-decoration: none; }
+    a.paper-link { color: #d6f3ff; border-bottom: 1px solid rgba(92,200,255,.42); }
+    a.paper-link:hover { color: var(--blue); border-color: var(--blue); }
+    button { font: inherit; color: inherit; }
+    button:focus-visible, a:focus-visible, .term:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+    h1, h2, h3, h4, p { margin-top: 0; }
+    .blue { color: var(--blue); } .orange { color: var(--orange); }
+    .mint { color: var(--mint); } .violet { color: var(--violet); }
+    .rose { color: var(--rose); } .muted { color: var(--muted); }
+    .mono { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .deck { position: relative; width: 100%; height: 100%; z-index: 1; }
+    .slide {
+      position: absolute; inset: 0; display: grid; place-items: center;
+      opacity: 0; visibility: hidden; transform: translateX(4%) scale(.985);
+      transition: opacity .38s ease, transform .38s ease, visibility .38s;
+      overflow: hidden;
+    }
+    .slide.active { opacity: 1; visibility: visible; transform: none; z-index: 2; }
+    .slide.previous { transform: translateX(-4%) scale(.985); }
+    .stage {
+      width: min(94vw, 1600px); height: min(90vh, 900px); aspect-ratio: 16 / 9;
+      position: relative; display: flex; flex-direction: column;
+      padding: clamp(34px, 4vw, 68px) clamp(40px, 4.8vw, 82px);
+      border: 1px solid var(--line); border-radius: clamp(18px, 2vw, 30px);
+      background: linear-gradient(145deg, var(--stage), var(--stage-2));
+      box-shadow: var(--shadow); overflow: hidden;
+    }
+    .stage::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(circle at 13% 15%, rgba(92,200,255,.07), transparent 29%),
+        radial-gradient(circle at 88% 16%, rgba(255,173,92,.06), transparent 31%);
+    }
+    .stage::after {
+      content: ""; position: absolute; width: 42%; aspect-ratio: 1; right: -14%; bottom: -34%;
+      border: 1px solid rgba(92,200,255,.055); border-radius: 50%;
+      box-shadow: 0 0 0 62px rgba(92,200,255,.018), 0 0 0 124px rgba(255,173,92,.012);
+    }
+    .stage > * { position: relative; z-index: 1; }
+    .kicker {
+      color: var(--blue); font-size: clamp(9px,.75vw,13px); font-weight: 820;
+      text-transform: uppercase; letter-spacing: .16em;
+    }
+    .kicker.orange { color: var(--orange); }
+    .kicker.mint { color: var(--mint); }
+    .kicker.violet { color: var(--violet); }
+    .title {
+      margin: .28em 0 .18em; max-width: 1340px;
+      font-size: clamp(34px, 3.75vw, 64px); line-height: 1.06; letter-spacing: -.052em;
+    }
+    .title.small { font-size: clamp(30px, 3.25vw, 55px); }
+    .subtitle {
+      margin: 0; max-width: 1160px; color: var(--muted);
+      font-size: clamp(13px, 1.04vw, 18px); line-height: 1.62;
+    }
+    .subtitle strong { color: var(--text); }
+    .content { flex: 1; min-height: 0; margin-top: clamp(22px, 2.8vh, 40px); }
+    .source {
+      margin-top: auto; min-height: 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 5px 13px;
+      color: var(--faint); font-size: clamp(9.5px,.66vw,11px);
+    }
+    .source a { border-bottom: 1px solid rgba(97,121,136,.52); }
+    .source a:hover { color: var(--blue); border-color: var(--blue); }
+    .section-no {
+      position: absolute; right: clamp(32px, 4vw, 70px); top: clamp(28px, 3.6vw, 60px);
+      color: rgba(92,200,255,.08); font: 860 clamp(74px, 9vw, 150px)/1 ui-monospace, Consolas, monospace;
+    }
+    .grid { display: grid; gap: clamp(18px, 2.3vw, 38px); }
+    .grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .grid.four { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .grid.asym { grid-template-columns: .82fr 1.18fr; }
+    .grid.asym-r { grid-template-columns: 1.18fr .82fr; }
+    .center { align-items: center; }
+    .panel {
+      min-height: 0; padding: clamp(18px,1.75vw,29px);
+      border: 1px solid var(--line); border-radius: clamp(14px,1.3vw,21px);
+      background: linear-gradient(150deg, rgba(17,38,57,.72), rgba(8,24,39,.72));
+    }
+    .panel.flat { border-radius: 0; border-width: 1px 0 0; background: linear-gradient(180deg,rgba(255,255,255,.025),transparent); }
+    .panel.blue-line { border-top: 3px solid var(--blue); }
+    .panel.orange-line { border-top: 3px solid var(--orange); }
+    .panel.mint-line { border-top: 3px solid var(--mint); }
+    .panel.violet-line { border-top: 3px solid var(--violet); }
+    .panel.rose-line { border-top: 3px solid var(--rose); }
+    .panel h3 { margin: 0 0 .45em; font-size: clamp(17px,1.46vw,25px); line-height: 1.22; }
+    .panel p, .panel li { color: var(--muted); font-size: clamp(12px,.9vw,16px); line-height: 1.5; }
+    .panel ul { margin: 10px 0 0; padding-left: 1.1em; }
+    .panel li + li { margin-top: 6px; }
+    .big-quote {
+      font-size: clamp(25px,2.5vw,43px); line-height: 1.28; letter-spacing: -.035em;
+    }
+    .big-quote strong { color: var(--blue); }
+    .equation {
+      font: 760 clamp(25px,2.7vw,46px)/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+      letter-spacing: -.045em; color: #d9f5ff;
+    }
+    .equation small { display: block; margin-top: 12px; color: var(--muted); font: 500 clamp(10px,.78vw,13px)/1.55 Inter, sans-serif; letter-spacing: 0; }
+    .flow { display: flex; align-items: stretch; justify-content: center; gap: clamp(8px,1.05vw,17px); }
+    .flow.vertical { flex-direction: column; }
+    .flow-node {
+      flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center;
+      padding: clamp(14px,1.35vw,22px); border-top: 3px solid var(--blue);
+      background: linear-gradient(180deg,rgba(92,200,255,.07),rgba(92,200,255,.01));
+    }
+    .flow-node.orange-node { border-color: var(--orange); background: linear-gradient(180deg,rgba(255,173,92,.07),rgba(255,173,92,.01)); }
+    .flow-node.mint-node { border-color: var(--mint); background: linear-gradient(180deg,rgba(88,225,189,.07),rgba(88,225,189,.01)); }
+    .flow-node.violet-node { border-color: var(--violet); background: linear-gradient(180deg,rgba(174,147,255,.07),rgba(174,147,255,.01)); }
+    .flow-node.rose-node { border-color: var(--rose); background: linear-gradient(180deg,rgba(255,129,150,.07),rgba(255,129,150,.01)); }
+    .flow-node b { font-size: clamp(13px,1.05vw,18px); line-height: 1.25; }
+    .flow-node span { margin-top: 7px; color: var(--muted); font-size: clamp(11px,.76vw,13px); line-height: 1.38; }
+    .flow-arrow { align-self: center; flex: none; color: var(--faint); font-size: clamp(20px,2vw,34px); }
+    .callout {
+      padding: clamp(15px,1.35vw,22px) clamp(18px,1.6vw,27px);
+      border-left: 3px solid var(--orange); background: rgba(255,173,92,.045);
+      color: var(--muted); font-size: clamp(12px,.95vw,16px); line-height: 1.48;
+    }
+    .callout strong { color: var(--text); }
+    .callout.blue-call { border-color: var(--blue); background: rgba(92,200,255,.045); }
+    .callout.mint-call { border-color: var(--mint); background: rgba(88,225,189,.045); }
+    .callout.rose-call { border-color: var(--rose); background: rgba(255,129,150,.045); }
+    .stack { display: grid; gap: clamp(12px,1.35vw,21px); }
+    .chip {
+      display: inline-flex; align-items: center; width: max-content; gap: 7px;
+      padding: 5px 9px; border: 1px solid var(--line-strong); border-radius: 999px;
+      color: var(--muted); background: rgba(255,255,255,.025);
+      font: 720 clamp(9.5px,.67vw,11px)/1.2 ui-monospace, SFMono-Regular, Consolas, monospace;
+      letter-spacing: .045em;
+    }
+    .chip.model { color: var(--orange); border-color: rgba(255,173,92,.35); background: rgba(255,173,92,.055); }
+    .chip.system { color: var(--blue); border-color: rgba(92,200,255,.35); background: rgba(92,200,255,.055); }
+    .chip.hybrid { color: var(--violet); border-color: rgba(174,147,255,.35); background: rgba(174,147,255,.055); }
+    .change-strip {
+      margin: 13px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 7px;
+      color: var(--faint); font-size: clamp(9.5px,.67vw,11px);
+    }
+    .change-strip > b { margin-right: 3px; color: var(--muted); }
+    .change {
+      padding: 4px 8px; border: 1px solid var(--line); border-radius: 999px;
+      opacity: .42; font: 720 clamp(9.5px,.67vw,11px)/1.2 ui-monospace, Consolas, monospace;
+    }
+    .change.on { opacity: 1; }
+    .change.gen.on { color: var(--orange); border-color: rgba(255,173,92,.4); }
+    .change.aux.on { color: var(--blue); border-color: rgba(92,200,255,.4); }
+    .change.input.on { color: var(--mint); border-color: rgba(88,225,189,.4); }
+    .change.infer.on { color: var(--violet); border-color: rgba(174,147,255,.4); }
+    .footer-rail {
+      margin-top: 12px; min-height: 46px; padding: 9px 13px 9px 15px;
+      display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 14px 24px;
+      border-top: 1px solid var(--line); border-left: 2px solid rgba(92,200,255,.56);
+      background: linear-gradient(90deg,rgba(92,200,255,.055),rgba(92,200,255,.012) 58%,transparent);
+    }
+    #slide-23 .footer-rail {
+      border-left-color: rgba(255,173,92,.62);
+      background: linear-gradient(90deg,rgba(255,173,92,.05),rgba(255,173,92,.01) 58%,transparent);
+    }
+    .footer-rail .change-strip { margin: 0; flex-wrap: nowrap; }
+    .footer-rail .source {
+      margin: 0; min-height: 0; justify-content: flex-end; align-content: center;
+      text-align: right; white-space: nowrap;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      padding: clamp(8px,.78vw,13px) clamp(8px,.85vw,14px);
+      border-bottom: 1px solid var(--line); text-align: left; vertical-align: top;
+      font-size: clamp(11px,.78vw,13px); line-height: 1.38;
+    }
+    th { color: var(--text); font-weight: 760; border-bottom-color: var(--line-strong); }
+    td { color: var(--muted); }
+    td:first-child { color: var(--text); font-weight: 650; }
+    .matrix th:not(:first-child), .matrix td:not(:first-child) { text-align: center; }
+    .matrix .yes { color: var(--mint); font-weight: 800; }
+    .matrix .maybe { color: var(--orange); font-weight: 760; }
+    .matrix .no { color: var(--faint); }
+    .axis {
+      position: relative; min-height: 280px; padding: 20px 0 0 22px; border-left: 2px solid var(--line-strong);
+    }
+    .axis::before, .axis::after {
+      content: ""; position: absolute; left: -6px; width: 10px; height: 10px; border-radius: 50%;
+      background: var(--blue); box-shadow: 0 0 18px rgba(92,200,255,.45);
+    }
+    .axis::before { top: 0; } .axis::after { bottom: 0; background: var(--orange); box-shadow: 0 0 18px rgba(255,173,92,.45); }
+    .axis-label { color: var(--faint); font: 720 clamp(8px,.63vw,10px)/1 ui-monospace,Consolas,monospace; text-transform: uppercase; letter-spacing:.09em; }
+    .axis h3 { margin: 12px 0 10px; font-size: clamp(24px,2.25vw,38px); }
+    .axis p { color: var(--muted); font-size: clamp(11px,.86vw,14px); line-height: 1.55; }
+    .axis .axis-bottom { position: absolute; bottom: 0; left: 22px; right: 0; color: var(--orange); font-size: clamp(11px,.85vw,14px); }
+    .timeline {
+      position: relative; display: grid; grid-template-columns: repeat(var(--cols,6),1fr);
+      gap: 0; align-items: stretch; min-height: 300px; padding-top: 24px;
+    }
+    .timeline::before {
+      content: ""; position: absolute; left: 4%; right: 4%; top: 70%; height: 2px;
+      background: linear-gradient(90deg,var(--blue),var(--violet),var(--orange),var(--mint)); opacity: .55;
+    }
+    .time-node { position: relative; z-index: 1; min-height: 276px; padding: 0 18px; }
+    .time-dot {
+      position:absolute; left:50%; top:calc(70% - 8.5px); transform:translateX(-50%);
+      width:17px; height:17px; border-radius:50%; border:4px solid var(--blue); background:var(--bg-2);
+    }
+    .time-node:nth-child(even) .time-dot { border-color:var(--orange); }
+    .time-node b { font-size: clamp(12px,.86vw,15px); line-height: 1.28; }
+    .time-node span { display:block; margin-top:6px; color:var(--muted); font-size:clamp(11.5px,.78vw,13px); line-height:1.42; }
+    .time-node .term { display:inline; margin-top:0; }
+    .time-year { margin-bottom: 8px; color: var(--faint); font:700 clamp(11px,.72vw,12px)/1 ui-monospace,Consolas,monospace; }
+    .spectrum { display: grid; grid-template-columns: repeat(7,1fr); gap: 6px; align-items: end; min-height: 240px; }
+    .bar { position: relative; height: var(--h); min-height: 30px; border-top: 3px solid var(--blue); background: linear-gradient(180deg,rgba(92,200,255,.12),rgba(92,200,255,.015)); }
+    .bar:nth-child(n+5) { border-color: var(--orange); background: linear-gradient(180deg,rgba(255,173,92,.11),rgba(255,173,92,.015)); }
+    .bar span { position: absolute; left: 7px; right: 7px; bottom: 8px; color: var(--muted); font-size: clamp(11px,.74vw,12.5px); line-height:1.28; }
+    .cover-stage { justify-content: center; }
+    .cover-grid { display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: clamp(36px,5vw,88px); }
+    .cover-title { margin: .16em 0 .2em; font-size: clamp(52px,6.7vw,110px); line-height: .94; letter-spacing: -.074em; }
+    .cover-title span {
+      display: block; color: transparent;
+      background: linear-gradient(90deg,var(--blue),#e3f8ff 52%,var(--orange));
+      background-clip: text; -webkit-background-clip: text;
+    }
+    .cover-copy { max-width: 770px; color: var(--muted); font-size: clamp(14px,1.23vw,21px); line-height:1.7; }
+    .cover-meta { margin-top: 28px; color: var(--faint); font-size: clamp(10px,.74vw,13px); letter-spacing:.07em; }
+    .physics-orbit { position: relative; aspect-ratio: 1; display: grid; place-items: center; }
+    .orbit-ring { position:absolute; inset:10%; border:1px solid rgba(92,200,255,.22); border-radius:50%; transform:rotate(-18deg); }
+    .orbit-ring.two { inset:24%; border-color:rgba(255,173,92,.27); transform:rotate(31deg); }
+    .orbit-ball { position:absolute; width:16px; aspect-ratio:1; border-radius:50%; background:var(--blue); box-shadow:0 0 24px rgba(92,200,255,.65); top:17%; right:20%; }
+    .orbit-ring.two .orbit-ball { top:auto; right:auto; bottom:9%; left:21%; background:var(--orange); box-shadow:0 0 24px rgba(255,173,92,.6); }
+    .physics-core {
+      width: 42%; aspect-ratio:1; border-radius:50%; display:grid; place-items:center; text-align:center;
+      border:1px solid rgba(88,225,189,.38); background:radial-gradient(circle,rgba(88,225,189,.12),rgba(88,225,189,.02));
+      color:var(--mint); font-weight:820; font-size:clamp(13px,1.04vw,18px); box-shadow:0 0 70px rgba(88,225,189,.1);
+    }
+    .failure-stage { display:grid; grid-template-columns:repeat(5,1fr); gap:clamp(11px,1.25vw,20px); align-items:center; }
+    .failure {
+      min-height: 310px; position:relative; overflow:hidden; padding:17px 15px; border-top:3px solid var(--rose);
+      background:linear-gradient(180deg,rgba(255,129,150,.07),transparent);
+    }
+    .failure:nth-child(even) { border-color:var(--orange); background:linear-gradient(180deg,rgba(255,173,92,.06),transparent); }
+    .failure-scene { position:relative; height:150px; margin-bottom:18px; border-bottom:1px solid var(--line-strong); }
+    .ball { position:absolute; width:24px; height:24px; border-radius:50%; background:var(--blue); box-shadow:0 0 18px rgba(92,200,255,.45); }
+    .ball.b1 { left:18%; top:16%; } .ball.b2 { left:58%; top:52%; }
+    .ball.b3 { left:42%; top:23%; } .ball.b4 { left:68%; top:18%; }
+    .trail { position:absolute; height:2px; transform-origin:left; background:linear-gradient(90deg,var(--orange),transparent); }
+    .failure b { display:block; font-size:clamp(12px,.94vw,16px); }
+    .failure p { margin:8px 0 0; color:var(--muted); font-size:clamp(11px,.76vw,13px); line-height:1.42; }
+    .state-stack { display:grid; gap:9px; }
+    .state-layer { display:grid; grid-template-columns:130px 1fr; gap:16px; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); }
+    .state-layer b { color:var(--blue); font-size:clamp(10px,.8vw,13px); }
+    .state-layer span { color:var(--muted); font-size:clamp(10px,.78vw,13px); line-height:1.4; }
+    .verdict {
+      display:flex; align-items:center; justify-content:center; min-height:120px; padding:20px;
+      border:1px solid var(--line-strong); border-radius:20px; text-align:center;
+      font-size:clamp(20px,1.8vw,31px); line-height:1.35;
+      background:radial-gradient(circle at 50% 0,rgba(92,200,255,.08),transparent 70%);
+    }
+    .law-line { display:grid; grid-template-columns:150px 1fr auto; gap:16px; align-items:center; padding:13px 0; border-bottom:1px solid var(--line); }
+    .law-line b { color:var(--text); font-size:clamp(12px,.9vw,15px); }
+    .law-line span { color:var(--muted); font-size:clamp(11px,.78vw,13px); }
+    .law-line code { color:var(--mint); font:700 clamp(11px,.82vw,14px)/1.3 ui-monospace,Consolas,monospace; }
+    .loop {
+      position:relative; width:min(460px,32vw); aspect-ratio:1; margin:auto; border:1px dashed rgba(174,147,255,.35); border-radius:50%;
+      display:grid; place-items:center;
+    }
+    .loop-center { width:42%; aspect-ratio:1; display:grid; place-items:center; text-align:center; border-radius:50%; background:rgba(174,147,255,.08); color:var(--violet); font-weight:800; }
+    .loop-label { position:absolute; padding:7px 10px; color:var(--muted); font-size:clamp(9px,.68vw,11px); background:var(--bg-2); border:1px solid var(--line); border-radius:10px; }
+    .loop-label.l1 { top:-8px; left:40%; } .loop-label.l2 { right:-24px; top:43%; } .loop-label.l3 { bottom:-8px; left:37%; } .loop-label.l4 { left:-26px; top:43%; }
+    .benchmark-map { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; align-items:stretch; }
+    .benchmark-lane { padding:18px 13px; border-top:3px solid var(--blue); background:linear-gradient(180deg,rgba(92,200,255,.055),transparent); }
+    .benchmark-lane:nth-child(2){border-color:var(--violet)} .benchmark-lane:nth-child(3){border-color:var(--orange)}
+    .benchmark-lane:nth-child(4){border-color:var(--mint)} .benchmark-lane:nth-child(5){border-color:var(--rose)}
+    .benchmark-lane b { display:block; min-height:42px; font-size:clamp(13px,.94vw,16px); line-height:1.28; }
+    .benchmark-lane p { margin:9px 0 0; color:var(--muted); font-size:clamp(11.5px,.78vw,13px); line-height:1.44; }
+    #slide-7 .content .flow { transform:translateY(-28px); }
+    #slide-17 .panel, #slide-25 .benchmark-lane { display:flex; flex-direction:column; justify-content:center; }
+    #slide-25 .benchmark-lane b { min-height:0; }
+    .question-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,2.4vw,38px); }
+    .question { min-height:300px; padding-top:20px; border-top:3px solid var(--blue); display:flex; flex-direction:column; }
+    .question:nth-child(2){border-color:var(--orange)} .question:nth-child(3){border-color:var(--mint)}
+    .question .n { color:var(--faint); font:800 clamp(25px,2.4vw,40px)/1 ui-monospace,Consolas,monospace; }
+    .question h3 { margin:18px 0 10px; font-size:clamp(20px,1.75vw,30px); line-height:1.25; }
+    .question p { color:var(--muted); font-size:clamp(12px,.86vw,14px); line-height:1.5; }
+    .question strong { margin-top:auto; padding-top:14px; border-top:1px solid var(--line); color:var(--text); font-size:clamp(10px,.78vw,13px); }
+    .brand {
+      position:fixed; left:clamp(20px,2vw,38px); top:clamp(17px,1.8vw,31px); z-index:30;
+      display:flex; align-items:center; gap:9px; color:rgba(242,248,251,.72); font-size:10px; font-weight:800; letter-spacing:.08em;
+    }
+    .brand-mark { width:26px; height:26px; display:grid; place-items:center; border:1px solid rgba(92,200,255,.38); border-radius:50%; color:var(--blue); background:rgba(92,200,255,.06); }
+    .counter { position:fixed; right:clamp(21px,2vw,39px); top:clamp(20px,1.9vw,34px); z-index:30; color:var(--faint); font:700 10px/1 ui-monospace,Consolas,monospace; letter-spacing:.1em; }
+    .progress { position:fixed; left:0; right:0; bottom:0; height:3px; z-index:50; background:rgba(255,255,255,.035); }
+    .progress-bar { height:100%; width:0; background:linear-gradient(90deg,var(--blue),var(--orange)); box-shadow:0 0 18px rgba(92,200,255,.5); transition:width .28s ease; }
+    .controls { position:fixed; right:clamp(19px,1.9vw,36px); bottom:clamp(18px,1.9vw,34px); z-index:45; display:flex; gap:6px; }
+    .control { width:36px; height:36px; display:grid; place-items:center; border:1px solid var(--line-strong); border-radius:10px; background:rgba(7,19,31,.78); backdrop-filter:blur(12px); cursor:pointer; color:var(--muted); transition:.18s ease; }
+    .control:hover { color:var(--text); border-color:rgba(92,200,255,.52); transform:translateY(-2px); }
+    .hint { position:fixed; left:clamp(19px,1.9vw,36px); bottom:clamp(18px,1.9vw,34px); z-index:30; color:var(--faint); font-size:9px; padding:7px 9px; border:1px solid var(--line); border-radius:8px; background:rgba(7,19,31,.58); }
+    .term {
+      color:inherit; border-bottom:1px dotted rgba(88,225,189,.88); cursor:help;
+      outline:none; white-space:nowrap; text-underline-offset:3px;
+    }
+    .term::after {
+      content:"?"; display:inline-grid; place-items:center; width:12px; height:12px; margin-left:3px;
+      border-radius:50%; color:var(--mint); background:rgba(88,225,189,.10);
+      font:800 8px/1 ui-monospace,Consolas,monospace; vertical-align:.35em;
+    }
+    .term:focus { border-bottom-color:var(--orange); color:#fff2dc; }
+    .term-popover {
+      position:fixed; left:50%; bottom:70px; z-index:82; width:min(840px,calc(100vw - 40px));
+      display:flex; gap:10px; align-items:baseline; padding:15px 18px;
+      border:1px solid rgba(88,225,189,.38); border-radius:15px;
+      background:rgba(5,15,27,.975); box-shadow:0 20px 64px rgba(0,0,0,.52);
+      transform:translate(-50%,10px); opacity:0; visibility:hidden; pointer-events:none; transition:.18s ease;
+    }
+    .term-popover.show { opacity:1; visibility:visible; transform:translate(-50%,0); }
+    .term-popover b { flex:none; color:var(--mint); font-size:12px; }
+    .term-popover span { color:var(--text); font-size:13px; line-height:1.55; }
+    .speaker-notes { display:none; }
+    .notes-panel {
+      position:fixed; z-index:70; left:50%; bottom:64px; width:min(900px,calc(100vw - 40px)); max-height:42vh; overflow:auto;
+      transform:translate(-50%,18px); padding:20px 24px; opacity:0; visibility:hidden; pointer-events:none;
+      border:1px solid rgba(255,173,92,.36); border-radius:16px; background:rgba(5,15,27,.97); box-shadow:0 22px 70px rgba(0,0,0,.48);
+      transition:.2s ease;
+    }
+    .notes-panel.open { opacity:1; visibility:visible; pointer-events:auto; transform:translate(-50%,0); }
+    .notes-panel h3 { margin:0 0 10px; color:var(--orange); font-size:14px; }
+    .notes-panel p { margin:0 0 10px; color:var(--text); font-size:12px; line-height:1.62; }
+    .notes-panel .note-sources { padding-top:10px; border-top:1px solid var(--line); color:var(--faint); font-size:10px; line-height:1.55; }
+    .notes-panel .note-sources a { border-bottom:1px solid var(--line-strong); }
+    body.overview { overflow:auto; scrollbar-width:thin; scrollbar-color:var(--line-strong) var(--bg); }
+    body.overview::-webkit-scrollbar { width:10px; }
+    body.overview::-webkit-scrollbar-track { background:var(--bg); }
+    body.overview::-webkit-scrollbar-thumb { background:var(--line-strong); border-radius:999px; }
+    body.overview .brand, body.overview .counter, body.overview .hint, body.overview .progress { position:fixed; }
+    body.overview .deck { height:auto; min-height:100%; padding:78px 28px 60px; display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:24px; }
+    body.overview .deck { counter-reset:overview-slide; }
+    body.overview .slide { position:relative; inset:auto; opacity:1; visibility:visible; transform:none; aspect-ratio:16/9; cursor:pointer; overflow:hidden; counter-increment:overview-slide; }
+    body.overview .slide::before {
+      content:counter(overview-slide, decimal-leading-zero); position:absolute; left:22px; top:19px; z-index:4;
+      color:var(--blue); font:800 11px/1 ui-monospace,Consolas,monospace; letter-spacing:.08em;
+    }
+    body.overview .slide::after { content:attr(data-title); position:absolute; inset:auto 24px 22px; z-index:3; color:var(--text); font-size:clamp(18px,1.65vw,28px); font-weight:820; line-height:1.24; }
+    body.overview .slide:hover { outline:1px solid rgba(92,200,255,.52); }
+    body.overview .slide .stage { width:100%; height:100%; padding:24px 27px; border-radius:16px; box-shadow:0 14px 44px rgba(0,0,0,.32); opacity:.24; }
+    body.overview .slide .stage > * { display:none !important; }
+    body.overview .slide .content, body.overview .slide .source, body.overview .slide .subtitle, body.overview .slide .change-strip { display:none; }
+    body.overview .slide .title { margin-top:auto; margin-bottom:auto; font-size:clamp(18px,1.75vw,30px); max-width:90%; }
+    body.overview .slide .kicker { font-size:8px; }
+    body.overview .slide .section-no { font-size:55px; }
+    body.overview .notes-panel, body.overview .term-popover, body.overview .counter { display:none; }
+    @media (max-width: 900px) {
+      .stage { width:100vw; height:56.25vw; max-height:100vh; border-radius:0; padding:25px 30px; }
+      .hint { display:none; }
+      .grid.three, .grid.four { gap:12px; }
+      .failure-stage { gap:8px; }
+      .failure { min-height:250px; padding:11px; }
+      .failure-scene { height:110px; }
+    }
+    @media screen and (orientation: landscape) and (min-width: 1000px) and (max-width: 1100px) and (min-height: 570px) and (max-height: 650px) {
+      body:not(.overview) .slide { display:block; }
+      body:not(.overview) .stage {
+        position:absolute; left:50%; top:50%; width:1280px; height:720px; max-width:none; max-height:none; flex:none;
+        transform:translate(-50%,-50%) scale(.78); transform-origin:center;
+      }
+      #slide-18 .footer-rail { margin-bottom: 30px; }
+    }
+    @media screen and (orientation: landscape) and (max-width: 999.98px) {
+      body:not(.overview)::after {
+        content:"请使用更大的横屏窗口查看演示（建议至少 1024 × 576）";
+        position:fixed; inset:0; z-index:999; display:grid; place-items:center;
+        padding:32px; color:var(--text); background:var(--bg); font-size:20px; text-align:center;
+      }
+    }
+    @media screen and (orientation: portrait) {
+      .deck, .brand, .counter, .controls, .hint, .progress, .notes-panel, .term-popover { display:none !important; }
+      body::after {
+        content:"请将设备旋转至横屏查看演示";
+        position:fixed; inset:0; z-index:999; display:grid; place-items:center;
+        padding:32px; color:var(--text); background:var(--bg); font-size:20px; text-align:center;
+      }
+    }
+    @media print {
+      @page { size: 13.333in 7.5in; margin:0; }
+      html, body { width:auto; height:auto; overflow:visible; background:#07111d; print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+      body::before, .brand, .counter, .controls, .hint, .progress, .notes-panel, .term-popover { display:none !important; }
+      .deck { display:block; width:auto; height:auto; }
+      .slide { position:relative; inset:auto; width:13.333in; height:7.5in; opacity:1; visibility:visible; transform:none; page-break-after:always; break-after:page; overflow:hidden; }
+      .stage { width:100%; height:100%; max-width:none; max-height:none; border:0; border-radius:0; box-shadow:none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .slide, .progress-bar, .notes-panel, .control, .term-popover { transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="brand"><span class="brand-mark">↗</span><span>CAUSAL VIDEO GROUP · DISCUSSION</span></div>
+  <div class="counter" id="counter" aria-live="polite">01 / 29</div>
+  <main class="deck" id="deck">
+    <section class="slide active" id="slide-1" data-title="物理一致性视频生成">
+      <div class="stage cover-stage">
+        <div class="cover-grid">
+          <div>
+            <p class="kicker">CausalVideoGroup · 2026.08.24</p>
+            <h1 class="cover-title">物理一致性<span>视频生成</span></h1>
+            <p class="cover-copy">谁在教生成模型物理？从外部模拟、显式控制，到训练内化与推理时修正。</p>
+            <p class="cover-meta">Yuxin Wang · Group Discussion</p>
+          </div>
+          <div class="physics-orbit" aria-label="状态、规律与生成的关系示意图">
+            <div class="orbit-ring"><i class="orbit-ball"></i></div>
+            <div class="orbit-ring two"><i class="orbit-ball"></i></div>
+            <div class="physics-core">状态 × 规律<br>→ 未来</div>
+          </div>
+        </div>
+        <div class="source">
+          <span>Framing:</span>
+          <a href="https://arxiv.org/abs/2503.21765">Lin et al., 2025 · Physics Cognition Survey</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>开场不把这场分享包装成一条从旧到新的单向路线。核心问题是：生成视频里的物体运动、交互和状态变化，怎样才算遵守真实世界的物理规律？</p>
+          <p>全场反复追问两件事：物理知识究竟位于生成器、输入条件、辅助模块还是推理系统；方法是在服从一个已给定的运动结果，还是能从力、质量、材料等条件推断未来。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2503.21765">Exploring the Evolution of Physics Cognition in Video Generation: A Survey</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2" data-title="漂亮的视频，不等于正确的世界">
+      <div class="stage">
+        <span class="section-no">02</span>
+        <p class="kicker orange">The opening tension</p>
+        <h2 class="title">漂亮的视频，不等于正确的世界</h2>
+        <p class="subtitle">单帧可以逼真，连续演化仍可能违背重力、接触、守恒与材料响应。</p>
+        <div class="content failure-stage">
+          <div class="failure">
+            <div class="failure-scene"><i class="ball b1"></i><i class="trail" style="left:28%;top:34%;width:64%;transform:rotate(-14deg)"></i></div>
+            <b>重力失效</b><p>落体突然悬停、上升或加速度漂移。</p>
+          </div>
+          <div class="failure">
+            <div class="failure-scene"><i class="ball b2"></i><i class="ball b4" style="background:var(--orange)"></i><i class="trail" style="left:20%;top:58%;width:64%;transform:rotate(8deg)"></i></div>
+            <b>碰撞失真</b><p>接触后方向、速度或形变没有因果响应。</p>
+          </div>
+          <div class="failure">
+            <div class="failure-scene"><i class="ball b3" style="width:56px;height:18px;border-radius:50% 50% 60% 40%"></i><i class="ball b2" style="width:34px;height:16px"></i></div>
+            <b>质量不守恒</b><p>液体或物体凭空增减、分裂后体积异常。</p>
+          </div>
+          <div class="failure">
+            <div class="failure-scene"><span style="position:absolute;left:48%;top:5%;bottom:0;border-left:4px solid rgba(255,255,255,.18)"></span><i class="ball b1" style="left:42%;top:48%"></i></div>
+            <b>穿透与接触错位</b><p>物体越过边界，却没有遮挡或反作用。</p>
+          </div>
+          <div class="failure">
+            <div class="failure-scene"><span style="position:absolute;left:18%;right:18%;bottom:26%;height:4px;background:rgba(255,255,255,.18)"></span><i class="ball b4" style="top:10%;left:45%"></i></div>
+            <b>支撑关系消失</b><p>人体或物体失去支撑后仍维持原动作。</p>
+          </div>
+        </div>
+        <div class="callout rose-call"><strong>第一道分界：</strong>时间平滑与外观连续，是物理一致性的必要基础，但不是充分证据。</div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2406.03520">VideoPhy</a>
+          <a href="https://arxiv.org/abs/2410.05363">PhyGenBench</a>
+          <a href="https://arxiv.org/abs/2501.09038">Physics-IQ</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这页用五类失败建立直觉。强调“看起来连续”并不能证明物理正确：插值可以很平滑，但运动方向、接触响应或守恒关系仍然错误。</p>
+          <p>这五个抽象示意只用于建立失败类型；后续方法页再讨论约束位置与证据强度，不把单个定性案例当作定量结论。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2406.03520">VideoPhy</a> · <a href="https://arxiv.org/abs/2410.05363">PhyGenBench</a> · <a href="https://arxiv.org/abs/2501.09038">Physics-IQ</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-3" data-title="什么是物理一致性？">
+      <div class="stage">
+        <span class="section-no">03</span>
+        <p class="kicker">Definition</p>
+        <h2 class="title">什么是物理一致性？</h2>
+        <div class="content grid asym center">
+          <div class="stack">
+            <div class="big-quote">生成视频中的物体<strong>运动</strong>、<strong>相互作用</strong>和<strong>状态变化</strong>，应符合真实世界的物理规律。</div>
+            <div class="callout blue-call"><strong>我们评的是演化：</strong>给定状态与条件，后续变化是否可由合理机制解释。</div>
+          </div>
+          <div class="stack">
+            <div class="law-line"><b>运动学</b><span>位置、速度、加速度</span><code>x(t), v(t), a(t)</code></div>
+            <div class="law-line"><b>动力学</b><span>力、质量、接触响应</span><code>F = ma</code></div>
+            <div class="law-line"><b>守恒与约束</b><span>质量、动量、能量、边界</span><code>ΔQ ≈ 0</code></div>
+            <div class="law-line"><b>材料与场</b><span>刚体、流体、弹塑性、光热</span><code>state → state'</code></div>
+          </div>
+        </div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2504.02918">Morpheus · law-based evaluation</a>
+          <a href="https://arxiv.org/abs/2410.05363">PhyGenBench · broader phenomena</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>定义保持朴素：我们不是重新发明物理，也不要求每段开放世界视频都能写出完整方程。判断对象是“演化是否与真实规律相容”。</p>
+          <p>右侧四类只是举例说明涉及的规律范围，不是能力层级。当前多数可定量研究集中在运动学和牛顿刚体；材料、流体、光热更常依赖人或 VLM 的定性判断。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2504.02918">Morpheus</a> · <a href="https://arxiv.org/abs/2410.05363">PhyGenBench</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-4" data-title="谁在教生成模型物理？">
+      <div class="stage">
+        <span class="section-no">04</span>
+        <p class="kicker orange">The landscape</p>
+        <h2 class="title">谁在教生成模型物理？</h2>
+        <p class="subtitle">不是一条“外部 → 内部”的替代史，而是多种知识来源与作用位置持续扩展。</p>
+        <div class="content flow">
+          <div class="flow-node"><b>模拟器与显式状态</b><span>先算状态和轨迹，再交给生成器渲染。</span></div>
+          <div class="flow-arrow">↔</div>
+          <div class="flow-node violet-node"><b>VLM / 学习式动力学</b><span>计划运动、预测轨迹、提供训练监督。</span></div>
+          <div class="flow-arrow">↔</div>
+          <div class="flow-node orange-node"><b>数据、表征与 reward</b><span>通过训练或 post-training 改变生成权重。</span></div>
+          <div class="flow-arrow">↔</div>
+          <div class="flow-node mint-node"><b>搜索、引导与修正</b><span>推理时从已有分布中找更合理结果。</span></div>
+        </div>
+        <div class="grid two" style="margin-top:18px">
+          <div class="callout blue-call"><strong>位置问题：</strong>物理知识在生成器、辅助模块、输入，还是推理系统？</div>
+          <div class="callout"><strong>证据问题：</strong>模型在服从给定结果，还是根据物理条件推断结果？</div>
+        </div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2501.10928">Generative Physical AI in Vision Survey</a>
+          <a href="https://arxiv.org/abs/2503.21765">Physics Cognition Survey</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这页是全场地图。四条路线可以同时存在于一个系统中，例如 PhyCo 同时使用模拟数据、显式属性图和 VLM reward；因此不能只按年份或“显式/隐式”二分。</p>
+          <p>后面每篇核心方法都用同一套“谁变了”标记，避免把系统输出提升误写为生成模型权重获得了新知识。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2501.10928">Generative Physical AI in Vision: A Survey</a> · <a href="https://arxiv.org/abs/2503.21765">Physics Cognition Survey</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-5" data-title="物理知识可以从哪里进入生成系统？">
+      <div class="stage">
+        <span class="section-no">05</span>
+        <p class="kicker">Source × stage</p>
+        <h2 class="title small">物理知识可以从哪里进入生成系统？</h2>
+        <div class="content">
+          <table class="matrix">
+            <thead>
+              <tr><th>知识来源 ↓ / 进入阶段 →</th><th>生成前规划</th><th>训练 / post-training</th><th>生成中控制</th><th>推理后评价 / 修正</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>模拟器与显式状态</td><td class="yes">初态 → 轨迹</td><td class="yes">模拟数据 / 属性</td><td class="yes">flow / track / map</td><td class="maybe">重建再模拟</td></tr>
+              <tr><td>VLM / 视频理解模型</td><td class="yes">事件与粗轨迹</td><td class="yes">表征 / reward</td><td class="maybe">提示与 guidance</td><td class="yes">judge / verifier</td></tr>
+              <tr><td>真实或模拟视频</td><td class="no">—</td><td class="yes">SFT / preference</td><td class="no">—</td><td class="maybe">真实未来参照</td></tr>
+              <tr><td>人类与模型反馈</td><td class="maybe">规则描述</td><td class="yes">DPO / RL</td><td class="maybe">在线选择</td><td class="yes">排序与重试</td></tr>
+              <tr><td>可测量物理规律</td><td class="maybe">方程先验</td><td class="yes">loss / reward</td><td class="maybe">约束引导</td><td class="yes">定律残差</td></tr>
+            </tbody>
+          </table>
+          <div class="callout blue-call" style="margin-top:18px"><strong>没有单一最优入口：</strong>关键是约束位于哪里、推理依赖什么，以及它能提供多强的保证。</div>
+        </div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2501.10928">Survey taxonomy</a>
+          <a href="https://arxiv.org/abs/2503.21765">Survey taxonomy</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这个矩阵是后续内容的坐标系。它刻意允许同一论文占多个格子，因为真实系统经常同时使用多种监督接口。</p>
+          <p>矩阵不是成熟度排行榜。“更靠近模型内部”不自动更先进；外部模拟可能更可验证，训练内化则可能更开放但保证更弱。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2501.10928">Generative Physical AI in Vision</a> · <a href="https://arxiv.org/abs/2503.21765">Physics Cognition Survey</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-6" data-title="阅读每种方法时，我们检查什么？">
+      <div class="stage">
+        <span class="section-no">06</span>
+        <p class="kicker orange">Audit lens</p>
+        <h2 class="title">阅读每种方法时，我们检查什么？</h2>
+        <div class="content grid asym-r center">
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node orange-node"><b>生成器</b><span>权重或建模对象是否改变？</span></div>
+              <div class="flow-node"><b>辅助模块</b><span>动力学、VLM、reward 是否另训？</span></div>
+              <div class="flow-node mint-node"><b>输入</b><span>需要轨迹、力、材料或真值吗？</span></div>
+              <div class="flow-node violet-node"><b>推理</b><span>是否增加采样、搜索或修正？</span></div>
+            </div>
+            <div class="callout"><strong>证据阶梯：</strong>案例 / VLM 分数 → 可测规律 → 参数外推 → 单变量干预 → 跨外观机制稳定。</div>
+          </div>
+          <div class="axis">
+            <span class="axis-label">Weak evidence</span>
+            <h3>“整个系统更好”</h3>
+            <p>只说明组合后的输出改善，无法定位知识来自哪里。</p>
+            <h3 style="margin-top:42px">“模型学到机制”</h3>
+            <p>需要权重层面的改变，以及对未见条件和受控干预的稳定响应。</p>
+            <div class="axis-bottom">Strong evidence · mechanism-level</div>
+          </div>
+        </div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2510.11512">LikePhys · model-internal preference</a>
+          <a href="https://arxiv.org/abs/2601.10553">WMReward · inference-time alignment</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这是报告的“审计镜头”，不是额外的因果章节。每篇论文先问四个部件谁改变，再问证据支持到哪一级。</p>
+          <p>尤其注意：推理时 Best-of-N 能提高系统表现，但权重没有增加物理知识；反过来，权重经过训练也不自动证明模型学到了可组合规律。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2510.11512">LikePhys</a> · <a href="https://arxiv.org/abs/2601.10553">WMReward</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-7" data-title="让模拟器算，让生成模型画">
+      <div class="stage">
+        <span class="section-no">07</span>
+        <p class="kicker">Part I · Explicit control</p>
+        <h2 class="title">最直接的方案：让模拟器算，让生成模型画</h2>
+        <p class="subtitle">先得到物理上可接受的运动骨架，再把视觉真实感交给生成器。</p>
+        <div class="content" style="display:flex;align-items:center">
+          <div class="flow" style="width:100%">
+            <div class="flow-node"><b>输入</b><span>文本 / 单图 / 干预</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node orange-node"><b>初始状态估计</b><span>几何、材料、接触、速度</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node violet-node"><b>物理演化</b><span>模拟器或学习式动力学</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node mint-node"><b>控制信号</b><span>轨迹、flow、属性图</span></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-node"><b>视频生成</b><span>渲染、补纹理与细节</span></div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen">生成器</span><span class="change aux on">辅助模块</span><span class="change input on">输入</span><span class="change infer on">推理系统</span><span class="chip system">SYSTEM-LEVEL</span></div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2311.12631">GPT4Motion</a>
+          <a href="https://arxiv.org/abs/2409.18964">PhysGen</a>
+          <a href="https://arxiv.org/abs/2603.06408">PSIVG</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>显式路线的共同点是把“算运动”和“画视频”分开。它通常能提供更明确的物理来源，但整体正确性依赖状态估计、参数、边界条件和模拟器覆盖。</p>
+          <p>这里先按典型系统标注：主要变化在辅助模块、输入与推理管线，生成器本身可能保持不变。后续某些方法会混合训练，因此逐页再具体标记。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2311.12631">GPT4Motion</a> · <a href="https://arxiv.org/abs/2409.18964">PhysGen</a> · <a href="https://arxiv.org/abs/2603.06408">Physical Simulator In-the-Loop Video Generation</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-8" data-title="经典模拟路线">
+      <div class="stage">
+        <span class="section-no">08</span>
+        <p class="kicker orange">External simulator</p>
+        <h2 class="title">模拟器给出确定骨架，生成器补回开放外观</h2>
+        <div class="content timeline" style="--cols:3">
+          <div class="time-node">
+            <div class="time-year">2023</div>
+            <b><a class="paper-link" href="https://arxiv.org/abs/2311.12631">GPT4Motion</a></b>
+            <span>GPT-4 写 Blender 脚本；物理引擎制作基本运动，再由扩散模型视觉化。</span>
+            <i class="time-dot"></i>
+          </div>
+          <div class="time-node">
+            <div class="time-year">2024</div>
+            <b><a class="paper-link" href="https://arxiv.org/abs/2409.18964">PhysGen</a></b>
+            <span>单图理解 → 图像空间刚体模拟 → 视频扩散细化。</span>
+            <i class="time-dot"></i>
+          </div>
+          <div class="time-node">
+            <div class="time-year">2026</div>
+            <b><a class="paper-link" href="https://arxiv.org/abs/2603.06408">PSIVG</a></b>
+            <span>模板视频 → 4D 恢复 → 模拟轨迹 → 生成修正，形成 simulator-in-the-loop。</span>
+            <i class="time-dot"></i>
+          </div>
+        </div>
+        <div class="callout"><strong>边界：</strong>轨迹更明确，不代表世界状态就估对了；错误的几何、材料或接触会被“精确地模拟”。</div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen">生成器</span><span class="change aux on">辅助模块</span><span class="change input on">输入</span><span class="change infer on">推理系统</span><span class="chip system">SYSTEM-LEVEL</span></div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2311.12631">GPT4Motion</a>
+          <a href="https://arxiv.org/abs/2409.18964">PhysGen</a>
+          <a href="https://vcai.mpi-inf.mpg.de/projects/PSIVG/">PSIVG project</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>三篇方法展示模拟器与生成器耦合越来越紧：从文本生成 Blender 脚本，到单图恢复并在图像空间模拟，再到从生成模板恢复场景、模拟并反向修正视频。</p>
+          <p>不要把它讲成模拟器最终退出。PSIVG 反而把模拟器带回推理闭环。共同瓶颈是状态恢复与域覆盖，而不是渲染是否精细。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2311.12631">GPT4Motion</a> · <a href="https://arxiv.org/abs/2409.18964">PhysGen</a> · <a href="https://arxiv.org/abs/2603.06408">PSIVG</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-9" data-title="真正困难的是初始状态">
+      <div class="stage">
+        <span class="section-no">09</span>
+        <p class="kicker">State identifiability</p>
+        <h2 class="title">真正困难的，往往不是求解器，而是初始状态</h2>
+        <div class="content grid asym-r center">
+          <div class="state-stack">
+            <div class="state-layer"><b>几何</b><span>三维形状、厚度、遮挡后的结构</span></div>
+            <div class="state-layer"><b>物性</b><span>质量、材料、摩擦、恢复系数</span></div>
+            <div class="state-layer"><b>关系</b><span>接触、支撑、连接与边界条件</span></div>
+            <div class="state-layer"><b>动态</b><span>初始速度、角速度、外力与约束</span></div>
+          </div>
+          <div class="stack">
+            <div class="equation">image → ? state → simulator → future<small>单张图像只提供投影；多个隐藏状态可以解释同一外观，却导向不同未来。</small></div>
+            <div class="panel blue-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2411.17189">PhysMotion</a></h3>
+              <p>从单图构造 3D Gaussian，并以连续介质 / MPM 模拟中间运动，再用扩散模型细化外观。</p>
+            </div>
+            <div class="callout rose-call"><strong>不可辨识性：</strong>如果输入不能唯一确定初态，再精确的模拟也只能给出条件性的正确结果。</div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen">生成器</span><span class="change aux on">辅助模块</span><span class="change input on">输入</span><span class="change infer on">推理系统</span><span class="chip system">SYSTEM-LEVEL</span></div>
+        <div class="source"><a href="https://arxiv.org/abs/2411.17189">PhysMotion · Physics-Grounded Dynamics From a Single Image</a></div>
+        <aside class="speaker-notes">
+          <p>PhysMotion 的价值是把单图恢复、连续介质模拟和生成细化串起来；同时它也暴露显式物理路线的核心难题：图像不告诉我们物体有多重、背面是什么、摩擦多大或是否被固定。</p>
+          <p>所以“模拟器算得准”与“视频预测得对”之间还隔着状态辨识。以后做 benchmark 也必须记录初态是否可观测。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2411.17189">PhysMotion</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-10" data-title="控制的是运动结果，还是物理条件？">
+      <div class="stage">
+        <span class="section-no">10</span>
+        <p class="kicker orange">Outcome vs cause</p>
+        <h2 class="title">控制的是运动结果，还是物理条件？</h2>
+        <div class="content grid two center">
+          <div class="axis">
+            <span class="axis-label">Outcome-like control</span>
+            <h3>运动结果类</h3>
+            <p>mask sequence · depth / edge · optical flow · 2D / 3D trajectory</p>
+            <div class="callout blue-call" style="margin-top:24px"><strong>大部分未来已经给出：</strong>评测更接近控制服从与渲染质量。</div>
+            <div class="axis-bottom">“照这条路径走”</div>
+          </div>
+          <div class="axis">
+            <span class="axis-label">Cause-like condition</span>
+            <h3>物理条件类</h3>
+            <p>位置 / 速度 · force · mass · friction · restitution · material</p>
+            <div class="callout" style="margin-top:24px"><strong>仍需推断演化：</strong>同一场景下改变条件，未来应按规律变化。</div>
+            <div class="axis-bottom">“受这个力以后会怎样？”</div>
+          </div>
+        </div>
+        <div class="verdict"><span>trajectory 更像<strong class="blue">答案</strong>；force 更像<strong class="orange">原因</strong>。两者都可用，但支持的“物理理解”结论不同。</span></div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2412.11785">InterDyn</a>
+          <a href="https://arxiv.org/abs/2509.20358">PhysCtrl</a>
+          <a href="https://arxiv.org/abs/2604.28169">PhyCo</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这是第三点审计意见的核心。并不是说 trajectory 没价值，而是它通常已经规定了“怎么动”。模型照着画，证明控制有效，但不能单独证明它理解了产生轨迹的原因。</p>
+          <p>更强的证据是保持外观和场景不变，只改变 force、mass 或 friction，观察未来是否按物理关系变化，并继续测试跨外观泛化。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2412.11785">InterDyn</a> · <a href="https://arxiv.org/abs/2509.20358">PhysCtrl</a> · <a href="https://arxiv.org/abs/2604.28169">PhyCo</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-11" data-title="InterDyn：只控制一个物体">
+      <div class="stage">
+        <span class="section-no">11</span>
+        <p class="kicker">Boundary case · InterDyn</p>
+        <h2 class="title small">只控制一个物体，模型能否推断其他物体的响应？</h2>
+        <div class="content grid asym-r center">
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node mint-node"><b>初始帧</b><span>场景与对象</span></div>
+              <div class="flow-arrow">+</div>
+              <div class="flow-node orange-node"><b>driving entity</b><span>用户给 mask sequence</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node"><b>视频扩散</b><span>生成完整交互</span></div>
+            </div>
+            <div class="flow">
+              <div class="flow-node violet-node"><b>未来 A</b><span>被撞物向左旋转</span></div>
+              <div class="flow-node violet-node"><b>未来 B</b><span>被撞物滑动后停下</span></div>
+              <div class="flow-node violet-node"><b>未来 C</b><span>多个对象连锁响应</span></div>
+            </div>
+          </div>
+          <div class="stack">
+            <span class="chip hybrid">CONTROL / INFERENCE BOUNDARY</span>
+            <div class="big-quote"><strong>InterDyn</strong> 让模型补全未被直接控制的交互对象。</div>
+            <div class="callout blue-call"><strong>积极证据：</strong>模型不是逐像素复刻全部未来，而是在控制条件下生成其他对象的响应。</div>
+            <div class="callout"><strong>审计问题：</strong>mask sequence 是否已经编码了大部分碰撞时机与运动结果？</div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen">SVD 主干冻结</span><span class="change aux on">控制分支</span><span class="change input on">mask sequence</span><span class="change infer">推理系统</span><span class="chip hybrid">HYBRID</span></div>
+        <div class="source"><a href="https://arxiv.org/abs/2412.11785">InterDyn: Controllable Interactive Dynamics with Video Diffusion Models</a></div>
+        <aside class="speaker-notes">
+          <p>InterDyn 是控制服从与物理推断之间很好的边界案例。用户只控制 driving entity，模型必须生成其他对象的响应，而且可以采样多个未来。</p>
+          <p>但输入是完整 mask sequence，已经提供了驱动物体随时间的位置和碰撞时机。论文冻结 SVD 主干、训练控制分支；因此它比纯轨迹渲染更强，却仍不能等同于“从力推断运动”。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2412.11785">InterDyn</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-12" data-title="VLM 成为物理 planner">
+      <div class="stage">
+        <span class="section-no">12</span>
+        <p class="kicker violet">VLM planning</p>
+        <h2 class="title">VLM 成为物理 planner</h2>
+        <div class="content grid asym center">
+          <div class="stack">
+            <div class="big-quote">把开放世界的“常识”先翻译成<strong>粗运动计划</strong>，再交给视频模型实现。</div>
+            <div class="callout rose-call"><strong>风险链：</strong>计划幻觉 → 临时运动偏差 → flow 误差 → 生成器放大。</div>
+          </div>
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node mint-node"><b>文本 / 图像</b><span>开放场景</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node violet-node"><b>VLM 推理</b><span>事件顺序 + 粗轨迹</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node orange-node"><b>临时运动</b><span>合成并提取 optical flow</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node"><b>视频生成</b><span>受 flow 控制</span></div>
+            </div>
+            <div class="panel violet-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2503.23368">VLIPP</a> 的取舍</h3>
+              <p>覆盖面比手写模拟器开放；但“语义上合理的轨迹”并不自动满足精确物理规律。</p>
+            </div>
+            <div class="callout blue-call"><strong>边界归类：</strong><a class="paper-link" href="https://arxiv.org/abs/2505.21653">DiffPhy</a> 也用 LLM/MLLM，但它以训练目标监督并微调生成器，因此放到下一部分。</div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了 · VLIPP</b><span class="change gen">生成器</span><span class="change aux on">VLM planner</span><span class="change input on">控制输入</span><span class="change infer on">推理系统</span><span class="chip system">SYSTEM-LEVEL</span></div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2503.23368">Towards Physically Plausible Video Generation via VLM Planning</a>
+          <a href="https://arxiv.org/abs/2505.21653">DiffPhy</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>VLIPP 的 VLM 先做粗粒度运动规划，再把临时运动转成光流去控制视频模型。好处是能覆盖模拟器资产之外的开放对象和事件。</p>
+          <p>风险是多阶段误差累积，而且 VLM 的物理推理未必满足定量规律。DiffPhy 虽然也从语言模型得到物理上下文，但它用 MLLM 监督去微调生成器，归类要放到训练监督。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2503.23368">VLIPP paper</a> · <a href="https://arxiv.org/abs/2505.21653">DiffPhy</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-13" data-title="用学习式动力学替代手写模拟器">
+      <div class="stage">
+        <span class="section-no">13</span>
+        <p class="kicker orange">Learned dynamics</p>
+        <h2 class="title small">用学习式动力学替代手写模拟器</h2>
+        <div class="content grid two center">
+          <div class="panel blue-line">
+            <span class="chip system">LATENT DYNAMICS MODULE</span>
+            <h3 style="margin-top:14px"><a class="paper-link" href="https://arxiv.org/abs/2509.21309">NewtonGen</a></h3>
+            <div class="equation" style="font-size:clamp(21px,2.1vw,36px)">state + parameter<br>→ Neural Newtonian Dynamics</div>
+            <ul>
+              <li>学习位置、速度与一般动力学演化</li>
+              <li>输出 latent dynamics guidance</li>
+              <li>强调初值与动力学参数控制</li>
+            </ul>
+            <div class="change-strip"><b>谁变了</b><span class="change gen">视频生成器</span><span class="change aux on">NND</span><span class="change input on">条件</span><span class="change infer">搜索</span></div>
+          </div>
+          <div class="panel orange-line">
+            <span class="chip system">3D TRAJECTORY MODULE</span>
+            <h3 style="margin-top:14px"><a class="paper-link" href="https://arxiv.org/abs/2509.20358">PhysCtrl</a></h3>
+            <div class="equation" style="font-size:clamp(21px,2.1vw,36px)">3D points + force + material<br>→ trajectory diffusion</div>
+            <ul>
+              <li>覆盖 elastic、sand、plasticine、rigid</li>
+              <li>以 3D 点轨迹驱动视频生成</li>
+              <li>训练数据来自大规模物理模拟</li>
+            </ul>
+            <div class="change-strip"><b>谁变了</b><span class="change gen">视频生成器</span><span class="change aux on">动力学网络</span><span class="change input on">力 / 物性</span><span class="change infer">搜索</span></div>
+          </div>
+        </div>
+        <div class="callout blue-call"><strong>共同结论：</strong>物理知识主要在独立动力学模块；视频生成器接收其输出，不能据此直接宣称 backbone 内化了完整动力学。</div>
+        <div class="source">
+          <a href="https://yuyuanspace.com/NewtonGen/">NewtonGen project</a>
+          <a href="https://cwchenwang.github.io/physctrl/">PhysCtrl project · 550K simulated animations reported</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>NewtonGen 和 PhysCtrl 都把手写求解器换成可学习动力学。NewtonGen 的 NND 试图覆盖多种牛顿运动；PhysCtrl 用条件扩散预测 3D 点轨迹，输入包括力与材料参数。</p>
+          <p>PhysCtrl 官方摘要报告以 55 万段模拟动画训练轨迹网络。这个数字只用于说明监督规模，不与其他方法做效率比较。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2509.21309">NewtonGen</a> · <a href="https://arxiv.org/abs/2509.20358">PhysCtrl</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-14" data-title="PhyCo：模拟器退出推理">
+      <div class="stage">
+        <span class="section-no">14</span>
+        <p class="kicker mint">Training transfers simulator knowledge</p>
+        <h2 class="title small">模拟器退出推理，但显式物理条件没有消失</h2>
+        <div class="content grid asym-r center">
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node orange-node"><b>Simulator</b><span>系统变化 friction / restitution / deformation / force</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node"><b>100K+ videos</b><span>像素对齐属性图 + 视频</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node violet-node"><b>ControlNet SFT</b><span>frozen video backbone</span></div>
+            </div>
+            <div class="flow">
+              <div class="flow-node violet-node"><b>VLM reward</b><span>针对属性控制问答</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node mint-node"><b>Inference</b><span>初图 + 文本 + 属性图</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node"><b>Video</b><span>无需在线模拟器</span></div>
+            </div>
+          </div>
+          <div class="stack">
+            <span class="chip hybrid">TRAINING + EXPLICIT CONDITION</span>
+            <div class="big-quote"><a class="paper-link" href="https://arxiv.org/abs/2604.28169">PhyCo</a> 把模拟知识转成<strong>可学习的控制接口</strong>。</div>
+            <div class="callout"><strong>仍然显式：</strong>推理期虽无模拟器或几何重建，用户仍需提供物理属性图。</div>
+            <div class="callout blue-call"><strong>精确说法：</strong>训练的是 ControlNet；官方项目页说明视频扩散 backbone 保持冻结。</div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen">frozen backbone</span><span class="change aux on">ControlNet + VLM reward</span><span class="change input on">属性图</span><span class="change infer">在线模拟</span><span class="chip hybrid">HYBRID</span></div>
+        <div class="source"><a href="https://phyco-video.github.io/">PhyCo project · CVPR 2026</a></div>
+        <aside class="speaker-notes">
+          <p>PhyCo 是显式路线很好的收束：模拟器只在数据阶段出现，推理期不再运行；但输入仍包含 friction、restitution、deformation 和 force 的像素对齐属性图。</p>
+          <p>官方项目页报告 10 万以上模拟视频，并明确冻结 Cosmos-Predict2 backbone，训练 ControlNet，再以 VLM reward 提升控制忠实度。因此它改善的是可插拔控制分支，不宜写成基础生成器全面学会物理。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2604.28169">PhyCo paper</a> · <a href="https://phyco-video.github.io/">PhyCo official project</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-15" data-title="从替模型计算答案，到改变模型如何生成">
+      <div class="stage">
+        <span class="section-no">15</span>
+        <p class="kicker orange">Part II · Training and inference</p>
+        <h2 class="title small">从替模型计算答案，到改变模型如何生成</h2>
+        <p class="subtitle">五种监督接口作用于权重；推理策略则在不改权重时改变系统输出。</p>
+        <div class="content spectrum">
+          <div class="bar" style="--h:45%"><span><b>数据</b><br>模拟 / 真实视频</span></div>
+          <div class="bar" style="--h:58%"><span><b>训练目标</b><br>temporal / physics loss</span></div>
+          <div class="bar" style="--h:72%"><span><b>表征对齐</b><br>foundation features</span></div>
+          <div class="bar" style="--h:84%"><span><b>preference</b><br>human / VLM / real data</span></div>
+          <div class="bar" style="--h:95%"><span><b>规律 reward</b><br>measurable proxy</span></div>
+          <div class="bar" style="--h:76%"><span><b>latent dynamics</b><br>state prediction</span></div>
+          <div class="bar" style="--h:60%"><span><b>inference</b><br>search / guidance</span></div>
+        </div>
+        <div class="grid two" style="margin-top:16px">
+          <div class="callout"><strong class="orange">Model-level：</strong>生成器权重、表征或预测对象被改变。</div>
+          <div class="callout blue-call"><strong class="blue">System-level：</strong>权重不变，借助 evaluator、搜索或采样策略改善结果。</div>
+        </div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2503.09595">PISA</a>
+          <a href="https://arxiv.org/abs/2505.23656">VideoREPA</a>
+          <a href="https://arxiv.org/abs/2601.10553">WMReward</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这一部分把“提升模型本身”拆成具体接口：数据、目标、表征、reward 与 latent dynamics。它们都会改变某些权重，但物理能力证据强弱不同。</p>
+          <p>最后两页再转向 inference-time 路线。它们可能证明模型已有可用信号，也可能只是借助外部 scorer 找到较好的样本。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2503.09595">PISA</a> · <a href="https://arxiv.org/abs/2505.23656">VideoREPA</a> · <a href="https://arxiv.org/abs/2601.10553">WMReward</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-16" data-title="PISA：少量物理数据究竟能教会什么？">
+      <div class="stage">
+        <span class="section-no">16</span>
+        <p class="kicker orange">Controlled post-training</p>
+        <h2 class="title small">PISA：少量物理数据究竟能教会什么？</h2>
+        <div class="content grid asym-r center">
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node orange-node"><b>受控模拟自由落体</b><span>少量专门数据</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node"><b>SFT</b><span>改变生成行为</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node violet-node"><b>Physics reward</b><span>继续校正</span></div>
+            </div>
+            <div class="grid three">
+              <div class="panel flat blue-line"><h3>Seen range</h3><p>训练高度、速度与外观附近，行为改善最明显。</p></div>
+              <div class="panel flat orange-line"><h3>OOD parameters</h3><p>未见高度和速度下，轨迹外推并不稳定。</p></div>
+              <div class="panel flat rose-line"><h3>New composition</h3><p>一个落体行为不能证明可组合的通用物理。</p></div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="big-quote">它证明了<strong>post-training 能教行为</strong>；也暴露了“行为模板”与“物理规律”之间的距离。</div>
+            <div class="callout rose-call"><strong>替代解释：</strong>模型可能只是拟合“物体向下移动”的视频模板，而没有形成可干预的重力机制。</div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen on">生成器权重</span><span class="change aux on">reward model</span><span class="change input">显式输入</span><span class="change infer">搜索</span><span class="chip model">MODEL-LEVEL</span></div>
+        <div class="source"><a href="https://arxiv.org/abs/2503.09595">PISA Experiments: Exploring Physics Post-Training by Watching Stuff Drop</a></div>
+        <aside class="speaker-notes">
+          <p>PISA 最适合深讲，因为它既有正结果也有负结果。少量受控自由落体数据能显著改变模型行为，专门 reward 还能继续改善。</p>
+          <p>但论文同时展示泛化和分布建模的局限。最谨慎的结论是“教会了一个行为族”，而不是“模型掌握了重力定律”。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2503.09595">PISA Experiments</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-17" data-title="让训练数据更像一门物理课">
+      <div class="stage">
+        <span class="section-no">17</span>
+        <p class="kicker">Physics curriculum</p>
+        <h2 class="title">让训练数据更像一门物理课</h2>
+        <div class="content grid four">
+          <div class="panel blue-line">
+            <h3><a class="paper-link" href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/0856bc553d3e3b9827e5140d0ad3bf8d-Abstract-Conference.html">WISA</a></h3>
+            <p>把定律拆成文本描述、定性类别和定量属性；camera-ready 使用 WISA-80K。</p>
+          </div>
+          <div class="panel violet-line">
+            <h3>Synthetic video</h3>
+            <p>系统改变初态与参数，得到可配对、可测量、可干预的训练样本。</p>
+          </div>
+          <div class="panel orange-line">
+            <h3><a class="paper-link" href="https://arxiv.org/abs/2603.26285">PhysVid</a></h3>
+            <p>为局部时间块描述状态、交互与约束；推理时加入负物理提示。</p>
+          </div>
+          <div class="panel mint-line">
+            <h3><a class="paper-link" href="https://arxiv.org/abs/2505.21653">DiffPhy</a></h3>
+            <p>LLM 生成物理上下文，MLLM 提供训练监督，共同微调视频扩散模型。</p>
+          </div>
+        </div>
+        <div class="grid two" style="margin-top:18px">
+          <div class="callout blue-call"><strong>更明确：</strong>监督从“这段视频不错”变成状态、事件、参数和约束。</div>
+          <div class="callout"><strong>仍有限：</strong>模型可能学习类别或运动模板；时间连贯性也不能替代力与材料建模。</div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen on">生成器权重</span><span class="change aux on">数据 / 监督模块</span><span class="change input">推理输入视方法而定</span><span class="change infer">搜索</span><span class="chip model">MODEL-LEVEL</span></div>
+        <div class="source">
+          <a href="https://wisav1.github.io/">WISA camera-ready project · WISA-80K</a>
+          <a href="https://arxiv.org/abs/2603.26285">PhysVid</a>
+          <a href="https://arxiv.org/abs/2505.21653">DiffPhy</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这页不逐篇展开，而是说明数据监督变得结构化。WISA 最新 camera-ready 使用 WISA-80K，并把物理监督拆成文本、类别与定量属性；PhysVid 把全局提示细化为局部时间块的状态和约束；DiffPhy 则让 LLM/MLLM 直接参与训练监督。</p>
+          <p>Temporal-aware flow matching 可作为口头补充：时间相关性是必要基础，但如果没有接触、力或材料信号，它本身仍不是物理定律。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/0856bc553d3e3b9827e5140d0ad3bf8d-Abstract-Conference.html">WISA camera-ready</a> · <a href="https://arxiv.org/abs/2603.26285">PhysVid</a> · <a href="https://arxiv.org/abs/2505.21653">DiffPhy</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-18" data-title="向更懂视频的模型借表征">
+      <div class="stage">
+        <span class="section-no">18</span>
+        <p class="kicker violet">Representation alignment</p>
+        <h2 class="title">向“更懂视频”的模型借表征</h2>
+        <div class="content grid asym center">
+          <div class="stack">
+            <div class="flow vertical">
+              <div class="flow-node violet-node"><b>Frozen video encoder</b><span>时空 token 关系 / motion subspace</span></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node orange-node"><b>Alignment loss</b><span>把 teacher 关系蒸馏进生成器中间层</span></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node"><b>Video diffusion</b><span>继续完成去噪与生成</span></div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="panel blue-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2505.23656">VideoREPA</a></h3>
+              <p>对齐 foundation model 的时空 token 关系，迁移更强的视频结构先验。</p>
+            </div>
+            <div class="panel orange-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2510.19022">MoAlign</a></h3>
+              <p>指出通用表征纠缠外观与运动，先学习由 optical flow 监督的 motion subspace。</p>
+            </div>
+            <div class="callout rose-call"><strong>证据边界：</strong>benchmark 提升说明表征有用，但不能单独证明它对应可解释、可干预的物理状态。</div>
+          </div>
+        </div>
+        <div class="footer-rail">
+          <div class="change-strip"><b>谁变了</b><span class="change gen on">生成器中间表征</span><span class="change aux on">frozen teacher / aligner</span><span class="change input">显式输入</span><span class="change infer">搜索</span><span class="chip model">MODEL-LEVEL</span></div>
+          <div class="source">
+            <a href="https://arxiv.org/abs/2505.23656">VideoREPA</a>
+            <a href="https://arxiv.org/abs/2510.19022">MoAlign · ICLR 2026</a>
+          </div>
+        </div>
+        <aside class="speaker-notes">
+          <p>VideoREPA 的假设是视频理解模型的 token 关系包含可迁移的时空与物理信息。MoAlign 进一步指出这些特征混合了外观和运动，因此用光流预测学习更纯的 motion subspace。</p>
+          <p>这一路线确实改变生成器表征，但“更好的运动特征”仍可能是视频统计，而不是能被质量、力或摩擦直接干预的状态变量。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2505.23656">VideoREPA</a> · <a href="https://arxiv.org/abs/2510.19022">MoAlign</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-19" data-title="用反馈纠正生成器">
+      <div class="stage">
+        <span class="section-no">19</span>
+        <p class="kicker orange">Preference and reward</p>
+        <h2 class="title">用反馈纠正生成器</h2>
+        <div class="content timeline" style="--cols:4">
+          <div class="time-node">
+            <div class="time-year">2024</div>
+            <b><a class="paper-link" href="https://arxiv.org/abs/2412.02617">AI Feedback</a></b>
+            <span>VLM 二元反馈优于简单 CLIP / flow reward，用于动态交互。</span>
+            <i class="time-dot"></i>
+          </div>
+          <div class="time-node">
+            <div class="time-year">2025.06</div>
+            <b><a class="paper-link" href="https://arxiv.org/abs/2506.18655">RDPO</a></b>
+            <span>从真实视频反向采样，自动构造物理 preference pairs。</span>
+            <i class="time-dot"></i>
+          </div>
+          <div class="time-node">
+            <div class="time-year">2025.08</div>
+            <b><a class="paper-link" href="https://arxiv.org/abs/2508.10858">PhysHPO</a></b>
+            <span>instance / state / motion / semantic 四层 preference。</span>
+            <i class="time-dot"></i>
+          </div>
+          <div class="time-node">
+            <div class="time-year">2025.11</div>
+            <b><a class="paper-link" href="https://arxiv.org/abs/2511.03997">PhysCorr</a></b>
+            <span>区分对象内稳定与对象间交互的 dual reward。</span>
+            <i class="time-dot"></i>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="callout blue-call"><strong>问题一：</strong>feedback 来自人、VLM、真实视频，还是可验证规律？</div>
+          <div class="callout"><strong>问题二：</strong>生成器是否只学会了 evaluator 的偏好捷径？</div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen on">生成器权重</span><span class="change aux on">reward / preference pipeline</span><span class="change input">显式输入</span><span class="change infer">通常不增加搜索</span><span class="chip model">MODEL-LEVEL</span></div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2412.02617">AI Feedback</a>
+          <a href="https://arxiv.org/abs/2506.18655">RDPO</a>
+          <a href="https://arxiv.org/abs/2508.10858">PhysHPO</a>
+          <a href="https://arxiv.org/abs/2511.03997">PhysCorr</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这里不逐篇介绍公式，而是看反馈来源如何演进：从 VLM 判断，到从真实视频自动构造 preference，再到分层、分对象的物理 reward。</p>
+          <p>它们都更新生成器，但训练目标仍由 evaluator 定义。若 evaluator 把画面干净、运动平滑误当作物理，模型可能针对评分器学习捷径。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2412.02617">Improving Dynamic Object Interactions with AI Feedback</a> · <a href="https://arxiv.org/abs/2506.18655">RDPO</a> · <a href="https://arxiv.org/abs/2508.10858">PhysHPO</a> · <a href="https://arxiv.org/abs/2511.03997">PhysCorr</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-20" data-title="把物理规律做成可验证 reward">
+      <div class="stage">
+        <span class="section-no">20</span>
+        <p class="kicker mint">Verifiable reward</p>
+        <h2 class="title">把物理规律做成可验证 reward</h2>
+        <div class="content grid asym-r center">
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node"><b>生成视频</b><span>candidate x</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node violet-node"><b>Frozen utilities</b><span>optical flow / appearance features</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node orange-node"><b>Physics proxy</b><span>v, a, mass-like signal</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node mint-node"><b>Reward</b><span>law residual ↓</span></div>
+            </div>
+            <div class="law-line"><b>恒加速度</b><span>速度变化应近似线性</span><code>Δv / Δt ≈ const.</code></div>
+            <div class="law-line"><b>质量守恒</b><span>防止缩小 / 消失的退化解</span><code>m(t) ≈ m(0)</code></div>
+            <div class="law-line"><b>碰撞 / 运动</b><span>把可测关系写成局部约束</span><code>residual → 0</code></div>
+          </div>
+          <div class="stack">
+            <div class="big-quote"><a class="paper-link" href="https://arxiv.org/abs/2512.00425">NewtonRewards</a>：从“看起来合理”走向“可重复计算”。</div>
+            <div class="callout blue-call"><strong>更可信：</strong>reward 的计算规则公开，可对每个样本复核。</div>
+            <div class="callout"><strong>更狭窄：</strong>规律越具体、越容易验证，覆盖的开放世界现象通常越少。</div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen on">生成器权重</span><span class="change aux on">冻结测量工具</span><span class="change input">显式输入</span><span class="change infer">搜索</span><span class="chip model">MODEL-LEVEL</span></div>
+        <div class="source"><a href="https://arxiv.org/abs/2512.00425">NewtonRewards · Post-Training Newton's Laws with Verifiable Rewards</a></div>
+        <aside class="speaker-notes">
+          <p>NewtonRewards 用冻结工具从视频提取可测 proxy：光流近似速度，高层外观特征近似质量，再构造恒加速度与质量守恒 reward。</p>
+          <p>它的优点是比 VLM 总分更可核验；局限是代理测量会有误差，而且适用规律较窄。可把 PhysRVG 作为同类方向口头补充，不在主页面加入未经核准的数字。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2512.00425">What about gravity in video generation? Post-Training Newton's Laws with Verifiable Rewards</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-21" data-title="从通用表征到潜在物理动力学">
+      <div class="stage">
+        <span class="section-no">21</span>
+        <p class="kicker orange">Latent physical state</p>
+        <h2 class="title small">从通用表征，到潜在物理动力学</h2>
+        <div class="content grid asym center">
+          <div class="stack">
+            <div class="panel violet-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2603.00466">DreamWorld</a></h3>
+              <p>联合像素与多种 foundation-model feature，把几何、语义和时空知识整合为 world representation。</p>
+            </div>
+            <div class="flow-arrow" style="text-align:center">↓</div>
+            <div class="panel orange-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2604.08503">Phantom</a></h3>
+              <p>不只预测未来画面，同时预测 latent physical dynamics，让控制演化的状态进入模型预测对象。</p>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node mint-node"><b>observed frames</b><span>可见外观与运动</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node violet-node"><b>latent physics</b><span>抽象物理状态</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node orange-node"><b>future dynamics</b><span>状态演化</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node"><b>future video</b><span>视觉结果</span></div>
+            </div>
+            <div class="grid three">
+              <div class="panel flat blue-line"><h3>可解释？</h3><p>latent 对应哪些状态或属性？</p></div>
+              <div class="panel flat orange-line"><h3>可干预？</h3><p>改变质量、力或材料能否定向改变未来？</p></div>
+              <div class="panel flat mint-line"><h3>可迁移？</h3><p>换外观后，动力学机制是否保持？</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen on">生成器预测对象 / 权重</span><span class="change aux on">多源 teacher</span><span class="change input">显式条件</span><span class="change infer">搜索</span><span class="chip model">MODEL-LEVEL</span></div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2603.00466">DreamWorld</a>
+          <a href="https://arxiv.org/abs/2604.08503">Phantom</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>DreamWorld 是从单一表征教师走向多源 world representation 的过渡。Phantom 更进一步：把 latent physical dynamics 作为与视频未来共同预测的对象。</p>
+          <p>这更接近“模型内部状态”，但依然要做三个检验：latent 是否可解释、能否被物理变量干预、以及跨外观是否保留同一机制。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2603.00466">DreamWorld</a> · <a href="https://arxiv.org/abs/2604.08503">Phantom</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-22" data-title="也许模型已经包含有用信息">
+      <div class="stage">
+        <span class="section-no">22</span>
+        <p class="kicker violet">Inference-time alignment</p>
+        <h2 class="title small">也许模型已经包含有用信息，只是默认采样没有利用</h2>
+        <div class="content grid asym-r center">
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node"><b>同一 prompt</b><span>多个 seed / trajectory</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node violet-node"><b>候选 A · B · C · …</b><span>并行或渐进生成</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node orange-node"><b>Physics scorer</b><span>world model / DiT feature probe</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node mint-node"><b>保留 / 引导</b><span>更合理的轨迹</span></div>
+            </div>
+            <div class="grid two">
+              <div class="panel blue-line">
+                <h3><a class="paper-link" href="https://arxiv.org/abs/2601.10553">WMReward</a></h3>
+                <p>以 latent world model 的预测 surprise 评价候选，并支持 Best-of-N 与梯度引导。</p>
+              </div>
+              <div class="panel violet-line">
+                <h3><a class="paper-link" href="https://arxiv.org/abs/2603.14294">Seeking Physics in Diffusion Noise</a></h3>
+                <p>从中间 DiT 特征识别 plausibility，早停低分去噪轨迹。</p>
+              </div>
+            </div>
+          </div>
+          <div class="stack">
+            <span class="chip system">SYSTEM-LEVEL</span>
+            <div class="big-quote">额外计算能找到更好的样本，<strong>不等于</strong>权重获得了新的物理知识。</div>
+            <div class="callout blue-call"><strong>更强的推断：</strong>冻结特征里至少存在可预测物理合理性的信号。</div>
+            <div class="callout"><strong>成本：</strong>候选数量、scorer 偏差与额外算力必须计入比较。</div>
+          </div>
+        </div>
+        <div class="change-strip"><b>谁变了</b><span class="change gen">生成器权重</span><span class="change aux on">world model / verifier</span><span class="change input">输入</span><span class="change infer on">搜索 / guidance</span><span class="chip system">SYSTEM-LEVEL</span></div>
+        <div class="source">
+          <a href="https://facebookresearch.github.io/WMReward/">WMReward official project</a>
+          <a href="https://arxiv.org/abs/2603.14294">Seeking Physics in Diffusion Noise</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>WMReward 使用 VJEPA-2 latent world model 作为 reward，在推理时做 Best-of-N、梯度引导或两者组合。Seeking Physics 则从视频 DiT 的中间去噪特征训练轻量 verifier，逐步剪掉低分轨迹。</p>
+          <p>两者都不更新视频生成器权重。它们证明的是“已有模型与外部 scorer 的组合可以找到更好结果”，以及冻结特征中含有与物理合理性相关的信号。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2601.10553">WMReward</a> · <a href="https://arxiv.org/abs/2603.14294">Seeking Physics in Diffusion Noise</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-23" data-title="也许生成过程破坏了已有的运动先验">
+      <div class="stage">
+        <span class="section-no">23</span>
+        <p class="kicker orange">Sampling dynamics</p>
+        <h2 class="title small">也许生成过程破坏了已有的运动先验</h2>
+        <div class="content grid asym center">
+          <div class="stack">
+            <div class="flow vertical">
+              <div class="flow-node violet-node"><b>早期少步去噪</b><span>粗糙外观，但运动骨架可能更合理</span></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node orange-node"><b>视觉细化阶段</b><span>纹理、边缘与细节逐步增强</span></div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node rose-node"><b>完整输出</b><span>外观更好，运动相位可能被侵蚀</span></div>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="panel orange-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2606.06361">PhaseLock / Physics in 2-Steps</a></h3>
+              <p>先从少步轨迹抽取 motion prior，再以 latent delta guidance 注入完整去噪。</p>
+            </div>
+            <div class="panel blue-line">
+              <h3><a class="paper-link" href="https://arxiv.org/abs/2601.18577">Self-Refining Video Sampling</a></h3>
+              <p>复用生成器作 denoising autoencoder；以 predict-and-perturb 内循环，并按 uncertainty 选择性精炼。</p>
+            </div>
+            <div class="verdict"><span>物理失败可能来自<strong class="orange">知识不足</strong>，也可能来自<strong class="blue">表示、目标或解码过程</strong>。</span></div>
+          </div>
+        </div>
+        <div class="footer-rail">
+          <div class="change-strip"><b>谁变了</b><span class="change gen">生成器权重</span><span class="change aux">无外部 VLM</span><span class="change input">输入</span><span class="change infer on">采样过程</span><span class="chip system">SYSTEM-LEVEL</span></div>
+          <div class="source">
+            <a href="https://dnwjddl.github.io/phaselock/">PhaseLock official project</a>
+            <a href="https://agwmon.github.io/self-refine-video/">Self-Refining Video Sampling official project</a>
+          </div>
+        </div>
+        <aside class="speaker-notes">
+          <p>PhaseLock 的反直觉观察是：少步结果可能保留更好的运动结构，后续视觉细化反而侵蚀相位。方法抽取早期 motion prior，再注入完整去噪。</p>
+          <p>Self-Refining Video Sampling 不使用 VLM；它把生成器自身复用为 denoising autoencoder，通过 predict-and-perturb 内循环修正，并用不确定性只精炼需要的区域。PhaseLock 直接诊断运动先验会在细化中被侵蚀；Self-Refining 则独立说明冻结生成器也能在采样时自我修正。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2606.06361">Physics in 2-Steps</a> · <a href="https://arxiv.org/abs/2601.18577">Self-Refining Video Sampling</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-24" data-title="模型更强，还是系统更强？">
+      <div class="stage">
+        <span class="section-no">24</span>
+        <p class="kicker">Synthesis</p>
+        <h2 class="title">“模型更强”，还是“系统更强”？</h2>
+        <div class="content">
+          <table>
+            <thead><tr><th>路线</th><th>改变了什么</th><th>主要证据</th><th>仍不能证明什么</th></tr></thead>
+            <tbody>
+              <tr><td>物理数据</td><td><span class="chip model">生成器权重</span></td><td>行为与 benchmark 改善</td><td>跨规律的通用机制</td></tr>
+              <tr><td>表征对齐</td><td><span class="chip model">中间表征</span></td><td>时空 / 物理分数改善</td><td>可解释物理状态</td></tr>
+              <tr><td>preference / reward</td><td><span class="chip model">生成器权重</span></td><td>偏好与指标提升</td><td>evaluator 之外的泛化</td></tr>
+              <tr><td>latent dynamics</td><td><span class="chip model">预测对象</span></td><td>latent 与视频表现改善</td><td>稳定、可干预机制</td></tr>
+              <tr><td>inference-time alignment</td><td><span class="chip system">搜索 / 采样</span></td><td>系统输出改善</td><td>权重内化物理</td></tr>
+            </tbody>
+          </table>
+          <div class="grid two" style="margin-top:20px">
+            <div class="callout"><strong class="orange">Model-level claim：</strong>必须指出到底更新了 backbone、adapter、ControlNet 还是独立动力学网络。</div>
+            <div class="callout blue-call"><strong class="blue">System-level claim：</strong>必须报告额外 evaluator、候选数、推理预算与失败模式。</div>
+          </div>
+        </div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2510.11512">LikePhys</a>
+          <a href="https://arxiv.org/abs/2601.10553">WMReward</a>
+          <a href="https://arxiv.org/abs/2604.08503">Phantom</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这张表是第二部分的结论。现有工作确实证明多种接口能改善物理表现，但“生成器是否学到可迁移机制”的证据仍然有限。</p>
+          <p>报告和论文写作时应明确说到具体组件：更新了 backbone、adapter、ControlNet、reward model，还是只增加推理搜索。否则 model-level 与 system-level 会被混在一起。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2510.11512">LikePhys</a> · <a href="https://arxiv.org/abs/2601.10553">WMReward</a> · <a href="https://arxiv.org/abs/2604.08503">Phantom</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-25" data-title="不同 benchmark 评测的不是同一个对象">
+      <div class="stage">
+        <span class="section-no">25</span>
+        <p class="kicker orange">Part III · Evaluation</p>
+        <h2 class="title small">不同 benchmark 评测的不是同一个对象</h2>
+        <div class="content benchmark-map">
+          <div class="benchmark-lane"><b>开放文本生成</b><p>给 prompt，看最终视频是否语义正确、物理合理。</p></div>
+          <div class="benchmark-lane"><b>真实观测续写</b><p>给初始帧或前缀，与真实物理实验的未来比较。</p></div>
+          <div class="benchmark-lane"><b>轨迹与规律</b><p>提取运动，计算方程残差、守恒量或不变量。</p></div>
+          <div class="benchmark-lane"><b>模型内部偏好</b><p>比较模型对合理 / 不合理视频分配的概率。</p></div>
+          <div class="benchmark-lane"><b>评价器能力</b><p>先验证 VLM 或自动 metric 是否能识别真实物理。</p></div>
+        </div>
+        <div class="verdict"><span>一条排行榜无法同时回答“输出好不好”“模型懂不懂”“评价器准不准”。</span></div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2406.03520">VideoPhy</a>
+          <a href="https://arxiv.org/abs/2501.09038">Physics-IQ</a>
+          <a href="https://arxiv.org/abs/2504.02918">Morpheus</a>
+          <a href="https://arxiv.org/abs/2510.11512">LikePhys</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>benchmark 部分先分清评测对象。开放 T2V、真实未来预测、定律残差和内部 likelihood preference 不是同一任务。</p>
+          <p>因此不要把这些分数放成一个总榜。它们回答的问题、可访问的输入、生成自由度和评价假设都不同。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2406.03520">VideoPhy</a> · <a href="https://arxiv.org/abs/2501.09038">Physics-IQ</a> · <a href="https://arxiv.org/abs/2504.02918">Morpheus</a> · <a href="https://arxiv.org/abs/2510.11512">LikePhys</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-26" data-title="开放世界 benchmark">
+      <div class="stage">
+        <span class="section-no">26</span>
+        <p class="kicker violet">Open-world judgement</p>
+        <h2 class="title small">开放世界 benchmark：覆盖广，但依赖判断者</h2>
+        <div class="content grid three center">
+          <div class="panel blue-line">
+            <h3><a class="paper-link" href="https://arxiv.org/abs/2406.03520">VideoPhy</a> → <a class="paper-link" href="https://proceedings.iclr.cc/paper_files/paper/2026/hash/c02f6a1d5c55e16db50d339dad905b4d-Abstract-Conference.html">VideoPhy-2</a></h3>
+            <p>先拆语义遵从与物理常识；再扩展到动作中心、细粒度规则和难例。</p>
+          </div>
+          <div class="panel orange-line">
+            <h3><a class="paper-link" href="https://arxiv.org/abs/2410.05363">PhyGenBench / Eval</a></h3>
+            <p>覆盖力学、光学、热学与材料属性；以关键现象、时序和整体自然度分层判断。</p>
+          </div>
+          <div class="panel mint-line">
+            <h3><a class="paper-link" href="https://arxiv.org/abs/2507.13428">PhyWorldBench</a></h3>
+            <p>从基础运动到复合、人 / 动物与 anti-physics 提示，扩大开放场景覆盖。</p>
+          </div>
+        </div>
+        <div class="flow" style="margin-top:20px">
+          <div class="flow-node"><b>目标事件发生？</b><span>semantic adherence</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node orange-node"><b>看起来物理合理？</b><span>human / VLM judgement</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-node violet-node"><b>违反哪条规则？</b><span>diagnostic questions</span></div>
+        </div>
+        <div class="callout rose-call" style="margin-top:18px"><strong>共同盲点：</strong>画面质量可能干扰物理判断；VLM 可能合理化错误；开放提示通常缺少可测初态与真值。</div>
+        <div class="source">
+          <a href="https://videophy2.github.io/">VideoPhy-2 project</a>
+          <a href="https://phygenbench123.github.io/">PhyGenBench project</a>
+          <a href="https://arxiv.org/abs/2507.13428">PhyWorldBench</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>这三类 benchmark 适合测试广覆盖的生成能力。VideoPhy 系列把语义和物理拆开；PhyGenBench 扩到多物理领域；PhyWorldBench 加入复合与反物理提示。</p>
+          <p>它们的共同成本是缺少完整真实状态，最终依赖人或 VLM 判断“看起来合理”。因此要警惕视觉质量、提示遵从和物理正确之间的混淆。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2406.03520">VideoPhy</a> · <a href="https://proceedings.iclr.cc/paper_files/paper/2026/hash/c02f6a1d5c55e16db50d339dad905b4d-Abstract-Conference.html">VideoPhy-2 camera-ready</a> · <a href="https://arxiv.org/abs/2410.05363">PhyGenBench</a> · <a href="https://arxiv.org/abs/2507.13428">PhyWorldBench</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-27" data-title="真实未来、物理规律与模型内部">
+      <div class="stage">
+        <span class="section-no">27</span>
+        <p class="kicker orange">Three different questions</p>
+        <h2 class="title small">从真实未来，到物理规律，再到模型内部</h2>
+        <div class="content grid three center">
+          <div class="panel blue-line">
+            <span class="chip system">REFERENCE FUTURE</span>
+            <h3 style="margin-top:14px"><a class="paper-link" href="https://arxiv.org/abs/2501.09038">Physics-IQ</a></h3>
+            <p>受控真实实验；给初始观测，比较生成未来与真实重复实验的运动区域和演化。</p>
+            <div class="callout blue-call" style="margin-top:18px"><strong>问：</strong>预测是否接近这个真实系统的未来？</div>
+          </div>
+          <div class="panel orange-line">
+            <span class="chip model">LAW RESIDUAL</span>
+            <h3 style="margin-top:14px"><a class="paper-link" href="https://arxiv.org/abs/2504.02918">Morpheus</a></h3>
+            <p>从视频提取二维轨迹，以动力方程和能量、加速度、动量等不变量评分。</p>
+            <div class="callout" style="margin-top:18px"><strong>问：</strong>即使未来不同，它是否仍满足对应规律？</div>
+          </div>
+          <div class="panel mint-line">
+            <span class="chip hybrid">LIKELIHOOD PROBE</span>
+            <h3 style="margin-top:14px"><a class="paper-link" href="https://arxiv.org/abs/2510.11512">LikePhys</a></h3>
+            <p>构造视觉匹配的 valid / invalid 视频对，比较扩散模型自身的 likelihood preference。</p>
+            <div class="callout mint-call" style="margin-top:18px"><strong>问：</strong>模型内部是否给合理视频更高概率？</div>
+          </div>
+        </div>
+        <div class="verdict"><span>越接近定量验证，条件通常越受控；越接近开放生成，物理真值越难确定。</span></div>
+        <div class="source">
+          <a href="https://physics-iq.github.io/">Physics-IQ project</a>
+          <a href="https://physics-from-video.github.io/morpheus-bench/">Morpheus project</a>
+          <a href="https://yuanjianhao508.github.io/LikePhys/">LikePhys project</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>Physics-IQ、Morpheus 与 LikePhys 分别代表三个问题。Physics-IQ 与真实重复实验未来比较；Morpheus 不要求唯一未来，而是检查轨迹是否满足定律；LikePhys 完全不评生成画质，而是探测模型对成对视频的概率偏好。</p>
+          <p>三者的数据版本和实验条件不同，因此这里不混排规模数字，也不把分数做横向排行榜；只比较它们各自回答的评测问题。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2501.09038">Physics-IQ</a> · <a href="https://arxiv.org/abs/2504.02918">Morpheus</a> · <a href="https://arxiv.org/abs/2510.11512">LikePhys</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-28" data-title="benchmark 本身也需要审计">
+      <div class="stage">
+        <span class="section-no">28</span>
+        <p class="kicker violet">Benchmark audit</p>
+        <h2 class="title">benchmark 本身也需要审计</h2>
+        <div class="content grid asym-r center">
+          <div class="stack">
+            <div class="flow">
+              <div class="flow-node rose-line"><b>原始 benchmark</b><span>提示、掩码、计分规则</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node orange-node"><b>逐样本审计</b><span>混淆因素与错误真值</span></div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node mint-node"><b>Verified version</b><span>修正提示、样本与聚合</span></div>
+            </div>
+            <div class="grid three">
+              <div class="panel flat blue-line"><h3>57.6%</h3><p>samples 涉及至少一种潜在测量错误</p></div>
+              <div class="panel flat orange-line"><h3>69 / 198</h3><p>prompts 不清楚（34.8%）</p></div>
+              <div class="panel flat mint-line"><h3>τ = 0.46</h3><p>Original / Verified 六模型排名一致性</p></div>
+            </div>
+            <div class="callout blue-call"><strong><a class="paper-link" href="https://arxiv.org/abs/2606.18943">Physics-IQ Verified</a> 的提醒：</strong>prompt、GT activation、计分与聚合都改变后，两版分数不再是同一把尺；只能审慎比较排名重排。</div>
+          </div>
+          <div class="stack">
+            <div class="law-line"><b>循环验证</b><span>训练 reward 与最终 evaluator 是否同一个 VLM？</span><code>avoid</code></div>
+            <div class="law-line"><b>sanity check</b><span>真实视频与已知反例能否得到合理分数？</span><code>required</code></div>
+            <div class="law-line"><b>随机性</b><span>报告多 seed，而不是只展示 best-of-N。</span><code>N + cost</code></div>
+            <div class="law-line"><b>错误分解</b><span>语义失败、视觉失败与物理失败分开。</span><code>separate</code></div>
+            <div class="law-line"><b>证据组合</b><span>开放域判断 + 可测规律 + 人评。</span><code>triangulate</code></div>
+          </div>
+        </div>
+        <div class="source"><a href="https://arxiv.org/abs/2606.18943">Physics-IQ Verified · all audit statistics shown above</a></div>
+        <aside class="speaker-notes">
+          <p>Physics-IQ Verified 对原 benchmark 做系统审计：57.6% 的 samples 涉及至少一种潜在测量错误；69 / 198 条 prompts 被判定不清楚，即 34.8%。Original 与 Verified 的六模型排名 Kendall tau 为 0.46。</p>
+          <p>Verified 同时修改 prompt、ground-truth activation、计分与聚合，因此两版绝对分数不能按同一尺度解释涨跌；可讨论的是排名重排。训练 reward 和最终 evaluator 也应尽量独立，并以真实视频做 sanity check，报告多随机样本和额外推理成本。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2606.18943">Physics-IQ Verified</a> · <a href="https://github.com/google-deepmind/physics-iq-benchmark">official benchmark repository</a></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-29" data-title="我们真正缺少什么？">
+      <div class="stage">
+        <span class="section-no">29</span>
+        <p class="kicker orange">Takeaway & discussion</p>
+        <h2 class="title">我们真正缺少什么？</h2>
+        <div class="callout blue-call" style="font-size:clamp(14px,1.2vw,20px)">
+          <strong>结论：</strong>外部模拟、显式控制、训练内化和推理优化将长期并存。尚未解决的是：怎样让模型获得能跨场景泛化、响应物理变量变化，并长期稳定的物理机制。
+        </div>
+        <div class="content question-grid">
+          <div class="question">
+            <div class="n">01</div>
+            <h3>物理状态应该放在哪里？</h3>
+            <p>作为可解释的显式条件，还是隐含在生成模型 latent 中？</p>
+            <strong>representation</strong>
+          </div>
+          <div class="question">
+            <div class="n">02</div>
+            <h3>谁获得了能力？</h3>
+            <p>inference-time 搜索生成更合理的视频，应该算模型能力还是系统能力？</p>
+            <strong>model vs system</strong>
+          </div>
+          <div class="question">
+            <div class="n">03</div>
+            <h3>怎样证明学到机制？</h3>
+            <p>能否固定场景，只改变 force、mass、friction，检验结果是否按规律变化？</p>
+            <strong>controlled intervention</strong>
+          </div>
+        </div>
+        <div class="source">
+          <a href="https://arxiv.org/abs/2503.21765">Physics Cognition Survey</a>
+          <a href="https://arxiv.org/abs/2501.10928">Generative Physical AI Survey</a>
+        </div>
+        <aside class="speaker-notes">
+          <p>最后把开场问题收回来。进展的共同主线不是简单增加约束，而是在寻找更好的物理监督接口：状态、数据、表征、reward、latent dynamics 和 inference search。</p>
+          <p>讨论只保留三题：状态表示、模型与系统能力边界、以及单变量干预 benchmark。现场可用第三题自然引出一个统一实验：固定 backbone 和预算，比较不同监督接口在未见参数、外观、规律组合与长时尺度上的表现。</p>
+          <div class="note-sources"><b>[Sources]</b> <a href="https://arxiv.org/abs/2503.21765">Physics Cognition Survey</a> · <a href="https://arxiv.org/abs/2501.10928">Generative Physical AI in Vision</a></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <div class="hint">← → / Space 翻页 · O 总览 · N 讲稿 · F 全屏 · 虚线术语可悬停</div>
+  <div class="controls" aria-label="演示控制">
+    <button class="control" id="prevBtn" type="button" aria-label="上一页">←</button>
+    <button class="control" id="nextBtn" type="button" aria-label="下一页">→</button>
+    <button class="control" id="overviewBtn" type="button" aria-label="总览" aria-pressed="false">▦</button>
+    <button class="control" id="notesBtn" type="button" aria-label="讲稿提示" aria-controls="notesPanel" aria-expanded="false">N</button>
+    <button class="control" id="fullscreenBtn" type="button" aria-label="全屏" aria-pressed="false">⛶</button>
+  </div>
+  <div class="progress"><div class="progress-bar" id="progressBar" role="progressbar" aria-label="演示进度" aria-valuemin="1" aria-valuemax="29" aria-valuenow="1"></div></div>
+  <aside class="notes-panel" id="notesPanel" aria-live="polite" aria-hidden="true">
+    <h3 id="notesTitle">讲稿提示</h3>
+    <div id="notesBody"></div>
+  </aside>
+  <div class="term-popover" id="termPopover" role="status" aria-live="polite" aria-hidden="true">
+    <b id="termPopoverLabel"></b><span id="termPopoverText"></span>
+  </div>
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const counter = document.getElementById('counter');
+      const progressBar = document.getElementById('progressBar');
+      const notesPanel = document.getElementById('notesPanel');
+      const notesTitle = document.getElementById('notesTitle');
+      const notesBody = document.getElementById('notesBody');
+      const overviewBtn = document.getElementById('overviewBtn');
+      const notesBtn = document.getElementById('notesBtn');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      const termPopover = document.getElementById('termPopover');
+      const termPopoverLabel = document.getElementById('termPopoverLabel');
+      const termPopoverText = document.getElementById('termPopoverText');
+      let touchStartX = 0;
+      let wheelLocked = false;
+      let termTimer;
+
+      const glossary = [
+        { label: 'VLM', aliases: ['VLM'], def: 'Vision-Language Model：同时处理图像或视频与文本；这里常被用作运动规划器、训练监督器或评价器。' },
+        { label: 'Reward / 奖励信号', aliases: ['reward', 'Reward'], def: '把输出映射为可优化分数的信号；它可能来自人类偏好、VLM 判断、真实视频或可测物理规律。' },
+        { label: 'SFT', aliases: ['SFT'], def: 'Supervised Fine-Tuning：用成对的输入与目标视频继续监督训练预训练模型。' },
+        { label: 'DPO', aliases: ['DPO'], def: 'Direct Preference Optimization：利用较好与较差样本对，直接提高模型对偏好结果的相对概率。' },
+        { label: 'Best-of-N', aliases: ['Best-of-N', 'best-of-N'], def: '为同一条件生成 N 个候选，再由评分器选择最高分结果；它改善系统输出，但不改变生成器权重。' },
+        { label: 'Evaluator', aliases: ['evaluator', 'Evaluator'], def: '对生成视频进行自动或人工评分的评价者；其偏差会直接限制训练结论或排行榜可信度。' },
+        { label: 'Simulator-in-the-loop', aliases: ['simulator-in-the-loop'], def: '生成过程中保留物理模拟器参与状态恢复、演化或反向修正，而不是只在训练数据阶段使用模拟器。' },
+        { label: '状态辨识', aliases: ['状态辨识'], def: '从有限图像或视频观测反推出位置、速度、几何、质量、材料、接触与外力等隐藏状态。' },
+        { label: 'MPM', aliases: ['MPM'], def: 'Material Point Method：用运动粒子携带材料状态、借助背景网格计算连续介质形变与受力。' },
+        { label: 'Optical flow', aliases: ['optical flow', 'Optical flow'], def: '估计相邻帧中每个像素的二维位移；它能描述可见运动，但不直接给出质量、力或材料属性。' },
+        { label: 'Trajectory', aliases: ['trajectory', 'Trajectory'], def: '对象或空间点随时间的位置序列；它通常约束运动结果，而不是产生该结果的物理原因。' },
+        { label: 'Planner', aliases: ['planner', 'Planner'], def: '在视频生成前先把文本或图像转化为事件顺序、粗轨迹或运动计划的模块。' },
+        { label: 'Neural Newtonian Dynamics', aliases: ['Neural Newtonian Dynamics', 'Neural ODE'], def: '用神经网络参数化动力学微分方程，根据当前状态与条件连续预测未来状态。' },
+        { label: 'Guidance', aliases: ['guidance', 'Guidance'], def: '在去噪或采样过程中用条件、评分梯度或额外特征改变生成轨迹的方向。' },
+        { label: 'ControlNet', aliases: ['ControlNet'], def: '附加在预训练生成模型旁的可训练控制分支，用结构或属性条件约束输出，同时可保持主干网络冻结。' },
+        { label: 'Backbone', aliases: ['backbone', 'Backbone'], def: '承担主要视频生成能力的基础网络；ControlNet、adapter 或评价器通常围绕它扩展。' },
+        { label: '物理属性图', aliases: ['物理属性图', '属性图'], def: '与图像位置对齐的摩擦、恢复系数、形变、受力等条件图，用来显式控制不同区域的物性。' },
+        { label: 'Post-training', aliases: ['post-training', 'Post-training'], def: '预训练完成后，再用定向数据、偏好或奖励进行训练，以改变模型在特定任务上的行为。' },
+        { label: 'Model-level', aliases: ['Model-level claim', 'Model-level'], def: '改进来自生成器或其可训练组件的权重变化；必须说明实际更新的是 backbone、adapter 还是控制分支。' },
+        { label: 'System-level', aliases: ['System-level claim', 'System-level'], def: '生成器权重不一定改变，而由外部模块、候选搜索、重排或采样策略改善整个系统的输出。' },
+        { label: 'Representation alignment', aliases: ['Representation alignment', '表征对齐'], def: '让生成模型的中间特征接近教师模型中被认为包含时空、运动或物理信息的表征。' },
+        { label: 'Motion subspace', aliases: ['motion subspace'], def: '中间表征中主要编码运动变化、尽量弱化外观内容的一组特征方向。' },
+        { label: 'Preference pair', aliases: ['preference pairs', 'preference pair'], def: '同一条件下由较优和较差视频组成的训练对，用于教模型学习相对偏好。' },
+        { label: 'Reward model', aliases: ['reward model'], def: '学习把视频映射为偏好分数的模型，可用于训练生成器、筛选候选或提供推理时引导。' },
+        { label: 'Proxy', aliases: ['proxy', 'Proxy'], def: '当目标物理量无法直接测量时使用的可计算替代信号；代理有效不等于原目标已被准确测到。' },
+        { label: 'Latent dynamics', aliases: ['latent physical dynamics', 'latent dynamics'], def: '在像素之外的潜在表示空间中编码并预测状态如何随时间演化。' },
+        { label: 'World model', aliases: ['world model', 'World model'], def: '根据当前观测以及可能的动作或条件预测未来状态或未来观测的模型。' },
+        { label: 'Verifier', aliases: ['verifier', 'Verifier'], def: '检查候选视频是否满足条件或物理要求的判别模块，常用于剪枝、重排或触发重试。' },
+        { label: 'DiT', aliases: ['DiT'], def: 'Diffusion Transformer：用 Transformer 作为扩散或流匹配模型的主要去噪网络。' },
+        { label: 'Inference-time alignment', aliases: ['inference-time alignment'], def: '不重新训练生成器，而在推理阶段通过搜索、重排、梯度引导或自修正提高输出。' },
+        { label: 'Benchmark', aliases: ['benchmark', 'Benchmark'], def: '固定数据、任务协议和指标的评测集合；只有输入、采样与计分口径一致时，数字才可直接比较。' },
+        { label: 'Likelihood preference', aliases: ['likelihood preference'], def: '比较模型自身给合理与不合理视频分配的相对概率，用来探测模型内部是否偏好物理正确结果。' },
+        { label: 'Kendall τ', aliases: ['τ = 0.46'], def: '衡量两种排名顺序一致性的秩相关系数；1 表示完全一致，0 表示没有稳定的排序关系。' },
+        { label: 'Sanity check', aliases: ['sanity check'], def: '用真实视频、已知正确样本和明确反例验证评价器是否至少给出方向正确的分数。' },
+        { label: '单变量干预', aliases: ['单变量干预'], def: '保持外观、场景和其他条件不变，只改变一个物理变量，再检查未来是否按预期规律变化。' }
+      ];
+
+      function findAlias(text, aliases) {
+        let best = null;
+        aliases.forEach(function (alias) {
+          let index = text.indexOf(alias);
+          while (index >= 0) {
+            const left = index > 0 ? text[index - 1] : '';
+            const right = index + alias.length < text.length ? text[index + alias.length] : '';
+            const needsLeftBoundary = /^[A-Za-z0-9]/.test(alias);
+            const needsRightBoundary = /[A-Za-z0-9]$/.test(alias);
+            const boundaryOk = (!needsLeftBoundary || !/[A-Za-z0-9]/.test(left)) && (!needsRightBoundary || !/[A-Za-z0-9]/.test(right));
+            if (boundaryOk && (!best || index < best.index || index === best.index && alias.length > best.alias.length)) {
+              best = { index: index, alias: alias };
+              break;
+            }
+            index = text.indexOf(alias, index + 1);
+          }
+        });
+        return best;
+      }
+
+      function annotateGlossary() {
+        const perSlide = new Map();
+        glossary.forEach(function (entry) {
+          const walker = document.createTreeWalker(document.getElementById('deck'), NodeFilter.SHOW_TEXT);
+          let node;
+          while ((node = walker.nextNode())) {
+            const parent = node.parentElement;
+            if (!parent || parent.closest('.term, a, .speaker-notes, .source, .section-no, .kicker, .chip, .change, script, style, svg')) continue;
+            const slide = parent.closest('.slide');
+            if (!slide || (perSlide.get(slide) || 0) >= 2) continue;
+            const match = findAlias(node.data, entry.aliases);
+            if (!match) continue;
+            const before = document.createTextNode(node.data.slice(0, match.index));
+            const term = document.createElement('span');
+            term.className = 'term';
+            term.tabIndex = 0;
+            term.setAttribute('role', 'button');
+            term.setAttribute('aria-label', entry.label + '：' + entry.def);
+            term.dataset.label = entry.label;
+            term.dataset.definition = entry.def;
+            term.textContent = match.alias;
+            const after = document.createTextNode(node.data.slice(match.index + match.alias.length));
+            node.replaceWith(before, term, after);
+            perSlide.set(slide, (perSlide.get(slide) || 0) + 1);
+            break;
+          }
+        });
+      }
+
+      function showTerm(term, persist) {
+        clearTimeout(termTimer);
+        termPopoverLabel.textContent = '术语 · ' + term.dataset.label;
+        termPopoverText.textContent = term.dataset.definition;
+        termPopover.classList.add('show');
+        termPopover.setAttribute('aria-hidden', 'false');
+        if (persist) termTimer = window.setTimeout(function () { hideTerm(true); }, 6500);
+      }
+
+      function hideTerm(immediate) {
+        clearTimeout(termTimer);
+        const close = function () {
+          termPopover.classList.remove('show');
+          termPopover.setAttribute('aria-hidden', 'true');
+        };
+        if (immediate) close(); else termTimer = window.setTimeout(close, 120);
+      }
+
+      annotateGlossary();
+      document.querySelectorAll('.term').forEach(function (term) {
+        term.addEventListener('mouseenter', function () { showTerm(term, false); });
+        term.addEventListener('mouseleave', function () { hideTerm(false); });
+        term.addEventListener('focus', function () { showTerm(term, false); });
+        term.addEventListener('blur', function () { hideTerm(false); });
+        term.addEventListener('click', function (event) { event.stopPropagation(); showTerm(term, true); });
+        term.addEventListener('keydown', function (event) {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault(); event.stopPropagation(); showTerm(term, true);
+          }
+        });
+      });
+
+      function readDeepLink() {
+        const hashMatch = location.hash.match(/(\d+)/);
+        const queryValue = new URLSearchParams(location.search).get('slide');
+        const raw = hashMatch ? hashMatch[1] : queryValue;
+        const value = Number.parseInt(raw || '1', 10);
+        return Number.isFinite(value) ? Math.max(0, Math.min(slides.length - 1, value - 1)) : 0;
+      }
+
+      let current = readDeepLink();
+
+      function refreshNotes() {
+        const note = slides[current].querySelector('.speaker-notes');
+        notesTitle.textContent = '讲稿提示 · ' + slides[current].dataset.title;
+        notesBody.innerHTML = note ? note.innerHTML : '<p>本页暂无讲稿提示。</p>';
+      }
+
+      function updateDeepLink() {
+        const url = new URL(location.href);
+        url.searchParams.set('slide', String(current + 1));
+        url.hash = String(current + 1);
+        history.replaceState(null, '', url);
+      }
+
+      function show(index, updateUrl) {
+        hideTerm(true);
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach(function (slide, i) {
+          slide.classList.toggle('active', i === current);
+          slide.classList.toggle('previous', i < current);
+        });
+        counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
+        progressBar.style.width = ((current + 1) / slides.length * 100) + '%';
+        progressBar.setAttribute('aria-valuenow', String(current + 1));
+        document.title = current === 0 ? '物理一致性视频生成｜谁在教生成模型物理？' : slides[current].dataset.title + '｜物理一致性视频生成';
+        refreshNotes();
+        if (updateUrl !== false) updateDeepLink();
+      }
+
+      function next() {
+        if (!document.body.classList.contains('overview')) show(current + 1);
+      }
+
+      function prev() {
+        if (!document.body.classList.contains('overview')) show(current - 1);
+      }
+
+      function toggleOverview(force) {
+        hideTerm(true);
+        const open = typeof force === 'boolean' ? force : !document.body.classList.contains('overview');
+        document.body.classList.toggle('overview', open);
+        notesPanel.classList.remove('open');
+        notesPanel.setAttribute('aria-hidden', 'true');
+        notesBtn.setAttribute('aria-expanded', 'false');
+        overviewBtn.setAttribute('aria-pressed', String(open));
+        if (!open) show(current);
+      }
+
+      function toggleNotes(force) {
+        hideTerm(true);
+        if (document.body.classList.contains('overview')) return;
+        const open = typeof force === 'boolean' ? force : !notesPanel.classList.contains('open');
+        refreshNotes();
+        notesPanel.classList.toggle('open', open);
+        notesPanel.setAttribute('aria-hidden', String(!open));
+        notesBtn.setAttribute('aria-expanded', String(open));
+      }
+
+      async function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+          if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+        } else if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        }
+      }
+
+      document.getElementById('prevBtn').addEventListener('click', prev);
+      document.getElementById('nextBtn').addEventListener('click', next);
+      overviewBtn.addEventListener('click', function () { toggleOverview(); });
+      notesBtn.addEventListener('click', function () { toggleNotes(); });
+      fullscreenBtn.addEventListener('click', toggleFullscreen);
+      if (!document.fullscreenEnabled || !document.documentElement.requestFullscreen) {
+        fullscreenBtn.hidden = true;
+      }
+      document.addEventListener('fullscreenchange', function () {
+        fullscreenBtn.setAttribute('aria-pressed', String(Boolean(document.fullscreenElement)));
+      });
+
+      document.getElementById('deck').addEventListener('click', function (event) {
+        if (!document.body.classList.contains('overview') || event.target.closest('a')) return;
+        const slide = event.target.closest('.slide');
+        if (!slide) return;
+        current = slides.indexOf(slide);
+        toggleOverview(false);
+      });
+
+      window.addEventListener('keydown', function (event) {
+        const key = event.key.toLowerCase();
+        const interactive = event.target.closest && event.target.closest('a, button, input, textarea, select');
+        if (event.key === 'Escape' && notesPanel.classList.contains('open')) {
+          event.preventDefault(); toggleNotes(false); return;
+        }
+        if (!interactive && ['ArrowRight','ArrowDown','PageDown',' '].includes(event.key)) {
+          event.preventDefault(); next();
+        }
+        if (!interactive && ['ArrowLeft','ArrowUp','PageUp'].includes(event.key)) {
+          event.preventDefault(); prev();
+        }
+        if (event.key === 'Home') show(0);
+        if (event.key === 'End') show(slides.length - 1);
+        if (key === 'o' || event.key === 'Escape' && document.body.classList.contains('overview')) toggleOverview();
+        if (key === 'n') toggleNotes();
+        if (key === 'f') toggleFullscreen();
+      });
+
+      window.addEventListener('wheel', function (event) {
+        if (document.body.classList.contains('overview') || notesPanel.classList.contains('open') || wheelLocked || Math.abs(event.deltaY) < 30) return;
+        wheelLocked = true;
+        if (event.deltaY > 0) next(); else prev();
+        window.setTimeout(function () { wheelLocked = false; }, 600);
+      }, { passive: true });
+
+      window.addEventListener('touchstart', function (event) {
+        touchStartX = event.changedTouches[0].clientX;
+      }, { passive: true });
+
+      window.addEventListener('touchend', function (event) {
+        const delta = event.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(delta) > 55) {
+          if (delta < 0) next(); else prev();
+        }
+      }, { passive: true });
+
+      window.addEventListener('hashchange', function () { show(readDeepLink(), false); });
+      window.addEventListener('popstate', function () { show(readDeepLink(), false); });
+
+      document.querySelectorAll('a[href^="http"]').forEach(function (link) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      });
+
+      show(current, false);
+    }());
+  </script>
+</body>
+</html>

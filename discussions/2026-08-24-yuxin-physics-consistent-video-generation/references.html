@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Key References for Physics-Consistent Video Generation: Who Teaches the Generator Physics?.">
+  <title>Key References · Physics-Consistent Video Generation: Who Teaches the Generator Physics? · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
+  </div></header>
+  <main>
+    <header class="page-header"><p class="eyebrow">2026-08-24 · Yuxin Wang</p><h1>Key References</h1><p class="lede">Physics-Consistent Video Generation: Who Teaches the Generator Physics?</p></header>
+    <article class="prose markdown-body"><p>These six papers anchor the talk&#x27;s main routes: explicit simulation, post-training, representation alignment, verifiable reward, inference-time alignment, and law-level evaluation.</p>
+<h2>1. PhysGen: Rigid-Body Physics-Grounded Image-to-Video Generation</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2409.18964">https://arxiv.org/abs/2409.18964</a></li>
+<li>Type: system</li>
+<li>Why important: It connects single-image understanding, rigid-body simulation, and diffusion refinement.</li>
+<li>Role in this topic: Representative of computing physical evolution outside the video generator.</li>
+<li>Main limitation: Hidden geometry, material, contact, and force are not uniquely recoverable from one image.</li>
+<li>Discussion question: How should the system represent multiple plausible initial states?</li>
+</ul>
+<h2>2. What about gravity in video generation? Post-Training Newton&#x27;s Laws with Verifiable Rewards</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2512.00425">https://arxiv.org/abs/2512.00425</a></li>
+<li>Type: method</li>
+<li>Why important: It converts measurable motion proxies and Newtonian structure into post-training rewards.</li>
+<li>Role in this topic: Representative of moving from general preference feedback toward verifiable physical constraints.</li>
+<li>Main limitation: Reliable measurement requires controlled phenomena, so coverage narrows as verification becomes stricter.</li>
+<li>Discussion question: Which additional laws can become reliable rewards without sacrificing broad scene coverage?</li>
+</ul>
+<h2>3. PISA Experiments: Exploring Physics Post-Training for Video Diffusion Models by Watching Stuff Drop</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2503.09595">https://arxiv.org/abs/2503.09595</a></li>
+<li>Type: method</li>
+<li>Why important: Controlled free fall reveals both post-training gains and weak extrapolation.</li>
+<li>Role in this topic: Diagnostic anchor for separating behavior teaching from rule learning.</li>
+<li>Main limitation: The model may fit falling-video statistics without learning a transferable gravity mechanism.</li>
+<li>Discussion question: Which split best rules out memorized falling templates?</li>
+</ul>
+<h2>4. VideoREPA: Learning Physics for Video Generation through Relational Alignment with Foundation Models</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2505.23656">https://arxiv.org/abs/2505.23656</a></li>
+<li>Type: method</li>
+<li>Why important: It distills token relations from a video-understanding model into a generator.</li>
+<li>Role in this topic: Representative of using learned representations as a physics teacher.</li>
+<li>Main limitation: Teacher features may encode visual-motion statistics rather than intervenable physical state.</li>
+<li>Discussion question: Which counterfactual test can separate physics from visual correlation?</li>
+</ul>
+<h2>5. Inference-time Physics Alignment of Video Generative Models with Latent World Models</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2601.10553">https://arxiv.org/abs/2601.10553</a></li>
+<li>Type: system</li>
+<li>Why important: WMReward scores candidate trajectories with a frozen latent world model.</li>
+<li>Role in this topic: Representative of improving outputs through inference without updating generator weights.</li>
+<li>Main limitation: Better candidates must already exist, the proxy can fail, and search adds cost.</li>
+<li>Discussion question: How should generator, verifier, and test-time-compute gains be separated?</li>
+</ul>
+<h2>6. Evaluating Newtonian Mechanics in Video Generative Models with Real Physical Systems</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2504.02918">https://arxiv.org/abs/2504.02918</a></li>
+<li>Type: benchmark</li>
+<li>Why important: Morpheus checks extracted trajectories against equations and physical invariants.</li>
+<li>Role in this topic: Representative of moving from plausibility judgments to law-level measurement.</li>
+<li>Main limitation: Controlled rigid-body scenes and trajectory-extraction error restrict coverage.</li>
+<li>Discussion question: Which non-rigid phenomena admit useful measurable invariants?</li>
+</ul></article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>
+</body>
+</html>

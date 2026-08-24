@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The design space, evidence boundaries, and evaluation of physics-consistent video generation.">
+  <title>Physics-Consistent Video Generation · Topic Summary</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation">
+      <a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a>
+    </nav>
+  </div></header>
+  <main>
+    <header class="page-header">
+      <p class="eyebrow">2026-08-24 · Yuxin Wang</p>
+      <h1>Physics-Consistent Video Generation: Who Teaches the Generator Physics?</h1>
+      <p class="lede">The central question is where physical knowledge enters a generation system, which component it changes, and whether the evidence supports a model capability or only a stronger system.</p>
+      <div class="actions"><a class="button" href="presentation.html">Open full presentation</a></div>
+    </header>
+    <article class="prose">
+      <h2>Topic overview</h2>
+      <p><strong>Physics consistency</strong> means that motion, interaction, and state change in a generated video follow real-world physical laws. Temporal smoothness, appearance continuity, natural motion, and high visual quality are useful prerequisites, but they do not by themselves establish correct gravity, contact, material response, conservation, or causal order.</p>
+
+      <h2>Why now?</h2>
+      <p>Recent work has moved beyond the simple recipe of letting a simulator compute motion and a generator render it. Physical information may come from simulation, real video, explicit properties, foundation-model features, VLM feedback, measurable laws, or the generator's own latent states. It may enter during planning, training, conditioning, sampling, or evaluation. Benchmarks have expanded at the same time, so “better physics” can no longer be summarized by one score.</p>
+
+      <h2>Background: three distinctions</h2>
+      <ol>
+        <li><strong>Source × stage:</strong> simulators, data, VLMs, learned representations, and physical laws can enter before generation, during training, as explicit conditions, or at inference time.</li>
+        <li><strong>Model × system:</strong> updating the video backbone, training an auxiliary dynamics or reward model, and adding test-time search are distinct interventions.</li>
+        <li><strong>Motion outcome × physical condition:</strong> masks, flow, and trajectories often specify how an object moves; force, mass, friction, restitution, and material properties ask the system to infer the resulting motion.</li>
+      </ol>
+
+      <h2>Method landscape</h2>
+      <ol>
+        <li><strong>Explicit dynamics and control:</strong> PhysGen and related systems infer state, simulate motion, then use a video model for rendering or refinement. Their constraints are interpretable, but hidden geometry, material, contact, and force are often underdetermined.</li>
+        <li><strong>Data, representation, and reward:</strong> PISA teaches a controlled behavior through post-training; VideoREPA borrows spatiotemporal relations from a video encoder; VLM or law-based rewards optimize generated motion. These methods change the generator, but may still learn templates or evaluator shortcuts.</li>
+        <li><strong>Latent dynamics and inference-time alignment:</strong> some methods add physical state to the prediction target, while others use a frozen world model, intermediate features, or early motion priors to search, select, or refine samples without updating the generator.</li>
+        <li><strong>Evaluation:</strong> open-ended judges offer breadth, real futures provide controlled evidence, equations test measurable laws, and likelihood preference probes internal model ranking. These protocols answer different questions.</li>
+      </ol>
+
+      <h2>Representative evidence and its boundary</h2>
+      <p><strong>PhysGen</strong> shows that explicit state estimation and simulation can guide an image-to-video pipeline, but the guarantee belongs to the full pipeline and depends on the inferred state. <strong>PISA</strong> shows that small amounts of simulated data and reward can change free-fall behavior while exposing weak out-of-distribution generalization. <strong>VideoREPA</strong> improves physics benchmarks through representation alignment, yet assumes that the teacher features encode transferable physics rather than stronger visual statistics. Verifiable rewards are easier to audit but cover fewer phenomena; inference-time alignment can find better samples without proving that the generator learned new knowledge.</p>
+
+      <h2>Failure cases</h2>
+      <p>Current methods degrade with hidden initial state, contact-rich interaction, material change, deformation, long horizons, unseen parameters, and combinations of physical rules. Explicit pipelines inherit state-estimation errors; control may be confused with physical inference; reward optimization may exploit an evaluator; and inference-time search only works when the candidate distribution already contains a better trajectory.</p>
+
+      <h2>Connections to our research</h2>
+      <p>The topic connects long-video generation, causal and autoregressive modeling, controllable generation, world models, and video evaluation. Long rollouts amplify small dynamics errors, while shared reward and evaluation models can create circular evidence.</p>
+
+      <h2>Research-quality prompts</h2>
+      <div class="callout"><strong>Central claim:</strong> Progress comes from better interfaces that turn physics into controllable and testable supervision, not from one route replacing all others.</div>
+      <div class="callout"><strong>Hidden assumption:</strong> Trajectories, flow, VLM scores, learned features, and video likelihood can separate physical mechanisms from visual correlation.</div>
+      <div class="callout"><strong>Failure boundary:</strong> Evidence remains strongest for short, observable, single-event, and controlled phenomena.</div>
+      <div class="callout"><strong>Connection:</strong> Every claim should identify what changed in the generator, auxiliary modules, and inference system.</div>
+      <div class="callout"><strong>Concrete experiment:</strong> Fix the backbone, data, and compute, vary one supervision interface, then test unseen parameters, appearances, rule combinations, and longer horizons.</div>
+      <div class="callout"><strong>Discussion seed:</strong> If inference-time search reliably finds better physics, is that model capability, latent capability in the distribution, or system capability?</div>
+
+      <h2>Open questions</h2>
+      <ol>
+        <li>Which parts of geometry, material, contact, and force are identifiable from one image?</li>
+        <li>How can evaluation separate following a supplied trajectory from inferring motion from physical conditions?</li>
+        <li>Should physical state be explicit and writable, or remain inside a generator's latent representation?</li>
+        <li>What experiment would show that latent dynamics are stable and intervenable rather than merely benchmark-useful?</li>
+        <li>How can training rewards and final evaluators remain independent enough to avoid circular validation?</li>
+        <li>How should a benchmark represent multiple physically valid futures and long-horizon error accumulation?</li>
+      </ol>
+
+      <h2>Possible project</h2>
+      <p>Build a small counterfactual benchmark that fixes scene and appearance while changing one physical variable at a time. Compare simulated-data fine-tuning, representation alignment, preference optimization, verifiable reward, and inference-time search on the same backbone, and report both law-level error and system cost.</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Discussion overview</a></div></footer>
+</body>
+</html>

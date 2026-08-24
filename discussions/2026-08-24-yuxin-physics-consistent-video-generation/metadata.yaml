@@ -1,0 +1,42 @@
+title: "Physics-Consistent Video Generation: Who Teaches the Generator Physics?"
+date: 2026-08-24
+topic_slug: physics-consistent-video-generation
+leader:
+  name: "Yuxin Wang"
+  short_name: yuxin
+status: before-meeting
+summary: >-
+  A design-space view of how simulators, explicit controls, training signals,
+  latent dynamics, and inference-time alignment can make generated videos obey
+  real-world physical laws, and what current benchmarks can actually establish.
+tags:
+  - video-generation
+  - physics-consistency
+  - world-model
+  - controllable-generation
+  - benchmark
+  - evaluation
+related_projects: []
+papers:
+  - title: "PhysGen: Rigid-Body Physics-Grounded Image-to-Video Generation"
+    url: https://arxiv.org/abs/2409.18964
+    role: system
+    note: Adds explicit rigid-body simulation before diffusion refinement.
+  - title: "PISA Experiments: Exploring Physics Post-Training for Video Diffusion Models by Watching Stuff Drop"
+    url: https://arxiv.org/abs/2503.09595
+    role: method
+    note: Tests physics post-training and extrapolation through controlled free fall.
+  - title: "VideoREPA: Learning Physics for Video Generation through Relational Alignment with Foundation Models"
+    url: https://arxiv.org/abs/2505.23656
+    role: method
+    note: Distills spatiotemporal relations into the generator.
+  - title: "What about gravity in video generation? Post-Training Newton's Laws with Verifiable Rewards"
+    url: https://arxiv.org/abs/2512.00425
+    role: method
+    note: Turns Newtonian motion proxies into verifiable rewards.
+  - title: "Inference-time Physics Alignment of Video Generative Models with Latent World Models"
+    url: https://arxiv.org/abs/2601.10553
+    role: system
+    note: Guides inference-time search with a frozen latent world model.
+external_videos: []
+slides: presentation.html
