@@ -1,0 +1,39 @@
+title: "Video Editing Frontiers"
+date: 2026-09-28
+topic_slug: video-editing-frontiers
+leader:
+  name: "Peiyuan Zhu"
+  short_name: peiyuan
+status: before-meeting
+summary: >-
+  A survey of video editing mechanisms and controllable changes, with method
+  deep dives, interactive examples, and open problems in object interaction,
+  editing history, world models, agents, and evaluation.
+tags:
+  - video-editing
+  - action-editing
+  - world-model
+  - agents
+  - benchmark
+related_projects: []
+papers:
+  - title: "FlowEdit (ICCV 2025)"
+    url: https://arxiv.org/pdf/2412.08629
+    role: method
+  - title: "DynaEdit"
+    url: https://arxiv.org/pdf/2603.17989
+    role: method
+  - title: "Bernini"
+    url: https://arxiv.org/pdf/2605.22344
+    role: method
+  - title: "World in World"
+    url: https://arxiv.org/pdf/2609.11548
+    role: method
+  - title: "MMLVE-Agent"
+    url: https://arxiv.org/pdf/2608.26809
+    role: system
+  - title: "CoVEBench"
+    url: https://arxiv.org/pdf/2606.08415
+    role: benchmark
+external_videos: []
+slides: presentation.html

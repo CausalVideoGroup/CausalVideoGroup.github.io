@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Video Editing Frontiers — References for Video Editing Frontiers.">
+  <title>Video Editing Frontiers — References · Video Editing Frontiers · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
+  </div></header>
+  <main>
+    <header class="page-header"><p class="eyebrow">2026-09-28 · Peiyuan Zhu</p><h1>Video Editing Frontiers — References</h1><p class="lede">Video Editing Frontiers</p></header>
+    <article class="prose markdown-body"><h2>Key reading</h2>
+<h2>1. FlowEdit (ICCV 2025)</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/pdf/2412.08629">FlowEdit (ICCV 2025)</a></li>
+<li>Role: Inference-time transport</li>
+<li>Why important: Editing follows a difference between target and source velocity fields.</li>
+<li>Main limitation: The original work addresses images; a video adaptation changes the backbone and must verify temporal behavior.</li>
+<li>Discussion question: How does source preservation interact with changes in motion?</li>
+</ul>
+<h2>2. DynaEdit</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/pdf/2603.17989">DynaEdit</a></li>
+<li>Role: Dynamic rewriting</li>
+<li>Why important: Its source-query and guidance design motivates a separate discussion of preserving appearance while changing dynamics.</li>
+<li>Main limitation: Sampling controls do not by themselves establish correct object contact or event replacement.</li>
+<li>Discussion question: Which failures come from the control signal, and which come from the backbone?</li>
+</ul>
+<h2>3. Bernini</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/pdf/2605.22344">Bernini</a></li>
+<li>Role: Semantic planning and rendering</li>
+<li>Why important: A semantic planner and a renderer expose different roles for edit intent and visual detail.</li>
+<li>Main limitation: The deck follows the existing v1 method audit; it does not claim a completed v2 difference audit.</li>
+<li>Discussion question: Which planner supervision improves action semantics without unwanted source changes?</li>
+</ul>
+<h2>4. World in World</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/pdf/2609.11548">World in World</a></li>
+<li>Role: Source-grounded world-model editing</li>
+<li>Why important: Source observations and correspondence-based evidence support controlled re-observation and editing.</li>
+<li>Main limitation: Camera-rendering evidence should not be treated as proof of arbitrary physical interaction editing.</li>
+<li>Discussion question: How should hidden state and contact uncertainty enter the editing interface?</li>
+</ul>
+<h2>5. MMLVE-Agent</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/pdf/2608.26809">MMLVE-Agent</a></li>
+<li>Role: Editing agents</li>
+<li>Why important: Shot assignment, global visual references, and feedback separate orchestration from pixel generation.</li>
+<li>Main limitation: External editor capability, service failures, and retry costs influence the end-to-end result.</li>
+<li>Discussion question: Does planning improve success over a fixed workflow at the same call budget?</li>
+</ul>
+<h2>6. CoVEBench</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/pdf/2606.08415">CoVEBench</a></li>
+<li>Role: Compositional evaluation</li>
+<li>Why important: Fine-grained checks help separate individual instruction requirements.</li>
+<li>Main limitation: A compositional instruction is different from a sequence of requests with history and selective undo.</li>
+<li>Discussion question: Which event and session annotations reveal failures hidden by aggregate quality?</li>
+</ul>
+<h2>Paper and model index</h2>
+<ul>
+<li><a href="https://arxiv.org/pdf/2609.11548">World in World</a></li>
+<li><a href="https://arxiv.org/pdf/2601.00393">NeoVerse</a></li>
+<li><a href="https://arxiv.org/pdf/2609.08230">ActionSplice</a></li>
+<li><a href="https://arxiv.org/pdf/2606.26694">PhysEditWorld</a></li>
+<li><a href="https://arxiv.org/pdf/2608.16234">GaussianDWM++</a></li>
+<li><a href="https://arxiv.org/pdf/2608.08982">Twin Rollouts</a></li>
+<li><a href="https://arxiv.org/pdf/2608.24680">Game2World</a></li>
+<li><a href="https://arxiv.org/pdf/2605.23699">CRONOS</a></li>
+<li><a href="https://arxiv.org/pdf/2605.27589">What-If World</a></li>
+<li><a href="https://arxiv.org/pdf/2608.14790">Qwen-Video-Edit</a></li>
+<li><a href="https://arxiv.org/pdf/2608.16328">GRNEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2608.17559">MSEditor</a></li>
+<li><a href="https://arxiv.org/pdf/2608.26809">MMLVE-Agent</a></li>
+<li><a href="https://arxiv.org/pdf/2609.04190">EditVid</a></li>
+<li><a href="https://arxiv.org/pdf/2609.24788">SVEET</a></li>
+<li><a href="https://arxiv.org/pdf/2609.26015">VideoX-Qwen</a></li>
+<li><a href="https://arxiv.org/pdf/2609.11638">Vidu S2</a></li>
+<li><a href="https://arxiv.org/pdf/2606.03168">JAVEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2609.16475">MDN-Control</a></li>
+<li><a href="https://arxiv.org/pdf/2608.17566">CoinVE</a></li>
+<li><a href="https://arxiv.org/pdf/2403.14468">AnyV2V</a></li>
+<li><a href="https://arxiv.org/pdf/2403.12002">DreamMotion</a></li>
+<li><a href="https://arxiv.org/pdf/2403.06269">FastVideoEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2406.08850">COVE</a></li>
+<li><a href="https://arxiv.org/pdf/2411.17592">VideoDirector</a></li>
+<li><a href="https://arxiv.org/pdf/2503.10634">V2Edit</a></li>
+<li><a href="https://arxiv.org/pdf/2506.20967">DFVEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2506.12520">VINO</a></li>
+<li><a href="https://arxiv.org/pdf/2604.22586">FlowAnchor</a></li>
+<li><a href="https://arxiv.org/pdf/2607.05056">EquiEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2403.11568">EffiVED</a></li>
+<li><a href="https://arxiv.org/pdf/2403.09334">EVE</a></li>
+<li><a href="https://arxiv.org/pdf/2410.13720">Movie Gen</a></li>
+<li><a href="https://arxiv.org/pdf/2503.07598">VACE</a></li>
+<li><a href="https://arxiv.org/pdf/2506.04216">UNIC</a></li>
+<li><a href="https://arxiv.org/pdf/2506.01801">OmniV2V</a></li>
+<li><a href="https://arxiv.org/pdf/2509.20360">EditVerse</a></li>
+<li><a href="https://arxiv.org/pdf/2510.14648">Unpaired Clips</a></li>
+<li><a href="https://arxiv.org/pdf/2510.15742">Scaling / Editto</a></li>
+<li><a href="https://arxiv.org/pdf/2510.08377">UniVideo</a></li>
+<li><a href="https://arxiv.org/pdf/2512.16920">EasyV2V</a></li>
+<li><a href="https://arxiv.org/pdf/2603.19228">SAMA</a></li>
+<li><a href="https://arxiv.org/pdf/2602.08820">Omni-Video 2</a></li>
+<li><a href="https://arxiv.org/pdf/2603.02175">Kiwi-Edit</a></li>
+<li><a href="https://arxiv.org/pdf/2603.15478">ViFeEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2603.24458">OmniWeaving</a></li>
+<li><a href="https://arxiv.org/pdf/2605.02641">Mamoda2.5</a></li>
+<li><a href="https://arxiv.org/pdf/2605.18678">Lance</a></li>
+<li><a href="https://arxiv.org/pdf/2605.22344">Bernini</a></li>
+<li><a href="https://arxiv.org/pdf/2605.24674">RVEDiT</a></li>
+<li><a href="https://arxiv.org/pdf/2606.06042">LoomVideo</a></li>
+<li><a href="https://arxiv.org/pdf/2606.08260">TIDE</a></li>
+<li><a href="https://arxiv.org/pdf/2405.16537">I2VEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2411.15260">VIVID</a></li>
+<li><a href="https://arxiv.org/pdf/2503.05639">VideoPainter</a></li>
+<li><a href="https://arxiv.org/pdf/2502.17258">VideoGrain</a></li>
+<li><a href="https://arxiv.org/pdf/2506.22432">Shape-for-Motion</a></li>
+<li><a href="https://arxiv.org/pdf/2602.20583">PropFly</a></li>
+<li><a href="https://arxiv.org/pdf/2603.02802">NOVA</a></li>
+<li><a href="https://arxiv.org/pdf/2605.14664">MiVE</a></li>
+<li><a href="https://arxiv.org/pdf/2606.24225">GIVE</a></li>
+<li><a href="https://arxiv.org/pdf/2607.14681">ReBind</a></li>
+<li><a href="https://arxiv.org/pdf/2405.19726">Streaming Video Diffusion</a></li>
+<li><a href="https://arxiv.org/pdf/2601.16296">Memory-V2V</a></li>
+<li><a href="https://arxiv.org/pdf/2602.02123">MLV-Edit</a></li>
+<li><a href="https://arxiv.org/pdf/2605.04569">LIVEditor-14B</a></li>
+<li><a href="https://arxiv.org/pdf/2605.21466">StreamEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2606.26740">LiveEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2303.09535">FateZero</a></li>
+<li><a href="https://arxiv.org/pdf/2303.13439">Text2Video-Zero</a></li>
+<li><a href="https://arxiv.org/pdf/2307.10373">TokenFlow</a></li>
+<li><a href="https://arxiv.org/pdf/2312.04524">RAVE</a></li>
+<li><a href="https://arxiv.org/pdf/2512.17650">ReCo</a></li>
+<li><a href="https://arxiv.org/pdf/2409.09668">EditBoard</a></li>
+<li><a href="https://arxiv.org/pdf/2502.06734">Señorita-2M</a></li>
+<li><a href="https://arxiv.org/pdf/2503.20287">InsViE-1M</a></li>
+<li><a href="https://arxiv.org/pdf/2503.13684">FiVE</a></li>
+<li><a href="https://arxiv.org/pdf/2606.08415">CoVEBench</a></li>
+<li><a href="https://arxiv.org/pdf/2604.16272">VEFX-Bench</a></li>
+<li><a href="https://arxiv.org/pdf/2606.30599">Goku</a></li>
+<li><a href="https://arxiv.org/pdf/2605.18748">Aurora</a></li>
+<li><a href="https://arxiv.org/pdf/2603.17989">DynaEdit</a></li>
+<li><a href="https://arxiv.org/pdf/2511.20640">MotionV2V</a></li>
+<li><a href="https://arxiv.org/pdf/2604.02296">VOID</a></li>
+<li><a href="https://arxiv.org/pdf/2608.03974">JoyAI-Video-Edit</a></li>
+<li><a href="https://arxiv.org/pdf/2412.08629">FlowEdit (ICCV 2025)</a></li>
+<li><a href="https://arxiv.org/pdf/2510.10726">WorldMirror</a></li>
+<li><a href="https://arxiv.org/pdf/2503.20314">Wan</a></li>
+<li><a href="https://github.com/Wan-Video/Wan2.2">Wan2.2</a></li>
+<li><a href="https://arxiv.org/pdf/2403.03206">SD3</a></li>
+<li><a href="https://github.com/black-forest-labs/flux">FLUX</a></li>
+<li><a href="https://bfl.ai/models/flux-2-klein">FLUX.2 Klein</a></li>
+<li><a href="https://arxiv.org/pdf/2303.15343">SigLIP</a></li>
+<li><a href="https://arxiv.org/pdf/2503.19786">Gemma</a></li>
+<li><a href="https://ltx.io/blog/ltx-2-3-release">LTX-2.3</a></li>
+<li><a href="https://arxiv.org/pdf/2408.00714">SAM2</a></li>
+<li><a href="https://arxiv.org/pdf/2511.16719">SAM3</a></li>
+<li><a href="https://arxiv.org/pdf/2503.11651">VGGT</a></li>
+<li><a href="https://arxiv.org/pdf/2601.20540">LingBot-World</a></li>
+<li><a href="https://arxiv.org/pdf/2506.08009">Self Forcing</a></li>
+<li><a href="https://arxiv.org/pdf/2509.22622">LongLive</a></li>
+<li><a href="https://arxiv.org/pdf/2508.02324">Qwen-Image-Edit</a></li>
+<li><a href="https://arxiv.org/pdf/2502.13923">Qwen2.5-VL</a></li>
+<li><a href="https://arxiv.org/pdf/2511.21631">Qwen3-VL</a></li>
+<li><a href="https://qwen.ai/blog?id=qwen3.5">Qwen3.5-4B</a></li>
+<li><a href="https://arxiv.org/pdf/1910.10683">T5</a></li>
+<li><a href="https://arxiv.org/pdf/2103.00020">CLIP</a></li>
+<li><a href="https://arxiv.org/pdf/2104.14294">DINO</a></li>
+<li><a href="https://arxiv.org/pdf/2510.11647">IVEBench</a></li>
+<li><a href="https://arxiv.org/pdf/2504.05579">TAPNext</a></li>
+<li><a href="https://arxiv.org/pdf/2408.06072">CogVideoX</a></li>
+<li><a href="https://arxiv.org/pdf/2302.05543">ControlNet</a></li>
+<li><a href="https://arxiv.org/pdf/2607.07534">LingBot-World-2</a></li>
+<li><a href="https://arxiv.org/pdf/2503.11647">ReCamMaster</a></li>
+<li><a href="https://d2drjpuinn46lb.cloudfront.net/Lucy_Edit__High_Fidelity_Text_Guided_Video_Editing.pdf">LucyEdit</a></li>
+<li><a href="https://www.alibabacloud.com/help/en/model-studio/happyhorse-1-0-video-edit">HappyHorse 1.0</a></li>
+<li><a href="https://arxiv.org/pdf/2010.02502">DDIM</a></li>
+<li><a href="https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash">Gemini Omni Flash</a></li>
+</ul>
+<h2>Example and asset notes</h2>
+<ul>
+<li><a href="evidence.html">Examples and evaluation protocols</a></li>
+<li><a href="sources.html">Figure, formula, and video sources</a></li>
+</ul></article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>
+</body>
+</html>
