@@ -64,7 +64,18 @@
   document.querySelectorAll('[data-notes]').forEach(el=>el.onclick=()=>toggle('notes'));
   document.querySelectorAll('[data-image]').forEach(el=>el.onclick=()=>{document.querySelector('#zoom img').src=el.dataset.image;toggle('zoom')});
   let index = Math.max(0, meta.findIndex(s => s.id === location.hash.slice(1)));
+  let mediaRequest = 0;
   const videos = () => [...slides[index].querySelectorAll('video')];
+  function updatePlaybackControls() {
+    const vs=videos(),playing=vs.some(v=>!v.paused&&!v.ended);
+    const buttons=[document.getElementById('mediaButton'),...slides[index].querySelectorAll('[data-media-toggle]')];
+    buttons.forEach(button=>{
+      button.textContent=(playing?'Pause':'Play')+(vs.length>1||button.hasAttribute('data-media-toggle')?' all':'');
+      button.setAttribute('aria-pressed',String(playing));
+      button.title=playing?'Pause all videos (P)':'Play all videos from the start (P)';
+    });
+    document.getElementById('mediaButton').hidden=vs.length===0;
+  }
   function resize() {
     document.documentElement.style.setProperty('--scale', Math.min(innerWidth / 1280, innerHeight / 720));
     placeTerm();
@@ -75,27 +86,44 @@
   }
   function go(n) {
     closeTerm();
+    mediaRequest++;
     index = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach((s, i) => { s.classList.toggle('active', i === index); s.inert = i !== index; if (i !== index) s.querySelectorAll('video').forEach(v => v.pause()); });
     history.replaceState(null, '', `#${meta[index].id}`);
     document.getElementById('counter').textContent = `${index + 1} / ${slides.length}`;
-    document.getElementById('mediaButton').hidden = videos().length === 0;
-    document.getElementById('mediaButton').textContent = 'Play';
+    videos().forEach(v=>{v.preload='auto';});
+    updatePlaybackControls();
     document.getElementById('prev').disabled = index === 0;
     document.getElementById('next').disabled = index === slides.length - 1;
     updateNotes();
   }
   function toggle(id) { closeTerm(); const d = document.getElementById(id); if (d.open) d.close(); else { dialogs.forEach(x => x.close()); d.showModal(); } }
   async function play() {
-    const vs = videos();
-    if (vs.some(v => !v.paused)) { vs.forEach(v => v.pause()); document.getElementById('mediaButton').textContent = 'Play'; }
-    else { vs.forEach(v => { v.currentTime = 0; }); await Promise.all(vs.map(v => v.play().catch(() => {}))); document.getElementById('mediaButton').textContent = 'Pause'; }
+    const vs=videos(),request=++mediaRequest;
+    if(!vs.length)return;
+    if(vs.some(v=>!v.paused))vs.forEach(v=>v.pause());
+    else {
+      vs.forEach(v=>{v.currentTime=0;});
+      const results=await Promise.allSettled(vs.map(v=>v.play()));
+      if(request!==mediaRequest)return;
+      if(results.some(result=>result.status==='rejected')){
+        vs.forEach(v=>v.pause());
+        updatePlaybackControls();
+        [document.getElementById('mediaButton'),...slides[index].querySelectorAll('[data-media-toggle]')].forEach(button=>{button.title='A video could not play. Check the video controls, then retry.';});
+        return;
+      }
+    }
+    updatePlaybackControls();
   }
   document.getElementById('prev').onclick = () => go(index - 1);
   document.getElementById('next').onclick = () => go(index + 1);
   document.getElementById('tocButton').onclick = () => toggle('toc');
   document.getElementById('notesButton').onclick = () => toggle('notes');
   document.getElementById('mediaButton').onclick = play;
+  document.querySelectorAll('[data-media-toggle]').forEach(button=>button.onclick=play);
+  document.querySelectorAll('video').forEach(video=>['play','pause','ended'].forEach(event=>video.addEventListener(event,()=>{
+    if(video.closest('.slide')===slides[index])updatePlaybackControls();
+  })));
   document.getElementById('fullButton').onclick = () => document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
   document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => { go(Number(b.dataset.go)); document.getElementById('toc').close(); });
   dialogs.forEach(d => { d.querySelector('.close').onclick = () => d.close(); d.addEventListener('click', e => { if (e.target === d) { const r = d.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) d.close(); } }); });
