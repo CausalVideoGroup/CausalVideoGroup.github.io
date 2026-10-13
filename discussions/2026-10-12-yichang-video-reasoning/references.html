@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Video Reasoning — References for Video Reasoning: One Year of Debate in 26 Papers.">
+  <title>Video Reasoning — References · Video Reasoning: One Year of Debate in 26 Papers · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
+  </div></header>
+  <main>
+    <header class="page-header"><p class="eyebrow">2026-10-12 · Yichang Jian</p><h1>Video Reasoning — References</h1><p class="lede">Video Reasoning: One Year of Debate in 26 Papers</p></header>
+    <article class="prose markdown-body"><p>The deck covers 26 papers in publication order. The eight below carry the main arguments; the full list follows. All numbers are taken from the papers and are shown with their charts in the presentation.</p>
+<h2>1. Video models are zero-shot learners and reasoners (Veo3-ZS)</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2509.20328">https://arxiv.org/abs/2509.20328</a></li>
+<li>Type: problem</li>
+<li>Why important: It made the first broad claim that a video model (Veo 3) can solve mazes, puzzles and physical tasks from only a first frame and a text instruction, and named the mechanism &quot;chain-of-frames&quot;.</li>
+<li>Role in this topic: The starting point. Most later papers either build benchmarks to test this claim or argue with its mechanism.</li>
+<li>Main limitation: The paper itself frames its scores as a lower bound; the same team&#x27;s follow-up (VIPE) raises them by changing only the input image.</li>
+<li>Discussion question: Is &quot;the answer grows frame by frame&quot; a description of the output or of the computation?</li>
+</ul>
+<h2>2. Thinking with Video: Video Generation as a Promising Multimodal Reasoning Paradigm</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2511.04570">https://arxiv.org/abs/2511.04570</a></li>
+<li>Type: benchmark</li>
+<li>Why important: With Wan 2.5, turning off the API&#x27;s prompt rewriter drops GSM8K accuracy from 78.4 to 0: the rewritten prompt already contains the answer.</li>
+<li>Role in this topic: Anchors the question of who does the reasoning. Of the 26 papers, 13 used a closed API without mentioning its built-in rewriter.</li>
+<li>Main limitation: Sora-2&#x27;s rewriter cannot be turned off, so its text-task scores cannot be attributed to the video model.</li>
+<li>Discussion question: Which evaluation settings should be mandatory to report (rewriter on or off, exact prompt sent)?</li>
+</ul>
+<h2>3. Beyond the Last Frame: Process-aware Evaluation for Generative Video Reasoning (VIPER)</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2512.24952">https://arxiv.org/abs/2512.24952</a></li>
+<li>Type: benchmark</li>
+<li>Why important: Re-judging the same videos on the whole process, with every frame required to obey the rules, cuts success sharply: Sora 2 goes from 47.0% to 23.3%. Across six models, outcome-only success is 2.0 to 4.3 times process success.</li>
+<li>Role in this topic: The clearest evidence that last-frame scoring rewards wrong paths that end in the right place.</li>
+<li>Main limitation: The judge is GPT-5 reading one frame per second against a rubric; VBVR-Pro later shows that VLM judges change their score on 54.6–92.8% of samples when re-run at temperature 0.</li>
+<li>Discussion question: When can a rule-based checker replace a VLM judge, and what is lost?</li>
+</ul>
+<h2>4. A Very Big Video Reasoning Suite (VBVR)</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2602.20159">https://arxiv.org/abs/2602.20159</a></li>
+<li>Type: benchmark</li>
+<li>Why important: The first million-scale training set. LoRA fine-tuning Wan2.2 raises the VBVR-Bench score from 0.371 to about 0.685, but gains stop after about 200K samples; humans score 0.974.</li>
+<li>Role in this topic: Turns the field from evaluation to training, and shows that synthetic data helps but saturates.</li>
+<li>Main limitation: Unseen tasks stay about 0.15 below seen ones (0.610 vs 0.760). On VGI-Bench&#x27;s realistic tasks the gain shrinks with distance from the training tasks: +40.5 for the same structure, +17.1 for partly similar, +6.2 for different.</li>
+<li>Discussion question: Is the plateau a data-diversity limit or a model limit?</li>
+</ul>
+<h2>5. Demystifying Video Reasoning</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2603.16870">https://arxiv.org/abs/2603.16870</a></li>
+<li>Type: theory</li>
+<li>Why important: Decoding the predicted output at each denoising step shows several paths tried early, one chosen in the middle, and details refined late. Adding noise to all frames at one step drops the score from 0.685 to below 0.3, while noising one frame at every step only drops it to about 0.6.</li>
+<li>Role in this topic: Proposes &quot;chain-of-steps&quot; and directly argues against chain-of-frames.</li>
+<li>Main limitation: The analysis uses one fine-tuned model. VGI-Bench later finds that switching from a wrong to a right answer mid-denoising is rare (2 of 702 cases).</li>
+<li>Discussion question: If the plan is fixed early in denoising, should search and verification act on early steps instead of full videos?</li>
+</ul>
+<h2>6. CollabVR: Collaborative Video Reasoning with Vision-Language and Video Generation Models</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2605.08735">https://arxiv.org/abs/2605.08735</a></li>
+<li>Type: method</li>
+<li>Why important: A VLM plans each step and checks the result while the video model renders it. On VBVR-Bench this raises the score from 0.671 to 0.757 with about three times the generation of a single run, above best-of-4 sampling.</li>
+<li>Role in this topic: Representative of methods whose gains come from combining video with language.</li>
+<li>Main limitation: It reports no baseline where the same language model answers directly, or writes a program that a deterministic renderer draws.</li>
+<li>Discussion question: How much of the gain belongs to the video model?</li>
+</ul>
+<h2>7. VGI-Bench: Probing Visual Intelligence in Video Generation Models</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2608.19583">https://arxiv.org/abs/2608.19583</a></li>
+<li>Type: benchmark</li>
+<li>Why important: Realistic photographs as inputs, and strict success that requires both completion and no rule violations. The best model, Seedance 2.0, is fully correct on 14.0% of tasks; humans reach 97.1%.</li>
+<li>Role in this topic: Recalibrates the field: strict zero-shot scores have stayed between about 5% and 25% for a year (VR-Bench 5.6%, VIPER 23.3%, VGI-Bench 14%).</li>
+<li>Main limitation: A VLM still scores completion and rule checks from the whole video.</li>
+<li>Discussion question: Which task families show progress, and which show none?</li>
+</ul>
+<h2>8. Scaling Video Generation for Reasoning: At What Cost? (Rubik-Scaling)</h2>
+<ul>
+<li>Link: <a href="https://arxiv.org/abs/2609.36599">https://arxiv.org/abs/2609.36599</a></li>
+<li>Type: theory</li>
+<li>Why important: A controlled study of a 2×2×2 cube turned through nine moves with only three faces visible, training video DiTs from 20M to 1B parameters from scratch. Training loss falls smoothly while reasoning accuracy jumps late. After 1.5M videos, the 1B model has lower MSE than the 70M model, yet its frame accuracy is 3.67% versus 41.00%.</li>
+<li>Role in this topic: Separates looking right from tracking the right hidden state. A 2.8M-parameter model that predicts the state symbolically solves the task, and feeding the state back to the video model raises accuracy from 31.1% to 67.3%.</li>
+<li>Main limitation: One synthetic task with a fixed camera.</li>
+<li>Discussion question: Do loss and FVD tell us anything about whether the hidden state is correct?</li>
+</ul>
+<h2>Full paper list</h2>
+<ol>
+<li>Veo3-ZS — <a href="https://arxiv.org/abs/2509.20328">https://arxiv.org/abs/2509.20328</a></li>
+<li>VChain: Chain-of-Visual-Thought for Reasoning in Video Generation — <a href="https://arxiv.org/abs/2510.05094">https://arxiv.org/abs/2510.05094</a></li>
+<li>Are Video Models Ready as Zero-Shot Reasoners? (MME-CoF) — <a href="https://arxiv.org/abs/2510.26802">https://arxiv.org/abs/2510.26802</a></li>
+<li>Thinking with Video — <a href="https://arxiv.org/abs/2511.04570">https://arxiv.org/abs/2511.04570</a></li>
+<li>TiViBench: Benchmarking Think-in-Video Reasoning for Video Generative Models — <a href="https://arxiv.org/abs/2511.13704">https://arxiv.org/abs/2511.13704</a></li>
+<li>Can World Simulators Reason? Gen-ViRe — <a href="https://arxiv.org/abs/2511.13853">https://arxiv.org/abs/2511.13853</a></li>
+<li>Reasoning via Video (VR-Bench) — <a href="https://arxiv.org/abs/2511.15065">https://arxiv.org/abs/2511.15065</a></li>
+<li>V-ReasonBench — <a href="https://arxiv.org/abs/2511.16668">https://arxiv.org/abs/2511.16668</a></li>
+<li>RULER-Bench — <a href="https://arxiv.org/abs/2512.02622">https://arxiv.org/abs/2512.02622</a></li>
+<li>Video Models Start to Solve Chess, Maze, Sudoku, Mental Rotation, and Raven&#x27;s Matrices (VMEvalKit) — <a href="https://arxiv.org/abs/2512.05969">https://arxiv.org/abs/2512.05969</a></li>
+<li>MMGR: Multi-Modal Generative Reasoning Benchmark and Evaluation — <a href="https://arxiv.org/abs/2512.14691">https://arxiv.org/abs/2512.14691</a></li>
+<li>Beyond the Last Frame (VIPER) — <a href="https://arxiv.org/abs/2512.24952">https://arxiv.org/abs/2512.24952</a></li>
+<li>A Very Big Video Reasoning Suite (VBVR) — <a href="https://arxiv.org/abs/2602.20159">https://arxiv.org/abs/2602.20159</a></li>
+<li>Demystifying Video Reasoning — <a href="https://arxiv.org/abs/2603.16870">https://arxiv.org/abs/2603.16870</a></li>
+<li>MME-CoF-Pro — <a href="https://arxiv.org/abs/2603.20194">https://arxiv.org/abs/2603.20194</a></li>
+<li>Video Models Reason Early: Exploiting Plan Commitment for Maze Solving (ChEaP) — <a href="https://arxiv.org/abs/2603.30043">https://arxiv.org/abs/2603.30043</a></li>
+<li>How Far Are Video Models from True Multimodal Reasoning? (CLVG-Bench) — <a href="https://arxiv.org/abs/2604.19193">https://arxiv.org/abs/2604.19193</a></li>
+<li>CollabVR — <a href="https://arxiv.org/abs/2605.08735">https://arxiv.org/abs/2605.08735</a></li>
+<li>VLMs are Good Teachers for Video Reasoning via Adaptive Test-Time Optimization (VLM-as-Teacher) — <a href="https://arxiv.org/abs/2606.02564">https://arxiv.org/abs/2606.02564</a></li>
+<li>OpenCoF: Learning to Reason Through Video Generation — <a href="https://arxiv.org/abs/2607.08763">https://arxiv.org/abs/2607.08763</a></li>
+<li>Hierarchical Denoising For Multi-Step Visual Reasoning (HDR) — <a href="https://arxiv.org/abs/2607.15278">https://arxiv.org/abs/2607.15278</a></li>
+<li>Visual prompt engineering for video models (VIPE) — <a href="https://arxiv.org/abs/2607.25537">https://arxiv.org/abs/2607.25537</a></li>
+<li>VGI-Bench — <a href="https://arxiv.org/abs/2608.19583">https://arxiv.org/abs/2608.19583</a></li>
+<li>VBVR-Pro: A Scalable and Verifiable Suite for Native Visual Reasoning — <a href="https://arxiv.org/abs/2608.26105">https://arxiv.org/abs/2608.26105</a></li>
+<li>Training Object Permanence in World Models (WROP) — <a href="https://arxiv.org/abs/2609.28654">https://arxiv.org/abs/2609.28654</a></li>
+<li>Scaling Video Generation for Reasoning: At What Cost? (Rubik-Scaling) — <a href="https://arxiv.org/abs/2609.36599">https://arxiv.org/abs/2609.36599</a></li>
+</ol></article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Reasoning: One Year of Debate in 26 Papers · Topic Summary</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation">
+      <a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a>
+    </nav>
+  </div></header>
+  <main>
+    <header class="page-header">
+      <p class="eyebrow">2026-10-12 · Yichang Jian</p>
+      <h1>Video Reasoning: One Year of Debate in 26 Papers</h1>
+      <p class="lede">Video models can draw convincing solutions to mazes and puzzles, but a year of papers shows that much of the reasoning comes from language, scores depend on how the process is judged, and the hidden state is the hard part to learn.</p>
+      <div class="actions"><a class="button" href="presentation.html">Open full presentation</a></div>
+    </header>
+    <article class="prose">
+      <h2>Topic overview</h2>
+      <p>Video reasoning gives a video generation model a first frame and a text instruction, such as a maze with "move the red dot to the green goal", and asks it to draw the solution. Unlike most video generation tasks, the result can be checked objectively. This summary covers 26 papers from 2025-09 to 2026-09, read in publication order.</p>
+
+      <h2>Why now?</h2>
+      <p>In 2025-09, Veo3-ZS claimed that Veo 3 solves such tasks zero-shot. Within three months a dozen benchmarks tested that claim, often reaching opposite conclusions in the same month. In 2026 the first million-scale training set (VBVR) appeared, followed by mechanism studies, VLM-assisted methods and, by 2026-09, stricter benchmarks and controlled scaling studies.</p>
+
+      <h2>Background</h2>
+      <ul>
+        <li><strong>Chain-of-frames vs chain-of-steps:</strong> does the answer emerge across frames in time, or across denoising steps of the whole clip?</li>
+        <li><strong>Outcome vs process evaluation:</strong> checking only the final frame, or requiring every intermediate step to obey the rules.</li>
+        <li><strong>Prompt rewriters:</strong> closed video APIs often expand the user's prompt with a language model before generation, which can write the answer into the prompt.</li>
+        <li><strong>VLM judges vs rule-based checkers:</strong> who decides whether a generated video is correct.</li>
+      </ul>
+
+      <h2>Method landscape</h2>
+      <ul>
+        <li><strong>2025-09 to 2025-11, claims and first cracks (papers 1–8):</strong> zero-shot demonstrations, benchmarks, and the discovery that reaching the goal is different from taking a legal path.</li>
+        <li><strong>2025-12, opposite conclusions (papers 9–12):</strong> VMEvalKit and MMGR disagree in the same month; VIPER introduces process-aware judging.</li>
+        <li><strong>2026-02 to 2026-04, data and mechanism (papers 13–17):</strong> VBVR's training set, chain-of-steps (Demystifying), early plan commitment (ChEaP), multi-turn failures (CLVG-Bench).</li>
+        <li><strong>2026-05 to 2026-07, methods (papers 18–22):</strong> VLM planning (CollabVR), VLM rewards (VLM-as-Teacher), reasoning tokens (OpenCoF), hierarchical denoising (HDR), realistic input images (VIPE).</li>
+        <li><strong>2026-08 to 2026-09, recalibration (papers 23–26):</strong> realistic strict tasks (VGI-Bench), rule-based judging (VBVR-Pro), object permanence (WROP), controlled scaling (Rubik-Scaling).</li>
+      </ul>
+
+      <h2>Idea map</h2>
+      <p>The deck closes with four questions and the current evidence for each:</p>
+      <ul>
+        <li><strong>Who does the reasoning?</strong> Many gains come from language models. Turning off Wan 2.5's rewriter drops GSM8K from 78.4 to 0 (Thinking with Video); VLM planning raises VBVR-Bench from 0.671 to 0.757 (CollabVR); a VLM reward adds 0.115 over the 0.666 baseline (VLM-as-Teacher).</li>
+        <li><strong>What counts as correct?</strong> Outcome-only success is 2.0–4.3 times process success (VIPER); VLM judges change 54.6–92.8% of scores when re-run at temperature 0 (VBVR-Pro); the best strict zero-shot scores are 5.6% (VR-Bench), 23.3% (VIPER) and 14% (VGI-Bench).</li>
+        <li><strong>Where does reasoning happen?</strong> On denoising steps. Noising all frames at one step drops the score from 0.685 to below 0.3 (Demystifying); by step 5 the predicted trajectory already agrees 93% with the final one on 4×4 mazes (ChEaP); wrong-to-right switches mid-denoising happen in 2 of 702 cases (VGI-Bench).</li>
+        <li><strong>Can it be taught?</strong> Synthetic data helps but stops improving after about 200K samples (VBVR), and helps less the further a task is from training (+40.5 vs +6.2, VGI-Bench). A realistic first frame raises Veo 3.1 from 41.3% to 59.3% (VIPE). Looking right is learned long before tracking the right state (Rubik-Scaling).</li>
+      </ul>
+      <p>The source for the graph version is <code>idea-map.md</code> in this entry.</p>
+
+      <h2>Core technical ideas</h2>
+      <p>Three ideas recur. First, separate the outcome from the process, and score the process with rules where possible. Second, the plan forms early in denoising, so selection or verification can act on early predictions instead of finished videos (ChEaP's seed screening and relay raise long-maze success from 7% to 67%). Third, keep the hidden state explicit: hierarchical coarse-to-fine denoising lets a streaming model match a bidirectional one (HDR, 60.3% vs 60.0%), and feeding the cube state back to the video model raises accuracy from 31.1% to 67.3% (Rubik-Scaling).</p>
+
+      <h2>Failure cases</h2>
+      <ul>
+        <li>Paths that cut through walls but stop at the goal; zero-shot video models reach the maze goal up to 83% of the time but follow the exact shortest path at most 5.6% (VR-Bench).</li>
+        <li>Multi-turn generation: under 10% success in the first round and complete failure from the second round on (CLVG-Bench).</li>
+        <li>State drift at the end of long sequences: walls disappear and colours merge in the final frames (HDR).</li>
+        <li>Objects reappear from nowhere, the wrong cup is lifted, or a ball passes through a hole half its size (WROP).</li>
+        <li>The model with the best visual quality reasons worst (MME-CoF-Pro, Kling).</li>
+      </ul>
+
+      <h2>Connections to our research</h2>
+      <p>CollabVR's plan-render-check loop is close to storyboard planning in multi-shot generation. HDR's streaming results connect to autoregressive and long video generation. WROP and VIPE connect to physics-consistent generation. In WROP, edit models occupy most of the middle of the leaderboard, which matters for video editing. The evaluation questions continue the earlier discussion <a href="../2026-08-10-yichang-video-generation-benchmark/">From Video Scores to World Consistency</a>.</p>
+
+      <h2>Research-quality prompts</h2>
+      <div class="callout"><strong>Central claim:</strong> Much of the measured progress comes from language channels (rewriters, planners, reward questions) and from lenient outcome-only scoring; under strict process checks, the best zero-shot video models stay between about 5% and 25%.</div>
+      <div class="callout"><strong>Hidden assumption:</strong> Most papers assume the score measures the video backbone. Closed APIs rewrite prompts, VLM planners and judges inject or decide answers, and 13 of the 26 papers used closed APIs without mentioning the built-in rewriter.</div>
+      <div class="callout"><strong>Failure boundary:</strong> Methods fail when the task requires tracking hidden state over many steps (long mazes, multi-turn edits, occlusion, cube faces out of view), and when inputs move away from the synthetic training distribution.</div>
+      <div class="callout"><strong>Connection:</strong> The same hidden-state question appears in long video, multi-shot and world-model work: does the model keep the state, or only keep the appearance?</div>
+      <div class="callout"><strong>Concrete experiment:</strong> On one task set with rule-based scoring, compare three systems with the same language model: the language model answers directly; it writes a program that a deterministic renderer draws; and the video-plus-language system. No paper reports these two baselines.</div>
+      <div class="callout"><strong>Discussion seed:</strong> Is "video reasoning" a property of the video model, or of the whole system around it?</div>
+
+      <h2>Open questions</h2>
+      <ol>
+        <li>Does video plus language beat language alone on any task family, under the same checker?</li>
+        <li>Which reporting rules should be mandatory: rewriter state, exact prompt, judge model and temperature?</li>
+        <li>If the plan is fixed within the first few denoising steps, where should search, verification and training signals act?</li>
+        <li>Why do synthetic-data gains saturate around 200K samples: limited task diversity, or limited model capacity?</li>
+        <li>Can loss, FVD or other training signals predict whether the hidden state is correct?</li>
+        <li>Why does a realistic first frame help so much, and does it transfer beyond physics-style tasks?</li>
+      </ol>
+
+      <h2>Possible projects</h2>
+      <p>A small diagnostic benchmark that keeps the task fixed and varies only the channel that carries the answer (rewriter on or off, plan given or not, state given or not), scored by rules. A second direction: early-step verification for long-horizon generation, building on the finding that plans commit early.</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Discussion overview</a></div></footer>
+</body>
+</html>
