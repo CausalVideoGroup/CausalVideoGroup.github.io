@@ -1,0 +1,53 @@
+title: "Video Reasoning: One Year of Debate in 26 Papers"
+date: 2026-10-12
+topic_slug: video-reasoning
+leader:
+  name: "Yichang Jian"
+  short_name: yichang
+status: before-meeting
+summary: >-
+  A chronological walk through 26 video-reasoning papers (2025-09 to 2026-09),
+  organized around four contested questions: who does the reasoning, what counts
+  as correct, where the reasoning happens, and whether it can be taught.
+tags:
+  - video-generation
+  - video-reasoning
+  - benchmark
+  - evaluation
+  - world-model
+related_projects: []
+papers:
+  - title: "Video models are zero-shot learners and reasoners (Veo3-ZS)"
+    url: https://arxiv.org/abs/2509.20328
+    role: problem
+    note: Opens the topic by showing Veo 3 solving mazes and puzzles from a first frame and a text instruction.
+  - title: "Thinking with Video: Video Generation as a Promising Multimodal Reasoning Paradigm"
+    url: https://arxiv.org/abs/2511.04570
+    role: benchmark
+    note: Shows that turning off Wan 2.5's prompt rewriter drops GSM8K accuracy from 78.4 to 0.
+  - title: "Beyond the Last Frame: Process-aware Evaluation for Generative Video Reasoning (VIPER)"
+    url: https://arxiv.org/abs/2512.24952
+    role: benchmark
+    note: Re-judges the same videos on the whole process; outcome-only success is 2.0-4.3 times higher.
+  - title: "A Very Big Video Reasoning Suite (VBVR)"
+    url: https://arxiv.org/abs/2602.20159
+    role: benchmark
+    note: First million-scale training set; fine-tuning gains plateau after about 200K samples.
+  - title: "Demystifying Video Reasoning"
+    url: https://arxiv.org/abs/2603.16870
+    role: theory
+    note: Argues that reasoning unfolds along denoising steps (chain-of-steps), not frames.
+  - title: "CollabVR: Collaborative Video Reasoning with Vision-Language and Video Generation Models"
+    url: https://arxiv.org/abs/2605.08735
+    role: method
+    note: A VLM plans and checks each step while the video model renders; VBVR-Bench 0.671 to 0.757.
+  - title: "VGI-Bench: Probing Visual Intelligence in Video Generation Models"
+    url: https://arxiv.org/abs/2608.19583
+    role: benchmark
+    note: Realistic inputs and full-process checks; the best model is fully correct on 14% versus 97.1% for humans.
+  - title: "Scaling Video Generation for Reasoning: At What Cost? (Rubik-Scaling)"
+    url: https://arxiv.org/abs/2609.36599
+    role: theory
+    note: Controlled scaling study where visual fidelity is learned early but correct hidden state is learned late.
+external_videos: []
+slides: presentation.html
