@@ -1,4 +1,4 @@
-# Video Reasoning — References
+# Key References
 
 The deck covers 26 papers in publication order. The eight below carry the main arguments; the full list follows. All numbers are taken from the papers and are shown with their charts in the presentation.
 
