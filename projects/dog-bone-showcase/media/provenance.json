@@ -1,0 +1,162 @@
+{
+  "author": "Peiyuan Zhu",
+  "shared_gemini_instruction": "Make the dog pick up the bone already visible in the video with its mouth.",
+  "instruction_confirmed": "2026-10-17",
+  "gemini_august_alternate": "gemini-p1 is a higher-resolution copy of the August result",
+  "videos": [
+    {
+      "file": "media/source.mp4",
+      "sha256": "28b240f988d13e751cb670b81bd2459e0886fa626513eca5f6575ab4316afea6",
+      "original_sha256": "5ed911f66fea3ed2000f507412da75adecb8099b26b71089d0fd2c0ac2982b18",
+      "web_preview_reencoded": true,
+      "width": 704,
+      "height": 736,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/motion-anchor.mp4",
+      "sha256": "5c74ac3c74b4773300d9147c9f9f615956f0b8ddbb2383f8128b2f1d59aa52d7",
+      "original_sha256": "5c74ac3c74b4773300d9147c9f9f615956f0b8ddbb2383f8128b2f1d59aa52d7",
+      "web_preview_reencoded": false,
+      "width": 928,
+      "height": 976,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/archived-source.mp4",
+      "sha256": "20d8f930e5f6ba402df2036f4ad7fa3f129134096a163d07fe0ba1dcbc6992b6",
+      "original_sha256": "20d8f930e5f6ba402df2036f4ad7fa3f129134096a163d07fe0ba1dcbc6992b6",
+      "web_preview_reencoded": false,
+      "width": 832,
+      "height": 480,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/archived-target.mp4",
+      "sha256": "08b8c6e390aa9331e5a0e9bb1d738941266d534befb3e4bf84cd9690f4dca3ea",
+      "original_sha256": "08b8c6e390aa9331e5a0e9bb1d738941266d534befb3e4bf84cd9690f4dca3ea",
+      "web_preview_reencoded": false,
+      "width": 832,
+      "height": 480,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/lucy-edit.mp4",
+      "sha256": "cda890c8d6e3e2642277d2ecbe7287ef909f95d20d590e9119412f1c520e0f43",
+      "original_sha256": "cda890c8d6e3e2642277d2ecbe7287ef909f95d20d590e9119412f1c520e0f43",
+      "web_preview_reencoded": false,
+      "width": 832,
+      "height": 480,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/gemini-p1.mp4",
+      "sha256": "5541377774487a99d40adbc56381d76fb558f8d0ae0ff6de564b5e6823de4e93",
+      "original_sha256": "5541377774487a99d40adbc56381d76fb558f8d0ae0ff6de564b5e6823de4e93",
+      "web_preview_reencoded": false,
+      "width": 1280,
+      "height": 720,
+      "r_frame_rate": "24/1",
+      "nb_frames": "80"
+    },
+    {
+      "file": "media/gemini-additional.mp4",
+      "sha256": "0c3c03a5cfb49e100096640accb4441ccc92a854917b7dded81a3ac17fb80154",
+      "original_sha256": "0c3c03a5cfb49e100096640accb4441ccc92a854917b7dded81a3ac17fb80154",
+      "web_preview_reencoded": false,
+      "width": 640,
+      "height": 368,
+      "r_frame_rate": "24/1",
+      "nb_frames": "80"
+    },
+    {
+      "file": "media/gemini-october.mp4",
+      "sha256": "0473a3423f55f87a615077e1e8800dd42ebee7304f14c37c68b0f3ba423d0698",
+      "original_sha256": "0473a3423f55f87a615077e1e8800dd42ebee7304f14c37c68b0f3ba423d0698",
+      "web_preview_reencoded": false,
+      "width": 1280,
+      "height": 720,
+      "r_frame_rate": "24/1",
+      "nb_frames": "80"
+    },
+    {
+      "file": "media/p0-base.mp4",
+      "sha256": "b24ae5a82a70b568923a68c66b5175c7b9a0e04fa3bae8682166a76bb161c18e",
+      "original_sha256": "b24ae5a82a70b568923a68c66b5175c7b9a0e04fa3bae8682166a76bb161c18e",
+      "web_preview_reencoded": false,
+      "width": 480,
+      "height": 496,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/p0-adapter.mp4",
+      "sha256": "93e332066c45e2f91ca5be30f90cadb04d4ad58956478ae9fb8f88537e0b6626",
+      "original_sha256": "93e332066c45e2f91ca5be30f90cadb04d4ad58956478ae9fb8f88537e0b6626",
+      "web_preview_reencoded": false,
+      "width": 480,
+      "height": 496,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/p1-base.mp4",
+      "sha256": "7072088560364a5f3be52eb9a2f49c4a6dae0ac2bc571b1718108e2dcacd4f76",
+      "original_sha256": "7072088560364a5f3be52eb9a2f49c4a6dae0ac2bc571b1718108e2dcacd4f76",
+      "web_preview_reencoded": false,
+      "width": 480,
+      "height": 496,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/p1-adapter.mp4",
+      "sha256": "36b1e0bf5c52244380b7a13a654e6234280b72bd3a2f84b64ee8df24c0b153b8",
+      "original_sha256": "36b1e0bf5c52244380b7a13a654e6234280b72bd3a2f84b64ee8df24c0b153b8",
+      "web_preview_reencoded": false,
+      "width": 480,
+      "height": 496,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/p2-base.mp4",
+      "sha256": "87441d85c4cfb4ea9cb84bec89b62d93621d4bceeae374a6be5c9e1e0fa3fe64",
+      "original_sha256": "87441d85c4cfb4ea9cb84bec89b62d93621d4bceeae374a6be5c9e1e0fa3fe64",
+      "web_preview_reencoded": false,
+      "width": 480,
+      "height": 496,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    },
+    {
+      "file": "media/p2-adapter.mp4",
+      "sha256": "e57ddf0d86299aa4efc39f873a563204763f6a8486cf8b84f8b14488e0e385d9",
+      "original_sha256": "e57ddf0d86299aa4efc39f873a563204763f6a8486cf8b84f8b14488e0e385d9",
+      "web_preview_reencoded": false,
+      "width": 480,
+      "height": 496,
+      "r_frame_rate": "25/1",
+      "nb_frames": "81"
+    }
+  ],
+  "prompt_instructions": [
+    {
+      "prompt": "P0",
+      "instruction": "Make the dog pick up the bone and hold it in its mouth."
+    },
+    {
+      "prompt": "P1",
+      "instruction": "Make the dog pick up the bone already visible in the video with its mouth."
+    },
+    {
+      "prompt": "P2",
+      "instruction": "Make the dog pick up the same single bone already visible on the ground in the source video with its mouth, and keep holding that same bone. Do not add, replace, duplicate, or recolor the bone."
+    }
+  ]
+}

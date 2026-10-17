@@ -1,0 +1,14 @@
+title: "Dog–Bone Interaction Showcase"
+slug: dog-bone-showcase
+status: published
+summary: "An interactive showcase of dog–bone video editing: three prompt variants, LucyEdit, and August–October Gemini results with synchronized playback."
+leaders:
+  - name: Peiyuan Zhu
+    short_name: peiyuan
+    github: SoftPointer
+tags:
+  - showcase
+  - video-editing
+  - action-editing
+links:
+  demo: https://causalvideogroup.github.io/projects/dog-bone-showcase/
