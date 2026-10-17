@@ -1,0 +1,46 @@
+{
+  "category": "Motion Semantic",
+  "created_at_utc": "2026-09-14T19:42:03Z",
+  "edited_video_sha256": "3dbb96889496be16482f84a759a34a4e38e39dbde4a376b4424054efd06ea740",
+  "editing_instruction": "Make the man laugh happily.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "0329899b19a0300bc281bd54a128d9314004f9ffe4eadff295b2fee6ed5195aa",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 25,
+  "item_id": "Te_Facial_expression_change_06",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 4,
+    "preservation": 3,
+    "realism": 4,
+    "reason": "The instruction was to make the man laugh happily, but the edited video shows no change in expression—his face remains neutral or slightly pensive, with no signs of laughter (e.g., raised cheeks, crinkled eyes, open mouth). The edit fails to alter the intended emotion. Background and lighting are preserved reasonably well, and motion is smooth, but the core instruction is not followed, so accuracy is 0."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 3,\n    \"realism\": 4,\n    \"consistency\": 4,\n    \"reason\": \"The instruction was to make the man laugh happily, but the edited video shows no change in expression—his face remains neutral or slightly pensive, with no signs of laughter (e.g., raised cheeks, crinkled eyes, open mouth). The edit fails to alter the intended emotion. Background and lighting are preserved reasonably well, and motion is smooth, but the core instruction is not followed, so accuracy is 0.\"\n}",
+  "receipt_digest": "f7804f976165fc8971733504287e95fc0b048863047a17bc3fc80e000b7b29f7",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 4.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 3.0,
+    "realism": 4.0,
+    "reason": "The instruction was to make the man laugh happily, but the edited video shows no change in expression—his face remains neutral or slightly pensive, with no signs of laughter (e.g., raised cheeks, crinkled eyes, open mouth). The edit fails to alter the intended emotion. Background and lighting are preserved reasonably well, and motion is smooth, but the core instruction is not followed, so accuracy is 0."
+  },
+  "source_video_sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+  "subcategory": "Facial_expression_change"
+}

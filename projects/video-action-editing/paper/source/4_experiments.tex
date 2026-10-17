@@ -1,0 +1,122 @@
+\section{Experiments}
+\label{sec:experiments}
+We evaluate whether demonstrations transfer dynamics without appearance on
+synthetic videos (Section~\ref{subsec:synthetic-experiments}) and compare
+action editing with open editors on real videos
+(Section~\ref{subsec:real-experiments}).
+
+\begin{figure}[t]
+ \centering
+ \includegraphics[width=\linewidth]{synthetic_qualitative.pdf}
+ \caption{Qualitative results on synthetic videos: source, reference
+ demonstration with different block colors, and our output at frames 0,
+ 27, 53, and 80. Left: a forward push edited into a rightward push. Right:
+ a forward-left push edited into a back-right push. Arrows mark the initial
+ direction of block motion.}
+ \label{fig:synthetic-qualitative}
+\end{figure}
+
+\subsection{Experimental setup}
+\label{subsec:experimental-setup}
+
+Synthetic clips show an actor box pushing a patient box in one of eight
+directions, simulated with MuJoCo~\citep{todorov2012mujoco}; each motion
+is rendered in two block appearances, giving the views of
+Eq.~\ref{eq:controlled-anchor-views} (Appendix~\ref{subsec:synthetic-dataset}).
+Real-world training uses 1,508 source--target pairs from VADD-Dataset
+(Appendix~\ref{subsec:real-dataset}), each formed by two consecutive events
+of a stock video and an instruction describing the target event, with
+demonstrations mixing real targets and offline-generated references at 3:1
+(Appendix~\ref{subsec:impl-configuration}). We evaluate on the 200 cases of
+the OmniEdit-Bench Temporal track~\citep{miao2026omnieditbench}, whose
+accuracy-gated score combines judged instruction accuracy, preservation,
+realism, and consistency (Appendix~\ref{subsec:omni-evaluation}). We compare
+with six open instruction-guided editors of 1.3B--5B parameters
+(Appendix~\ref{sec:baselines}): VACE~\citep{jiang2025vace},
+ReCo~\citep{zhang2026reco}, OmniVideo2~\citep{yang2026omnivideo2},
+Kiwi-Edit~\citep{lin2026kiwiedit}, LiveEdit~\citep{wang2026liveedit}, and
+Bernini~\citep{bernini2026planning}, whose public 1.3B renderer we run
+frozen and use as VADD's backbone. All methods receive only the source video
+and instruction; Lucy Edit~\citep{decart2025lucyedit}, an appearance editor,
+appears only in Figure~\ref{fig:real-qualitative}. As a reference, Direct-FM
+trains the same adapters on the same pairs by flow
+matching~\citep{lipman2023flowmatching} toward the real targets, without
+an action condition. At inference, Qwen3-VL~\citep{bai2025qwen3vl} rewrites
+each source video and instruction as a text-to-video prompt; the frozen
+backbone generates a demonstration from it, whose action anchor conditions
+the edit, so no real target is read.
+
+\subsection{Action transfer on synthetic videos}
+\label{subsec:synthetic-experiments}
+Synthetic videos isolate the recombination in
+Eq.~\ref{eq:dgp-counterfactual}: a condition carrying the demonstration's
+appearance would recolor the source blocks, and an editor ignoring the
+demonstration would keep the source push. In
+Figure~\ref{fig:synthetic-qualitative}, the outputs follow the demonstrated
+trajectories, including the initial approach and later turn on the right,
+while keeping the source colors. Because the action block includes the
+initial state, the initial placement also follows the demonstration. Blur
+around the fast-moving actor (left, frames 27 and 53) remains.
+
+\subsection{Action editing on real-world videos}
+\label{subsec:real-experiments}
+
+\begin{figure}[tp]
+ \centering
+ \includegraphics[width=\linewidth]{real_qualitative.pdf}
+ \caption{Qualitative comparison on real videos.
+ Left: a woman typing is edited to stretch her back in pain.
+ Right: a mother watching her daughter draw is edited to help her draw.
+ Rows show frames 0, 40, and 80 of each 81-frame output; baselines are
+ ordered by release date.}
+ \label{fig:real-qualitative}
+
+ \vspace{1.5em}
+ \captionof{table}{\textbf{Results on OmniEdit-Bench Temporal.}
+ Accuracy-gated scores (0--100, higher is better;
+ Appendix~\ref{subsec:omni-evaluation}); parentheses give case counts, and
+ Action averages the non-camera cases. Bernini is VADD's frozen backbone.
+ Direct-FM (gray) is trained toward paired real targets and not ranked.
+ \textbf{Bold}: best; \underline{underlined}: second best.}
+ \label{tab:omni-temporal}
+ \small
+ \newcommand{\g}[1]{\textcolor{gray}{#1}}
+ \newcommand{\hc}[1]{\begin{tabular}[c]{@{}c@{}}#1\end{tabular}}
+ \begin{tabular*}{0.88\linewidth}{@{\extracolsep{\fill}}lcccccc@{}}
+  \toprule
+  Method & \hc{Motion\\Semantic} & \hc{Motion\\Attribute}
+  & \hc{Temporal\\Composition} & Action & \hc{Camera\\Attribute} & All \\
+  & (30) & (50) & (70) & (150) & (50) & (200) \\
+  \midrule
+  VACE & 6.80 & 7.54 & 11.48 & 9.23 & 8.00 & 8.92 \\
+  ReCo & 5.59 & 3.14 & 6.46 & 5.18 & 16.43 & 7.99 \\
+  OmniVideo2 & \underline{32.58} & 13.15 & 12.64 & 16.80 & 14.77 & 16.29 \\
+  Kiwi-Edit & 29.31 & \underline{21.70} & \textbf{19.31} & \underline{22.11} & 15.39 & 20.43 \\
+  LiveEdit & 18.80 & 13.92 & 10.79 & 13.44 & 7.32 & 11.91 \\
+  Bernini & 31.36 & 21.54 & 13.46 & 19.73 & \underline{42.99} & \underline{25.55} \\
+  \midrule
+  VADD (ours) & \textbf{34.93} & \textbf{24.96} & \underline{17.64} & \textbf{23.54} & \textbf{46.16} & \textbf{29.19} \\
+  \g{Direct-FM} & \g{38.23} & \g{14.56} & \g{15.85} & \g{19.90} & \g{25.82} & \g{21.38} \\
+  \bottomrule
+ \end{tabular*}
+\end{figure}
+
+VADD achieves the best Action and All scores in
+Table~\ref{tab:omni-temporal} and improves every category over its frozen
+backbone. Both share the backbone, sampler, and inputs, and VADD's
+demonstrations come from the same frozen model, so the gain comes from the
+learned action condition rather than a stronger generator or an external
+reference. Direct-FM, trained on the same pairs, gains on motion semantics
+but falls below the backbone on attribute and camera edits: fitting
+consecutive-event targets favors changing the action category. Supervising
+behavior through extracted action anchors avoids this trade-off and yields
+a higher overall score. Temporal Composition remains hard for all methods,
+since a single demonstration may not specify inserted, deleted, or
+reordered events.
+
+In Figure~\ref{fig:real-qualitative}, baselines keep the typing motion,
+alter appearance (LiveEdit, OmniVideo2), or change the viewpoint (Bernini),
+whereas VADD stops the typing and places the woman's hands on her lower
+back while preserving the scene; it likewise makes the mother lean in to
+help her daughter draw. Appendix~\ref{sec:additional-qualitative} shows
+more cases.

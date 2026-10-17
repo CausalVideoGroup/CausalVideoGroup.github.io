@@ -1,0 +1,66 @@
+{
+  "status": "complete",
+  "case_id": "10af6c651dbc",
+  "model": "Fudan-FUXI/OmniVideo2-A14B",
+  "revision": "51160486a5498cce099bde02cbf232cd046ab4a9",
+  "arm": "t2v",
+  "caption": "The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water. A small, translucent jellyfish with white spots is surrounded by deep blue water. The underwater camera is stationary.",
+  "caption_sha256": "790782c54c3fea6d88d28f9129501ef060ebc863cd6ead101f7a12563d43e383",
+  "actual_t5_text": "The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water. A small, translucent jellyfish with white spots is surrounded by deep blue water. The underwater camera is stationary.",
+  "prompt_rewriting": false,
+  "qwen_features": {
+    "case_id": "10af6c651dbc",
+    "arm": "t2v",
+    "caption": "The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water. A small, translucent jellyfish with white spots is surrounded by deep blue water. The underwater camera is stationary.",
+    "caption_sha256": "790782c54c3fea6d88d28f9129501ef060ebc863cd6ead101f7a12563d43e383",
+    "source_video_path": null,
+    "source_sha256": null,
+    "rewriting_enabled": false,
+    "autoregressive_generate_forbidden": true,
+    "qwen_checkpoint": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/marp_omnivideo2_maskfree/models/Qwen3-VL-30B-A3B-Instruct",
+    "feature_shape": [
+      47,
+      2048
+    ],
+    "feature_sha256": "b1d9193dbd160064ceb99196242d2707a2f74e510993302982dac03e6b713c01"
+  },
+  "t5_text_inputs": [
+    "The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water. A small, translucent jellyfish with white spots is surrounded by deep blue water. The underwater camera is stationary.",
+    "overly vivid colors, overexposed, static, blurry and unclear details, subtitles, text overlays, stylized artwork, painting, illustration, still image, frozen frame, grayish overall tone, worst quality, low quality, JPEG compression artifacts, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn face, deformed, disfigured, malformed anatomy, distorted limbs, fused fingers, motionless frame, cluttered background, three legs, walking backward, expression drift, teeth flickering, uneven facial muscles, facial shivering"
+  ],
+  "positive_t5_context_copies": 1,
+  "seed": 2026081910,
+  "steps": 40,
+  "fps": 25,
+  "source_video": null,
+  "source_sha256": null,
+  "real_target_used": false,
+  "visual_latent_shape": null,
+  "expert_parameters": [
+    14319177792,
+    14319177792
+  ],
+  "expert_forward_counts": [
+    34,
+    46
+  ],
+  "strict_checkpoint_load": true,
+  "max_context_length": 9216,
+  "context_truncation": false,
+  "output": {
+    "sha256": "1d1edd0eef41ff1fcde1a1bd662fdb47694a3b9ed60e458e83e842af441f9eb6",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 480,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T20:18:02.505227+00:00",
+  "elapsed_seconds": 608.46,
+  "job": "214721",
+  "hostname": "auh7-1b-gpu-312",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "c83cf03c774b3f29f430e9442d6667e5d7d26e7813a836379620c875e83b8295"
+}

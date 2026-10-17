@@ -1,0 +1,66 @@
+{
+  "status": "complete",
+  "case_id": "40712e1341dc",
+  "model": "Fudan-FUXI/OmniVideo2-A14B",
+  "revision": "51160486a5498cce099bde02cbf232cd046ab4a9",
+  "arm": "t2v",
+  "caption": "The man in bed puts his smartphone on the nightstand and turns over to go to sleep. He has dyed-blond hair, wears a pink tank top and a nose ring, and is in a dark bedroom with a nightstand beside the bed. The camera is stationary.",
+  "caption_sha256": "24857d19e619899acd653ea104c6a5b68b895cdd4b5cc3637df661f694521907",
+  "actual_t5_text": "The man in bed puts his smartphone on the nightstand and turns over to go to sleep. He has dyed-blond hair, wears a pink tank top and a nose ring, and is in a dark bedroom with a nightstand beside the bed. The camera is stationary.",
+  "prompt_rewriting": false,
+  "qwen_features": {
+    "case_id": "40712e1341dc",
+    "arm": "t2v",
+    "caption": "The man in bed puts his smartphone on the nightstand and turns over to go to sleep. He has dyed-blond hair, wears a pink tank top and a nose ring, and is in a dark bedroom with a nightstand beside the bed. The camera is stationary.",
+    "caption_sha256": "24857d19e619899acd653ea104c6a5b68b895cdd4b5cc3637df661f694521907",
+    "source_video_path": null,
+    "source_sha256": null,
+    "rewriting_enabled": false,
+    "autoregressive_generate_forbidden": true,
+    "qwen_checkpoint": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/marp_omnivideo2_maskfree/models/Qwen3-VL-30B-A3B-Instruct",
+    "feature_shape": [
+      61,
+      2048
+    ],
+    "feature_sha256": "f953db0ef97435bed85eb46eb0a25136e1775f7d4342e1a435a9ed189580145c"
+  },
+  "t5_text_inputs": [
+    "The man in bed puts his smartphone on the nightstand and turns over to go to sleep. He has dyed-blond hair, wears a pink tank top and a nose ring, and is in a dark bedroom with a nightstand beside the bed. The camera is stationary.",
+    "overly vivid colors, overexposed, static, blurry and unclear details, subtitles, text overlays, stylized artwork, painting, illustration, still image, frozen frame, grayish overall tone, worst quality, low quality, JPEG compression artifacts, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn face, deformed, disfigured, malformed anatomy, distorted limbs, fused fingers, motionless frame, cluttered background, three legs, walking backward, expression drift, teeth flickering, uneven facial muscles, facial shivering"
+  ],
+  "positive_t5_context_copies": 1,
+  "seed": 2026081911,
+  "steps": 40,
+  "fps": 25,
+  "source_video": null,
+  "source_sha256": null,
+  "real_target_used": false,
+  "visual_latent_shape": null,
+  "expert_parameters": [
+    14319177792,
+    14319177792
+  ],
+  "expert_forward_counts": [
+    34,
+    46
+  ],
+  "strict_checkpoint_load": true,
+  "max_context_length": 9216,
+  "context_truncation": false,
+  "output": {
+    "sha256": "9dafe547fd5b649dccbf097319e9f41141518721416a7a75534548dbf4f138e3",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 480,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T22:26:43.210982+00:00",
+  "elapsed_seconds": 958.87,
+  "job": "214756",
+  "hostname": "auh7-1b-gpu-210",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "c83cf03c774b3f29f430e9442d6667e5d7d26e7813a836379620c875e83b8295"
+}

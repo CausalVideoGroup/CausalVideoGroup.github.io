@@ -1,0 +1,230 @@
+[
+  {
+    "case_id": "fb7725c351ba",
+    "bernini_manifest_ordinal": 1,
+    "name": "提杠铃 · Barbell lift",
+    "seed": 2026081901,
+    "output_sha256": "82b32017b5b516a2f8670c3215e6eb49618526a503925d4db6a4c6a69f4a6504",
+    "job": {
+      "SLURM_JOB_ID": "213583",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 738.3,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/results/fb7725c351ba/omni.mp4",
+      "sha256": "82b32017b5b516a2f8670c3215e6eb49618526a503925d4db6a4c6a69f4a6504",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/work/fb7725c351ba/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "fe61c326e76624323df50625a90029722ea601b799d2c7e43de5436954b93d4c",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8482
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "3fadbe0c2961",
+    "bernini_manifest_ordinal": 2,
+    "name": "狗转头 · Dog head turn",
+    "seed": 2026081902,
+    "output_sha256": "9b27c380ead769e767542911ff95aff9e35a84ae3d2370b8fa515a0ed9082205",
+    "job": {
+      "SLURM_JOB_ID": "213583",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 618.31,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/results/3fadbe0c2961/omni.mp4",
+      "sha256": "9b27c380ead769e767542911ff95aff9e35a84ae3d2370b8fa515a0ed9082205",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/work/3fadbe0c2961/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "b6c773cc73ff0aaa67166e1658c1085dfb0f574c6430932447d19145ecb1a099",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8476
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "7077cfb160cf",
+    "bernini_manifest_ordinal": 4,
+    "name": "长椅上写字 · Write in notebook",
+    "seed": 2026081904,
+    "output_sha256": "8327af390caf24bd92892e17a1e880b87b38aba9a924f590c525e4d69f622a9b",
+    "job": {
+      "SLURM_JOB_ID": "213583",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 604.44,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/results/7077cfb160cf/omni.mp4",
+      "sha256": "8327af390caf24bd92892e17a1e880b87b38aba9a924f590c525e4d69f622a9b",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/work/7077cfb160cf/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "246bce3b6270fb3a4d2ec558e7bea9f391db8302ad83d24195b824301fd0ca41",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8509
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "7e488525099e",
+    "bernini_manifest_ordinal": 6,
+    "name": "转身倚车 · Turn and lean on car",
+    "seed": 2026081906,
+    "output_sha256": "f41bc5f1d9d9985661261e63c4e71f1f93d44abbe790679558d61dda1699a8cf",
+    "job": {
+      "SLURM_JOB_ID": "213600",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-293",
+    "elapsed_seconds": 807.52,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/results/7e488525099e/omni.mp4",
+      "sha256": "f41bc5f1d9d9985661261e63c4e71f1f93d44abbe790679558d61dda1699a8cf",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/work/7e488525099e/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "039f96436755d057c368fe24f0ee20dc08d61ccc08c480b13f706d53be9c4f81",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8558
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "d5221a1b69d5",
+    "bernini_manifest_ordinal": 7,
+    "name": "闭眼尝汤 · Taste from ladle",
+    "seed": 2026081907,
+    "output_sha256": "5b9ccfd890df3e3184349a417144b622c1de4494977316f456ab16b729b499c5",
+    "job": {
+      "SLURM_JOB_ID": "213600",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "4,5,6,7"
+    },
+    "hostname": "auh7-1b-gpu-293",
+    "elapsed_seconds": 807.29,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/results/d5221a1b69d5/omni.mp4",
+      "sha256": "5b9ccfd890df3e3184349a417144b622c1de4494977316f456ab16b729b499c5",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/work/d5221a1b69d5/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "3332249fe799a99e9b446401c28eafa0aac261062191a2d86640df99cc784108",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8441
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "40712e1341dc",
+    "bernini_manifest_ordinal": 11,
+    "name": "放下手机后翻身睡觉 · Put phone away and sleep",
+    "seed": 2026081911,
+    "output_sha256": "908d11c2d178f1d1e80ef642859448bb8a610d53986e2fedc113373a09824a7e",
+    "job": {
+      "SLURM_JOB_ID": "213600",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-293",
+    "elapsed_seconds": 587.36,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/results/40712e1341dc/omni.mp4",
+      "sha256": "908d11c2d178f1d1e80ef642859448bb8a610d53986e2fedc113373a09824a7e",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_extra_20260923_v1/work/40712e1341dc/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "c6896c37a4caee3a23f901db8892046a0360fd72da382200da1c3ad9091650f8",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8439
+      ],
+      "max_context_len": 9216
+    }
+  }
+]

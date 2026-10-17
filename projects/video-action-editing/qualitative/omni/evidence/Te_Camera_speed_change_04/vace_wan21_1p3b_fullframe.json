@@ -1,0 +1,46 @@
+{
+  "category": "Camera Attribute",
+  "created_at_utc": "2026-09-14T19:46:36Z",
+  "edited_video_sha256": "4f1a179eb4ae4737ffe1e7555b0ddd76413895f53090bc333900cf619a51452b",
+  "editing_instruction": "Accelerate the camera's movement speed.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "dd144add239638ebbc6a7f5dd0112fdc48e4b0eb193048b94cd97eecdeacb179",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 63,
+  "item_id": "Te_Camera_speed_change_04",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 3,
+    "preservation": 2,
+    "realism": 3,
+    "reason": "The instruction was to accelerate the camera's movement speed, but the edited video shows no noticeable change in camera motion speed compared to the original. The camera movement appears identical in timing and trajectory, indicating the edit failed to fulfill the core instruction. Additionally, there is a significant color grading change (warmer, more saturated tones) which is an unintended modification to unrelated content, violating preservation. While motion is smooth and consistent, the failure to accelerate the camera movement makes accuracy 0."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 2,\n    \"realism\": 3,\n    \"consistency\": 3,\n    \"reason\": \"The instruction was to accelerate the camera's movement speed, but the edited video shows no noticeable change in camera motion speed compared to the original. The camera movement appears identical in timing and trajectory, indicating the edit failed to fulfill the core instruction. Additionally, there is a significant color grading change (warmer, more saturated tones) which is an unintended modification to unrelated content, violating preservation. While motion is smooth and consistent, the failure to accelerate the camera movement makes accuracy 0.\"\n}",
+  "receipt_digest": "89b89a4995815d6747f0c84ba24fc2a5b006edcc2fd10da3cf925935f41bf600",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 3.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 2.0,
+    "realism": 3.0,
+    "reason": "The instruction was to accelerate the camera's movement speed, but the edited video shows no noticeable change in camera motion speed compared to the original. The camera movement appears identical in timing and trajectory, indicating the edit failed to fulfill the core instruction. Additionally, there is a significant color grading change (warmer, more saturated tones) which is an unintended modification to unrelated content, violating preservation. While motion is smooth and consistent, the failure to accelerate the camera movement makes accuracy 0."
+  },
+  "source_video_sha256": "0fddc8d23c7f6f5d55658de1ee5de4d588c20a78b6acf0344a7f467a5f6e6b84",
+  "subcategory": "Camera_speed_change"
+}

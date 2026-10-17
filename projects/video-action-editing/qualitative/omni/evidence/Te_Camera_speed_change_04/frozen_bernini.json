@@ -1,0 +1,46 @@
+{
+  "category": "Camera Attribute",
+  "created_at_utc": "2026-09-14T18:10:10Z",
+  "edited_video_sha256": "4da6ebd8b81e975b4cdf8f7532c3c36b84dc792958e72c4bdb3c77653c7a3392",
+  "editing_instruction": "Accelerate the camera's movement speed.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "35bd76d4ea58ddf315ea3630265a781fca041769aa67c81f839b44de7a7e9141",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 63,
+  "item_id": "Te_Camera_speed_change_04",
+  "parsed_judge_output": {
+    "accuracy": 5,
+    "consistency": 4,
+    "preservation": 3,
+    "realism": 4,
+    "reason": "The camera movement speed is significantly accelerated, as instructed, with smooth and continuous motion toward the skyscraper. The action is correctly executed. However, preservation is reduced due to noticeable changes in lighting, color grading, and sky details (e.g., clouds appear more dynamic and stylized) that were not part of the original video. Realism is high with natural motion, and consistency is good with no temporal drift or artifacts. The edit is visually enhanced but not strictly preserving original content."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 5,\n    \"preservation\": 3,\n    \"realism\": 4,\n    \"consistency\": 4,\n    \"reason\": \"The camera movement speed is significantly accelerated, as instructed, with smooth and continuous motion toward the skyscraper. The action is correctly executed. However, preservation is reduced due to noticeable changes in lighting, color grading, and sky details (e.g., clouds appear more dynamic and stylized) that were not part of the original video. Realism is high with natural motion, and consistency is good with no temporal drift or artifacts. The edit is visually enhanced but not strictly preserving original content.\"\n}",
+  "receipt_digest": "4d8d16e68a0d9936562900a9a5b749b96c55abf2ee5d2a44eb6d575ff036b0ce",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 5.0,
+    "accuracy_penalty": 1.0,
+    "consistency": 4.0,
+    "overall_score_paper_0_to_100": 86.0,
+    "overall_score_raw_0_to_5": 4.3,
+    "preservation": 3.0,
+    "realism": 4.0,
+    "reason": "The camera movement speed is significantly accelerated, as instructed, with smooth and continuous motion toward the skyscraper. The action is correctly executed. However, preservation is reduced due to noticeable changes in lighting, color grading, and sky details (e.g., clouds appear more dynamic and stylized) that were not part of the original video. Realism is high with natural motion, and consistency is good with no temporal drift or artifacts. The edit is visually enhanced but not strictly preserving original content."
+  },
+  "source_video_sha256": "0fddc8d23c7f6f5d55658de1ee5de4d588c20a78b6acf0344a7f467a5f6e6b84",
+  "subcategory": "Camera_speed_change"
+}

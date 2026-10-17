@@ -1,0 +1,46 @@
+{
+  "category": "Motion Attribute",
+  "created_at_utc": "2026-09-14T20:14:06Z",
+  "edited_video_sha256": "69143741503ec5c260fb5682fba38a9ac0a8d95a23689f582828454821c4c746",
+  "editing_instruction": "Slow down the girl's kicking motion.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "0329899b19a0300bc281bd54a128d9314004f9ffe4eadff295b2fee6ed5195aa",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 85,
+  "item_id": "Te_Motion_frequency_change_06",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 1,
+    "preservation": 2,
+    "realism": 1,
+    "reason": "The instruction was to slow down the girl's kicking motion, but the edited video shows her kicks are actually faster and more blurred, indicating motion acceleration rather than slowing down. This is a critical accuracy failure. Additionally, background elements like the fan and signage show motion blur and temporal inconsistencies, suggesting poor editing quality. Preservation is low because unrelated elements (e.g., background people, signs) are distorted or blurred, and realism is poor due to unnatural motion artifacts. Consistency is also low due to temporal drift and inconsistent frame rates."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 2,\n    \"realism\": 1,\n    \"consistency\": 1,\n    \"reason\": \"The instruction was to slow down the girl's kicking motion, but the edited video shows her kicks are actually faster and more blurred, indicating motion acceleration rather than slowing down. This is a critical accuracy failure. Additionally, background elements like the fan and signage show motion blur and temporal inconsistencies, suggesting poor editing quality. Preservation is low because unrelated elements (e.g., background people, signs) are distorted or blurred, and realism is poor due to unnatural motion artifacts. Consistency is also low due to temporal drift and inconsistent frame rates.\"\n}",
+  "receipt_digest": "40124c033544851b509f9434b495b8d8b089cb26d5f70898a2fad54147173683",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 1.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 2.0,
+    "realism": 1.0,
+    "reason": "The instruction was to slow down the girl's kicking motion, but the edited video shows her kicks are actually faster and more blurred, indicating motion acceleration rather than slowing down. This is a critical accuracy failure. Additionally, background elements like the fan and signage show motion blur and temporal inconsistencies, suggesting poor editing quality. Preservation is low because unrelated elements (e.g., background people, signs) are distorted or blurred, and realism is poor due to unnatural motion artifacts. Consistency is also low due to temporal drift and inconsistent frame rates."
+  },
+  "source_video_sha256": "89033eb8d081cf564f28ff41111f25fcd6bd7f41604c0f4d3e54bb6f950f5ee8",
+  "subcategory": "Motion_frequency_change"
+}

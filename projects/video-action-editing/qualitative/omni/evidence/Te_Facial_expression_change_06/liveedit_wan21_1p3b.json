@@ -1,0 +1,46 @@
+{
+  "category": "Motion Semantic",
+  "created_at_utc": "2026-09-14T19:37:29Z",
+  "edited_video_sha256": "8ba93c48945cd80e3248682620976249e165313f5042c4a7ec04166ee8a28ddf",
+  "editing_instruction": "Make the man laugh happily.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "fc731a49e6c3d35b5945782f04ebc463488a0e3e5ede54e972425835c208e5d7",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 25,
+  "item_id": "Te_Facial_expression_change_06",
+  "parsed_judge_output": {
+    "accuracy": 2,
+    "consistency": 3,
+    "preservation": 3,
+    "realism": 2,
+    "reason": "The instruction was to make the man laugh happily. While the man is shown with a wide smile and crinkled eyes, the expression appears unnatural and exaggerated, with overly bright, uniform teeth and unnaturally pink lips, suggesting digital manipulation rather than a genuine laugh. The eyes also appear to shift unnaturally, and the skin texture is overly smooth and plastic-like, indicating poor realism. The background is preserved reasonably well, but there are slight inconsistencies in lighting and depth of field. Temporal consistency is acceptable, but the facial animation lacks natural motion. Overall, the edit partially achieves the goal but fails in realism and natural expression."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 2,\n    \"preservation\": 3,\n    \"realism\": 2,\n    \"consistency\": 3,\n    \"reason\": \"The instruction was to make the man laugh happily. While the man is shown with a wide smile and crinkled eyes, the expression appears unnatural and exaggerated, with overly bright, uniform teeth and unnaturally pink lips, suggesting digital manipulation rather than a genuine laugh. The eyes also appear to shift unnaturally, and the skin texture is overly smooth and plastic-like, indicating poor realism. The background is preserved reasonably well, but there are slight inconsistencies in lighting and depth of field. Temporal consistency is acceptable, but the facial animation lacks natural motion. Overall, the edit partially achieves the goal but fails in realism and natural expression.\"\n}",
+  "receipt_digest": "e964bb54b7781f59507bdad87538ef3b3cf76e9fa975c983f60cb9e99271cf0d",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 2.0,
+    "accuracy_penalty": 0.4,
+    "consistency": 3.0,
+    "overall_score_paper_0_to_100": 30.8,
+    "overall_score_raw_0_to_5": 1.54,
+    "preservation": 3.0,
+    "realism": 2.0,
+    "reason": "The instruction was to make the man laugh happily. While the man is shown with a wide smile and crinkled eyes, the expression appears unnatural and exaggerated, with overly bright, uniform teeth and unnaturally pink lips, suggesting digital manipulation rather than a genuine laugh. The eyes also appear to shift unnaturally, and the skin texture is overly smooth and plastic-like, indicating poor realism. The background is preserved reasonably well, but there are slight inconsistencies in lighting and depth of field. Temporal consistency is acceptable, but the facial animation lacks natural motion. Overall, the edit partially achieves the goal but fails in realism and natural expression."
+  },
+  "source_video_sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+  "subcategory": "Facial_expression_change"
+}

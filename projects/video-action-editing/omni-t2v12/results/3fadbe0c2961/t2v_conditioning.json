@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A happy Pembroke Welsh Corgi with a reddish-brown and white coat sits in a sunny green field, panting with its tongue out in a static medium shot. In this continuous shot, The dog turns its head further to the right while sitting in the grass. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A happy Pembroke Welsh Corgi with a rich reddish-brown and white coat sits calmly in a sun-drenched green field, its short legs tucked beneath its sturdy body. The warm sunlight bathes the scene, casting soft highlights across the dog\u2019s smooth fur and illuminating the vibrant blades of grass around it. The corgi pants gently, its pink tongue lolling out in a relaxed, joyful expression, conveying a sense of contentment and ease. The camera holds a steady, static medium shot, framing the dog from the mid-chest up, allowing full view of its expressive face and perked ears. As the moment unfolds, the dog slowly turns its head further to the right, its eyes briefly scanning the surroundings with quiet curiosity, while its body remains still. The lush green field stretches out behind it, dotted with wildflowers and bathed in golden afternoon light. The scene remains consistent throughout\u2014same subject, same environment, same lighting, same framing\u2014capturing a peaceful, serene moment in nature, with the corgi as the calm, cheerful centerpiece.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    77,
+    2048
+  ],
+  "t5_context_shape": [
+    250,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

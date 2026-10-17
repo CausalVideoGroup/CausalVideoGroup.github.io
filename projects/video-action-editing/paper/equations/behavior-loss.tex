@@ -1,0 +1,13 @@
+% Extracted unchanged from 3_method.tex: eq:method-behavior-loss
+\documentclass[border=4pt]{standalone}
+\usepackage{times}
+\usepackage{amsmath,amsfonts,bm}
+\newcommand{\E}{\mathbb{E}}
+\begin{document}
+$\displaystyle
+\ell_{\mathrm{act},k}=1-\gamma_{+,k}
+  -\lambda_{\mathrm{disc}}\log
+   \frac{\exp(\gamma_{+,k}/\tau)}
+        {\sum_{j\in\mathcal K}\exp(\gamma_{j,k}/\tau)}
+$
+\end{document}

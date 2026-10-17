@@ -1,0 +1,46 @@
+{
+  "category": "Motion Attribute",
+  "created_at_utc": "2026-09-14T20:09:05Z",
+  "edited_video_sha256": "a37e2101b84e691a17865a185c5900287036f1443d241d929a0fbe8c65180080",
+  "editing_instruction": "Reduce the frequency of the fan's rotation on the ceiling.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "fc731a49e6c3d35b5945782f04ebc463488a0e3e5ede54e972425835c208e5d7",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 81,
+  "item_id": "Te_Motion_frequency_change_02",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 2,
+    "preservation": 2,
+    "realism": 2,
+    "reason": "The instruction was to reduce the frequency (i.e., slow down) the fan's rotation. However, the edited video shows a completely different fan model with a circular black ring and a different blade design, which is not present in the original video. This is a major accuracy failure. Additionally, the fan's motion appears unnatural and inconsistent, with visible artifacts and blurring. The rest of the room is mostly preserved, but there are minor distortions in lighting and object edges, indicating poor preservation. Realism and consistency are compromised due to the unrealistic fan design and motion."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 2,\n    \"realism\": 2,\n    \"consistency\": 2,\n    \"reason\": \"The instruction was to reduce the frequency (i.e., slow down) the fan's rotation. However, the edited video shows a completely different fan model with a circular black ring and a different blade design, which is not present in the original video. This is a major accuracy failure. Additionally, the fan's motion appears unnatural and inconsistent, with visible artifacts and blurring. The rest of the room is mostly preserved, but there are minor distortions in lighting and object edges, indicating poor preservation. Realism and consistency are compromised due to the unrealistic fan design and motion.\"\n}",
+  "receipt_digest": "dff18bdd291f8552ecf01e93f300aaab75ca44b10b53f1e10e5c5d57d59f7521",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 2.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 2.0,
+    "realism": 2.0,
+    "reason": "The instruction was to reduce the frequency (i.e., slow down) the fan's rotation. However, the edited video shows a completely different fan model with a circular black ring and a different blade design, which is not present in the original video. This is a major accuracy failure. Additionally, the fan's motion appears unnatural and inconsistent, with visible artifacts and blurring. The rest of the room is mostly preserved, but there are minor distortions in lighting and object edges, indicating poor preservation. Realism and consistency are compromised due to the unrealistic fan design and motion."
+  },
+  "source_video_sha256": "eee3a86a3441fb2617dcc8323c157d39fc83dc2bd2c0edf1ea860cd6d9c903d1",
+  "subcategory": "Motion_frequency_change"
+}

@@ -1,0 +1,46 @@
+{
+  "category": "Temporal Composition",
+  "created_at_utc": "2026-09-14T19:11:06Z",
+  "edited_video_sha256": "cd28f95da224595c3b323af7042fe788a08cb033637e3b958144287dd92a241e",
+  "editing_instruction": "Delete the action of the girl giving a flying kiss, while maintaining the continuity of the video naturally.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "35bd76d4ea58ddf315ea3630265a781fca041769aa67c81f839b44de7a7e9141",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 180,
+  "item_id": "Te_Motion_deletion_01",
+  "parsed_judge_output": {
+    "accuracy": 3,
+    "consistency": 4,
+    "preservation": 4,
+    "realism": 3,
+    "reason": "The flying kiss action (hand gesture near mouth) has been removed, which satisfies the core instruction. However, the transition is not natural: the girl's expression and head movement become stiff and unnatural after the removal, especially around 0:03-0:05, where her gaze shifts abruptly and her posture appears frozen. This breaks continuity. The background and unrelated elements (lamp, sofa, laptop) are preserved well. Motion is mostly smooth, but the edited segments show slight artifacts and unnatural facial expressions, reducing realism. Temporal consistency is mostly maintained, but the abrupt change in behavior is noticeable."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 3,\n    \"preservation\": 4,\n    \"realism\": 3,\n    \"consistency\": 4,\n    \"reason\": \"The flying kiss action (hand gesture near mouth) has been removed, which satisfies the core instruction. However, the transition is not natural: the girl's expression and head movement become stiff and unnatural after the removal, especially around 0:03-0:05, where her gaze shifts abruptly and her posture appears frozen. This breaks continuity. The background and unrelated elements (lamp, sofa, laptop) are preserved well. Motion is mostly smooth, but the edited segments show slight artifacts and unnatural facial expressions, reducing realism. Temporal consistency is mostly maintained, but the abrupt change in behavior is noticeable.\"\n}",
+  "receipt_digest": "49945bbde366671d5716e6292bfc56a89061d96c699e93638fd8e9798b112c21",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 3.0,
+    "accuracy_penalty": 0.6000000000000001,
+    "consistency": 4.0,
+    "overall_score_paper_0_to_100": 52.2,
+    "overall_score_raw_0_to_5": 2.61,
+    "preservation": 4.0,
+    "realism": 3.0,
+    "reason": "The flying kiss action (hand gesture near mouth) has been removed, which satisfies the core instruction. However, the transition is not natural: the girl's expression and head movement become stiff and unnatural after the removal, especially around 0:03-0:05, where her gaze shifts abruptly and her posture appears frozen. This breaks continuity. The background and unrelated elements (lamp, sofa, laptop) are preserved well. Motion is mostly smooth, but the edited segments show slight artifacts and unnatural facial expressions, reducing realism. Temporal consistency is mostly maintained, but the abrupt change in behavior is noticeable."
+  },
+  "source_video_sha256": "7c51ba4b1218a1cd4f153ab9ae174dce0d47a56f5e6b32b89a885a1d5a8ad6ba",
+  "subcategory": "Motion_deletion"
+}

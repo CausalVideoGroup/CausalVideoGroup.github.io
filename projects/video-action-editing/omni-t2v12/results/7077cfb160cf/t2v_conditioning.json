@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A young woman with shoulder-length light brown hair sits on a wooden bench in a sunny park or campus setting, writing in a notebook while dressed in a pink shirt and blue jeans. In this continuous shot, The young woman sitting on a park bench thoughtfully writes in her notebook with a pen. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A young woman with shoulder-length light brown hair sits calmly on a weathered wooden bench in a sun-drenched park or campus setting, the golden light of midday filtering through the leaves of nearby trees. She wears a soft pink button-up shirt and fitted blue jeans, her posture relaxed yet focused as she leans slightly forward, pen in hand, writing thoughtfully in a small notebook resting on her lap. Her brow is gently furrowed in concentration, occasionally pausing to glance up and around, as if gathering inspiration from the peaceful surroundings. The camera holds steady in a medium shot, capturing her from the waist up, with the background softly blurred to emphasize her presence\u2014dappled sunlight dances across the grass and pavement, and the faint rustle of leaves and distant chatter of people passing by add a gentle soundtrack to the scene. The composition remains unchanged throughout, maintaining consistent framing, lighting, and perspective, creating a serene, contemplative moment frozen in time.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    80,
+    2048
+  ],
+  "t5_context_shape": [
+    226,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

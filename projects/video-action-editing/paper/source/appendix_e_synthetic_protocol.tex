@@ -1,0 +1,403 @@
+\section{Controlled identification protocols}
+\label{subsec:synthetic-protocol-details}
+
+The planned evaluation tests nonlinear action-block identification,
+controlled two-block recombination, and rendered-video action transfer.
+The numerical generators have known latent variables and checked
+observation properties. Finite-data training tests the predicted recovery
+behavior; it does not establish the population theorem experimentally.
+
+\paragraph{Nonlinear action-anchor identification.}
+Sample a complete initial-state, control, and innovation realization,
+then independently resample appearance to construct
+Eq.~\ref{eq:controlled-anchor-views}. The primary process is
+Proposition~\ref{prop:nonlinear-temporal-example}, using the shear map
+in Eq.~\ref{eq:nonlinear-shear-observation} and additional invertible
+nonlinear mixing compositions. Three or more distinct times meet the
+main conditions; one- and two-time observations provide controlled
+failures of temporal observability. The three trajectory parameters
+specify the anchor dimension without supervising its coordinates.
+
+Appendix~\ref{subsec:numerical-verification} trains agreement plus kernel
+distribution prediction, using Eq.~\ref{eq:empirical-kernel-prediction},
+and compares it with ordinary-mean prediction, agreement alone, and
+prediction alone. For continuous data, the kernel dictionary and neural
+encoder approximate the population class; held-out trajectories test this
+approximation, and increasing their capacity remains a further test. Exact finite-support
+calculations provide an additional check of the objective's minimizers.
+The multiplication model in Eq.~\ref{eq:nonlinear-mean-counterexample}
+explicitly tests whether the learner retains action information that
+ordinary means erase. Ground-truth factors and mixing inverses are
+reserved for mathematical checks and evaluation, not training targets.
+
+Held-out trajectory recovery is reported jointly with within-action
+variation and the change in code scale during training.
+Temporal pooling and shared appearance across views test which information
+or interventions are lost; reversal controls and restricted appearance
+variation remain planned.
+These numerical identification studies are separate from the patch-view
+Action-VAE and rendered-video evaluations.
+
+\paragraph{Additive special case.}
+The two constructions in Appendix~\ref{subsec:temporal-observability}
+use nonlinear dynamics with an appearance offset, and constant-acceleration
+dynamics with invertible linear mixing. They test
+Condition~\ref{cond:additive-observations}, the covariance projection in
+Proposition~\ref{prop:structural-anchor-recovery}, and ordinary-feature
+learning under Corollary~\ref{cor:additive-anchor-learning}.
+The specified encoder and readout classes contain the constructed maps.
+These compact continuous constructions inherit the main model's sampling
+and regularity, and their temporal separation verifies its observability.
+They therefore test a subclass of the nonlinear theory and the further
+simplification to ordinary-feature prediction. Singular content covariance
+and fixed offsets remain compatible with full content support and are not
+labeled as violations. Appendix~\ref{subsec:numerical-verification} reports
+the covariance projection and ordinary-feature learning for both constructions.
+
+\paragraph{Complementary-intervention model.}
+The experiment will independently sample continuous content factors and
+action-state trajectories with full support over their Cartesian product,
+generate both intervention types in Eq.~\ref{eq:dgp-controlled-pairs}, and
+use a known injective observation map.
+One construction is a composition of square full-rank affine maps and
+LeakyReLU activations with strictly positive negative slopes, applied to
+the concatenated content and trajectory variables.
+This gives an explicitly invertible numerical observation model.
+The content and action coordinate blocks of $g_{\mathrm{ctrl}}^{-1}$,
+together with decoder $g_{\mathrm{ctrl}}$, form a zero-loss solution to
+Eq.~\ref{eq:identification-objective}. The learner will use matching
+block dimensions and function classes containing these maps.
+It will expose separate content and temporal action codes and reconstruct
+through those codes without a raw-input bypass.
+The numerical construction directly tests block identification; the
+rendered-video arm evaluates transfer using the simulator's physical
+trajectories and counterfactual outputs.
+Ground-truth values are reserved for evaluation in the main
+intervention-supervised arm; the simulator supplies pair membership.
+A separately labeled truth-supervised arm will measure the benefit of
+coordinate supervision and connect to the existing synthetic Action-VAE.
+An unrestricted reconstruction baseline and removal of each invariance
+term will test the identification conditions. Removal of temporal
+regularization will measure its contribution to finite-sample recovery
+and transfer.
+
+\paragraph{Recovery and leakage.}
+For each continuous ground-truth factor $y_j$, a readout $r_j$ will be
+fitted on training codes, selected on validation groups, and frozen
+before testing. Write $\mathbf e_i$ for the code of sample $i$, $y_{ij}$ for its
+$j$-th factor, and $\bar y_{\mathrm{test},j}$ for that factor's mean over
+the test index set $\mathcal I_{\mathrm{test}}$. Its test score is
+\begin{equation}
+  R_j^2
+  =1-\frac{\sum_{i\in\mathcal I_{\mathrm{test}}}
+                (y_{ij}-r_j(\mathbf e_i))^2}
+              {\sum_{i\in\mathcal I_{\mathrm{test}}}
+                (y_{ij}-\bar y_{\mathrm{test},j})^2}.
+  \label{eq:recovery-r2}
+\end{equation}
+Negative scores will be retained. Factors with zero test variance will
+be reported as undefined, with their coverage and absolute error,
+rather than assigned a successful score. We will report per-factor
+scores and macro averages over prespecified nonredundant groups.
+
+Because blockwise identification permits nonlinear transformations within each
+block, both a linear ridge probe and a nonlinear kernel ridge probe
+will be reported. Nonlinear readouts for block recovery have precedent
+in invariance-based identification studies~\citep{kugelgen2021content}.
+A single readout will be shared across test scenes; test-specific
+alignment and fitting on test labels are excluded. For a trajectory
+block, the readout may consume the full ordered code sequence.
+Phasewise linear decoding is a stricter accessibility diagnostic.
+
+With $\widehat{\mathbf z}^{\mathrm c}=E_{\mathrm c}(V)$ and $\widehat{\mathbf z}^{\mathrm a}=E_{\mathrm a}(V)$ denoting the two controlled-model
+codes, we will evaluate all four block-to-factor mappings:
+\begin{equation}
+  \renewcommand{\arraystretch}{1.5}
+  \begin{array}{c|cc}
+    \text{readout input} & \text{content target } \mathbf z^{\mathrm c}
+                         & \text{action target } \mathbf z^{\mathrm a}_{0:T}\\ \hline
+    \widehat{\mathbf z}^{\mathrm c} & R^2_{\mathbf z^{\mathrm c}\leftarrow \widehat{\mathbf z}^{\mathrm c}} & R^2_{\mathbf z^{\mathrm a}\leftarrow \widehat{\mathbf z}^{\mathrm c}}\\
+    \widehat{\mathbf z}^{\mathrm a} & R^2_{\mathbf z^{\mathrm c}\leftarrow \widehat{\mathbf z}^{\mathrm a}} & R^2_{\mathbf z^{\mathrm a}\leftarrow \widehat{\mathbf z}^{\mathrm a}}
+  \end{array}.
+  \label{eq:recovery-leakage-matrix}
+\end{equation}
+With the independent content/action sampling of the controlled experiment,
+desired-block recovery should be high and cross-block prediction should
+approach its appropriate constant-predictor baseline. High action
+$R^2$ alone does not establish disentanglement: a code containing both
+content and action can also attain it. Low probe performance is a
+diagnostic, not a proof that no information is present.
+For datasets with correlated content and action, leakage must instead
+be assessed under controlled interventions or relative to a conditional
+baseline.
+
+\paragraph{Semantic and temporal metrics.}
+The existing 48-dimensional truth-supervised model will additionally be
+evaluated by direct coordinate $R^2$, without fitting a corrective
+readout, for its continuous channels. Derived quantities such as
+velocity and acceleration will be reported by group rather than
+counted as independent causes. Contact states and discrete events will
+use macro F1, balanced accuracy, and event-timing error where applicable.
+Phase-only and instruction-only baselines will test whether fixed
+timing or action labels explain recovery without video evidence.
+Recovery will be measured before packet centering and RMS normalization,
+which can remove offsets and amplitude; the normalized packet will
+receive a separate action-transfer evaluation.
+
+MCC after a fixed, validation-selected one-to-one coordinate matching
+can be reported as an additional diagnostic, using rank correlation
+when appropriate~\citep{yao2022leap}. It is not the primary test of a
+block-level theorem, which permits within-block mixing.
+A componentwise identification claim would require a separate theorem
+and matching synthetic assumptions. A graph-recovery metric is relevant
+only if a graph is explicitly estimated and compared with generative
+ground truth.
+
+\paragraph{The implemented representation.}
+For a fixed physical rollout, we will rerender independent appearance
+variants while holding dynamics, geometry, and camera fixed.
+This supplies controlled appearance interventions; a simulator renderer
+must also retain the evaluated action information for exact identification.
+Frozen features need not have an additive decomposition.
+Additional camera variation will be evaluated separately.
+We will train the specified Action-VAE with its patch views and losses,
+then measure action-descriptor recovery and content dependence for
+the raw mean code, centered code, normalized code, projected V-JEPA2
+branch, and their complete concatenation.
+Descriptors include relative displacement, direction, and interaction
+order and are fixed before fitting probes; they are not redefined to
+match information discarded by normalization.
+The 48-channel supervised model is a separately labeled comparison.
+
+\paragraph{Information retention and content dependence.}
+A single training-set readout will be evaluated on held-out trajectories
+and appearance combinations. Both linear and nonlinear probes will be
+reported; a failed probe does not establish absence of information.
+Controlled appearance pairs directly measure
+Eq.~\ref{eq:conditioning-content}, with branch scales fixed from training
+data. Within-action stability is reported jointly with recovery,
+preventing a constant representation from appearing successful.
+Nonlinear appearance--motion mixing is included within the theorem-aligned
+study when temporal observability holds. Shared-content pairs,
+non-observable windows, and observation noise test departures from its
+premises. Singular content covariance and fixed offsets separately test
+the additive construction within its sufficient conditions.
+
+\paragraph{Editing with the complete condition.}
+Matched-budget ablations will compare the action branch, projected V-JEPA2
+branch, and their concatenation, with separate models trained for each
+input configuration. Retaining the code's removed mean and RMS is an
+additional proposed ablation, not part of the current method.
+Tests fix source, instruction, and seed while changing demonstration
+appearance or its direction and temporal order.
+Final-output behavior and source fidelity assess execution; intermediate
+reader agreement is reported separately.
+Recovery will be conditioned on source and instruction where they
+already determine part of the requested behavior.
+
+\paragraph{Transfer, splits, and robustness.}
+For synthetic videos, source-content/reference-action swaps will be
+compared with the simulator's counterfactual output using action-state
+error, content preservation, and event execution. Reference appearance
+will vary while the realized action remains fixed.
+Zero, reversed, shuffled, and wrong-action references will test whether
+the editor uses the ordered action signal. The MuJoCo
+simulator supplies the physical rollouts and counterfactual outputs for
+this evaluation.
+
+Train, validation, and test partitions will be assigned to independent
+base scenes and trajectory realizations before frames, views, or
+counterfactual pairs are expanded. No trajectory or render variant
+will cross these partitions. A separate compositional split may reuse
+individual factor values while withholding content--action
+combinations; it will be labeled distinctly.
+Scalers, probe settings, and coordinate assignments will use training
+and validation data only. Results will include multiple generation and
+training seeds, with uncertainty aggregated over scenes or complete
+trajectories rather than treating frames as independent samples.
+
+Finally, controlled violations will remove one intervention type,
+restrict action coverage, introduce non-injective observations, or add
+camera and content-dependent dynamics. Independent observation noise also tests the additive covariance
+construction; an estimated low-variance subspace is reported separately
+from its noiseless population formula. Nonlinear content-dependent
+observation mixing remains within the main theorem when the specified
+observability and regularity conditions hold, although it can violate
+the additive subclass. Each stress test will state which premise it changes. Real-world
+experiments, where ground-truth latents are unavailable and latent
+$R^2$ cannot be computed, instead assess edited-video behavior and
+source fidelity under uncontrolled departures from these assumptions.
+
+\subsection{Numerical verification of action identification}
+\label{subsec:numerical-verification}
+
+We simulate the constructions of
+Appendices~\ref{subsec:nonlinear-temporal-example}
+and~\ref{subsec:temporal-observability} with known latent variables.
+A video is an ordered array of low-dimensional frames. Training uses only
+action-preserving pairs; latent values are used only for evaluation.
+These finite-data results test the predicted recovery behavior; they do
+not establish the population theorem experimentally.
+
+\paragraph{Data.}
+The action is $\boldsymbol\theta=(p,v,u)$, the position, velocity, and
+constant acceleration at the midpoint of a fixed window, drawn uniformly
+from $[-1,1]^3$. Frame $t$ observes $p_t=p+vs_t+\tfrac12us_t^2$ at $T$
+evenly spaced times $s_t\in[-1,1]$, with $s_1=0$ for $T=1$.
+This affine reparametrization of $(p_0,v_0,u)$ in
+Proposition~\ref{prop:nonlinear-temporal-example} leaves its observability
+argument unchanged, and the symmetric window maps time reversal to
+$(p,-v,u)$ within the support. Frames are $\mathbf x_t=\rho(c,p_t/2.5)$
+for two mixing maps: the shear map in
+Eq.~\ref{eq:nonlinear-shear-observation} with $c\sim\operatorname{Unif}[-1,1]$,
+and the multiplicative map $\rho(c,p)=(cp,c)$ with $c$ uniform on
+$[-2,-1]\cup[1,2]$. The latter extends
+Eq.~\ref{eq:nonlinear-mean-counterexample} to trajectories: it is
+invertible on its support, yet $\E[V\mid\mathbf z^{\mathrm a}]=\mathbf 0$.
+Each pair shares $\boldsymbol\theta$ and draws its two contents
+independently (Eq.~\ref{eq:controlled-anchor-views}). We use 20{,}000
+training pairs, and 4{,}000 validation and 4{,}000 test pairs with new
+trajectories.
+
+\paragraph{Learning and evaluation.}
+The encoder is a multilayer perceptron with three hidden layers of width
+256 applied to the vectorized ordered video, with $d_{\mathrm a}=3$.
+The predictor has the form of Eq.~\ref{eq:empirical-kernel-prediction},
+with 1{,}024 training videos as its dictionary and a multilayer perceptron
+for $\boldsymbol\alpha_\theta$. The kernel averages Gaussian kernels with
+bandwidths of $0.25$, $0.5$, and $1$ times the median distance between
+dictionary videos; the average is bounded, continuous, and characteristic.
+Input coordinates are standardized with training statistics. We use
+$\lambda=1$ and AdamW for 8{,}000 steps with batch size 512, and compare
+agreement alone and ordinary-mean prediction
+(Eq.~\ref{eq:anchor-mean-objective}) under the same encoder and budget.
+For each factor, a Gaussian kernel ridge readout is fitted on 3{,}000
+training codes, with bandwidth, ridge, and input whitening selected on
+validation data, and scored by the test $R^2$ in
+Eq.~\ref{eq:recovery-r2}. Content $R^2$ applies the same readout to
+predict $c$. The same readout applied to the content-free positions
+$p_{1:T}$ gives the information available in each window, reported as the
+oracle. Because the readout standardizes codes, we also report the ratio
+of the code's standard deviation after training to that at
+initialization; values near zero indicate collapse toward a constant.
+
+\begin{table}[!htbp]
+ \centering
+ \caption{\textbf{Action recovery from appearance-resampled pairs.}
+ Held-out $R^2$ of the midpoint position $p$, velocity $v$, and
+ acceleration $u$, averaged over three seeds. The oracle reads the
+ content-free positions of a $T$-frame window. Content is the $R^2$ of
+ predicting $c$ from the code of our objective. For the baselines, Avg.\
+ is the mean $R^2$ over $(p,v,u)$ and Scale is the final-to-initial ratio
+ of the code's standard deviation. Standard deviations across seeds are
+ at most $0.03$ for the oracle and our objective and at most $0.14$ for
+ the baselines.}
+ \label{tab:numerical-window}
+ \small
+ \setlength{\tabcolsep}{3.4pt}
+ \begin{tabular}{@{}lcccccccccccc@{}}
+ \toprule
+ & & \multicolumn{3}{c}{Oracle}
+ & \multicolumn{4}{c}{Agreement + kernel prediction}
+ & \multicolumn{2}{c}{Mean prediction}
+ & \multicolumn{2}{c}{Agreement only}\\
+ \cmidrule(lr){3-5}\cmidrule(lr){6-9}\cmidrule(lr){10-11}\cmidrule(lr){12-13}
+ Mixing & $T$ & $p$ & $v$ & $u$ & $p$ & $v$ & $u$ & Content
+ & Avg. & Scale & Avg. & Scale\\
+ \midrule
+ Shear & 1 & 1.00 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.53 & 0.33 & 10 & 0.33 & 0.025\\
+       & 2 & 0.81 & 1.00 & 0.25 & 0.81 & 1.00 & 0.25 & 0.01 & 0.69 & 13 & 0.66 & 0.070\\
+       & 3 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.97 & 0.00 & 1.00 & 12 & 0.87 & 0.067\\
+       & 4 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.97 & 0.00 & 1.00 & 14 & 0.85 & 0.078\\
+       & 6 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.98 & 0.00 & 1.00 & 9.4 & 0.87 & 0.038\\
+       & 8 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.94 & 0.00 & 1.00 & 13 & 0.84 & 0.053\\
+ \midrule
+ Multiplicative & 1 & 1.00 & 0.00 & 0.00 & 1.00 & 0.00 & 0.00 & 0.19 & 0.33 & 0.002 & 0.33 & 0.001\\
+       & 2 & 0.81 & 1.00 & 0.24 & 0.81 & 1.00 & 0.24 & 0.00 & 0.59 & 0.003 & 0.59 & 0.003\\
+       & 3 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.73 & 0.004 & 0.64 & 0.003\\
+       & 4 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.68 & 0.004 & 0.63 & 0.004\\
+       & 6 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.58 & 0.003 & 0.65 & 0.003\\
+       & 8 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 1.00 & 0.00 & 0.61 & 0.004 & 0.59 & 0.004\\
+ \bottomrule
+ \end{tabular}
+\end{table}
+
+\paragraph{Observation window.}
+Table~\ref{tab:numerical-window} follows
+Proposition~\ref{prop:nonlinear-temporal-example}. With $T\geq3$, agreement
+plus kernel prediction recovers all three action parameters under both
+mixing maps, with content $R^2$ of $0.00$; at a fixed action, less than
+$0.1\%$ of the code variance changes with content. With $T=2$, recovery
+equals the oracle, whose loss of $u$ reflects the unobservable direction
+rather than learning error. With $T=1$ only $p$ is observable; the code has
+more coordinates than the window identifies, and its low-variance
+coordinates retain content. On the shear map, the conditional feature mean
+$(q_t^2,\,q_t+q_t^4+1/3)$ with $q_t=p_t/2.5$ is injective, and ordinary-mean
+prediction also identifies the action, consistent with
+Lemma~\ref{lem:anchor-learning}. On the multiplicative map, whose
+conditional mean vanishes, ordinary-mean prediction and agreement alone
+shrink the code to less than $1\%$ of its initial scale. The readout still
+extracts part of the action from the remaining variation, but 4--6\% of
+that variation changes with content at a fixed action. Agreement alone
+also shrinks the code on the shear map and recovers the action less
+completely. Prediction without agreement recovered the action without
+content for $T\geq3$ in these runs ($R^2\geq0.998$, content $R^2\leq0.00$),
+although its population minimizers need not exclude content.
+
+With four-dimensional content passed through a random three-layer
+invertible LeakyReLU network, the oracle remains $1.00$ for $T\geq3$, but
+recovery by our objective at this training budget is incomplete and
+seed-dependent: $R^2$ is $0.82$--$0.87$ for $p$, $0.95$--$0.97$ for $v$, and
+$0.36$--$0.47$ for $u$, with seed standard deviations up to $0.49$ and
+content $R^2$ of $0.05$--$0.06$. This gap reflects the finite-data approximation
+rather than the observation window.
+
+\paragraph{Mean counterexample and premise departures.}
+For Eq.~\ref{eq:nonlinear-mean-counterexample} with a one-dimensional code,
+our objective recovers $a$ with $R^2=1.000$ and content $R^2=-0.001$.
+Ordinary-mean prediction and agreement alone shrink the code to $0.3\%$
+and $0.1\%$ of its initial scale, and their readouts reach
+$R^2=0.65\pm0.23$ and $0.10\pm0.15$. On the shear map with $T=4$, sharing
+content between the two views, which violates
+Condition~\ref{cond:anchor-identification}(ii), leaves content in the code:
+content $R^2$ is $0.997$, and $81\%$ of the code variance changes with
+content at a fixed action. Averaging per-frame features over time instead
+of reading the ordered video gives $R^2=0.00$ for $v$, because reversal maps
+$(p,v,u)$ to $(p,-v,u)$ within the support, and $0.16$ for $u$.
+Independent observation noise with standard deviation $0.05$ makes the
+observations non-injective and lowers $u$ to about $0.5$. Recovery is stable
+for $\lambda\in\{0.1,10\}$, with $R^2$ for $u$ of $0.98$ and $0.93$, and
+for an eight-dimensional code, with $R^2=1.00$ for all three parameters and
+content $R^2=0.06$.
+
+\paragraph{Additive constructions.}
+For the linear construction of Eq.~\ref{eq:temporal-kinematic-example}
+with $\mathbf x_t=\mathbf M[n;p_t]$, a random nonsingular $\mathbf M$,
+times $t=1,\ldots,T$, and uniform $\mathbf w$ and $n$, the covariance
+projection of Proposition~\ref{prop:structural-anchor-recovery} is
+estimated from the 20{,}000 training pairs alone. Its dimension is
+$\min(T,3)$, as predicted, and paired codes agree to floating-point
+precision, with a within-action variance fraction below $10^{-14}$.
+It recovers $\mathbf w$ with $R^2=1.000$ for $T\in\{3,4,6\}$, $0.704$ for
+$T=2$, and $0.335$ for $T=1$, with content $R^2\leq0.001$ throughout.
+For the squared dynamics of Eq.~\ref{eq:nonlinear-action-construction},
+the projection recovers $(p_0,u)$ with $R^2=0.995$ for $T=3$ and $0.525$
+for $T=2$. With independent observation noise, the paired-difference
+covariance has full rank: at noise standard deviation $0.01$, no exactly
+invariant direction remains in the linear construction, as anticipated in
+Appendix~\ref{subsec:structural-anchor-proof}. Taking the three leading
+generalized eigenvectors of $(\boldsymbol\Sigma_\Phi,\boldsymbol\Sigma_\Delta)$
+instead gives $R^2=0.996$ at noise $0.01$ and $0.849$ at noise $0.1$ for
+$T=3$. Learned ordinary-mean prediction, analyzed in
+Corollary~\ref{cor:additive-anchor-learning}, recovers $\mathbf w$ with
+$R^2=1.000$ for $T\geq3$ on the linear construction; our objective reaches
+$0.80\pm0.15$ for $T=3$ and $1.00$ for $T=6$. On the squared dynamics,
+whose features span three orders of magnitude, both learned targets reach
+$R^2\approx0.82$ for $T=3$.
+
+Across these settings, recovery follows the stated conditions. It is
+complete once the window is observable and appearance is resampled
+independently, it matches the oracle when the window is too short, and it
+degrades when paired views share content or temporal order is discarded.
+The kernel target retains actions whose conditional feature mean vanishes,
+where ordinary-mean prediction collapses.

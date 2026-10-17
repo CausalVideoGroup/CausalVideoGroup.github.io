@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A woman in a vintage-style dress dances gracefully by a flower-lined fence in front of a rustic wooden house. In this continuous shot, The woman wearing a green skirt and black shirt gracefully spins in a circle while holding a scarf. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A woman in a vintage-style dress dances gracefully by a flower-lined fence in front of a rustic wooden house, her movements fluid and deliberate under the warm, golden light of late afternoon. She wears a flowing green skirt that swirls with each turn, paired with a fitted black shirt that contrasts elegantly with the soft hues of the surrounding garden. In her hands, she holds a long, sheer scarf that billows like a ribbon in the breeze, catching the sunlight as she spins in a slow, continuous circle. The camera remains steady, capturing her in a wide, stable frame that emphasizes the harmony between her motion and the tranquil setting. The fence, draped in climbing roses and wildflowers, frames the scene with natural beauty, while the weathered wooden house in the background adds a sense of timeless charm. The lighting is soft and diffused, casting gentle shadows and enhancing the nostalgic atmosphere. Her expression is serene, eyes closed at times, as if lost in the rhythm of the moment. The entire scene unfolds in a single, unbroken shot, with no cuts or shifts in perspective, allowing the viewer to fully immerse in the grace and stillness of the moment.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    67,
+    2048
+  ],
+  "t5_context_shape": [
+    274,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

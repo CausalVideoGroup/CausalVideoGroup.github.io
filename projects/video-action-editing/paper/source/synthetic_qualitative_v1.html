@@ -1,0 +1,84 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Synthetic source pairing · VADD</title><style>body{max-width:900px;margin:40px auto;padding:0 24px;font:17px/1.6 system-ui}pre{white-space:pre-wrap}</style></head><body><a href="../../">← Video Action Editing</a><pre># Synthetic qualitative figure: two examples, four frames, three rows
+
+The composition follows the horizontal frame strips in `figures/intro.pdf`.
+Each example has Source, Reference, and ours rows. In the manually edited
+`my_layout` version, the editing instructions appear above the Source row.
+Original frame indices are 0, 27,
+53, and 80. All PNG assets retain the supplied 352 x 192 crop and exact bytes.
+
+## Versions
+
+- `synthetic_qualitative_my_layout.drawio` / `.pdf`: uses exactly the Source,
+  Reference, and ours images in the two user-selected `my` directories. The
+  instructions are **Push forward → Push right** and
+  **Push forward-left → Push back-right**, matching the displayed motions.
+  The user's manual layout is preserved. Six editable perspective arrows mark
+  the initial block motion in the first column of both examples (all three rows).
+  Each arrow has a white top face, blue-gray extruded sides, and a floor shadow;
+  its ground-plane projection narrows with distance. This is an illustrative
+  perspective treatment, not a calibrated scene reconstruction.
+  Their directions follow the visible displacement from frame 0 to frame 27;
+  the right Reference and Ours initially move up-right before their later turn.
+  Arrow positions and directions are recorded in `initial_motion_annotations.json`.
+  Per the author, these Source images are the actual inputs; see the
+  provenance discussion below. This version is the manuscript figure
+  (`figures/synthetic_qualitative.pdf`).
+- `synthetic_qualitative_paired.drawio` / `.pdf`: restores the archived Source
+  images for both experiments. All reference and output pixels remain the
+  same. Instructions are **Push back-right → Push right** and
+  **Push back-right → Push back-right**. The second example is a same-action
+  reference control, not a direction-changing edit.
+- `*_preview.png`: previews rendered from the exported PDFs.
+- `assets_manifest.json`: exact supplied paths, frame indices, hashes, and
+  provenance matches. All imported assets are retained under `assets/`.
+- `build_figure.py` and `*_scene.json`: generator and geometry snapshots of the
+  original proposals, before manual layout changes and motion annotations.
+
+Every image, text label, instruction, and divider is a separate native draw.io
+object. Images are embedded, so each `.drawio` file is self-contained.
+The PDF is exported directly from its corresponding draw.io document.
+Each perspective arrow is one native custom-stencil object that can be moved
+or resized independently. Its faces remain vector paths in the PDF; no frame
+pixels are changed. `style_motion_arrows.py` restyles only the six named arrows
+using their existing positions and directions, without rebuilding the layout.
+
+## Source/output pairing
+
+The left `my/source` matches C218 `train_family000_bearing2_source1` (forward).
+The right `my/source` matches C218 `train_family000_bearing3_source1`
+(forward-left). Meanwhile, the supplied `my/ours` assets match the existing
+C399 and C523 learned-edit frames byte-for-byte. The archived experiment
+folders record the back-right clip as Source. On 2026-09-26 the author
+confirmed that this archived Source record is wrong and that the `my/source`
+clips are the correct inputs, so the `my_layout` pairing is used in the
+manuscript. The `paired` version is kept only as a record of the archived
+folders.
+
+The output row contains the supplied historical C399/C523 synthetic
+learned-consumer outputs. Figure editing performs
+layout and byte-preserving asset import only; it does not run a new experiment
+or establish a new full-method, convergence, generalization, or success claim.
+`expected` files in the supplied directories are deliberately not used as ours.
+
+The `my_layout` drawing is exported by the author to
+`figures/synthetic_qualitative.pdf` and included in Section 5
+(`fig:synthetic-qualitative`). The Overleaf export manifest is unchanged.
+
+## Export the current drawings
+
+From the repository root:
+
+```sh
+/Applications/draw.io.app/Contents/MacOS/draw.io --export --format pdf --crop --output working/figures/synthetic_qualitative_v1/synthetic_qualitative_my_layout.pdf working/figures/synthetic_qualitative_v1/synthetic_qualitative_my_layout.drawio
+/Applications/draw.io.app/Contents/MacOS/draw.io --export --format pdf --crop --output working/figures/synthetic_qualitative_v1/synthetic_qualitative_paired.pdf working/figures/synthetic_qualitative_v1/synthetic_qualitative_paired.drawio
+pdftoppm -scale-to 2600 -png -singlefile working/figures/synthetic_qualitative_v1/synthetic_qualitative_my_layout.pdf working/figures/synthetic_qualitative_v1/synthetic_qualitative_my_layout_preview
+pdftoppm -scale-to 2600 -png -singlefile working/figures/synthetic_qualitative_v1/synthetic_qualitative_paired.pdf working/figures/synthetic_qualitative_v1/synthetic_qualitative_paired_preview
+```
+
+`build_figure.py` regenerates the original proposals and overwrites the current
+draw.io files, including manual edits and motion arrows. Use the export commands
+above to refresh PDFs and previews from the edited drawings. If deliberately
+recreating the proposals, save the edited drawings separately first. The
+generator's `--import-assets` option imports the original supplied files and
+rejects an existing asset with different bytes.
+</pre></body></html>

@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A young woman with long reddish-blonde hair, wearing a mint green athletic outfit, stands on a treadmill in a modern gym with blue and white striped pillars, holding a water bottle. In this continuous shot, The woman turns her head to the left and places her water bottle onto the treadmill. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A young woman with long, sun-kissed reddish-blonde hair stands centered on a treadmill in a sleek, modern gym, her posture relaxed yet alert. She wears a form-fitting mint green athletic outfit\u2014a moisture-wicking tank top and matching leggings\u2014that contrasts softly against the cool-toned environment. The gym is illuminated by bright, even lighting that highlights the clean lines of the space, with blue and white striped pillars rising in the background, creating a rhythmic visual pattern that adds depth to the scene. The camera holds a steady, medium-wide shot, capturing her from the waist up, with the treadmill\u2019s control panel and running belt clearly visible. In a smooth, continuous motion, she turns her head slightly to the left, her gaze briefly shifting toward the side of the treadmill, then lowers her right hand to place a clear water bottle with a blue cap onto the treadmill\u2019s console. The bottle rests securely, and she remains in place, her expression calm and focused, as the scene continues without interruption. The lighting remains consistent, the framing stable, and the background elements\u2014pillars, mirrors, and distant gym equipment\u2014remain unchanged, emphasizing the quiet, deliberate nature of the moment.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    82,
+    2048
+  ],
+  "t5_context_shape": [
+    289,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

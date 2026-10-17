@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A woman in black activewear performs barbell deadlifts with focused determination in a well-equipped home gym. In this continuous shot, The woman in a home gym lifts a barbell from the floor to her waist. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A woman in sleek black activewear performs a series of controlled barbell deadlifts in a well-equipped home gym, her movements precise and deliberate. The camera holds a steady, medium-wide shot, capturing her full body as she stands with feet shoulder-width apart, gripping the barbell with a firm overhand hold. With focused determination etched on her face, she bends at the hips and knees, lowering the barbell smoothly from the floor to her waist, maintaining a straight back and engaged core throughout. The gym is bathed in soft, even lighting that highlights the clean, organized space\u2014treadmills, weight racks, and resistance bands visible in the background. The scene remains consistent, with no changes in framing, camera angle, or lighting, emphasizing the continuity and rhythm of her exercise. Her breath is steady, her muscles taut, as she repeats the motion with unwavering form, the metallic clink of the barbell echoing faintly in the quiet room. The atmosphere is one of quiet intensity, underscoring her commitment and strength.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    65,
+    2048
+  ],
+  "t5_context_shape": [
+    243,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

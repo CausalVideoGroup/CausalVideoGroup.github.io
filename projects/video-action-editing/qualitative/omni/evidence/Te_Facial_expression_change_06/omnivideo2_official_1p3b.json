@@ -1,0 +1,46 @@
+{
+  "category": "Motion Semantic",
+  "created_at_utc": "2026-09-14T17:50:32Z",
+  "edited_video_sha256": "95271b71d0cc214d83de53f2946b89778e77e076e26b4bc6a715372cfd5e1fa7",
+  "editing_instruction": "Make the man laugh happily.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "1b79bbf410c6adf53abd87332bc0cc6930b4f54494ede953234b3355e38afefb",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 25,
+  "item_id": "Te_Facial_expression_change_06",
+  "parsed_judge_output": {
+    "accuracy": 5,
+    "consistency": 4,
+    "preservation": 3,
+    "realism": 4,
+    "reason": "The instruction to make the man laugh happily is fully executed: his facial expression shows a genuine, wide smile with crinkled eyes and visible teeth, consistent across frames. The emotion is clearly happy and natural. Preservation is acceptable but not perfect—background elements (e.g., lighting, foliage) show slight changes, possibly due to re-rendering or camera angle adjustment, which may not perfectly match the original. Realism is high: skin texture, lighting, and motion are smooth and natural. Consistency is good: the laugh is stable over time with no temporal drift or artifacts."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 5,\n    \"preservation\": 3,\n    \"realism\": 4,\n    \"consistency\": 4,\n    \"reason\": \"The instruction to make the man laugh happily is fully executed: his facial expression shows a genuine, wide smile with crinkled eyes and visible teeth, consistent across frames. The emotion is clearly happy and natural. Preservation is acceptable but not perfect—background elements (e.g., lighting, foliage) show slight changes, possibly due to re-rendering or camera angle adjustment, which may not perfectly match the original. Realism is high: skin texture, lighting, and motion are smooth and natural. Consistency is good: the laugh is stable over time with no temporal drift or artifacts.\"\n}",
+  "receipt_digest": "0f41b7f2be8e95f0c8f52b48f95d98f185127d3ac9942478fdb45cbbb53ad0c1",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 5.0,
+    "accuracy_penalty": 1.0,
+    "consistency": 4.0,
+    "overall_score_paper_0_to_100": 86.0,
+    "overall_score_raw_0_to_5": 4.3,
+    "preservation": 3.0,
+    "realism": 4.0,
+    "reason": "The instruction to make the man laugh happily is fully executed: his facial expression shows a genuine, wide smile with crinkled eyes and visible teeth, consistent across frames. The emotion is clearly happy and natural. Preservation is acceptable but not perfect—background elements (e.g., lighting, foliage) show slight changes, possibly due to re-rendering or camera angle adjustment, which may not perfectly match the original. Realism is high: skin texture, lighting, and motion are smooth and natural. Consistency is good: the laugh is stable over time with no temporal drift or artifacts."
+  },
+  "source_video_sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+  "subcategory": "Facial_expression_change"
+}

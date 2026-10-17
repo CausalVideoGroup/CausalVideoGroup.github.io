@@ -1,0 +1,14 @@
+title: "Video Action Editing"
+slug: video-action-editing
+status: active
+summary: "VADD: Video Action Editing via Demonstrations and Disentanglement, with theory, methods, and interactive comparisons on synthetic and real videos."
+leaders:
+  - name: Peiyuan Zhu
+    short_name: peiyuan
+    github: SoftPointer
+tags:
+  - video-editing
+  - action-editing
+  - disentanglement
+links:
+  demo: https://causalvideogroup.github.io/projects/video-action-editing/

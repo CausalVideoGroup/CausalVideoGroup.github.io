@@ -1,0 +1,162 @@
+{
+  "schema_version": "large-fair12-fixed-caption-v1",
+  "models": [
+    "ByteDance/Bernini-R-Diffusers",
+    "Fudan-FUXI/OmniVideo2-A14B"
+  ],
+  "arms": [
+    "t2v",
+    "editing"
+  ],
+  "caption_policy": "Shared final body, target action verbatim followed by manually reviewed static identity/scene context. No automatic caption generation or rewriting. Native fixed task prefixes and feature extraction retained and recorded.",
+  "caption_context_source": "Existing MEV metadata reviewed to remove non-target actions; no target video passed to inference.",
+  "frames": 81,
+  "fps": 25,
+  "steps": 40,
+  "cases": [
+    {
+      "index": 0,
+      "case_id": "10af6c651dbc",
+      "name": "Jellyfish contraction",
+      "seed": 2026081910,
+      "original_instruction": "Edit the action so that the jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water.",
+      "target_action_caption": "The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water.",
+      "caption": "The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water. A small, translucent jellyfish with white spots is surrounded by deep blue water. The underwater camera is stationary.",
+      "caption_sha256": "790782c54c3fea6d88d28f9129501ef060ebc863cd6ead101f7a12563d43e383",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/10af6c651dbc/source-exact81.mp4",
+      "source_sha256": "ea86ef53e403f1cc602594cc3623a2fb66fb9b2f65c1461ef2bf62bee82a35fb"
+    },
+    {
+      "index": 1,
+      "case_id": "7fa338474c75",
+      "name": "Playful selfie",
+      "seed": 2026081900,
+      "original_instruction": "Edit the action so that the woman in a red bikini top and straw hat takes a playful selfie with her phone, sticking her tongue out and winking.",
+      "target_action_caption": "The woman in a red bikini top and straw hat takes a playful selfie with her phone, sticking her tongue out and winking.",
+      "caption": "The woman in a red bikini top and straw hat takes a playful selfie with her phone, sticking her tongue out and winking. She is framed in a static medium shot against a uniform green screen background.",
+      "caption_sha256": "f7d22ce2d98ed6adff42d53192e7204016d9035165349de21317c756823ac96e",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/7fa338474c75/source-exact81.mp4",
+      "source_sha256": "4278c748fa1fdd54d908c366a781df33d3e4eb1acc1c2b7bd3492659c66a9840"
+    },
+    {
+      "index": 2,
+      "case_id": "81533c9e56ec",
+      "name": "Scarf spin",
+      "seed": 2026081915,
+      "original_instruction": "Edit the action so that the woman wearing a green skirt and black shirt gracefully spins in a circle while holding a scarf.",
+      "target_action_caption": "The woman wearing a green skirt and black shirt gracefully spins in a circle while holding a scarf.",
+      "caption": "The woman wearing a green skirt and black shirt gracefully spins in a circle while holding a scarf. Her scarf is red and white. A flower-lined fence and a rustic wooden house form the background. The camera is stationary.",
+      "caption_sha256": "f6e77c2c4c9a431ed92369c65484776cb036d47a4d72c6a19e11d2a4d5b09579",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/81533c9e56ec/source-exact81.mp4",
+      "source_sha256": "6daa80d3ac407b01f842ce6fa611b3ec6c421851525f0845779143c4577e0b19"
+    },
+    {
+      "index": 3,
+      "case_id": "d977ce147d80",
+      "name": "Rub eyes then cover face",
+      "seed": 2026081905,
+      "original_instruction": "Edit the action so that the man lying on the couch rubs his tired eyes and covers his face with both hands.",
+      "target_action_caption": "The man lying on the couch rubs his tired eyes and covers his face with both hands.",
+      "caption": "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+      "caption_sha256": "a217f2a0d32d07e58d5c5781d12d401ed7a08f25d9286ea9f0bee5c25677e960",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/d977ce147d80/source-exact81.mp4",
+      "source_sha256": "e2a056e1af423be25a5beb4b75d1145fbacd625e3316a8e64b6031e75739f80d"
+    },
+    {
+      "index": 4,
+      "case_id": "840b214afead",
+      "name": "Place bottle on treadmill",
+      "seed": 2026081913,
+      "original_instruction": "Edit the action so that the woman turns her head to the left and places her water bottle onto the treadmill.",
+      "target_action_caption": "The woman turns her head to the left and places her water bottle onto the treadmill.",
+      "caption": "The woman turns her head to the left and places her water bottle onto the treadmill. She has long reddish-blonde hair and wears a mint green athletic outfit. The modern gym has blue and white striped pillars. The camera is stationary.",
+      "caption_sha256": "fe3b668a66485813f97192ae443c497bc34efcc6edbd10bbdf8af1724af85247",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/840b214afead/source-exact81.mp4",
+      "source_sha256": "a6e42a447d7fef26b073878c551a631afd6371987910a332e51e4a9e4dfb4646"
+    },
+    {
+      "index": 5,
+      "case_id": "d908552fb691",
+      "name": "Bow to clap",
+      "seed": 2026081903,
+      "original_instruction": "Edit the action so that the woman in a taekwondo uniform stands in profile and claps her hands together in front of her.",
+      "target_action_caption": "The woman in a taekwondo uniform stands in profile and claps her hands together in front of her.",
+      "caption": "The woman in a taekwondo uniform stands in profile and claps her hands together in front of her. Her uniform is white with a black collar. The background is black with side lighting, in a static medium shot.",
+      "caption_sha256": "025f04cb7e601915763666a56d60e01f88ed30d6efa85a172c0cf38eff834896",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/d908552fb691/source-exact81.mp4",
+      "source_sha256": "56e1faa78c02c32d6da71354e8434241c8e9a4c334da4ac8aa4415148b6230bb"
+    },
+    {
+      "index": 6,
+      "case_id": "fb7725c351ba",
+      "name": "提杠铃 · Barbell lift",
+      "seed": 2026081901,
+      "original_instruction": "Edit the action so that the woman in a home gym lifts a barbell from the floor to her waist.",
+      "target_action_caption": "The woman in a home gym lifts a barbell from the floor to her waist.",
+      "caption": "The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+      "caption_sha256": "b3337cc9b01e086c7969770d68fc6c6572e454e5fe1be64f770a6b7e1e30500d",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/fb7725c351ba/source-exact81.mp4",
+      "source_sha256": "479ee891773dfffc3299149103ee2ef37f4bb63f213b1c4c7cbd5391ebd4704a"
+    },
+    {
+      "index": 7,
+      "case_id": "3fadbe0c2961",
+      "name": "狗转头 · Dog head turn",
+      "seed": 2026081902,
+      "original_instruction": "Edit the action so that the dog turns its head further to the right while sitting in the grass.",
+      "target_action_caption": "The dog turns its head further to the right while sitting in the grass.",
+      "caption": "The dog turns its head further to the right while sitting in the grass. The dog is a reddish-brown and white Pembroke Welsh Corgi in a sunny green field. The camera is stationary in a medium shot.",
+      "caption_sha256": "aaeb58cbd788e3a815962e6289b1853ca09f2ef13c69d98a1af484e67f9da178",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/3fadbe0c2961/source-exact81.mp4",
+      "source_sha256": "99170f8a711a3d5a3e930a995561646ac557366cf92f5ded7ac13c6a986f8364"
+    },
+    {
+      "index": 8,
+      "case_id": "7077cfb160cf",
+      "name": "长椅上写字 · Write in notebook",
+      "seed": 2026081904,
+      "original_instruction": "Edit the action so that the young woman sitting on a park bench thoughtfully writes in her notebook with a pen.",
+      "target_action_caption": "The young woman sitting on a park bench thoughtfully writes in her notebook with a pen.",
+      "caption": "The young woman sitting on a park bench thoughtfully writes in her notebook with a pen. She has shoulder-length light brown hair and wears a pink shirt and blue jeans. The wooden bench is in a sunny park. The camera is stationary.",
+      "caption_sha256": "0acdffedc18b04d2c2bef7d0a4e4e51544b75d4dd1f904e080d9e0490be24fb1",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/7077cfb160cf/source-exact81.mp4",
+      "source_sha256": "cef4c183b459c8aad72cdc81f3e6b2766a36fc22156bf382dd36c29cec6d5aa9"
+    },
+    {
+      "index": 9,
+      "case_id": "7e488525099e",
+      "name": "转身倚车 · Turn and lean on car",
+      "seed": 2026081906,
+      "original_instruction": "Edit the action so that the woman in a black leather jacket and red pants turns and leans back against the hood of the black car.",
+      "target_action_caption": "The woman in a black leather jacket and red pants turns and leans back against the hood of the black car.",
+      "caption": "The woman in a black leather jacket and red pants turns and leans back against the hood of the black car. The setting is an underground parking garage with steady red lighting. The camera is stationary.",
+      "caption_sha256": "ed6115b291eb39710054250e5a6fd3e51f92ed3675fe1af1c5b45617396c3082",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/7e488525099e/source-exact81.mp4",
+      "source_sha256": "1f3cec72bef55b67c15ebfc063252cce867ea128594a225db61688ff961b35d4"
+    },
+    {
+      "index": 10,
+      "case_id": "d5221a1b69d5",
+      "name": "闭眼尝汤 · Taste from ladle",
+      "seed": 2026081907,
+      "original_instruction": "Edit the action so that the woman in an apron closes her eyes as she tastes from a metal ladle.",
+      "target_action_caption": "The woman in an apron closes her eyes as she tastes from a metal ladle.",
+      "caption": "The woman in an apron closes her eyes as she tastes from a metal ladle. She wears a patterned apron in a modern kitchen. The camera is stationary.",
+      "caption_sha256": "043306a7c3eff9ad7a50db5bbf0d3b4a2d6dec27fb8c5b5f6a316382992bc71b",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/d5221a1b69d5/source-exact81.mp4",
+      "source_sha256": "fdd1b3df4b94449dc59cd04d03deb769fb2cf6c4c2d7b87221e2b3a6b5557d14"
+    },
+    {
+      "index": 11,
+      "case_id": "40712e1341dc",
+      "name": "放下手机后翻身睡觉 · Put phone away and sleep",
+      "seed": 2026081911,
+      "original_instruction": "Edit the action so that the man in bed puts his smartphone on the nightstand and turns over to go to sleep.",
+      "target_action_caption": "The man in bed puts his smartphone on the nightstand and turns over to go to sleep.",
+      "caption": "The man in bed puts his smartphone on the nightstand and turns over to go to sleep. He has dyed-blond hair, wears a pink tank top and a nose ring, and is in a dark bedroom with a nightstand beside the bed. The camera is stationary.",
+      "caption_sha256": "24857d19e619899acd653ea104c6a5b68b895cdd4b5cc3637df661f694521907",
+      "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/40712e1341dc/source-exact81.mp4",
+      "source_sha256": "654e997c46a6f78a2ad78359b713767aefe61a6cc732b5be4527720323349f69"
+    }
+  ]
+}

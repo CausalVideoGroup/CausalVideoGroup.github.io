@@ -1,0 +1,109 @@
+{
+  "status": "complete",
+  "case_id": "fb7725c351ba",
+  "model": "ByteDance/Bernini-R-Diffusers",
+  "revision": "de8c4621d3ac75cc33efe3db8deaed2023e9ac8c",
+  "arm": "editing",
+  "caption": "The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+  "caption_sha256": "b3337cc9b01e086c7969770d68fc6c6572e454e5fe1be64f770a6b7e1e30500d",
+  "actual_t5_text": "You are a helpful assistant specialized in video editing with reference.image0, image1, image2, and image3 are frames sampled from the source video. Preserve the source subject's identity, background, and camera while applying the requested new action. The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+  "task_prefix": "You are a helpful assistant specialized in video editing with reference.",
+  "native_reference_binding": "image0, image1, image2, and image3 are frames sampled from the source video. Preserve the source subject's identity, background, and camera while applying the requested new action. ",
+  "prompt_rewriting": false,
+  "positive_token_count": 107,
+  "prompt_truncated": false,
+  "seed": 2026081901,
+  "steps": 40,
+  "fps": 25,
+  "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/fb7725c351ba/source-exact81.mp4",
+  "source_sha256": "479ee891773dfffc3299149103ee2ef37f4bb63f213b1c4c7cbd5391ebd4704a",
+  "effective_scheduler_config": {
+    "num_train_timesteps": 1000,
+    "beta_start": 0.0001,
+    "beta_end": 0.02,
+    "beta_schedule": "linear",
+    "trained_betas": null,
+    "solver_order": 2,
+    "prediction_type": "flow_prediction",
+    "thresholding": false,
+    "dynamic_thresholding_ratio": 0.995,
+    "sample_max_value": 1.0,
+    "predict_x0": true,
+    "solver_type": "bh2",
+    "lower_order_final": true,
+    "disable_corrector": [],
+    "solver_p": null,
+    "use_karras_sigmas": false,
+    "use_exponential_sigmas": false,
+    "use_beta_sigmas": false,
+    "use_flow_sigmas": true,
+    "flow_shift": 3.0,
+    "timestep_spacing": "linspace",
+    "steps_offset": 0,
+    "final_sigmas_type": "zero",
+    "rescale_betas_zero_snr": false,
+    "use_dynamic_shifting": false,
+    "time_shift_type": "exponential",
+    "sigma_min": null,
+    "sigma_max": null,
+    "shift_terminal": null,
+    "_use_default_values": [
+      "shift_terminal",
+      "sigma_min",
+      "sigma_max"
+    ],
+    "_class_name": "UniPCMultistepScheduler",
+    "_diffusers_version": "0.35.0.dev0"
+  },
+  "source_reference_frames": [
+    0,
+    27,
+    53,
+    80
+  ],
+  "real_target_used": false,
+  "expert_parameters": [
+    14288491584,
+    14288491584
+  ],
+  "expert_forward_counts": [
+    52,
+    108
+  ],
+  "loading_info": [
+    {
+      "subfolder": "transformer",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    },
+    {
+      "subfolder": "transformer_2",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    }
+  ],
+  "output": {
+    "sha256": "6b544f44db85d07a6f1792758ccb4d4ff2f2482cdf42348661ddf06c33f79575",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 464,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T20:22:14.144770+00:00",
+  "elapsed_seconds": 2187.05,
+  "job": "214692",
+  "hostname": "auh7-1b-gpu-289",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "3b0d2856c6329312cd3627b4df0028cafb7902121d323ef0cdd46ea580f4a200"
+}

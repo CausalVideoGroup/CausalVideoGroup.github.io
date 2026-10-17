@@ -1,0 +1,76 @@
+{
+  "status": "complete",
+  "case_id": "fb7725c351ba",
+  "model": "Fudan-FUXI/OmniVideo2-A14B",
+  "revision": "51160486a5498cce099bde02cbf232cd046ab4a9",
+  "arm": "t2v",
+  "caption": "The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+  "caption_sha256": "b3337cc9b01e086c7969770d68fc6c6572e454e5fe1be64f770a6b7e1e30500d",
+  "prompt_rewriting": false,
+  "seed": 2026081901,
+  "steps": 40,
+  "fps": 25,
+  "source_video": null,
+  "source_sha256": null,
+  "real_target_used": false,
+  "expert_parameters": [
+    14319177792,
+    14319177792
+  ],
+  "expert_forward_counts": null,
+  "expert_usage_assertion_passed": true,
+  "prompt_capture_assertion_passed": true,
+  "full_decode_passed": true,
+  "output": {
+    "sha256": "824308c194214741551ae419983cf4c8b2cf0690b1e50d656383ad01d16d86df",
+    "width": 832,
+    "height": 480,
+    "avg_frame_rate": "25/1",
+    "nb_read_frames": "81"
+  },
+  "elapsed_seconds": null,
+  "completed_utc": "2026-09-23T19:53:48.570684+00:00",
+  "job": "214677",
+  "hostname": "auh7-1b-gpu-320",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "3e34e9031fb4622896f5ac2765f6c15fcf8740324100c341cf70fb5bb71bba7d",
+  "receipt_recovery": {
+    "reason": "Generated video was valid; unsupported compute-node ffprobe wrapper arguments stopped post-processing.",
+    "observed_failure": "ffprobe subprocess after prompt/expert assertions, encode, and complete ffmpeg decode",
+    "log_path": "logs/omni-canary2-214677.log",
+    "log_sha256": "7de41d5e17edbdb8498006657ad0723392a68896346d72d1856589bbcdd56635",
+    "driver_path": "provenance/drivers_v1/run_omni.py",
+    "missing_runtime_measurements": [
+      "per-expert forward counts",
+      "elapsed_seconds",
+      "negative T5 text not separately persisted; its equality assertion passed"
+    ],
+    "validation": "Independent complete local ffmpeg decode and genuine ffprobe frame count; no video regenerated or replaced."
+  },
+  "actual_t5_text": "The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+  "qwen_features": {
+    "case_id": "fb7725c351ba",
+    "arm": "t2v",
+    "caption": "The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+    "caption_sha256": "b3337cc9b01e086c7969770d68fc6c6572e454e5fe1be64f770a6b7e1e30500d",
+    "source_video_path": null,
+    "source_sha256": null,
+    "rewriting_enabled": false,
+    "autoregressive_generate_forbidden": true,
+    "qwen_checkpoint": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/marp_omnivideo2_maskfree/models/Qwen3-VL-30B-A3B-Instruct",
+    "feature_shape": [
+      53,
+      2048
+    ],
+    "feature_sha256": "09257c22c470b91a506cd2f6e96df101e6f138ae2fd62cacc9851d82cd597b7c"
+  },
+  "t5_text_inputs": [
+    "The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible."
+  ],
+  "positive_t5_context_copies": 1,
+  "visual_latent_shape": null,
+  "strict_checkpoint_load": true,
+  "max_context_length": 9216,
+  "context_truncation": false,
+  "total_forward_count_assertion": 80
+}

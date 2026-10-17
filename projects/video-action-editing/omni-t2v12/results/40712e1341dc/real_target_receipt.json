@@ -1,0 +1,58 @@
+{
+  "case_id": "40712e1341dc",
+  "collected_utc": "2026-09-23T17:35:29.730413+00:00",
+  "purpose": "review_only",
+  "used_for_inference": false,
+  "original": {
+    "path": "/vast/users/guangyi.chen/dataset/MEV/MEV/videos/88a17729-f1d4-489d-8e73-248bbc088141-00.00.03.347-00.00.06.668-seg2.mp4",
+    "sha256": "2b64f8177ba8494d727bf440238f183a40df32d13d93e8ceb381617063c4fc6a"
+  },
+  "original_probe": {
+    "width": 1920,
+    "height": 1080,
+    "avg_frame_rate": "24000/1001",
+    "duration": "3.336667",
+    "nb_read_frames": "80"
+  },
+  "display": {
+    "path": "results/40712e1341dc/real_target.mp4",
+    "sha256": "4424517beb4e790280cbf782fa1a2d6589b0443d14b9adfb83922d82d919c93e",
+    "frames": 81,
+    "fps": 25,
+    "duration": 3.24,
+    "width": 960,
+    "height": 540,
+    "temporal_normalization": "full clip rescaled to 3.24 seconds",
+    "spatial_normalization": "fit and letterbox; no crop"
+  },
+  "ffmpeg_command": [
+    "ffmpeg",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-y",
+    "-i",
+    "/Users/siriuschu/ML/VideoEditing/VideoEdit/artifacts/progress2_omni_t2v12_20260923/real_targets_original/40712e1341dc.mp4",
+    "-map",
+    "0:v:0",
+    "-an",
+    "-vf",
+    "setpts=(PTS-STARTPTS)*0.97102887402309,fps=25,tpad=stop_mode=clone:stop_duration=3.24,trim=end_frame=81,setpts=N/(25*TB),scale=960:540:force_original_aspect_ratio=decrease:force_divisible_by=2,pad=960:540:(ow-iw)/2:(oh-ih)/2,setsar=1",
+    "-frames:v",
+    "81",
+    "-c:v",
+    "libx264",
+    "-crf",
+    "18",
+    "-preset",
+    "fast",
+    "-threads",
+    "2",
+    "-pix_fmt",
+    "yuv420p",
+    "-movflags",
+    "+faststart",
+    "/Users/siriuschu/ML/VideoEditing/VideoEdit/artifacts/progress2_omni_t2v12_20260923/results/40712e1341dc/real_target.mp4"
+  ],
+  "full_decode_passed": true
+}

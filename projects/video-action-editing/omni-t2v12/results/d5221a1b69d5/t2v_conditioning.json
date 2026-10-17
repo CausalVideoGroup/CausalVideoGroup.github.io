@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A young woman in a patterned apron stands in a modern kitchen, tasting food from a ladle with a satisfied expression. In this continuous shot, The woman in an apron closes her eyes as she tastes from a metal ladle. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A young woman stands in a bright, modern kitchen, her figure centered in a steady, continuous shot. She wears a patterned apron over casual clothing, the fabric soft and slightly rumpled from use. The kitchen is sleek and well-lit, with natural light streaming through a large window, casting a warm glow across stainless steel appliances and clean white countertops. In her hand, she holds a metal ladle, its surface gleaming under the light. She lifts it slowly to her lips, her eyes closing gently as she tastes the food. Her expression softens into quiet satisfaction\u2014lips parting slightly, a subtle smile forming as the flavor registers. The camera remains fixed, capturing the moment with unwavering focus, preserving the stillness of the scene. The lighting remains consistent, highlighting the contours of her face and the texture of the apron. The background remains unchanged\u2014neatly arranged utensils, a pot simmering on the stove, a bowl of fresh herbs on the counter\u2014all contributing to the calm, domestic atmosphere. The shot lingers, emphasizing the sensory experience, the quiet joy of a meal well-prepared, and the simple pleasure of tasting one\u2019s own creation.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    70,
+    2048
+  ],
+  "t5_context_shape": [
+    274,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

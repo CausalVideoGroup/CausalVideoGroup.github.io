@@ -1,0 +1,109 @@
+{
+  "status": "complete",
+  "case_id": "840b214afead",
+  "model": "ByteDance/Bernini-R-Diffusers",
+  "revision": "de8c4621d3ac75cc33efe3db8deaed2023e9ac8c",
+  "arm": "editing",
+  "caption": "The woman turns her head to the left and places her water bottle onto the treadmill. She has long reddish-blonde hair and wears a mint green athletic outfit. The modern gym has blue and white striped pillars. The camera is stationary.",
+  "caption_sha256": "fe3b668a66485813f97192ae443c497bc34efcc6edbd10bbdf8af1724af85247",
+  "actual_t5_text": "You are a helpful assistant specialized in video editing with reference.image0, image1, image2, and image3 are frames sampled from the source video. Preserve the source subject's identity, background, and camera while applying the requested new action. The woman turns her head to the left and places her water bottle onto the treadmill. She has long reddish-blonde hair and wears a mint green athletic outfit. The modern gym has blue and white striped pillars. The camera is stationary.",
+  "task_prefix": "You are a helpful assistant specialized in video editing with reference.",
+  "native_reference_binding": "image0, image1, image2, and image3 are frames sampled from the source video. Preserve the source subject's identity, background, and camera while applying the requested new action. ",
+  "prompt_rewriting": false,
+  "positive_token_count": 110,
+  "prompt_truncated": false,
+  "seed": 2026081913,
+  "steps": 40,
+  "fps": 25,
+  "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/840b214afead/source-exact81.mp4",
+  "source_sha256": "a6e42a447d7fef26b073878c551a631afd6371987910a332e51e4a9e4dfb4646",
+  "effective_scheduler_config": {
+    "num_train_timesteps": 1000,
+    "beta_start": 0.0001,
+    "beta_end": 0.02,
+    "beta_schedule": "linear",
+    "trained_betas": null,
+    "solver_order": 2,
+    "prediction_type": "flow_prediction",
+    "thresholding": false,
+    "dynamic_thresholding_ratio": 0.995,
+    "sample_max_value": 1.0,
+    "predict_x0": true,
+    "solver_type": "bh2",
+    "lower_order_final": true,
+    "disable_corrector": [],
+    "solver_p": null,
+    "use_karras_sigmas": false,
+    "use_exponential_sigmas": false,
+    "use_beta_sigmas": false,
+    "use_flow_sigmas": true,
+    "flow_shift": 3.0,
+    "timestep_spacing": "linspace",
+    "steps_offset": 0,
+    "final_sigmas_type": "zero",
+    "rescale_betas_zero_snr": false,
+    "use_dynamic_shifting": false,
+    "time_shift_type": "exponential",
+    "sigma_min": null,
+    "sigma_max": null,
+    "shift_terminal": null,
+    "_use_default_values": [
+      "sigma_min",
+      "sigma_max",
+      "shift_terminal"
+    ],
+    "_class_name": "UniPCMultistepScheduler",
+    "_diffusers_version": "0.35.0.dev0"
+  },
+  "source_reference_frames": [
+    0,
+    27,
+    53,
+    80
+  ],
+  "real_target_used": false,
+  "expert_parameters": [
+    14288491584,
+    14288491584
+  ],
+  "expert_forward_counts": [
+    52,
+    108
+  ],
+  "loading_info": [
+    {
+      "subfolder": "transformer",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    },
+    {
+      "subfolder": "transformer_2",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    }
+  ],
+  "output": {
+    "sha256": "aa4f8096577b9224c04eadfefb1581272b7a1355a9a730939813296ef15d39a2",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 464,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T21:59:20.369231+00:00",
+  "elapsed_seconds": 2401.86,
+  "job": "214749",
+  "hostname": "auh7-1b-gpu-320",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "700a4e76177713a6ba2ff7bb92d7976788b646bf153ad7154701ed422ca966d6"
+}

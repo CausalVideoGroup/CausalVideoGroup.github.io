@@ -1,0 +1,11 @@
+% Extracted unchanged from 2_theory.tex: \mathbf z^{\mathrm a}_{0:T}
+\documentclass[border=0pt]{standalone}
+\usepackage{times}
+\usepackage{amsmath,amsfonts,bm}
+\newcommand{\E}{\mathbb{E}}
+\newsavebox{\equationbox}
+\begin{document}%
+\savebox{\equationbox}{$\mathbf z^{\mathrm a}_{0:T}$}%
+\typeout{MATHBOX:\the\wd\equationbox,\the\ht\equationbox,\the\dp\equationbox}%
+\usebox{\equationbox}%
+\end{document}

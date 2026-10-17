@@ -1,0 +1,72 @@
+{
+  "status": "complete",
+  "case_id": "3fadbe0c2961",
+  "model": "Fudan-FUXI/OmniVideo2-A14B",
+  "revision": "51160486a5498cce099bde02cbf232cd046ab4a9",
+  "arm": "editing",
+  "caption": "The dog turns its head further to the right while sitting in the grass. The dog is a reddish-brown and white Pembroke Welsh Corgi in a sunny green field. The camera is stationary in a medium shot.",
+  "caption_sha256": "aaeb58cbd788e3a815962e6289b1853ca09f2ef13c69d98a1af484e67f9da178",
+  "actual_t5_text": "The dog turns its head further to the right while sitting in the grass. The dog is a reddish-brown and white Pembroke Welsh Corgi in a sunny green field. The camera is stationary in a medium shot.",
+  "prompt_rewriting": false,
+  "qwen_features": {
+    "case_id": "3fadbe0c2961",
+    "arm": "editing",
+    "caption": "The dog turns its head further to the right while sitting in the grass. The dog is a reddish-brown and white Pembroke Welsh Corgi in a sunny green field. The camera is stationary in a medium shot.",
+    "caption_sha256": "aaeb58cbd788e3a815962e6289b1853ca09f2ef13c69d98a1af484e67f9da178",
+    "source_video_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/3fadbe0c2961/source-exact81.mp4",
+    "source_sha256": "99170f8a711a3d5a3e930a995561646ac557366cf92f5ded7ac13c6a986f8364",
+    "rewriting_enabled": false,
+    "autoregressive_generate_forbidden": true,
+    "qwen_checkpoint": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/marp_omnivideo2_maskfree/models/Qwen3-VL-30B-A3B-Instruct",
+    "feature_shape": [
+      78,
+      2048
+    ],
+    "feature_sha256": "5607250394671775f7a81e3929b7e9ff08652121e7def64d0a370240e1f6e2ce"
+  },
+  "t5_text_inputs": [
+    "The dog turns its head further to the right while sitting in the grass. The dog is a reddish-brown and white Pembroke Welsh Corgi in a sunny green field. The camera is stationary in a medium shot.",
+    "overly vivid colors, overexposed, static, blurry and unclear details, subtitles, text overlays, stylized artwork, painting, illustration, still image, frozen frame, grayish overall tone, worst quality, low quality, JPEG compression artifacts, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn face, deformed, disfigured, malformed anatomy, distorted limbs, fused fingers, motionless frame, cluttered background, three legs, walking backward, expression drift, teeth flickering, uneven facial muscles, facial shivering"
+  ],
+  "positive_t5_context_copies": 2,
+  "seed": 2026081902,
+  "steps": 40,
+  "fps": 25,
+  "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/3fadbe0c2961/source-exact81.mp4",
+  "source_sha256": "99170f8a711a3d5a3e930a995561646ac557366cf92f5ded7ac13c6a986f8364",
+  "real_target_used": false,
+  "visual_latent_shape": [
+    1,
+    16,
+    21,
+    60,
+    104
+  ],
+  "expert_parameters": [
+    14319177792,
+    14319177792
+  ],
+  "expert_forward_counts": [
+    34,
+    46
+  ],
+  "strict_checkpoint_load": true,
+  "max_context_length": 9216,
+  "context_truncation": false,
+  "output": {
+    "sha256": "87aa2a665e5c451327950cf7eaa217e0f10ba00a2dac3f85af22489eb046501b",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 480,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T21:07:32.501671+00:00",
+  "elapsed_seconds": 637.79,
+  "job": "214739",
+  "hostname": "auh7-1b-gpu-282",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "c83cf03c774b3f29f430e9442d6667e5d7d26e7813a836379620c875e83b8295"
+}

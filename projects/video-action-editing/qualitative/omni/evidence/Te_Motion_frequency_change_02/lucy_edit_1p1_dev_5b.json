@@ -1,0 +1,46 @@
+{
+  "category": "Motion Attribute",
+  "created_at_utc": "2026-09-14T18:17:15Z",
+  "edited_video_sha256": "7faa97ec69c6559f1251d072e506a877e8e85f52239893bebd3a33d66b6269db",
+  "editing_instruction": "Reduce the frequency of the fan's rotation on the ceiling.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "958406a72abc3d1d3ccff777bbe657b4e77061cb2ecce850fc4a0f8546716c3a",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 81,
+  "item_id": "Te_Motion_frequency_change_02",
+  "parsed_judge_output": {
+    "accuracy": 4,
+    "consistency": 5,
+    "preservation": 5,
+    "realism": 4,
+    "reason": "The fan's rotation frequency is visibly reduced compared to the original video, fulfilling the instruction. The motion appears slower and more deliberate, with blades showing more distinct positions over time. No other elements in the scene (furniture, lighting, camera angle) are altered, preserving the environment. Motion is smooth and realistic with no noticeable artifacts. Temporal consistency is maintained across frames. Minor imperfection: the fan's motion blur is slightly inconsistent in some frames, but overall, the edit is accurate and well-executed."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 4,\n    \"preservation\": 5,\n    \"realism\": 4,\n    \"consistency\": 5,\n    \"reason\": \"The fan's rotation frequency is visibly reduced compared to the original video, fulfilling the instruction. The motion appears slower and more deliberate, with blades showing more distinct positions over time. No other elements in the scene (furniture, lighting, camera angle) are altered, preserving the environment. Motion is smooth and realistic with no noticeable artifacts. Temporal consistency is maintained across frames. Minor imperfection: the fan's motion blur is slightly inconsistent in some frames, but overall, the edit is accurate and well-executed.\"\n}",
+  "receipt_digest": "e1b4a86819bf49f69fdbf3c6abccd8873a577e1f5d464f488bef404c97d91816",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 4.0,
+    "accuracy_penalty": 0.8,
+    "consistency": 5.0,
+    "overall_score_paper_0_to_100": 77.6,
+    "overall_score_raw_0_to_5": 3.88,
+    "preservation": 5.0,
+    "realism": 4.0,
+    "reason": "The fan's rotation frequency is visibly reduced compared to the original video, fulfilling the instruction. The motion appears slower and more deliberate, with blades showing more distinct positions over time. No other elements in the scene (furniture, lighting, camera angle) are altered, preserving the environment. Motion is smooth and realistic with no noticeable artifacts. Temporal consistency is maintained across frames. Minor imperfection: the fan's motion blur is slightly inconsistent in some frames, but overall, the edit is accurate and well-executed."
+  },
+  "source_video_sha256": "eee3a86a3441fb2617dcc8323c157d39fc83dc2bd2c0edf1ea860cd6d9c903d1",
+  "subcategory": "Motion_frequency_change"
+}

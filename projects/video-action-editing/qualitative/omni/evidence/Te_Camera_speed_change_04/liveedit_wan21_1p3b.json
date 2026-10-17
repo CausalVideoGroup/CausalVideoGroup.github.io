@@ -1,0 +1,46 @@
+{
+  "category": "Camera Attribute",
+  "created_at_utc": "2026-09-14T19:58:25Z",
+  "edited_video_sha256": "6c92a2c7edc0ba610fcf39579754239b2996cd457be2d8133e311c26d5e9b451",
+  "editing_instruction": "Accelerate the camera's movement speed.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "fc731a49e6c3d35b5945782f04ebc463488a0e3e5ede54e972425835c208e5d7",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 63,
+  "item_id": "Te_Camera_speed_change_04",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 1,
+    "preservation": 2,
+    "realism": 1,
+    "reason": "The instruction was to accelerate the camera's movement speed, but the edited video shows no change in camera motion speed compared to the original. Instead, there is a black, distorted object superimposed on the tower, which is a major error. This object is not present in the original and appears to be an artifact or incorrect edit. The camera movement remains identical, so the core instruction is completely unmet. Preservation is low because unrelated content (the tower and city) is altered by the black object. Realism and consistency are poor due to the unnatural artifact and lack of temporal stability."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 2,\n    \"realism\": 1,\n    \"consistency\": 1,\n    \"reason\": \"The instruction was to accelerate the camera's movement speed, but the edited video shows no change in camera motion speed compared to the original. Instead, there is a black, distorted object superimposed on the tower, which is a major error. This object is not present in the original and appears to be an artifact or incorrect edit. The camera movement remains identical, so the core instruction is completely unmet. Preservation is low because unrelated content (the tower and city) is altered by the black object. Realism and consistency are poor due to the unnatural artifact and lack of temporal stability.\"\n}",
+  "receipt_digest": "bdd9006c9e3f951d28e279bcdbdfc664c02cda1bf7454b2a4b2cfe10689fd537",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 1.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 2.0,
+    "realism": 1.0,
+    "reason": "The instruction was to accelerate the camera's movement speed, but the edited video shows no change in camera motion speed compared to the original. Instead, there is a black, distorted object superimposed on the tower, which is a major error. This object is not present in the original and appears to be an artifact or incorrect edit. The camera movement remains identical, so the core instruction is completely unmet. Preservation is low because unrelated content (the tower and city) is altered by the black object. Realism and consistency are poor due to the unnatural artifact and lack of temporal stability."
+  },
+  "source_video_sha256": "0fddc8d23c7f6f5d55658de1ee5de4d588c20a78b6acf0344a7f467a5f6e6b84",
+  "subcategory": "Camera_speed_change"
+}

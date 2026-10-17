@@ -1,0 +1,15 @@
+% Extracted unchanged from 2_theory.tex: eq:anchor-objective
+\documentclass[border=4pt]{standalone}
+\usepackage{times}
+\usepackage{amsmath,amsfonts,bm}
+\newcommand{\E}{\mathbb{E}}
+\begin{document}
+$\displaystyle
+\begin{aligned}
+ \mathcal J(E_{\mathrm a},P)
+ ={}&\lambda\,\underbrace{\E\|E_{\mathrm a}(V)-E_{\mathrm a}(V^+)\|^2}_{\mathcal L_{\mathrm{inv}}}\\
+ &+\underbrace{\E\|P(E_{\mathrm a}(V))-\varphi(V^+)\|_{\mathcal H_k}^2}_{\mathcal L_{\mathrm{pred}}},
+ \qquad\lambda>0 .
+ \end{aligned}
+$
+\end{document}

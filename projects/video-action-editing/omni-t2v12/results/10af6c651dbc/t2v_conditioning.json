@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A small, white-spotted jellyfish drifts and pulsates gracefully in serene, deep blue water. In this continuous shot, The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A small, white-spotted jellyfish drifts effortlessly through serene, deep blue water, its translucent bell gently pulsating in rhythmic motion. The delicate, rhythmic contractions of its body propel it forward in a slow, graceful dance, each pulse creating a subtle ripple in the surrounding water. As the bell contracts, it reveals a distinct ring-like shape, a luminous outline that glows faintly against the rich, uniform blue backdrop. The white spots on its body shimmer faintly with the play of light filtering down from above, adding a soft, ethereal contrast to the deep oceanic hue. The scene remains calm and undisturbed, with no sudden movements or changes in the environment. The camera holds steady, maintaining a consistent framing that centers the jellyfish in the frame, capturing its elegant motion in a continuous, uninterrupted shot. The lighting remains soft and diffused, enhancing the tranquil, otherworldly atmosphere of the deep sea. The jellyfish continues its slow, mesmerizing journey, its form and movement unchanged, creating a peaceful and hypnotic visual experience.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    67,
+    2048
+  ],
+  "t5_context_shape": [
+    253,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

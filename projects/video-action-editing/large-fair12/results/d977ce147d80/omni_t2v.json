@@ -1,0 +1,66 @@
+{
+  "status": "complete",
+  "case_id": "d977ce147d80",
+  "model": "Fudan-FUXI/OmniVideo2-A14B",
+  "revision": "51160486a5498cce099bde02cbf232cd046ab4a9",
+  "arm": "t2v",
+  "caption": "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+  "caption_sha256": "a217f2a0d32d07e58d5c5781d12d401ed7a08f25d9286ea9f0bee5c25677e960",
+  "actual_t5_text": "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+  "prompt_rewriting": false,
+  "qwen_features": {
+    "case_id": "d977ce147d80",
+    "arm": "t2v",
+    "caption": "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+    "caption_sha256": "a217f2a0d32d07e58d5c5781d12d401ed7a08f25d9286ea9f0bee5c25677e960",
+    "source_video_path": null,
+    "source_sha256": null,
+    "rewriting_enabled": false,
+    "autoregressive_generate_forbidden": true,
+    "qwen_checkpoint": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/marp_omnivideo2_maskfree/models/Qwen3-VL-30B-A3B-Instruct",
+    "feature_shape": [
+      56,
+      2048
+    ],
+    "feature_sha256": "f578112393aca285a045449d97541a449320571490c0012b73a7d22c73d52bdd"
+  },
+  "t5_text_inputs": [
+    "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+    "overly vivid colors, overexposed, static, blurry and unclear details, subtitles, text overlays, stylized artwork, painting, illustration, still image, frozen frame, grayish overall tone, worst quality, low quality, JPEG compression artifacts, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn face, deformed, disfigured, malformed anatomy, distorted limbs, fused fingers, motionless frame, cluttered background, three legs, walking backward, expression drift, teeth flickering, uneven facial muscles, facial shivering"
+  ],
+  "positive_t5_context_copies": 1,
+  "seed": 2026081905,
+  "steps": 40,
+  "fps": 25,
+  "source_video": null,
+  "source_sha256": null,
+  "real_target_used": false,
+  "visual_latent_shape": null,
+  "expert_parameters": [
+    14319177792,
+    14319177792
+  ],
+  "expert_forward_counts": [
+    34,
+    46
+  ],
+  "strict_checkpoint_load": true,
+  "max_context_length": 9216,
+  "context_truncation": false,
+  "output": {
+    "sha256": "802cb826e1a39c7a3e2adcb35e2e2288439bc8acfaa86ec6c68dd450b95601f6",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 480,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T20:21:34.897069+00:00",
+  "elapsed_seconds": 599.87,
+  "job": "214724",
+  "hostname": "auh7-1b-gpu-282",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "c83cf03c774b3f29f430e9442d6667e5d7d26e7813a836379620c875e83b8295"
+}

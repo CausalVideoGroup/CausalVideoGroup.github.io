@@ -1,0 +1,72 @@
+{
+  "status": "complete",
+  "case_id": "7077cfb160cf",
+  "model": "Fudan-FUXI/OmniVideo2-A14B",
+  "revision": "51160486a5498cce099bde02cbf232cd046ab4a9",
+  "arm": "editing",
+  "caption": "The young woman sitting on a park bench thoughtfully writes in her notebook with a pen. She has shoulder-length light brown hair and wears a pink shirt and blue jeans. The wooden bench is in a sunny park. The camera is stationary.",
+  "caption_sha256": "0acdffedc18b04d2c2bef7d0a4e4e51544b75d4dd1f904e080d9e0490be24fb1",
+  "actual_t5_text": "The young woman sitting on a park bench thoughtfully writes in her notebook with a pen. She has shoulder-length light brown hair and wears a pink shirt and blue jeans. The wooden bench is in a sunny park. The camera is stationary.",
+  "prompt_rewriting": false,
+  "qwen_features": {
+    "case_id": "7077cfb160cf",
+    "arm": "editing",
+    "caption": "The young woman sitting on a park bench thoughtfully writes in her notebook with a pen. She has shoulder-length light brown hair and wears a pink shirt and blue jeans. The wooden bench is in a sunny park. The camera is stationary.",
+    "caption_sha256": "0acdffedc18b04d2c2bef7d0a4e4e51544b75d4dd1f904e080d9e0490be24fb1",
+    "source_video_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/7077cfb160cf/source-exact81.mp4",
+    "source_sha256": "cef4c183b459c8aad72cdc81f3e6b2766a36fc22156bf382dd36c29cec6d5aa9",
+    "rewriting_enabled": false,
+    "autoregressive_generate_forbidden": true,
+    "qwen_checkpoint": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/marp_omnivideo2_maskfree/models/Qwen3-VL-30B-A3B-Instruct",
+    "feature_shape": [
+      80,
+      2048
+    ],
+    "feature_sha256": "70de5d8bbce06459f31e50438e02db4aae638a7c14eec75b64875ee09eb289cb"
+  },
+  "t5_text_inputs": [
+    "The young woman sitting on a park bench thoughtfully writes in her notebook with a pen. She has shoulder-length light brown hair and wears a pink shirt and blue jeans. The wooden bench is in a sunny park. The camera is stationary.",
+    "overly vivid colors, overexposed, static, blurry and unclear details, subtitles, text overlays, stylized artwork, painting, illustration, still image, frozen frame, grayish overall tone, worst quality, low quality, JPEG compression artifacts, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn face, deformed, disfigured, malformed anatomy, distorted limbs, fused fingers, motionless frame, cluttered background, three legs, walking backward, expression drift, teeth flickering, uneven facial muscles, facial shivering"
+  ],
+  "positive_t5_context_copies": 2,
+  "seed": 2026081904,
+  "steps": 40,
+  "fps": 25,
+  "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/7077cfb160cf/source-exact81.mp4",
+  "source_sha256": "cef4c183b459c8aad72cdc81f3e6b2766a36fc22156bf382dd36c29cec6d5aa9",
+  "real_target_used": false,
+  "visual_latent_shape": [
+    1,
+    16,
+    21,
+    60,
+    104
+  ],
+  "expert_parameters": [
+    14319177792,
+    14319177792
+  ],
+  "expert_forward_counts": [
+    34,
+    46
+  ],
+  "strict_checkpoint_load": true,
+  "max_context_length": 9216,
+  "context_truncation": false,
+  "output": {
+    "sha256": "3b158d997abb43e583b01b618a280bb0938570e81b73116ce351f2cb255e96af",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 480,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T21:08:05.180195+00:00",
+  "elapsed_seconds": 649.79,
+  "job": "214740",
+  "hostname": "auh7-1b-gpu-313",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "c83cf03c774b3f29f430e9442d6667e5d7d26e7813a836379620c875e83b8295"
+}

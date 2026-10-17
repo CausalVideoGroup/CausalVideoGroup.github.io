@@ -1,0 +1,46 @@
+{
+  "category": "Motion Attribute",
+  "created_at_utc": "2026-09-14T19:56:53Z",
+  "edited_video_sha256": "4fc6bd5fdcedb2703a879b09cc0460dc9da0646ab8d9774fa4ba828f46a4e972",
+  "editing_instruction": "Reduce the frequency of the fan's rotation on the ceiling.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "dd144add239638ebbc6a7f5dd0112fdc48e4b0eb193048b94cd97eecdeacb179",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 81,
+  "item_id": "Te_Motion_frequency_change_02",
+  "parsed_judge_output": {
+    "accuracy": 2,
+    "consistency": 3,
+    "preservation": 2,
+    "realism": 3,
+    "reason": "The fan's rotation frequency appears reduced, but the motion blur is inconsistent and unnatural, suggesting incorrect temporal interpolation. More critically, the coffee table decor has been changed (wooden beads replaced with green and red beads, bowl color altered), which violates preservation rules. The lighting in the kitchen also appears warmer and altered, indicating unintended edits. These changes are not part of the instruction and degrade accuracy and preservation. The fan motion is not perfectly smooth, and temporal consistency is slightly off due to inconsistent blur patterns."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 2,\n    \"preservation\": 2,\n    \"realism\": 3,\n    \"consistency\": 3,\n    \"reason\": \"The fan's rotation frequency appears reduced, but the motion blur is inconsistent and unnatural, suggesting incorrect temporal interpolation. More critically, the coffee table decor has been changed (wooden beads replaced with green and red beads, bowl color altered), which violates preservation rules. The lighting in the kitchen also appears warmer and altered, indicating unintended edits. These changes are not part of the instruction and degrade accuracy and preservation. The fan motion is not perfectly smooth, and temporal consistency is slightly off due to inconsistent blur patterns.\"\n}",
+  "receipt_digest": "e28d1874037a011f7f31b7577f491f4277bc9787d9257073b710322002bfba9d",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 2.0,
+    "accuracy_penalty": 0.4,
+    "consistency": 3.0,
+    "overall_score_paper_0_to_100": 30.4,
+    "overall_score_raw_0_to_5": 1.52,
+    "preservation": 2.0,
+    "realism": 3.0,
+    "reason": "The fan's rotation frequency appears reduced, but the motion blur is inconsistent and unnatural, suggesting incorrect temporal interpolation. More critically, the coffee table decor has been changed (wooden beads replaced with green and red beads, bowl color altered), which violates preservation rules. The lighting in the kitchen also appears warmer and altered, indicating unintended edits. These changes are not part of the instruction and degrade accuracy and preservation. The fan motion is not perfectly smooth, and temporal consistency is slightly off due to inconsistent blur patterns."
+  },
+  "source_video_sha256": "eee3a86a3441fb2617dcc8323c157d39fc83dc2bd2c0edf1ea860cd6d9c903d1",
+  "subcategory": "Motion_frequency_change"
+}

@@ -1,0 +1,272 @@
+[
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/datasets/omni_temporal200/Temporal/Motion Attribute/Motion_frequency_change/6_1280x720.mp4",
+    "local": "media/Te_Motion_frequency_change_06/source.mp4",
+    "sha256": "89033eb8d081cf564f28ff41111f25fcd6bd7f41604c0f4d3e54bb6f950f5ee8",
+    "bytes": 3961122
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/zebra_reference_weak_supervision/zebra_u680_bernini_pseudoref_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/zebra.mp4",
+    "sha256": "99e7098bf8ca8f327d9acf1c72b3c88b82ca7e79c3b7fc22c0fd503f53a88f23",
+    "bytes": 1732969
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/frozen_bernini/bernini_base_40step_temporal200_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/frozen_bernini.mp4",
+    "sha256": "197736d1ded8d96cfe65d3fd3a8982b9866a60a19d6b5799bfd337258db95700",
+    "bytes": 1596752
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/omnivideo2_official_1p3b/official_1p3b_40step_temporal200_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/omnivideo2_official_1p3b.mp4",
+    "sha256": "0ec0232e51cbdbced06ee86e9c81712facbe845ba0689521e2f45547925dd786",
+    "bytes": 3388422
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/lucy_edit_1p1_dev_5b/official_f12c3ab_50step_temporal200_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "8cdbcf5381196d017811d9f74464977bc946bb670dd9fb07d60b46b95278ee31",
+    "bytes": 1926421
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/vace_wan21_1p3b_fullframe/official_574e6a7_fullframe_50step_temporal200_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "d54f0a371d7519fd205d5fb20f38520953477a5d6bd61d807e58d735861f4c4f",
+    "bytes": 3857817
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/liveedit_wan21_1p3b/official_f0269e2_4step_temporal200_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/liveedit_wan21_1p3b.mp4",
+    "sha256": "920905582914e55b249fb889a697a64f987e527e4583fb70f912d6ce4d664164",
+    "bytes": 2745445
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/kiwi_edit_5b_instruct_only/official_277f43b_50step_temporal200_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "69143741503ec5c260fb5682fba38a9ac0a8d95a23689f582828454821c4c746",
+    "bytes": 1506545
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/reco_ori_wan21_1p3b/official_d6b471e_50step_temporal200_v1/normalized/Te_Motion_frequency_change_06.mp4",
+    "local": "media/Te_Motion_frequency_change_06/reco_ori_wan21_1p3b.mp4",
+    "sha256": "e59014ce6f558d6fb175cac92be6a90e8af459a6bc05eb255878ce42821a007b",
+    "bytes": 2486265
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/datasets/omni_temporal200/Temporal/Temporal Composition/Motion_deletion/1_1280x720.mp4",
+    "local": "media/Te_Motion_deletion_01/source.mp4",
+    "sha256": "7c51ba4b1218a1cd4f153ab9ae174dce0d47a56f5e6b32b89a885a1d5a8ad6ba",
+    "bytes": 1037462
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/zebra_reference_weak_supervision/zebra_u680_bernini_pseudoref_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/zebra.mp4",
+    "sha256": "1d4de93dce10739e46069ec9f269a92de765c2f970dfa85d8de42a1875640ddd",
+    "bytes": 584758
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/frozen_bernini/bernini_base_40step_temporal200_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/frozen_bernini.mp4",
+    "sha256": "cd28f95da224595c3b323af7042fe788a08cb033637e3b958144287dd92a241e",
+    "bytes": 645612
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/omnivideo2_official_1p3b/official_1p3b_40step_temporal200_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/omnivideo2_official_1p3b.mp4",
+    "sha256": "362e2f0a8b72ccdac9fc6bb89eca33b5f54333d4b5454e7ba8c6ecf249aaa699",
+    "bytes": 1071023
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/lucy_edit_1p1_dev_5b/official_f12c3ab_50step_temporal200_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "bacf48ee36c1b5fad294c9ea3a3f6376792946c23297800b67f197ab3bd1d0be",
+    "bytes": 597859
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/vace_wan21_1p3b_fullframe/official_574e6a7_fullframe_50step_temporal200_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "c4a5537e65793a14c7f0aa816056105672f6864ff8b4bf89230f08a1ea28e371",
+    "bytes": 1414568
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/liveedit_wan21_1p3b/official_f0269e2_4step_temporal200_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/liveedit_wan21_1p3b.mp4",
+    "sha256": "b6758782a0ed97a2aae04121b61ad61fe69b481bae4a9220f4be2aeae381a889",
+    "bytes": 1194297
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/kiwi_edit_5b_instruct_only/official_277f43b_50step_temporal200_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "365a6e85a43a125865a6c94e892c32490234771de2cea0874c4ba9a7db803d50",
+    "bytes": 466006
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/reco_ori_wan21_1p3b/official_d6b471e_50step_temporal200_v1/normalized/Te_Motion_deletion_01.mp4",
+    "local": "media/Te_Motion_deletion_01/reco_ori_wan21_1p3b.mp4",
+    "sha256": "8febc79000879f423a5236cff8d712953999a152911f8d606c50bff0d458920f",
+    "bytes": 958841
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/datasets/omni_temporal200/Temporal/Motion Attribute/Motion_frequency_change/2_720x1280.mp4",
+    "local": "media/Te_Motion_frequency_change_02/source.mp4",
+    "sha256": "eee3a86a3441fb2617dcc8323c157d39fc83dc2bd2c0edf1ea860cd6d9c903d1",
+    "bytes": 938527
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/zebra_reference_weak_supervision/zebra_u680_bernini_pseudoref_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/zebra.mp4",
+    "sha256": "20c872bafe12b8de1073240051242732936beb02b3a2ea716fa18a5194ff70de",
+    "bytes": 831981
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/frozen_bernini/bernini_base_40step_temporal200_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/frozen_bernini.mp4",
+    "sha256": "e166a44a9312219d78537f13f49e8e04800a1814f02290ea39334ff7efddafd9",
+    "bytes": 881279
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/omnivideo2_official_1p3b/official_1p3b_40step_temporal200_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/omnivideo2_official_1p3b.mp4",
+    "sha256": "d030b29c60403f5c51b9c8d9272eb81853e270f81199ec05918b1d9db971dc78",
+    "bytes": 1182261
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/lucy_edit_1p1_dev_5b/official_f12c3ab_50step_temporal200_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "7faa97ec69c6559f1251d072e506a877e8e85f52239893bebd3a33d66b6269db",
+    "bytes": 749001
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/vace_wan21_1p3b_fullframe/official_574e6a7_fullframe_50step_temporal200_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "4fc6bd5fdcedb2703a879b09cc0460dc9da0646ab8d9774fa4ba828f46a4e972",
+    "bytes": 1345507
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/liveedit_wan21_1p3b/official_f0269e2_4step_temporal200_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/liveedit_wan21_1p3b.mp4",
+    "sha256": "a37e2101b84e691a17865a185c5900287036f1443d241d929a0fbe8c65180080",
+    "bytes": 967998
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/kiwi_edit_5b_instruct_only/official_277f43b_50step_temporal200_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "9fc6f9989ff621d63f3288406708eed133a514e7a5f5668eea57832e82ada495",
+    "bytes": 529899
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/reco_ori_wan21_1p3b/official_d6b471e_50step_temporal200_v1/normalized/Te_Motion_frequency_change_02.mp4",
+    "local": "media/Te_Motion_frequency_change_02/reco_ori_wan21_1p3b.mp4",
+    "sha256": "90db4129783fa802f016a01e0bd78b02327445d4a423c3fb499b103d2b75c21d",
+    "bytes": 854641
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/datasets/omni_temporal200/Temporal/Camera Attribute/Camera_speed_change/4_1280x720.mp4",
+    "local": "media/Te_Camera_speed_change_04/source.mp4",
+    "sha256": "0fddc8d23c7f6f5d55658de1ee5de4d588c20a78b6acf0344a7f467a5f6e6b84",
+    "bytes": 1393842
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/zebra_reference_weak_supervision/zebra_u680_bernini_pseudoref_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/zebra.mp4",
+    "sha256": "72a872773f4073862d9b67051d135f9f587bce0c2ca844fe4d918c8ed5e8c8de",
+    "bytes": 1147466
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/frozen_bernini/bernini_base_40step_temporal200_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/frozen_bernini.mp4",
+    "sha256": "4da6ebd8b81e975b4cdf8f7532c3c36b84dc792958e72c4bdb3c77653c7a3392",
+    "bytes": 1692502
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/omnivideo2_official_1p3b/official_1p3b_40step_temporal200_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/omnivideo2_official_1p3b.mp4",
+    "sha256": "7e909aa8b0a5bd039c10999b362a1f5de10926de3be2e8a4859e8b60d63a349b",
+    "bytes": 2969904
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/lucy_edit_1p1_dev_5b/official_f12c3ab_50step_temporal200_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "5e4e29619c5a16d24b9f9caf1459a9f9295d34669588d839f2b9ad6bc39627df",
+    "bytes": 692403
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/vace_wan21_1p3b_fullframe/official_574e6a7_fullframe_50step_temporal200_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "4f1a179eb4ae4737ffe1e7555b0ddd76413895f53090bc333900cf619a51452b",
+    "bytes": 1816057
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/liveedit_wan21_1p3b/official_f0269e2_4step_temporal200_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/liveedit_wan21_1p3b.mp4",
+    "sha256": "6c92a2c7edc0ba610fcf39579754239b2996cd457be2d8133e311c26d5e9b451",
+    "bytes": 1790100
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/kiwi_edit_5b_instruct_only/official_277f43b_50step_temporal200_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "a47894d39923fd8907bf97af4b40b1b24bcb4b2bccf4090e11ea99ea2972faa9",
+    "bytes": 1044453
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/reco_ori_wan21_1p3b/official_d6b471e_50step_temporal200_v1/normalized/Te_Camera_speed_change_04.mp4",
+    "local": "media/Te_Camera_speed_change_04/reco_ori_wan21_1p3b.mp4",
+    "sha256": "765f0c272a9f489fce69bdfa46a1d3826ad52af4832e031eb80c1a9f8696bb9e",
+    "bytes": 1865906
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/datasets/omni_temporal200/Temporal/Motion Semantic/Facial_expression_change/6_1280x720.mp4",
+    "local": "media/Te_Facial_expression_change_06/source.mp4",
+    "sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+    "bytes": 1655362
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/zebra_reference_weak_supervision/zebra_u680_bernini_pseudoref_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/zebra.mp4",
+    "sha256": "231b466565101154bf9185a812dbffa1195988d8873b746f82d393c913ad66a1",
+    "bytes": 1491176
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/frozen_bernini/bernini_base_40step_temporal200_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/frozen_bernini.mp4",
+    "sha256": "2234842811d1243ecb892b5beeb78ce3ef26fc0222a9f92cf067e59fede4fd2c",
+    "bytes": 1696848
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/omnivideo2_official_1p3b/official_1p3b_40step_temporal200_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/omnivideo2_official_1p3b.mp4",
+    "sha256": "95271b71d0cc214d83de53f2946b89778e77e076e26b4bc6a715372cfd5e1fa7",
+    "bytes": 3021981
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/lucy_edit_1p1_dev_5b/official_f12c3ab_50step_temporal200_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "f0285123defe401fe6d9b707716de369dc8162402f64a59748a756752dfb0e2b",
+    "bytes": 825523
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/vace_wan21_1p3b_fullframe/official_574e6a7_fullframe_50step_temporal200_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "f2194f1c764e6f1f00b1e9e59c0c213e4e574dfa3024cef0d565ba165d081748",
+    "bytes": 1597654
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/liveedit_wan21_1p3b/official_f0269e2_4step_temporal200_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/liveedit_wan21_1p3b.mp4",
+    "sha256": "8ba93c48945cd80e3248682620976249e165313f5042c4a7ec04166ee8a28ddf",
+    "bytes": 2023071
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/kiwi_edit_5b_instruct_only/official_277f43b_50step_temporal200_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "3dbb96889496be16482f84a759a34a4e38e39dbde4a376b4424054efd06ea740",
+    "bytes": 1085868
+  },
+  {
+    "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/action_editing_benchmark_v1_20260911/runs/omni_temporal200/reco_ori_wan21_1p3b/official_d6b471e_50step_temporal200_v1/normalized/Te_Facial_expression_change_06.mp4",
+    "local": "media/Te_Facial_expression_change_06/reco_ori_wan21_1p3b.mp4",
+    "sha256": "a23c0cb3676dc3904957c80dad444a59651862972ecc31155bc01fd40d525246",
+    "bytes": 865431
+  }
+]
