@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A young man with dyed-blond hair lies in bed in a dark room, illuminated by his phone's blue light, wearing a pink tank top and a nose ring. In this continuous shot, The man in bed puts his smartphone on the nightstand and turns over to go to sleep. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A young man with dyed-blond hair lies on his back in a dimly lit bedroom, the only source of light emanating from the cool blue glow of his smartphone screen. He wears a soft pink tank top, the fabric slightly rumpled from lying still, and a small nose ring glints faintly in the low light as he shifts his head. The room is dark, shadows pooling in the corners, with only the faint outline of a nightstand and a pillow visible. The camera holds a steady, fixed position, capturing the scene in a continuous, unbroken shot. The man\u2019s fingers move slowly across the phone\u2019s screen, scrolling or typing with quiet focus. After a moment, he lowers the device, places it gently on the nightstand beside him, and turns onto his side, pulling the blanket slightly higher. His breathing slows, and he settles into sleep, the blue light fading as the phone powers down. The scene remains unchanged in framing, lighting, and composition, maintaining a calm, intimate stillness throughout.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    80,
+    2048
+  ],
+  "t5_context_shape": [
+    239,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A young man with dark skin, dreadlocks, and a gold septum ring lies on a dark couch in a dimly lit room, showing signs of distress. In this continuous shot, The man lying on the couch rubs his tired eyes and covers his face with both hands. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A young man with dark skin and long dreadlocks lies sprawled across a dark, plush couch in a dimly lit room, the low ambient light casting deep shadows that pool around him. A gold septum ring glints faintly as he shifts slightly, his body tense with quiet unease. The room is still and intimate, the atmosphere heavy with a sense of emotional weight. He lifts his hands slowly, rubbing his tired eyes with the heels of his palms, his fingers pressing into the sockets as if trying to push back exhaustion or pain. Then, with a slow, deliberate motion, he covers his face entirely, pressing both hands against his forehead and cheeks, his breath shallow and uneven. The camera holds steady, capturing the moment in a continuous, unbroken shot\u2014no movement, no cut\u2014allowing the viewer to sit with the man\u2019s distress. The framing remains tight and consistent, focusing on his upper body and face, emphasizing the subtle tremors in his hands and the way his shoulders rise and fall with each labored breath. The lighting remains unchanged, soft and moody, highlighting the contours of his face and the texture of his hair, while the surrounding darkness absorbs all distractions, drawing attention solely to his internal struggle. The scene is quiet, almost still, yet charged with unspoken emotion.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    78,
+    2048
+  ],
+  "t5_context_shape": [
+    307,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

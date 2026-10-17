@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A confident woman in red pants and a black leather jacket poses in front of a black Chevrolet Camaro in a moody, red-lit underground parking garage. In this continuous shot, The woman in a black leather jacket and red pants turns and leans back against the hood of the black car. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A confident woman stands in front of a sleek black Chevrolet Camaro in a moody, dimly lit underground parking garage, bathed in a deep, ambient red glow that casts dramatic shadows across the concrete walls and floor. She wears a form-fitting black leather jacket and vibrant red pants that contrast sharply with the dark surroundings, drawing the eye to her poised stance. The camera holds steady in a continuous, smooth shot, capturing her as she turns with deliberate grace, her movement fluid and intentional. She leans back against the curved hood of the car, her body angled slightly, one hand resting lightly on the glossy surface while the other hangs relaxed at her side. The red lighting pulses subtly, reflecting off the car\u2019s polished paint and the woman\u2019s jacket, enhancing the cinematic atmosphere. The scene remains tightly framed, with the Camaro\u2019s aggressive lines and the woman\u2019s commanding presence forming a powerful visual composition. The lighting, framing, and camera position remain consistent throughout, emphasizing the stillness and intensity of the moment, as if frozen in time.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    80,
+    2048
+  ],
+  "t5_context_shape": [
+    252,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

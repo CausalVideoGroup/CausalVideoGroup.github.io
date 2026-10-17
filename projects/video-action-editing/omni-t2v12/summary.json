@@ -1,0 +1,782 @@
+[
+  {
+    "case_id": "fb7725c351ba",
+    "name": "提杠铃 · Barbell lift",
+    "seed": 2026081901,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/fb7725c351ba/omni_t2v.mp4",
+      "sha256": "032ff8669d17b5b23b66c8f92b0119b23484b8011eed7238f7509b3d8c77b6f9",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213688",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-287",
+    "elapsed_seconds": 773.34,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        322
+      ],
+      "rank_zero_log_sha256": "329d3cbfb8739a2bd3f2683b42a4efd725f0e02a935aa0908ae813b354bd02a9"
+    },
+    "conditioning": {
+      "input_prompt": "A woman in black activewear performs barbell deadlifts with focused determination in a well-equipped home gym. In this continuous shot, The woman in a home gym lifts a barbell from the floor to her waist. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A woman in sleek black activewear performs a series of controlled barbell deadlifts in a well-equipped home gym, her movements precise and deliberate. The camera holds a steady, medium-wide shot, capturing her full body as she stands with feet shoulder-width apart, gripping the barbell with a firm overhand hold. With focused determination etched on her face, she bends at the hips and knees, lowering the barbell smoothly from the floor to her waist, maintaining a straight back and engaged core throughout. The gym is bathed in soft, even lighting that highlights the clean, organized space—treadmills, weight racks, and resistance bands visible in the background. The scene remains consistent, with no changes in framing, camera angle, or lighting, emphasizing the continuity and rhythm of her exercise. Her breath is steady, her muscles taut, as she repeats the motion with unwavering form, the metallic clink of the barbell echoing faintly in the quiet room. The atmosphere is one of quiet intensity, underscoring her commitment and strength.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        65,
+        2048
+      ],
+      "t5_context_shape": [
+        243,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/fb7725c351ba/real_target.mp4",
+      "sha256": "4c783a0078c94ec89c48be96a9ccf4cdf736ac5f7593164cf86b79bdaeb0f88b",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "3fadbe0c2961",
+    "name": "狗转头 · Dog head turn",
+    "seed": 2026081902,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/3fadbe0c2961/omni_t2v.mp4",
+      "sha256": "6b28c93fda92e5fa29cfe7e1954ee29dd4c6e1d594b657d7a9cf7df195b67e56",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213688",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-287",
+    "elapsed_seconds": 555.7,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        341
+      ],
+      "rank_zero_log_sha256": "2a6eb521a55ce5cdc05902458c5a2b863cb3532531dd394b6fc5278eac4aa7db"
+    },
+    "conditioning": {
+      "input_prompt": "A happy Pembroke Welsh Corgi with a reddish-brown and white coat sits in a sunny green field, panting with its tongue out in a static medium shot. In this continuous shot, The dog turns its head further to the right while sitting in the grass. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A happy Pembroke Welsh Corgi with a rich reddish-brown and white coat sits calmly in a sun-drenched green field, its short legs tucked beneath its sturdy body. The warm sunlight bathes the scene, casting soft highlights across the dog’s smooth fur and illuminating the vibrant blades of grass around it. The corgi pants gently, its pink tongue lolling out in a relaxed, joyful expression, conveying a sense of contentment and ease. The camera holds a steady, static medium shot, framing the dog from the mid-chest up, allowing full view of its expressive face and perked ears. As the moment unfolds, the dog slowly turns its head further to the right, its eyes briefly scanning the surroundings with quiet curiosity, while its body remains still. The lush green field stretches out behind it, dotted with wildflowers and bathed in golden afternoon light. The scene remains consistent throughout—same subject, same environment, same lighting, same framing—capturing a peaceful, serene moment in nature, with the corgi as the calm, cheerful centerpiece.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        77,
+        2048
+      ],
+      "t5_context_shape": [
+        250,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/3fadbe0c2961/real_target.mp4",
+      "sha256": "2d97f922dbbaab42d8fb0ff8419410dc7275ddf07d301b1113871e2d651c1e4f",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "7077cfb160cf",
+    "name": "长椅上写字 · Write in notebook",
+    "seed": 2026081904,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/7077cfb160cf/omni_t2v.mp4",
+      "sha256": "061290c54920d2b552b84b511873f10ead41e881d0f091fc11d0323e97e96427",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213688",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-287",
+    "elapsed_seconds": 540.8,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        320
+      ],
+      "rank_zero_log_sha256": "2974e23fa644b0fa38f0a8091e8bf9fd9ef15ef20ffdb210b14d8a3d1aa75546"
+    },
+    "conditioning": {
+      "input_prompt": "A young woman with shoulder-length light brown hair sits on a wooden bench in a sunny park or campus setting, writing in a notebook while dressed in a pink shirt and blue jeans. In this continuous shot, The young woman sitting on a park bench thoughtfully writes in her notebook with a pen. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A young woman with shoulder-length light brown hair sits calmly on a weathered wooden bench in a sun-drenched park or campus setting, the golden light of midday filtering through the leaves of nearby trees. She wears a soft pink button-up shirt and fitted blue jeans, her posture relaxed yet focused as she leans slightly forward, pen in hand, writing thoughtfully in a small notebook resting on her lap. Her brow is gently furrowed in concentration, occasionally pausing to glance up and around, as if gathering inspiration from the peaceful surroundings. The camera holds steady in a medium shot, capturing her from the waist up, with the background softly blurred to emphasize her presence—dappled sunlight dances across the grass and pavement, and the faint rustle of leaves and distant chatter of people passing by add a gentle soundtrack to the scene. The composition remains unchanged throughout, maintaining consistent framing, lighting, and perspective, creating a serene, contemplative moment frozen in time.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        80,
+        2048
+      ],
+      "t5_context_shape": [
+        226,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/7077cfb160cf/real_target.mp4",
+      "sha256": "03a7b92dc3800e8403ce9f7f4ce85b9668a85a82e110e0356e614d4626496bc3",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "7e488525099e",
+    "name": "转身倚车 · Turn and lean on car",
+    "seed": 2026081906,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/7e488525099e/omni_t2v.mp4",
+      "sha256": "bf577e972362491fe79f36079915ac95bd4110ff4a2278184e1c284260ad64e2",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213688",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "4,5,6,7"
+    },
+    "hostname": "auh7-1b-gpu-287",
+    "elapsed_seconds": 772.82,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        346
+      ],
+      "rank_zero_log_sha256": "2cb8628e967b63c4350488a3109cc8bf44c4e79d0bf6ed4828dc3a9486f3b76e"
+    },
+    "conditioning": {
+      "input_prompt": "A confident woman in red pants and a black leather jacket poses in front of a black Chevrolet Camaro in a moody, red-lit underground parking garage. In this continuous shot, The woman in a black leather jacket and red pants turns and leans back against the hood of the black car. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A confident woman stands in front of a sleek black Chevrolet Camaro in a moody, dimly lit underground parking garage, bathed in a deep, ambient red glow that casts dramatic shadows across the concrete walls and floor. She wears a form-fitting black leather jacket and vibrant red pants that contrast sharply with the dark surroundings, drawing the eye to her poised stance. The camera holds steady in a continuous, smooth shot, capturing her as she turns with deliberate grace, her movement fluid and intentional. She leans back against the curved hood of the car, her body angled slightly, one hand resting lightly on the glossy surface while the other hangs relaxed at her side. The red lighting pulses subtly, reflecting off the car’s polished paint and the woman’s jacket, enhancing the cinematic atmosphere. The scene remains tightly framed, with the Camaro’s aggressive lines and the woman’s commanding presence forming a powerful visual composition. The lighting, framing, and camera position remain consistent throughout, emphasizing the stillness and intensity of the moment, as if frozen in time.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        80,
+        2048
+      ],
+      "t5_context_shape": [
+        252,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/7e488525099e/real_target.mp4",
+      "sha256": "30c8909ffd3c044c78714102c8d24dc38cf3547c123f0be2deb43390a5732ec3",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "d5221a1b69d5",
+    "name": "闭眼尝汤 · Taste from ladle",
+    "seed": 2026081907,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/d5221a1b69d5/omni_t2v.mp4",
+      "sha256": "77cbffd0f6650d641829a18b2f5dc7244c69ee0d430ca1f5e2a5efaa44e984e2",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213688",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "4,5,6,7"
+    },
+    "hostname": "auh7-1b-gpu-287",
+    "elapsed_seconds": 552.79,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        358
+      ],
+      "rank_zero_log_sha256": "553659a0edaf6f48af82c44481a5de73ec1c71aac3c3a88556e15fb616195053"
+    },
+    "conditioning": {
+      "input_prompt": "A young woman in a patterned apron stands in a modern kitchen, tasting food from a ladle with a satisfied expression. In this continuous shot, The woman in an apron closes her eyes as she tastes from a metal ladle. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A young woman stands in a bright, modern kitchen, her figure centered in a steady, continuous shot. She wears a patterned apron over casual clothing, the fabric soft and slightly rumpled from use. The kitchen is sleek and well-lit, with natural light streaming through a large window, casting a warm glow across stainless steel appliances and clean white countertops. In her hand, she holds a metal ladle, its surface gleaming under the light. She lifts it slowly to her lips, her eyes closing gently as she tastes the food. Her expression softens into quiet satisfaction—lips parting slightly, a subtle smile forming as the flavor registers. The camera remains fixed, capturing the moment with unwavering focus, preserving the stillness of the scene. The lighting remains consistent, highlighting the contours of her face and the texture of the apron. The background remains unchanged—neatly arranged utensils, a pot simmering on the stove, a bowl of fresh herbs on the counter—all contributing to the calm, domestic atmosphere. The shot lingers, emphasizing the sensory experience, the quiet joy of a meal well-prepared, and the simple pleasure of tasting one’s own creation.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        70,
+        2048
+      ],
+      "t5_context_shape": [
+        274,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/d5221a1b69d5/real_target.mp4",
+      "sha256": "3b61c8123a193d9feab392a7780ea5b87b91099a2c41ea069875febc81ea9f4e",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "40712e1341dc",
+    "name": "放下手机后翻身睡觉 · Put phone away and sleep",
+    "seed": 2026081911,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/40712e1341dc/omni_t2v.mp4",
+      "sha256": "5ed0844a80af94da135f1290f1307c584e6c5ce29418f8a90f3d940405b2ca11",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213688",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "4,5,6,7"
+    },
+    "hostname": "auh7-1b-gpu-287",
+    "elapsed_seconds": 539.42,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        333
+      ],
+      "rank_zero_log_sha256": "762bda731c46287b756b96674e0f3034c5c36417e76e21e33835ff39d69d3781"
+    },
+    "conditioning": {
+      "input_prompt": "A young man with dyed-blond hair lies in bed in a dark room, illuminated by his phone's blue light, wearing a pink tank top and a nose ring. In this continuous shot, The man in bed puts his smartphone on the nightstand and turns over to go to sleep. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A young man with dyed-blond hair lies on his back in a dimly lit bedroom, the only source of light emanating from the cool blue glow of his smartphone screen. He wears a soft pink tank top, the fabric slightly rumpled from lying still, and a small nose ring glints faintly in the low light as he shifts his head. The room is dark, shadows pooling in the corners, with only the faint outline of a nightstand and a pillow visible. The camera holds a steady, fixed position, capturing the scene in a continuous, unbroken shot. The man’s fingers move slowly across the phone’s screen, scrolling or typing with quiet focus. After a moment, he lowers the device, places it gently on the nightstand beside him, and turns onto his side, pulling the blanket slightly higher. His breathing slows, and he settles into sleep, the blue light fading as the phone powers down. The scene remains unchanged in framing, lighting, and composition, maintaining a calm, intimate stillness throughout.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        80,
+        2048
+      ],
+      "t5_context_shape": [
+        239,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/40712e1341dc/real_target.mp4",
+      "sha256": "4424517beb4e790280cbf782fa1a2d6589b0443d14b9adfb83922d82d919c93e",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "10af6c651dbc",
+    "name": "Jellyfish contraction",
+    "seed": 2026081910,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/10af6c651dbc/omni_t2v.mp4",
+      "sha256": "2380b955b966ff8643bf20f80996659d6c9b2f986743da29a3a2136941ed4437",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213687",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-253",
+    "elapsed_seconds": 779.17,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        334
+      ],
+      "rank_zero_log_sha256": "1253314f59ddf9f03be7e95cfc2dd23bac0a7d266cbca65d56c57593ab4e1d71"
+    },
+    "conditioning": {
+      "input_prompt": "A small, white-spotted jellyfish drifts and pulsates gracefully in serene, deep blue water. In this continuous shot, The jellyfish pulsates, its bell contracting to reveal a ring-like shape in the blue water. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A small, white-spotted jellyfish drifts effortlessly through serene, deep blue water, its translucent bell gently pulsating in rhythmic motion. The delicate, rhythmic contractions of its body propel it forward in a slow, graceful dance, each pulse creating a subtle ripple in the surrounding water. As the bell contracts, it reveals a distinct ring-like shape, a luminous outline that glows faintly against the rich, uniform blue backdrop. The white spots on its body shimmer faintly with the play of light filtering down from above, adding a soft, ethereal contrast to the deep oceanic hue. The scene remains calm and undisturbed, with no sudden movements or changes in the environment. The camera holds steady, maintaining a consistent framing that centers the jellyfish in the frame, capturing its elegant motion in a continuous, uninterrupted shot. The lighting remains soft and diffused, enhancing the tranquil, otherworldly atmosphere of the deep sea. The jellyfish continues its slow, mesmerizing journey, its form and movement unchanged, creating a peaceful and hypnotic visual experience.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        67,
+        2048
+      ],
+      "t5_context_shape": [
+        253,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/10af6c651dbc/real_target.mp4",
+      "sha256": "c848feb636d4f40415224a26f79cc88659a34d63506b1ea2d95fecb6a7a01542",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "7fa338474c75",
+    "name": "Playful selfie",
+    "seed": 2026081900,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/7fa338474c75/omni_t2v.mp4",
+      "sha256": "b4e27999f2701c65ac62157ae6f49539ce092acc1dba0f652532fe793b037fc3",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213687",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-253",
+    "elapsed_seconds": 548.75,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        348
+      ],
+      "rank_zero_log_sha256": "bfa9dc5a39eb59949e0310fbc226255b473cd5ca45931ddeeb75709e0c0c89bb"
+    },
+    "conditioning": {
+      "input_prompt": "A cheerful woman in a red bikini top and straw sun hat takes a playful selfie against a green screen background in a static medium shot. In this continuous shot, The woman in a red bikini top and straw hat takes a playful selfie with her phone, sticking her tongue out and winking. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A cheerful woman stands in a static medium shot against a bright green screen background, her figure centered and clearly defined. She wears a vibrant red bikini top and a wide-brimmed straw sun hat that casts a soft shadow over her face, enhancing the playful, summery vibe. Her expression is lively and animated as she holds her smartphone at arm’s length, capturing a selfie with a mischievous grin. She sticks her tongue out slightly and winks one eye, adding a flirtatious, carefree energy to the moment. Her dark hair peeks out from under the hat, gently swaying as she shifts her weight slightly, maintaining a relaxed yet engaging posture. The lighting is even and bright, highlighting her features and the vivid colors of her outfit without casting harsh shadows. The camera remains completely still throughout, keeping the framing consistent and focused on her upper body and face. The green screen behind her is uniform and uncluttered, providing a clean, neutral backdrop that emphasizes her presence. The scene exudes a lighthearted, fun atmosphere, capturing a spontaneous and joyful moment in a single, continuous take.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        79,
+        2048
+      ],
+      "t5_context_shape": [
+        255,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/7fa338474c75/real_target.mp4",
+      "sha256": "8427b71fda1c01fe061b9943820e618c9f887c03a19f79f9191e4ee879b5a25a",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "81533c9e56ec",
+    "name": "Scarf spin",
+    "seed": 2026081915,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/81533c9e56ec/omni_t2v.mp4",
+      "sha256": "11a91b035dac93b7875974b44469c54743c226ea892402e0d742dc90a0e49ca4",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213687",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-253",
+    "elapsed_seconds": 543.4,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        355
+      ],
+      "rank_zero_log_sha256": "b6de7b091cb33a2ef71fff25d838ebe3334d7999fd50c1abde4bbe69a0ff0e80"
+    },
+    "conditioning": {
+      "input_prompt": "A woman in a vintage-style dress dances gracefully by a flower-lined fence in front of a rustic wooden house. In this continuous shot, The woman wearing a green skirt and black shirt gracefully spins in a circle while holding a scarf. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A woman in a vintage-style dress dances gracefully by a flower-lined fence in front of a rustic wooden house, her movements fluid and deliberate under the warm, golden light of late afternoon. She wears a flowing green skirt that swirls with each turn, paired with a fitted black shirt that contrasts elegantly with the soft hues of the surrounding garden. In her hands, she holds a long, sheer scarf that billows like a ribbon in the breeze, catching the sunlight as she spins in a slow, continuous circle. The camera remains steady, capturing her in a wide, stable frame that emphasizes the harmony between her motion and the tranquil setting. The fence, draped in climbing roses and wildflowers, frames the scene with natural beauty, while the weathered wooden house in the background adds a sense of timeless charm. The lighting is soft and diffused, casting gentle shadows and enhancing the nostalgic atmosphere. Her expression is serene, eyes closed at times, as if lost in the rhythm of the moment. The entire scene unfolds in a single, unbroken shot, with no cuts or shifts in perspective, allowing the viewer to fully immerse in the grace and stillness of the moment.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        67,
+        2048
+      ],
+      "t5_context_shape": [
+        274,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/81533c9e56ec/real_target.mp4",
+      "sha256": "5edb351b04edd07ccb51fc57043298d62a9abcb959d6f86bd5912ef5d654d6d3",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "d977ce147d80",
+    "name": "Rub eyes then cover face",
+    "seed": 2026081905,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/d977ce147d80/omni_t2v.mp4",
+      "sha256": "511b0763dc6b87bd4ecb80dae8ba4b95442b8c424f861e2587297e9841316edd",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213687",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "4,5,6,7"
+    },
+    "hostname": "auh7-1b-gpu-253",
+    "elapsed_seconds": 778.41,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        399
+      ],
+      "rank_zero_log_sha256": "553e3d91be0dff92c44c637859f9a1428b84512cd4ae3cb64beb94aafe45df43"
+    },
+    "conditioning": {
+      "input_prompt": "A young man with dark skin, dreadlocks, and a gold septum ring lies on a dark couch in a dimly lit room, showing signs of distress. In this continuous shot, The man lying on the couch rubs his tired eyes and covers his face with both hands. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A young man with dark skin and long dreadlocks lies sprawled across a dark, plush couch in a dimly lit room, the low ambient light casting deep shadows that pool around him. A gold septum ring glints faintly as he shifts slightly, his body tense with quiet unease. The room is still and intimate, the atmosphere heavy with a sense of emotional weight. He lifts his hands slowly, rubbing his tired eyes with the heels of his palms, his fingers pressing into the sockets as if trying to push back exhaustion or pain. Then, with a slow, deliberate motion, he covers his face entirely, pressing both hands against his forehead and cheeks, his breath shallow and uneven. The camera holds steady, capturing the moment in a continuous, unbroken shot—no movement, no cut—allowing the viewer to sit with the man’s distress. The framing remains tight and consistent, focusing on his upper body and face, emphasizing the subtle tremors in his hands and the way his shoulders rise and fall with each labored breath. The lighting remains unchanged, soft and moody, highlighting the contours of his face and the texture of his hair, while the surrounding darkness absorbs all distractions, drawing attention solely to his internal struggle. The scene is quiet, almost still, yet charged with unspoken emotion.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        78,
+        2048
+      ],
+      "t5_context_shape": [
+        307,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/d977ce147d80/real_target.mp4",
+      "sha256": "9a2ad5f5fc5fca2da6532ecddbf6d5879e9c09cfcb57b952b8b28758d628cb1e",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "840b214afead",
+    "name": "Place bottle on treadmill",
+    "seed": 2026081913,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/840b214afead/omni_t2v.mp4",
+      "sha256": "f8c6c74bac6feaeb53623326afaf4ba7a839d47b75d8981bd400429fd9cd5cd1",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213687",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "4,5,6,7"
+    },
+    "hostname": "auh7-1b-gpu-253",
+    "elapsed_seconds": 555.63,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        385
+      ],
+      "rank_zero_log_sha256": "d865c4c2b75642465de5471b399e7825250690c84f63f207fafa7208dc82ca6d"
+    },
+    "conditioning": {
+      "input_prompt": "A young woman with long reddish-blonde hair, wearing a mint green athletic outfit, stands on a treadmill in a modern gym with blue and white striped pillars, holding a water bottle. In this continuous shot, The woman turns her head to the left and places her water bottle onto the treadmill. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A young woman with long, sun-kissed reddish-blonde hair stands centered on a treadmill in a sleek, modern gym, her posture relaxed yet alert. She wears a form-fitting mint green athletic outfit—a moisture-wicking tank top and matching leggings—that contrasts softly against the cool-toned environment. The gym is illuminated by bright, even lighting that highlights the clean lines of the space, with blue and white striped pillars rising in the background, creating a rhythmic visual pattern that adds depth to the scene. The camera holds a steady, medium-wide shot, capturing her from the waist up, with the treadmill’s control panel and running belt clearly visible. In a smooth, continuous motion, she turns her head slightly to the left, her gaze briefly shifting toward the side of the treadmill, then lowers her right hand to place a clear water bottle with a blue cap onto the treadmill’s console. The bottle rests securely, and she remains in place, her expression calm and focused, as the scene continues without interruption. The lighting remains consistent, the framing stable, and the background elements—pillars, mirrors, and distant gym equipment—remain unchanged, emphasizing the quiet, deliberate nature of the moment.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        82,
+        2048
+      ],
+      "t5_context_shape": [
+        289,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/840b214afead/real_target.mp4",
+      "sha256": "989454c22b5f6db63ebd8667c943bb2622cfc2c25990661805dda3e1f9fde52b",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  },
+  {
+    "case_id": "d908552fb691",
+    "name": "Bow to clap",
+    "seed": 2026081903,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni_t2v12_20260923_v1/results/d908552fb691/omni_t2v.mp4",
+      "sha256": "97ca0d377f030e084df41b86b49ad784496e336a90223c1acd81eb886f8366f6",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "job": {
+      "SLURM_JOB_ID": "213687",
+      "SLURM_ARRAY_JOB_ID": null,
+      "SLURM_ARRAY_TASK_ID": null,
+      "SLURM_JOB_GPUS": "0,1,2,3,4,5,6,7",
+      "ROCR_VISIBLE_DEVICES": "4,5,6,7"
+    },
+    "hostname": "auh7-1b-gpu-253",
+    "elapsed_seconds": 533.44,
+    "runtime_evidence": {
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 0,
+      "context_log_records": 80,
+      "context_total_tokens": [
+        144,
+        335
+      ],
+      "rank_zero_log_sha256": "4f029607a0c836fa49e9a318191fdfebd6a1aff88df0fe004ff5b9ba44aafa00"
+    },
+    "conditioning": {
+      "input_prompt": "A woman in a white taekwondo uniform with a black collar and Adidas logo stands in profile against a black background under dramatic side lighting, captured in a static medium shot. In this continuous shot, The woman in a taekwondo uniform stands in profile and claps her hands together in front of her. The same subject identity, scene, lighting, framing, and camera remain stable.",
+      "expanded_caption": "A woman in a crisp white taekwondo uniform stands in profile against a deep black background, her form sharply defined by dramatic side lighting that casts a strong, sculpted shadow along her silhouette. The uniform features a black collar and a subtle Adidas logo on the chest, adding a touch of brand detail to the athletic attire. She is captured in a static medium shot, framed with precision to highlight her poised stance and the clean lines of her posture. The lighting emphasizes the contours of her body, creating a high-contrast, cinematic effect that enhances the intensity of the moment. In a smooth, continuous motion, she brings her hands together in front of her chest, clapping them once with a deliberate, controlled gesture. Her movements are precise and measured, reflecting discipline and focus. The scene remains unchanged throughout—no shifts in camera angle, lighting, or background—maintaining a consistent, composed atmosphere that centers entirely on her presence and action. The stillness of the frame contrasts with the subtle energy of her motion, creating a powerful visual statement of control and readiness.",
+      "source_video_path": null,
+      "visual_embedding": null,
+      "source_video_caption": "",
+      "qwen_features_origin": "text_only",
+      "qwen_feature_shape": [
+        1,
+        85,
+        2048
+      ],
+      "t5_context_shape": [
+        236,
+        4096
+      ],
+      "media_read_attempts": 0,
+      "source_vae_encode_attempts": 0
+    },
+    "real_target": {
+      "path": "results/d908552fb691/real_target.mp4",
+      "sha256": "ff161cba09e00e281c6407a3e96e7e359f9900a4d0af4dc6a0d042931aeadcf6",
+      "frames": 81,
+      "fps": 25,
+      "duration": 3.24,
+      "width": 960,
+      "height": 540,
+      "temporal_normalization": "full clip rescaled to 3.24 seconds",
+      "spatial_normalization": "fit and letterbox; no crop"
+    }
+  }
+]

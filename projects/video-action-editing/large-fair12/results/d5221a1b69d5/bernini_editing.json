@@ -1,0 +1,109 @@
+{
+  "status": "complete",
+  "case_id": "d5221a1b69d5",
+  "model": "ByteDance/Bernini-R-Diffusers",
+  "revision": "de8c4621d3ac75cc33efe3db8deaed2023e9ac8c",
+  "arm": "editing",
+  "caption": "The woman in an apron closes her eyes as she tastes from a metal ladle. She wears a patterned apron in a modern kitchen. The camera is stationary.",
+  "caption_sha256": "043306a7c3eff9ad7a50db5bbf0d3b4a2d6dec27fb8c5b5f6a316382992bc71b",
+  "actual_t5_text": "You are a helpful assistant specialized in video editing with reference.image0, image1, image2, and image3 are frames sampled from the source video. Preserve the source subject's identity, background, and camera while applying the requested new action. The woman in an apron closes her eyes as she tastes from a metal ladle. She wears a patterned apron in a modern kitchen. The camera is stationary.",
+  "task_prefix": "You are a helpful assistant specialized in video editing with reference.",
+  "native_reference_binding": "image0, image1, image2, and image3 are frames sampled from the source video. Preserve the source subject's identity, background, and camera while applying the requested new action. ",
+  "prompt_rewriting": false,
+  "positive_token_count": 92,
+  "prompt_truncated": false,
+  "seed": 2026081907,
+  "steps": 40,
+  "fps": 25,
+  "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/d5221a1b69d5/source-exact81.mp4",
+  "source_sha256": "fdd1b3df4b94449dc59cd04d03deb769fb2cf6c4c2d7b87221e2b3a6b5557d14",
+  "effective_scheduler_config": {
+    "num_train_timesteps": 1000,
+    "beta_start": 0.0001,
+    "beta_end": 0.02,
+    "beta_schedule": "linear",
+    "trained_betas": null,
+    "solver_order": 2,
+    "prediction_type": "flow_prediction",
+    "thresholding": false,
+    "dynamic_thresholding_ratio": 0.995,
+    "sample_max_value": 1.0,
+    "predict_x0": true,
+    "solver_type": "bh2",
+    "lower_order_final": true,
+    "disable_corrector": [],
+    "solver_p": null,
+    "use_karras_sigmas": false,
+    "use_exponential_sigmas": false,
+    "use_beta_sigmas": false,
+    "use_flow_sigmas": true,
+    "flow_shift": 3.0,
+    "timestep_spacing": "linspace",
+    "steps_offset": 0,
+    "final_sigmas_type": "zero",
+    "rescale_betas_zero_snr": false,
+    "use_dynamic_shifting": false,
+    "time_shift_type": "exponential",
+    "sigma_min": null,
+    "sigma_max": null,
+    "shift_terminal": null,
+    "_use_default_values": [
+      "sigma_max",
+      "shift_terminal",
+      "sigma_min"
+    ],
+    "_class_name": "UniPCMultistepScheduler",
+    "_diffusers_version": "0.35.0.dev0"
+  },
+  "source_reference_frames": [
+    0,
+    27,
+    53,
+    80
+  ],
+  "real_target_used": false,
+  "expert_parameters": [
+    14288491584,
+    14288491584
+  ],
+  "expert_forward_counts": [
+    52,
+    108
+  ],
+  "loading_info": [
+    {
+      "subfolder": "transformer",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    },
+    {
+      "subfolder": "transformer_2",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    }
+  ],
+  "output": {
+    "sha256": "9cdbd07566d899630c7d460876abe733604cb04d284adf01842a9716a5db4ec3",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 464,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T22:38:07.139056+00:00",
+  "elapsed_seconds": 2248.64,
+  "job": "214754",
+  "hostname": "auh7-1b-gpu-320",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "700a4e76177713a6ba2ff7bb92d7976788b646bf153ad7154701ed422ca966d6"
+}

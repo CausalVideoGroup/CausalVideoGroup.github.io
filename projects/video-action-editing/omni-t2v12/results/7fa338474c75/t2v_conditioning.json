@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A cheerful woman in a red bikini top and straw sun hat takes a playful selfie against a green screen background in a static medium shot. In this continuous shot, The woman in a red bikini top and straw hat takes a playful selfie with her phone, sticking her tongue out and winking. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A cheerful woman stands in a static medium shot against a bright green screen background, her figure centered and clearly defined. She wears a vibrant red bikini top and a wide-brimmed straw sun hat that casts a soft shadow over her face, enhancing the playful, summery vibe. Her expression is lively and animated as she holds her smartphone at arm\u2019s length, capturing a selfie with a mischievous grin. She sticks her tongue out slightly and winks one eye, adding a flirtatious, carefree energy to the moment. Her dark hair peeks out from under the hat, gently swaying as she shifts her weight slightly, maintaining a relaxed yet engaging posture. The lighting is even and bright, highlighting her features and the vivid colors of her outfit without casting harsh shadows. The camera remains completely still throughout, keeping the framing consistent and focused on her upper body and face. The green screen behind her is uniform and uncluttered, providing a clean, neutral backdrop that emphasizes her presence. The scene exudes a lighthearted, fun atmosphere, capturing a spontaneous and joyful moment in a single, continuous take.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    79,
+    2048
+  ],
+  "t5_context_shape": [
+    255,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

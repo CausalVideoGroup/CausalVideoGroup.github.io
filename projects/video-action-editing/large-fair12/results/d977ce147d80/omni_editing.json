@@ -1,0 +1,72 @@
+{
+  "status": "complete",
+  "case_id": "d977ce147d80",
+  "model": "Fudan-FUXI/OmniVideo2-A14B",
+  "revision": "51160486a5498cce099bde02cbf232cd046ab4a9",
+  "arm": "editing",
+  "caption": "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+  "caption_sha256": "a217f2a0d32d07e58d5c5781d12d401ed7a08f25d9286ea9f0bee5c25677e960",
+  "actual_t5_text": "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+  "prompt_rewriting": false,
+  "qwen_features": {
+    "case_id": "d977ce147d80",
+    "arm": "editing",
+    "caption": "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+    "caption_sha256": "a217f2a0d32d07e58d5c5781d12d401ed7a08f25d9286ea9f0bee5c25677e960",
+    "source_video_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/d977ce147d80/source-exact81.mp4",
+    "source_sha256": "e2a056e1af423be25a5beb4b75d1145fbacd625e3316a8e64b6031e75739f80d",
+    "rewriting_enabled": false,
+    "autoregressive_generate_forbidden": true,
+    "qwen_checkpoint": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/marp_omnivideo2_maskfree/models/Qwen3-VL-30B-A3B-Instruct",
+    "feature_shape": [
+      83,
+      2048
+    ],
+    "feature_sha256": "a9f5554f6eb78289b924250b313712b58c925a9b0599cc70399b9a099117334c"
+  },
+  "t5_text_inputs": [
+    "The man lying on the couch rubs his tired eyes and covers his face with both hands. He has dark skin, dreadlocks, and a gold septum ring. The couch is dark and the room is dimly lit. The camera is stationary.",
+    "overly vivid colors, overexposed, static, blurry and unclear details, subtitles, text overlays, stylized artwork, painting, illustration, still image, frozen frame, grayish overall tone, worst quality, low quality, JPEG compression artifacts, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn face, deformed, disfigured, malformed anatomy, distorted limbs, fused fingers, motionless frame, cluttered background, three legs, walking backward, expression drift, teeth flickering, uneven facial muscles, facial shivering"
+  ],
+  "positive_t5_context_copies": 2,
+  "seed": 2026081905,
+  "steps": 40,
+  "fps": 25,
+  "source_video": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/mev_action_anchor_target_gap16_20260819_v1/preprocessed_sources/d977ce147d80/source-exact81.mp4",
+  "source_sha256": "e2a056e1af423be25a5beb4b75d1145fbacd625e3316a8e64b6031e75739f80d",
+  "real_target_used": false,
+  "visual_latent_shape": [
+    1,
+    16,
+    21,
+    60,
+    104
+  ],
+  "expert_parameters": [
+    14319177792,
+    14319177792
+  ],
+  "expert_forward_counts": [
+    34,
+    46
+  ],
+  "strict_checkpoint_load": true,
+  "max_context_length": 9216,
+  "context_truncation": false,
+  "output": {
+    "sha256": "1ecb531ea6b3a35432fabcb94944940f4a199b8b14067578cf2378b5ab32c23d",
+    "avg_frame_rate": "25/1",
+    "codec_name": "h264",
+    "duration": "3.240000000",
+    "height": 480,
+    "nb_read_frames": "81",
+    "width": 832
+  },
+  "full_decode_passed": true,
+  "completed_utc": "2026-09-23T21:09:38.268251+00:00",
+  "elapsed_seconds": 1047.39,
+  "job": "214736",
+  "hostname": "auh7-1b-gpu-269",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "c83cf03c774b3f29f430e9442d6667e5d7d26e7813a836379620c875e83b8295"
+}

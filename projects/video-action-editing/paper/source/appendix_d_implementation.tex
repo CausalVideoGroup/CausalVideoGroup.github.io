@@ -1,0 +1,547 @@
+\section{Implementation details and theoretical correspondence}
+\label{sec:implementation-correspondence}
+This appendix specifies the observations, representation models, and
+training operations summarized in Section~\ref{sec:method}. It also
+records their correspondence with the population analysis and distinguishes
+the synthetic and real-video implementations.
+
+\subsection{Physical simulator and implemented observations}
+\label{subsec:implementation-process}
+
+We distinguish the process that generates a video from the model that extracts
+its action signal. Let $\mathbf c_{\mathrm{scene}}$ denote persistent scene properties,
+$\mathbf q_t$ a physical state sufficient to evolve the scene, and $u$ an action regime.
+Unlike the appearance-only $\mathbf z^{\mathrm c}$ in Appendix~\ref{sec:controlled-transfer},
+$\mathbf c_{\mathrm{scene}}$ may include properties that affect physical dynamics.
+The physical state includes configurations and velocities of interacting
+entities; it is not a diffusion latent or a learned action embedding.
+A controlled dynamical model is
+\begin{align}
+  (\mathbf c_{\mathrm{scene}},\mathbf q_0,u)&\sim p_0,\qquad
+       \mathbf u_t^{\mathrm{ctrl}}=u_{\mathrm{ctrl}}(u,t), \label{eq:impl-context}\\
+  \mathbf q_t&=F_{\mathrm{phys}}(\mathbf c_{\mathrm{scene}},\mathbf q_{t-1},\mathbf u_t^{\mathrm{ctrl}},\boldsymbol\epsilon_t),
+       \label{eq:impl-action}\\
+  \mathbf x_t&=g_{\mathrm{render}}(\mathbf c_{\mathrm{scene}},\mathbf q_t,\mathbf n_t,\boldsymbol\nu_t),
+       \qquad t=1,\ldots,T. \label{eq:impl-observation}
+\end{align}
+Here $\mathbf u_t^{\mathrm{ctrl}}$ is a control input, $\mathbf n_t$ denotes time-varying capture conditions,
+and $\boldsymbol\epsilon_t,\boldsymbol\nu_t$ denote transition and observation noise, respectively.
+The joint law $p_0$ allows scene properties and action choice to be correlated.
+These equations do not impose componentwise independent innovations,
+a sparse causal graph, or an invertible renderer.
+
+\paragraph{Instantiation in the synthetic generator.}
+The implemented simulator samples scene parameters from a fixed seed,
+initializes a MuJoCo scene~\citep{todorov2012mujoco}, and supplies an action-dependent tool position
+at each frame. Physics substeps evolve the objects before rendering.
+Thus $F_{\mathrm{phys}}$ is the simulator transition, $u_{\mathrm{ctrl}}$
+is the prescribed controller, and $g_{\mathrm{render}}$ is the renderer.
+Conditional on the scene and control schedule, this implementation introduces
+no explicit stochastic transition or observation noise.
+Its camera and lighting remain fixed within a clip and can be absorbed into
+$\mathbf c_{\mathrm{scene}}$. Randomness across clips comes from scene construction,
+rather than independent noise added to every action coordinate.
+
+Writing $\mathcal V_{\mathrm{sim}}(\mathbf c_{\mathrm{scene}},\mathbf q_0,u)$ for the resulting
+rollout, synthetic editing pairs satisfy
+\begin{equation}
+ \begin{aligned}
+  V_{\mathrm s}&=\mathcal V_{\mathrm{sim}}(\mathbf c_{\mathrm{scene}},\mathbf q_0,u_{\mathrm s}),\\
+  V^{\mathrm{cf}}&=\mathcal V_{\mathrm{sim}}(\mathbf c_{\mathrm{scene}},\mathbf q_0,u^\star).
+ \end{aligned}
+ \label{eq:impl-counterfactual}
+\end{equation}
+The implementation reuses the scene and initial state and changes the
+control schedule; interactions and object trajectories are then recomputed.
+The instruction names the requested action. No learned decomposition of
+text into semantic atoms is required by this construction.
+For real videos, Eqs.~\ref{eq:impl-context}--\ref{eq:impl-observation} are a
+modeling abstraction. Collected source--target clips need not share the
+initial state or capture conditions and are not automatically samples of
+the strict coupling in Eq.~\ref{eq:impl-counterfactual}.
+
+\paragraph{Physical state versus action descriptor.}
+The synthetic representation experiment constructs a supervised descriptor
+\begin{equation}
+  \mathbf d_{1:L_{\mathrm{syn}}}=\mathcal T(\mathbf q_{0:T},\mathbf u^{\mathrm{ctrl}}_{1:T}),
+  \qquad \mathbf d_t\in\R^{48},\quad L_{\mathrm{syn}}=32.
+  \label{eq:impl-synthetic-descriptor}
+\end{equation}
+The fixed transformation $\mathcal T$ resamples simulator traces and records
+displacements, finite-difference velocities and accelerations, relative
+geometry, contacts, and interaction phases and order. Positions are rebased
+to the first phase. Here $t=1,\ldots,L_{\mathrm{syn}}$ indexes the resampled
+phase grid, distinct from the physical frame grid $0:T$.
+These named channels are an action description, not 48 independent physical
+causes: some channels are deterministic functions of others, and contact and
+phase channels include discrete values. The ambient space $\R^{48}$ describes
+numeric storage; neither a nonsingular continuous density nor a Markov
+property for $\mathbf d_t$ follows from the simulator's state dynamics.
+
+\paragraph{Frozen video observations.}
+For the real-video action learner, the observed variables are features of
+an action-providing video $V_{\mathrm r}$, which can be the paired real target.
+Let $H_{\ell,\sigma}(V_{\mathrm r};\mathbf c_{\mathrm{ext}},\boldsymbol\xi_{\mathrm{ext}})$ be frozen backbone
+features at layer $\ell$ and noise level $\sigma$, with extraction conditioning
+$\mathbf c_{\mathrm{ext}}$ and noise $\boldsymbol\xi_{\mathrm{ext}}$. Holding these extraction
+settings fixed, the implemented observation operators are
+\begin{equation}
+ \begin{aligned}
+  \mathbf O^{(v)}_{1:L}(V_{\mathrm r})
+   &=\mathcal M_v\!\left(
+       \bigl(H_{\ell,\sigma}(V_{\mathrm r};\mathbf c_{\mathrm{ext}},\boldsymbol\xi_{\mathrm{ext}})\bigr)_{\sigma\in\Sigma}
+     \right),\\
+  &\hspace{12mm}v\in\{1,2,\mathrm{full}\},\qquad
+       \mathbf O^{(v)}_{1:L}(V_{\mathrm r})\in\R^{L\times d_o}.
+ \end{aligned}
+ \label{eq:impl-feature-observation}
+\end{equation}
+Here $\Sigma$ is the fixed ordered list of three extraction noise levels,
+and $\mathcal M_v$ includes projection, spatial aggregation, temporal
+centering, lag statistics, and fixed training-set standardization.
+Views $1,2$ use alternating spatial patches of the same video during
+representation training. The full observation uses all spatial patches
+and is used to construct the controller packet.
+For this real-video model, $L=L_{\mathrm{real}}=21$ and $d_o=3072$.
+In the representation equations below, $t$ indexes these resampled phases;
+$\sigma$ denotes diffusion noise level and $k$ a sampler step.
+
+The observation operator retains centered global and local statistics,
+signed global changes, and local change magnitudes at lags $1,2,4$.
+It does not construct an action signal by subtracting a different video.
+Both training views inherit information from the same backbone and scene;
+they are not assumed conditionally independent given action. In particular,
+temporal centering removes a constant feature component but need not
+remove content-dependent motion, camera motion, or appearance--motion
+interactions.
+
+\subsection{Implemented temporal representation models}
+\label{subsec:impl-representation-model}
+
+\paragraph{Real-video action model.}
+The Action-VAE is a sequential variational autoencoder~\citep{kingma2014vae}.
+Its encoder is a bidirectional GRU~\citep{cho2014gru} with diagonal Gaussian outputs.
+For an observed sequence $\mathbf O\in\R^{L\times d_o}$, its posterior density is
+\begin{equation}
+  q_\phi(\widetilde{\mathbf z}^{\mathrm a}_{1:L}\mid \mathbf O)
+  =\prod_{t=1}^{L}
+    \mathcal N\!\left(\widetilde{\mathbf z}^{\mathrm a}_t;\boldsymbol\mu_{\phi,t}(\mathbf O),
+       \operatorname{diag}(\exp \mathbf s_{\phi,t}(\mathbf O))\right),
+  \qquad \widetilde{\mathbf z}^{\mathrm a}_t\in\R^{d_z},\quad d_z=32.
+  \label{eq:impl-posterior}
+\end{equation}
+Here $\boldsymbol\mu_{\phi,t}(\mathbf O)$ and $\mathbf s_{\phi,t}(\mathbf O)$ are $d_z$-dimensional mean and
+log-variance vectors, including the implemented log-variance clipping;
+$\exp$ acts elementwise. Each posterior mean can depend on the entire
+observed sequence. Distinguish a sample $\widetilde{\mathbf z}^{\mathrm a}\sim q_\phi(\cdot\mid \mathbf O)$ from
+the deterministic mean code $\widehat{\mathbf z}^{\mathrm a}=\boldsymbol\mu_\phi(\mathbf O)$.
+The prior has a recurrent state $\mathbf r_t\in\R^{d_z}$ and conditional densities
+\begin{equation}
+ \begin{aligned}
+  \mathbf r_1&=\mathbf 0,\qquad
+  \mathbf r_t=\operatorname{GRU}_\psi(\widetilde{\mathbf z}^{\mathrm a}_{t-1},\mathbf r_{t-1}),\quad t\geq2,\\
+  p_{\psi,t}(\widetilde{\mathbf z}^{\mathrm a}_t\mid \widetilde{\mathbf z}^{\mathrm a}_{<t})
+    &=\mathcal N\!\left(\widetilde{\mathbf z}^{\mathrm a}_t;\mathbf r_t,\operatorname{diag}(\exp \mathbf s_\psi)\right),\\
+  p_\psi(\widetilde{\mathbf z}^{\mathrm a}_{1:L})&=\prod_{t=1}^{L}p_{\psi,t}(\widetilde{\mathbf z}^{\mathrm a}_t\mid \widetilde{\mathbf z}^{\mathrm a}_{<t}).
+ \end{aligned}
+ \label{eq:impl-recurrent-prior}
+\end{equation}
+The clipped log-variance vector $\mathbf s_\psi$ is shared across phases.
+The mean depends on history through a dense recurrent transition; the product
+is a conditional factorization, not temporal independence.
+A separate unidirectional GRU decoder $d_\omega$ predicts observations from
+a code sequence, with its uncentered output at phase $t$ depending on
+$\widetilde{\mathbf z}^{\mathrm a}_{\leq t}$. Neither the prior nor the decoder is a sparse,
+text-conditioned structural equation.
+
+The active intrinsic-action training objective evaluates the decoder and
+prior at posterior means $\widehat{\mathbf z}^{\mathrm a,(v)}=\boldsymbol\mu_\phi(\mathbf O^{(v)})$.
+The representation objective in Eq.~\ref{eq:method-anchor-loss} groups
+its auxiliary terms as
+\begin{equation}
+ \mathcal L_{\mathrm{reg}}
+ =\beta\mathcal L_{\mathrm{prior}}
+  +\lambda_{\mathrm{ord}}\mathcal L_{\mathrm{ord}}
+  +\lambda_{\mathrm{stat}}\mathcal L_{\mathrm{stat}}
+  +\mathcal R_{\mathrm{temp}}.
+ \label{eq:impl-anchor-regularization}
+\end{equation}
+Here $\beta$ warms up the prior penalty; the loss components are defined below.
+For one two-view example, the reconstruction and prior penalties are
+\begin{equation}
+ \begin{aligned}
+  \ell_{\mathrm{obs}}
+    &=\tfrac12\sum_{v=1}^{2}
+       \rho\!\left(\operatorname{Center}(d_\omega(\widehat{\mathbf z}^{\mathrm a,(v)}))
+          -\operatorname{Center}\!\left(\tfrac{\mathbf O^{(1)}+\mathbf O^{(2)}}2\right)\right),\\
+  \ell_{\mathrm{prior}}
+    &=\frac{1}{2Ld_z}\sum_{v=1}^{2}\sum_{t=1}^{L}
+      \KL\!\left(q_{\phi,t}(\cdot\mid \mathbf O^{(v)})
+        \,\|\,p_{\psi,t}(\cdot\mid\widehat{\mathbf z}^{\mathrm a,(v)}_{<t})\right).
+ \end{aligned}
+ \label{eq:impl-mean-prior-loss}
+\end{equation}
+For an array $\mathbf W$ with rows $\mathbf w_t$, $\operatorname{Center}(\mathbf W)_t=\mathbf w_t-L^{-1}\sum_{j=1}^L\mathbf w_j$;
+$\rho$ averages the elementwise SmoothL1 penalty.
+The standard multivariate $\KL$ sums latent-coordinate contributions;
+the explicit $1/d_z$ matches their mean in the implementation.
+Training averages these per-example penalties over the batch to obtain
+the corresponding $\mathcal L$ terms in
+Eqs.~\ref{eq:method-anchor-loss} and~\ref{eq:impl-anchor-regularization}.
+
+\paragraph{Auxiliary representation losses.}
+Write $\check{\mathbf z}^{\mathrm a,(v)}=\operatorname{Center}(\widehat{\mathbf z}^{\mathrm a,(v)})$ and
+$\Delta_\ell\mathbf w_t=\mathbf w_{t+\ell}-\mathbf w_t$ for valid phases. The action signature is
+the concatenation of the vectorized centered code and its lag-$1,2,4$
+differences, normalized to unit norm with a numerical floor of $10^{-8}$.
+Let $s_+$ be the cosine similarity of the two forward-view signatures,
+and $s_{\mathrm{rev}},s_{\mathrm{shuf}}$ compare the first forward signature
+with signatures obtained by encoding reversed and shuffled observations.
+The per-example view and order losses are
+\begin{align}
+ \ell_{\mathrm{view}}
+   &=\rho(\check{\mathbf z}^{\mathrm a,(1)}-\check{\mathbf z}^{\mathrm a,(2)})
+     +\tfrac14\rho(\Delta_1\check{\mathbf z}^{\mathrm a,(1)}-\Delta_1\check{\mathbf z}^{\mathrm a,(2)})
+     +[m_{\mathrm{view}}-s_+]_+,\nonumber\\
+ \ell_{\mathrm{ord}}
+   &=\tfrac12\sum_{j\in\{\mathrm{rev},\mathrm{shuf}\}}
+       [m_{\mathrm{ord}}-s_++s_j]_+,
+ \label{eq:impl-view-order-loss}
+\end{align}
+where $[x]_+=\max(x,0)$. Shuffling swaps the first two seven-phase blocks
+of the extracted trajectory. Static controls repeat either the first or
+middle video frame and produce both patch views. Their mean code energy
+$e_{\mathrm{stat}}$ and the mean forward-view energy $e_{\mathrm{dyn}}$
+use $e(\mathbf W)=\sqrt{(Ld_z)^{-1}\|\operatorname{Center}(\mathbf W)\|_F^2+10^{-8}}$.
+The static penalty is
+$\ell_{\mathrm{stat}}=e_{\mathrm{stat}}+
+[m_{\mathrm{stat}}+e_{\mathrm{stat}}-e_{\mathrm{dyn}}]_+$.
+
+The temporal-difference penalty averages
+$\sqrt{(\Delta_\ell\widehat z^{\mathrm a,(1)}_{t,j})^2+10^{-6}}/\ell$
+over valid phases, coordinates, and lags $\ell\in\{1,2,4\}$.
+The variance penalty averages the deficit below a per-coordinate temporal
+standard-deviation floor. The covariance penalty divides each centered coordinate by its temporal
+standard deviation, floored at $10^{-4}$, and forms the within-video
+covariance with normalization $1/L$. After setting its diagonal to zero,
+it averages the squared entries over all $d_z^2$ positions.
+Both variance and covariance penalties are averaged over the two views.
+The covariance term discourages redundant temporal channels; it neither
+requires exact decorrelation nor implies statistical independence.
+For $L=21$ and $d_z=32$, a time-centered covariance $\mathbf C$ has rank
+at most $20$. If every channel has temporal standard deviation at least
+$10^{-4}$, the normalization gives $C_{jj}=1$, and
+\[
+ \frac{1}{d_z^2}\sum_{i\ne j}C_{ij}^2
+ =\frac{\|\mathbf C\|_F^2-d_z}{d_z^2}
+ \geq \frac{1}{L-1}-\frac{1}{d_z}=0.01875.
+\]
+The inequality follows from
+$\|\mathbf C\|_F^2\geq(\operatorname{tr}\mathbf C)^2/20$.
+Channels affected by the standard-deviation floor need not have unit
+variance, so this numerical lower bound is conditional on the stated
+normalization regime. The weighted variance, covariance, and difference
+penalties form $\mathcal R_{\mathrm{temp}}$.
+The default representation configuration uses
+$(\lambda_{\mathrm{obs}},\lambda_{\mathrm{view}},\lambda_{\mathrm{ord}},
+\lambda_{\mathrm{stat}})=(0.15,1,0.25,0.25)$;
+$\beta$ increases linearly to $0.002$ over 400 updates.
+The temporal-difference, variance, and covariance weights are
+$0.002$, $0.05$, and $0.005$, respectively. The view, order, and static
+margins are $0.10$, $0.20$, and $0.05$, and the standard-deviation floor
+is $0.08$.
+The term named sparse transition in the implementation is this
+finite-difference penalty.
+Although the architecture supports latent sampling, this training routine
+uses posterior means throughout these reconstruction and prior terms.
+Consequently, the implemented objective is a regularized representation
+loss, not an exact Monte Carlo ELBO for Eq.~\ref{eq:impl-recurrent-prior}.
+
+\paragraph{Supervised synthetic action model.}
+The synthetic learner is a separate model with latent
+$\widetilde{\mathbf z}^{\mathrm a,\mathrm{syn}}_t\in\R^{48}$, $t=1,\ldots,L_{\mathrm{syn}}$.
+Its posterior mean $\widehat{\mathbf z}^{\mathrm a,\mathrm{syn}}$ is directly supervised by $\mathbf d_{1:L_{\mathrm{syn}}}$ in
+Eq.~\ref{eq:impl-synthetic-descriptor}.
+Its lag-2 prior predicts Gaussian means and variances from the previous
+two latent vectors. For $t\geq3$, an alternative adds a strictly
+lower-triangular coefficient matrix $\mathbf B$:
+\begin{equation}
+ \begin{aligned}
+  \widetilde z^{\mathrm a,\mathrm{syn}}_{t,j}
+   &=m^{\mathrm{syn}}_{\psi,j}(\widetilde{\mathbf z}^{\mathrm a,\mathrm{syn}}_{t-2},\widetilde{\mathbf z}^{\mathrm a,\mathrm{syn}}_{t-1})
+     +\tanh\!\left(\sum_{i<j}B_{ji}\widetilde z^{\mathrm a,\mathrm{syn}}_{t,i}\right)\\
+   &\quad+\sigma^{\mathrm{syn}}_{\psi,j}
+       (\widetilde{\mathbf z}^{\mathrm a,\mathrm{syn}}_{t-2},\widetilde{\mathbf z}^{\mathrm a,\mathrm{syn}}_{t-1})\,\eta^{\mathrm{syn}}_{t,j}.
+ \end{aligned}
+ \label{eq:impl-synthetic-prior}
+\end{equation}
+The scales
+$\sigma^{\mathrm{syn}}_{\psi,j}$ are positive standard deviations, and the
+$\eta^{\mathrm{syn}}_{t,j}$ are independent standard Gaussian noises.
+This specifies conditional transitions for $t\geq3$, not an initial law
+for the first two phases. It gives a sequential sampling interpretation
+of the triangular transition. In training, prior parameters are evaluated
+using posterior means, and the instantaneous Jacobian receives an L1 penalty.
+This is a model for a learned code, not the simulator's true physical law.
+The supervised loss fixes semantic coordinate names; recovery in this
+experiment must therefore be distinguished from unsupervised
+identifiability. Gaussian priors on the learned code do not imply that
+the mixed discrete and continuous descriptor has Gaussian innovations.
+
+\subsection{Connection to editing and the identification question}
+\label{subsec:impl-editing-evidence}
+
+The real-video controller consumes a detached packet extracted from the
+full observation. Write $\widehat{\mathbf z}^{\mathrm a}(V_{\mathrm r})=\boldsymbol\mu_\phi(\mathbf O^{(\mathrm{full})}(V_{\mathrm r}))$
+for its mean code, arranged as an $L\times32$ array at inference, with $L=21$.
+The packet is
+\begin{equation}
+ \mathbf K=\operatorname{stopgrad}\!\left(
+   \operatorname{Concat}_{\mathrm{feat}}\!\left(
+    \operatorname{Norm}_{\mathrm{phase}}(\widehat{\mathbf z}^{\mathrm a}(V_{\mathrm r})),
+    \Psi_{\mathrm J}(V_{\mathrm r})\right)\right)
+ \in\R^{L\times64}.
+ \label{eq:impl-action-packet}
+\end{equation}
+Here $\Psi_{\mathrm J}(V_{\mathrm r})\in\R^{L\times32}$ is a separately projected,
+ordered V-JEPA2 signal. The two arrays are concatenated along the feature
+axis; they are not constrained to be the same identifiable coordinates.
+For a noncollapsed $\mathbf W\in\R^{L\times d}$,
+$\operatorname{Norm}_{\mathrm{phase}}(\mathbf W)=\operatorname{Center}(\mathbf W)/
+\operatorname{RMS}(\operatorname{Center}(\mathbf W))$, where
+$\operatorname{RMS}(\mathbf W)=\|\mathbf W\|_F/\sqrt{Ld}$.
+The implementation rejects a centered RMS at or below $10^{-8}$.
+
+The source supplies both its video latent and a spatial context
+$b_{\mathrm{src}}(V_{\mathrm s})$ formed by interpolating four independently encoded
+source frames. This context concatenates absolute features with their
+temporal deviations, so it contains source motion as well as appearance.
+The resulting editor is conditioned as
+$\widehat V\sim p_\theta(\cdot\mid V_{\mathrm s},i,\mathbf K)$.
+The packet modulates low-rank updates to the generated branch's
+visual self-attention value and output projections, together with
+the source spatial context. The analyzed checkpoint injects these
+updates during the first eight steps of a native 40-step sampler.
+
+The controller uses a spatial warm-up followed by an early-step behavior
+stage. Warm-up retains Action-VAE output alignment and a periodic
+V-JEPA2 critic. The subsequent stage retains the frozen Action-VAE
+condition but disables its output-matching loss. Its training queries
+come from native sampler prefixes. Distinguish a noisy video latent
+$\boldsymbol\ell_k\in\mathcal H$ from a decoded video
+$\widehat V_{0\mid k}\in\mathcal V$:
+\begin{equation}
+ \begin{aligned}
+  \boldsymbol\ell_k&=\operatorname{Prefix}_k(V_{\mathrm s},i,\mathbf K;\boldsymbol\xi),\\
+  \widehat{\boldsymbol\ell}_{0\mid k}
+    &=\boldsymbol\ell_k-\sigma_k v_\theta^{\mathrm{guided}}
+          (\boldsymbol\ell_k,\sigma_k;V_{\mathrm s},i,\mathbf K,b_{\mathrm{src}}(V_{\mathrm s})),\\
+  \widehat V_{0\mid k}
+    &=\operatorname{Decode}_{\mathrm{VAE}}(\widehat{\boldsymbol\ell}_{0\mid k}).
+ \end{aligned}
+ \label{eq:impl-controller-query}
+\end{equation}
+The clean-latent relation uses the velocity convention
+$\boldsymbol\ell_\sigma=(1-\sigma)\boldsymbol\ell_0+\sigma\boldsymbol\epsilon_{\mathrm{diff}}$,
+$\mathbf v=\boldsymbol\epsilon_{\mathrm{diff}}-\boldsymbol\ell_0$.
+The effective guided velocity includes the native conditional and
+unconditional branches. The decoding operator includes the fixed query
+view selection, latent denormalization, and video-VAE decoding used by
+the observer. Training cycles through prefix indices $k\in\{0,2,4,6\}$
+and evaluates these decoded clean predictions; it does not differentiate
+through a complete 40-step rollout.
+
+Let $e_{\mathrm J}$ be the frozen ordered V-JEPA2 behavior reader.
+For each query, index the comparison videos by $\mathcal K=\{+,\mathrm{src},\mathrm{rev},\mathrm{shuf}\}$,
+with $V_+=V_{\mathrm r}$, $V_{\mathrm{src}}=V_{\mathrm s}$, $V_{\mathrm{rev}}=\operatorname{Reverse}(V_{\mathrm r})$,
+and $V_{\mathrm{shuf}}=\operatorname{Shuffle}(V_{\mathrm r})$.
+Define
+$\gamma_{j,k}=\operatorname{sim}(e_{\mathrm J}(\widehat V_{0\mid k}),e_{\mathrm J}(V_j))$,
+where $\operatorname{sim}$ is the implemented mean cosine comparison
+between corresponding descriptor vectors.
+The primary behavior penalty is
+\begin{equation}
+ \ell_{\mathrm{act},k}
+ =1-\gamma_{+,k}-\lambda_{\mathrm{disc}}\log
+   \frac{\exp(\gamma_{+,k}/\tau)}
+        {\sum_{j\in\mathcal K}\exp(\gamma_{j,k}/\tau)},
+ \qquad \tau=\lambda_{\mathrm{disc}}=0.10.
+ \label{eq:impl-behavior-loss}
+\end{equation}
+The candidate indices preserve all four terms even if two candidate
+videos coincide. The temperature $\tau$ and discrimination weight
+$\lambda_{\mathrm{disc}}$ have distinct roles despite their equal values.
+The training objective $\mathcal L_{\mathrm{act}}$ averages
+$\ell_{\mathrm{act},k}$ over training examples and the prescribed query cycle.
+Reference and control descriptors are detached; gradients through the
+generated-video descriptor remain active for all four comparisons.
+This high-dimensional behavior reader differs from both the
+Action-VAE code and the compressed V-JEPA2 packet component.
+
+\paragraph{Preservation-gradient combination.}
+Source preservation uses symmetric patch-set comparisons and bounded
+appearance and temporal statistics. Let $\mathbf g_{\mathrm a}$ and
+$\mathbf g_{\mathrm p}$ denote the behavior and preservation gradients with
+respect to the clean-latent prediction
+$\widehat{\boldsymbol\ell}_{0\mid k}$, vectorized for the inner product.
+The implemented combination is
+\begin{equation}
+ \begin{aligned}
+  \widetilde{\mathbf g}_{\mathrm p}
+    &=\mathbf g_{\mathrm p}
+      -\frac{\min\{\langle\mathbf g_{\mathrm a},\mathbf g_{\mathrm p}\rangle,0\}}
+             {\max\{\|\mathbf g_{\mathrm a}\|^2,\varepsilon_g\}}
+       \mathbf g_{\mathrm a},\\
+  s&=\min\!\left\{1,
+    \frac{\eta\,\operatorname{RMS}(\mathbf g_{\mathrm a})}
+         {\max\{\operatorname{RMS}(\widetilde{\mathbf g}_{\mathrm p}),\varepsilon_g\}}
+       \right\},\qquad
+  \mathbf g=\mathbf g_{\mathrm a}+s\widetilde{\mathbf g}_{\mathrm p},
+ \end{aligned}
+ \label{eq:impl-gradient-combination}
+\end{equation}
+where $\eta=1/4$ and $\varepsilon_g=10^{-24}$ is the numerical floor.
+The cap never amplifies the preservation gradient. Projection acts in
+clean-prediction space. Backpropagation maps each gradient to
+$\mathbf J^\top\mathbf g_{\bullet}$, where
+$\mathbf J=\partial\widehat{\boldsymbol\ell}_{0\mid k}/\partial\theta$.
+The resulting parameter-space inner product uses
+$\mathbf J\mathbf J^\top$, so nonnegative prediction-space inner products
+need not remain nonnegative.
+This rule therefore does not guarantee monotonic decrease of the behavior
+loss under parameter updates. It is not a fixed weighted sum of losses.
+The stage does not use a paired target as a clean flow-matching endpoint.
+
+Inference uses the ordinary conditional sampler. The source of its
+reference packet is specified in Appendix~\ref{subsec:impl-configuration}.
+
+\paragraph{Identification target.}
+The identification criterion concerns the deterministic mean code.
+Let $\mathbf z^{\mathrm a}_{\mathrm r,[L]}=\mathcal R_L(\mathbf z^{\mathrm a}_{\mathrm r})$ denote the task-relevant behavior on the
+representation grid. When this resampling retains the behavioral information
+of interest, the corresponding block identification criterion is
+\begin{equation}
+  \widehat{\mathbf z}^{\mathrm a}(V_{\mathrm r})=h_{\mathrm a,L}(\mathbf z^{\mathrm a}_{\mathrm r,[L]}),
+  \label{eq:impl-identification-target}
+\end{equation}
+where $h_{\mathrm a,L}$ is shared across compatible content contexts,
+injective on the supported resampled action space, and invertible on its
+image. Equation~\ref{eq:impl-identification-target} defines the criterion;
+its attainment depends on the observation and view-learning conditions.
+The normalized controller packet is a different object: its centering
+and RMS normalization discard offsets and overall positive scale.
+
+Appendix~\ref{subsec:conditioning-proof} analyzes the implemented views,
+prediction target, and complete packet against this identification
+criterion. The evaluation protocol in Appendix~\ref{subsec:synthetic-protocol-details}
+measures action retention and content dependence before assessing final
+editing behavior. The source context also contains motion and is not an
+identified content code; the two-code decoder in
+Appendix~\ref{sec:controlled-transfer} is a separate controlled baseline.
+The factorized recurrent prior supplies temporal regularization.
+Coordinate-level identification would additionally require compatible
+observation and transition models and sufficient distributional
+variation~\citep{yao2022tdrl,shen2026covogan}.
+
+\subsection{Reproducible configuration and input settings}
+\label{subsec:impl-configuration}
+
+Table~\ref{tab:impl-configuration} specifies the implementation. The
+editor is trained on 1,508 source--target pairs, about 16\% of the pairs in
+the released real-world dataset
+(Appendix~\ref{subsec:real-dataset}). Training demonstrations mix the
+real target clips of these pairs with reference videos of the target
+actions generated offline, in a 3:1 ratio of real to generated videos.
+Training with a 1:1 ratio gave similar qualitative results and
+OmniEdit-Bench Temporal scores, so within this range the editor is not
+sensitive to the proportion of real targets; we use 3:1 for all reported
+results. Demonstrations are read only by the frozen extractors that
+produce the action condition and the behavior descriptors.
+
+\begin{table}[!htbp]
+ \centering
+ \small
+ \renewcommand{\arraystretch}{1.15}
+ \caption{Implementation configuration.}
+ \label{tab:impl-configuration}
+ \begin{tabular}{@{}p{0.23\linewidth}p{0.73\linewidth}@{}}
+ \hline
+ Component & Configuration \\ \hline
+ Frozen editor & Bernini-R-1.3B (Diffusers release); VeOmni v0.1.11. \\
+ Feature extraction & Block index 24; noise levels $(0.85,0.55,0.20)$;
+ frozen 128-dimensional projections; 81 sampled frames,
+ $L=21$ temporal phases and $d_o=3072$. \\
+ Action-VAE & Two-layer bidirectional GRU, 128 hidden units per direction;
+ two-layer decoder GRU with 256 hidden units; dropout 0.10;
+ 32-dimensional posterior and recurrent prior state. \\
+ Representation training & AdamW~\citep{loshchilov2019adamw}, 1,200 updates, batch 8,
+ learning rate $3\!\times\!10^{-4}$, weight decay $10^{-4}$,
+ gradient-norm cap 5. \\
+ Behavior reader & Frozen V-JEPA2 ViT-L (64-frame clips at 256 pixels);
+ last-layer ordered descriptors. \\
+ Reference condition & $21\!\times\!32$ Action-VAE code concatenated with
+ $21\!\times\!32$ compressed V-JEPA2 features. \\
+ Adapters and source & Rank 64, scale parameter 64; visual self-attention
+ value/output projections in blocks 0--24. Source-frame indices
+ $(0,27,53,80)$ provide spatial context. \\
+ Controller training & 1,508 training pairs; real targets and offline-generated
+ references as demonstrations at 3:1; a warm-up stage followed by
+ behavior supervision. AdamW learning rates $5\!\times\!10^{-4}$ and
+ $2\!\times\!10^{-4}$, respectively; weight decay 0, gradient-norm cap 1. \\
+ Sampling & Native 40-step sampler; action adapters active at indices
+ $0\leq k<8$. Behavior-training queries use $k\in\{0,2,4,6\}$. \\
+ Inference demonstration & Qwen3-VL rewrites the source and instruction as a
+ text-to-video prompt; the frozen editor generates the demonstration from
+ this prompt; no real target is read. \\
+ \hline
+ \end{tabular}
+\end{table}
+
+\paragraph{Feature and packet construction.}
+Extraction samples 81 frames uniformly over the full clip and uses a
+maximum pixel budget of 245,760 with stride 16, presented to the model
+at 16 fps. The $1536\!\times\!128$ feature projection has independent
+random-sign entries scaled by $1/\sqrt{128}$ and a fixed seed.
+The noise realization is fixed for each example and instruction and
+reused across the three noise levels. Extraction uses the recorded editing instruction.
+The V-JEPA2 branch resamples its $32\!\times\!1024$ ordered sequence to
+21 phases by linear interpolation with aligned endpoints. The level
+sequence and lag-$1,2,4$ differences each use a fixed
+$1024\!\times\!8$ random-sign projection, scaled by $1/\sqrt8$, with
+its own fixed seed. Lag differences are zero-padded
+at their unavailable initial phases. Their concatenation is centered
+and RMS-normalized to form $\Psi_{\mathrm J}$.
+Both 32-channel branches therefore have zero temporal mean and unit RMS
+before concatenation. Re-normalizing the concatenated packet at injection
+preserves these properties up to storage and arithmetic precision.
+
+\paragraph{Controller schedule.}
+The warm-up uses native query index 6 and a periodic behavior-reader
+query every fourth update. The behavior stage uses the four query indices
+in Table~\ref{tab:impl-configuration} and queries the reader on every
+example. It inherits the warm-up adapter weights and resets the AdamW
+state.
+
+\paragraph{Inference with generated demonstrations.}
+At inference, no real target is available.
+Qwen3-VL~\citep{bai2025qwen3vl} first rewrites the source video and
+editing instruction as a text-to-video prompt describing the requested
+action, and the frozen editor, Bernini-R-1.3B, generates a demonstration
+from this prompt in text-to-video mode.
+The same frozen extractors compute the action condition $\mathbf K$ from
+this generated video, and the trained adapters then edit the source with
+$\mathbf K$ using the native 40-step sampler, active only in the first
+eight steps. Neither benchmark targets nor other real targets are read at
+inference, and no external video generator is used; obtaining the demonstration
+adds one vision--language query and one sampling pass of the frozen
+editor.
+
+The planned intervention tests will use independent appearance variants
+and separately trained Action-VAE-only, V-JEPA2-only, and combined editors
+(Appendix~\ref{subsec:synthetic-protocol-details}). Final videos will be
+assessed for action execution and source fidelity using independent
+behavior measurements and human review; intermediate reader agreement
+is a separate diagnostic. Benchmark comparisons are reported in
+Section~\ref{subsec:real-experiments}; this human assessment is not yet
+complete in the present draft.
+

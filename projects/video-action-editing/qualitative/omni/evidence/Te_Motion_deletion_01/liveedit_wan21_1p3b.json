@@ -1,0 +1,46 @@
+{
+  "category": "Temporal Composition",
+  "created_at_utc": "2026-09-14T21:04:39Z",
+  "edited_video_sha256": "b6758782a0ed97a2aae04121b61ad61fe69b481bae4a9220f4be2aeae381a889",
+  "editing_instruction": "Delete the action of the girl giving a flying kiss, while maintaining the continuity of the video naturally.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "fc731a49e6c3d35b5945782f04ebc463488a0e3e5ede54e972425835c208e5d7",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 180,
+  "item_id": "Te_Motion_deletion_01",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 2,
+    "preservation": 2,
+    "realism": 2,
+    "reason": "The instruction was to delete the action of the girl giving a flying kiss, but the edited video not only retains the flying kiss gesture but also adds unrealistic red wings behind her, which is a complete deviation from the original instruction. The action is not removed; instead, it is enhanced with fantasy elements. This is a major failure in accuracy. Preservation is low because the background and lighting are slightly altered (e.g., lamp brightness, wall texture), and the wings are a new element. Realism is poor due to the added wings and unnatural motion. Consistency is compromised as the wings appear and remain throughout, creating a temporal drift."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 2,\n    \"realism\": 2,\n    \"consistency\": 2,\n    \"reason\": \"The instruction was to delete the action of the girl giving a flying kiss, but the edited video not only retains the flying kiss gesture but also adds unrealistic red wings behind her, which is a complete deviation from the original instruction. The action is not removed; instead, it is enhanced with fantasy elements. This is a major failure in accuracy. Preservation is low because the background and lighting are slightly altered (e.g., lamp brightness, wall texture), and the wings are a new element. Realism is poor due to the added wings and unnatural motion. Consistency is compromised as the wings appear and remain throughout, creating a temporal drift.\"\n}",
+  "receipt_digest": "f4f8ed287a1d8763a7f2653ad55ebfe0de953a32affc6d5558d91b0e0c7a96c9",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 2.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 2.0,
+    "realism": 2.0,
+    "reason": "The instruction was to delete the action of the girl giving a flying kiss, but the edited video not only retains the flying kiss gesture but also adds unrealistic red wings behind her, which is a complete deviation from the original instruction. The action is not removed; instead, it is enhanced with fantasy elements. This is a major failure in accuracy. Preservation is low because the background and lighting are slightly altered (e.g., lamp brightness, wall texture), and the wings are a new element. Realism is poor due to the added wings and unnatural motion. Consistency is compromised as the wings appear and remain throughout, creating a temporal drift."
+  },
+  "source_video_sha256": "7c51ba4b1218a1cd4f153ab9ae174dce0d47a56f5e6b32b89a885a1d5a8ad6ba",
+  "subcategory": "Motion_deletion"
+}

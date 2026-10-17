@@ -1,0 +1,867 @@
+[
+  {
+    "video": "media/Te_Motion_frequency_change_06/source.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "24/1",
+          "nb_frames": "240"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/zebra.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/frozen_bernini.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/omnivideo2_official_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/lucy_edit_1p1_dev_5b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/vace_wan21_1p3b_fullframe.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/liveedit_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/kiwi_edit_5b_instruct_only.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_06/reco_ori_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/source.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "24/1",
+          "nb_frames": "240"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/zebra.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/frozen_bernini.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/omnivideo2_official_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/lucy_edit_1p1_dev_5b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/vace_wan21_1p3b_fullframe.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/liveedit_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/kiwi_edit_5b_instruct_only.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_deletion_01/reco_ori_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/source.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 720,
+          "height": 1280,
+          "r_frame_rate": "24/1",
+          "nb_frames": "131"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/zebra.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 368,
+          "height": 640,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/frozen_bernini.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 368,
+          "height": 640,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/omnivideo2_official_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 832,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/lucy_edit_1p1_dev_5b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 832,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/vace_wan21_1p3b_fullframe.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 832,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/liveedit_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 832,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/kiwi_edit_5b_instruct_only.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 832,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Motion_frequency_change_02/reco_ori_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 832,
+          "r_frame_rate": "1944/131",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "5.459000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/source.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "24/1",
+          "nb_frames": "240"
+        },
+        {
+          "codec_name": "aac",
+          "r_frame_rate": "0/0",
+          "nb_frames": "470"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/zebra.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/frozen_bernini.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/omnivideo2_official_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/lucy_edit_1p1_dev_5b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/vace_wan21_1p3b_fullframe.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/liveedit_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/kiwi_edit_5b_instruct_only.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Camera_speed_change_04/reco_ori_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "81/10",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "10.000000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/source.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "24/1",
+          "nb_frames": "226"
+        },
+        {
+          "codec_name": "aac",
+          "r_frame_rate": "0/0",
+          "nb_frames": "444"
+        }
+      ],
+      "format": {
+        "duration": "9.451000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/zebra.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/frozen_bernini.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 640,
+          "height": 368,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/omnivideo2_official_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/lucy_edit_1p1_dev_5b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/vace_wan21_1p3b_fullframe.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/liveedit_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/kiwi_edit_5b_instruct_only.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  },
+  {
+    "video": "media/Te_Facial_expression_change_06/reco_ori_wan21_1p3b.mp4",
+    "sha256_verified": true,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 832,
+          "height": 480,
+          "r_frame_rate": "972/113",
+          "nb_frames": "81"
+        }
+      ],
+      "format": {
+        "duration": "9.417000"
+      }
+    }
+  }
+]

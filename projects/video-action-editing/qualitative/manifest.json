@@ -1,0 +1,962 @@
+[
+  {
+    "asset": "../qualitative/omni/selection.json",
+    "sha256": "84cd6009ae3da63f710f32de0c33997a574e1ea202f35e8371b20b87094c6acb",
+    "bytes": 51370
+  },
+  {
+    "asset": "../qualitative/omni/ranking_all200.json",
+    "sha256": "b03bde3c2e8673cad012e922ccff0049f2385fd4d382ebb6e7b1bdc8d9b66243",
+    "bytes": 34386
+  },
+  {
+    "asset": "../qualitative/omni/download_audit.json",
+    "sha256": "27b80926718aef62697ec216ebb3201f0e692bda95281ab2246485913413fe3e",
+    "bytes": 20183
+  },
+  {
+    "asset": "../qualitative/omni/media_validation.json",
+    "sha256": "c956781e90b8360963d6c9e9a643d8368ad4fa47d97867a8d53480fdfc60aa59",
+    "bytes": 18409
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/source.mp4",
+    "sha256": "eee3a86a3441fb2617dcc8323c157d39fc83dc2bd2c0edf1ea860cd6d9c903d1",
+    "bytes": 938527
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "9fc6f9989ff621d63f3288406708eed133a514e7a5f5668eea57832e82ada495",
+    "bytes": 529899
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "7faa97ec69c6559f1251d072e506a877e8e85f52239893bebd3a33d66b6269db",
+    "bytes": 749001
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/reco_ori_wan21_1p3b.mp4",
+    "sha256": "90db4129783fa802f016a01e0bd78b02327445d4a423c3fb499b103d2b75c21d",
+    "bytes": 854641
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "4fc6bd5fdcedb2703a879b09cc0460dc9da0646ab8d9774fa4ba828f46a4e972",
+    "bytes": 1345507
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/zebra.mp4",
+    "sha256": "20c872bafe12b8de1073240051242732936beb02b3a2ea716fa18a5194ff70de",
+    "bytes": 831981
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/liveedit_wan21_1p3b.mp4",
+    "sha256": "a37e2101b84e691a17865a185c5900287036f1443d241d929a0fbe8c65180080",
+    "bytes": 967998
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/frozen_bernini.mp4",
+    "sha256": "e166a44a9312219d78537f13f49e8e04800a1814f02290ea39334ff7efddafd9",
+    "bytes": 881279
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_02/omnivideo2_official_1p3b.mp4",
+    "sha256": "d030b29c60403f5c51b9c8d9272eb81853e270f81199ec05918b1d9db971dc78",
+    "bytes": 1182261
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/source.mp4",
+    "sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+    "bytes": 1655362
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "3dbb96889496be16482f84a759a34a4e38e39dbde4a376b4424054efd06ea740",
+    "bytes": 1085868
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "f0285123defe401fe6d9b707716de369dc8162402f64a59748a756752dfb0e2b",
+    "bytes": 825523
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/reco_ori_wan21_1p3b.mp4",
+    "sha256": "a23c0cb3676dc3904957c80dad444a59651862972ecc31155bc01fd40d525246",
+    "bytes": 865431
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "f2194f1c764e6f1f00b1e9e59c0c213e4e574dfa3024cef0d565ba165d081748",
+    "bytes": 1597654
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/zebra.mp4",
+    "sha256": "231b466565101154bf9185a812dbffa1195988d8873b746f82d393c913ad66a1",
+    "bytes": 1491176
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/liveedit_wan21_1p3b.mp4",
+    "sha256": "8ba93c48945cd80e3248682620976249e165313f5042c4a7ec04166ee8a28ddf",
+    "bytes": 2023071
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/frozen_bernini.mp4",
+    "sha256": "2234842811d1243ecb892b5beeb78ce3ef26fc0222a9f92cf067e59fede4fd2c",
+    "bytes": 1696848
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Facial_expression_change_06/omnivideo2_official_1p3b.mp4",
+    "sha256": "95271b71d0cc214d83de53f2946b89778e77e076e26b4bc6a715372cfd5e1fa7",
+    "bytes": 3021981
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/source.mp4",
+    "sha256": "89033eb8d081cf564f28ff41111f25fcd6bd7f41604c0f4d3e54bb6f950f5ee8",
+    "bytes": 3961122
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "69143741503ec5c260fb5682fba38a9ac0a8d95a23689f582828454821c4c746",
+    "bytes": 1506545
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "8cdbcf5381196d017811d9f74464977bc946bb670dd9fb07d60b46b95278ee31",
+    "bytes": 1926421
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/reco_ori_wan21_1p3b.mp4",
+    "sha256": "e59014ce6f558d6fb175cac92be6a90e8af459a6bc05eb255878ce42821a007b",
+    "bytes": 2486265
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "d54f0a371d7519fd205d5fb20f38520953477a5d6bd61d807e58d735861f4c4f",
+    "bytes": 3857817
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/zebra.mp4",
+    "sha256": "99e7098bf8ca8f327d9acf1c72b3c88b82ca7e79c3b7fc22c0fd503f53a88f23",
+    "bytes": 1732969
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/liveedit_wan21_1p3b.mp4",
+    "sha256": "920905582914e55b249fb889a697a64f987e527e4583fb70f912d6ce4d664164",
+    "bytes": 2745445
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/frozen_bernini.mp4",
+    "sha256": "197736d1ded8d96cfe65d3fd3a8982b9866a60a19d6b5799bfd337258db95700",
+    "bytes": 1596752
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_frequency_change_06/omnivideo2_official_1p3b.mp4",
+    "sha256": "0ec0232e51cbdbced06ee86e9c81712facbe845ba0689521e2f45547925dd786",
+    "bytes": 3388422
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/source.mp4",
+    "sha256": "7c51ba4b1218a1cd4f153ab9ae174dce0d47a56f5e6b32b89a885a1d5a8ad6ba",
+    "bytes": 1037462
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "365a6e85a43a125865a6c94e892c32490234771de2cea0874c4ba9a7db803d50",
+    "bytes": 466006
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "bacf48ee36c1b5fad294c9ea3a3f6376792946c23297800b67f197ab3bd1d0be",
+    "bytes": 597859
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/reco_ori_wan21_1p3b.mp4",
+    "sha256": "8febc79000879f423a5236cff8d712953999a152911f8d606c50bff0d458920f",
+    "bytes": 958841
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "c4a5537e65793a14c7f0aa816056105672f6864ff8b4bf89230f08a1ea28e371",
+    "bytes": 1414568
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/zebra.mp4",
+    "sha256": "1d4de93dce10739e46069ec9f269a92de765c2f970dfa85d8de42a1875640ddd",
+    "bytes": 584758
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/liveedit_wan21_1p3b.mp4",
+    "sha256": "b6758782a0ed97a2aae04121b61ad61fe69b481bae4a9220f4be2aeae381a889",
+    "bytes": 1194297
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/frozen_bernini.mp4",
+    "sha256": "cd28f95da224595c3b323af7042fe788a08cb033637e3b958144287dd92a241e",
+    "bytes": 645612
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Motion_deletion_01/omnivideo2_official_1p3b.mp4",
+    "sha256": "362e2f0a8b72ccdac9fc6bb89eca33b5f54333d4b5454e7ba8c6ecf249aaa699",
+    "bytes": 1071023
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/source.mp4",
+    "sha256": "0fddc8d23c7f6f5d55658de1ee5de4d588c20a78b6acf0344a7f467a5f6e6b84",
+    "bytes": 1393842
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "a47894d39923fd8907bf97af4b40b1b24bcb4b2bccf4090e11ea99ea2972faa9",
+    "bytes": 1044453
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "5e4e29619c5a16d24b9f9caf1459a9f9295d34669588d839f2b9ad6bc39627df",
+    "bytes": 692403
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/reco_ori_wan21_1p3b.mp4",
+    "sha256": "765f0c272a9f489fce69bdfa46a1d3826ad52af4832e031eb80c1a9f8696bb9e",
+    "bytes": 1865906
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "4f1a179eb4ae4737ffe1e7555b0ddd76413895f53090bc333900cf619a51452b",
+    "bytes": 1816057
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/zebra.mp4",
+    "sha256": "72a872773f4073862d9b67051d135f9f587bce0c2ca844fe4d918c8ed5e8c8de",
+    "bytes": 1147466
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/liveedit_wan21_1p3b.mp4",
+    "sha256": "6c92a2c7edc0ba610fcf39579754239b2996cd457be2d8133e311c26d5e9b451",
+    "bytes": 1790100
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/frozen_bernini.mp4",
+    "sha256": "4da6ebd8b81e975b4cdf8f7532c3c36b84dc792958e72c4bdb3c77653c7a3392",
+    "bytes": 1692502
+  },
+  {
+    "asset": "../qualitative/omni/media/Te_Camera_speed_change_04/omnivideo2_official_1p3b.mp4",
+    "sha256": "7e909aa8b0a5bd039c10999b362a1f5de10926de3be2e8a4859e8b60d63a349b",
+    "bytes": 2969904
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/source.mp4",
+    "sha256": "bcf47f742b054db8cefaa3b7ad3d556f9bcbbe488fc7193bac1164262fe66ace",
+    "bytes": 1022213
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/mev160_fm_only_u160.mp4",
+    "sha256": "b86868dbc2218a6169b80edec35d8bc0c2698d33d4841f54c9c211e317d17b23",
+    "bytes": 2875407
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/frozen_bernini.mp4",
+    "sha256": "d97b74ac16c05f82ae1568e3d378e6e57fcc89c173dbb668ceba4157dbb119c8",
+    "bytes": 3393629
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/real_target.mp4",
+    "sha256": "fde32c88e8a723828a382aea5272ae41ca0e4f8f9e941254cd0cf496dd16833d",
+    "bytes": 3587767
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/omnivideo2_official_1p3b.mp4",
+    "sha256": "e3329f0089023749727ecb5108eb5c68193a556c169a8075c72d79ffac881302",
+    "bytes": 5923006
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "e94850b835b97e76d108710fced2160eecef71577d1887477dc1968c2d990d56",
+    "bytes": 275673
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "b3e40ae539d10ad1652f62fd02447b2cb5d7915ec3b1f40a60f974dc518c01f4",
+    "bytes": 4918050
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/liveedit_wan21_1p3b.mp4",
+    "sha256": "923782590f737fc0dd561af1af4065a969da358417d0305a77b7386fa06e3713",
+    "bytes": 7848212
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "f02bab775e9d5fb42ea215f0b41b51b2518068bc9df3b8b21f0fc93e28c72fd7",
+    "bytes": 190151
+  },
+  {
+    "asset": "../qualitative/real/15_mev_d045859258943df0/reco_ori_wan21_1p3b.mp4",
+    "sha256": "0bcac2bf2f1b66a7b6b710683c5d6a4b2e5eaf0e77eb23da1594862c433e5e20",
+    "bytes": 7411778
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/source.mp4",
+    "sha256": "46c5579ec129e6c834ed54c6089db579d42d527b218d93470c41955090680cec",
+    "bytes": 667296
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/mev160_fm_only_u160.mp4",
+    "sha256": "217a19226830187a58a989badeeb7d3afabebec80b0cfe412cf3f25cbfde2668",
+    "bytes": 4134554
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/frozen_bernini.mp4",
+    "sha256": "9652591271773444afd470983f83e93baa1632e90484281943f00f7889b0402b",
+    "bytes": 3440136
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/real_target.mp4",
+    "sha256": "781a12123838eb842730223b998f6dce5bce28b4cfe7cd124aa93cc5f78acb1f",
+    "bytes": 7682512
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/omnivideo2_official_1p3b.mp4",
+    "sha256": "ffcd8a1c0514c2606cac5b133c80fed45041b5c2ab2acdc385eb3b477c403b20",
+    "bytes": 4336422
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "8bdd24f357ab6af246fff855bfe7769d7c1ac5902f451e0ec21e3b6d486f3715",
+    "bytes": 223880
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "4050c1bcd1f1e535996ff9dfb5920c214bc2719b0233597baa86823fb7266e59",
+    "bytes": 4755622
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/liveedit_wan21_1p3b.mp4",
+    "sha256": "a306537ead472f19c6b5c182c39b6b20bbd663efeff0cbe2e299f20c8f07407f",
+    "bytes": 8027236
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "7de4c4ca05916c0718c3431c3c617724194d846cfe699849249e7e275dd3c3b3",
+    "bytes": 321819
+  },
+  {
+    "asset": "../qualitative/real/20_mev_059fef481bb29b38/reco_ori_wan21_1p3b.mp4",
+    "sha256": "53970bd97c770bb50cb60be768807e7eec27355357c16bf82d022802a4eb68f8",
+    "bytes": 5579035
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/source.mp4",
+    "sha256": "ecb6d1d0653b24288355793a9c9d0f1507a3efa41d46c5900824786815293272",
+    "bytes": 589143
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/mev160_fm_only_u160.mp4",
+    "sha256": "eae3b9faf2488a9644cc5dac6f9b20476548dbed04fd191845cb74249fa4935b",
+    "bytes": 1474881
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/frozen_bernini.mp4",
+    "sha256": "0474a8bff31c35e9a798f15f2856279c3018081f4ddc8fce5d0af33251a43ed3",
+    "bytes": 2209548
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/real_target.mp4",
+    "sha256": "94cbfd35fa002eaf62efb9f77fcbf2b7e686320daccf4d89487d5f25756d7c0b",
+    "bytes": 953460
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/omnivideo2_official_1p3b.mp4",
+    "sha256": "7bf26411385d098d5b658562d9352a73501d382c1afce0cc0a2d2cc28276dc24",
+    "bytes": 1896249
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "b4f24c17daa1c85efabe838c98fd333622c89ad6b69b716dee6ed52a23b4ccc8",
+    "bytes": 235629
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "7adc65576001ba8cac78a4580c98053b2894cd5ab53a200c328314374700beca",
+    "bytes": 2339605
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/liveedit_wan21_1p3b.mp4",
+    "sha256": "ad06da1f58f1f7e07c2d413d84ef97310b6e6de71ce30b553882929f13416112",
+    "bytes": 4108275
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "ba9932a92c98b15e3fe086b8db697bb38cc883dbe07759543272b1d330d6e66c",
+    "bytes": 274181
+  },
+  {
+    "asset": "../qualitative/real/32_mev_a35540d41c3d7989/reco_ori_wan21_1p3b.mp4",
+    "sha256": "207f2269fc3880368d7155ecb960634a3c3d6352d602411445135da990ae4dc2",
+    "bytes": 3981733
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/source.mp4",
+    "sha256": "913c4764ad79ef26f69f7e10d3693718313f1206cdb2f21ab5a668f7966136da",
+    "bytes": 719461
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/mev160_fm_only_u160.mp4",
+    "sha256": "71290f13a4acfe1452b7def568fd6076a204603e36d2f14bce0d956cc32d5a1f",
+    "bytes": 2068859
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/frozen_bernini.mp4",
+    "sha256": "d7d511f4c8bc7e7298e44cf911ef1495e6a70215c4f0ef448b6238b3d3e0773b",
+    "bytes": 2205091
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/real_target.mp4",
+    "sha256": "2d03f489132a86aeb5bb8c0fa383c709366659a06bc73d4015b139a634aadc32",
+    "bytes": 2867360
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/omnivideo2_official_1p3b.mp4",
+    "sha256": "3900233d518752723f8c7037fa00fcbf89836175ecdfe8f26c687c5f9f707ca5",
+    "bytes": 2473141
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "045949bbe07248e31aa0bb634a237f0f99d9a179a86bb23a4771ae7823f219ba",
+    "bytes": 262366
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "f6be33e019392a33d8577375f68926641bd7f0fdbf33353fd91083a47500e45c",
+    "bytes": 2993485
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/liveedit_wan21_1p3b.mp4",
+    "sha256": "3b7b46fa4105400d2be3c22fb25c93725d95201a93c8ff6844b41faa9ae688a1",
+    "bytes": 5188827
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "89f95c44bd87656b3c4acd601e150b3e5dba6f33f4760dc05a01df4b2673eceb",
+    "bytes": 215565
+  },
+  {
+    "asset": "../qualitative/real/34_mev_f308ebe4cd1b3b79/reco_ori_wan21_1p3b.mp4",
+    "sha256": "51678c7dbe2e116616aa0b495ca9649a80b6ec0f95f755129f461e29dfefed8e",
+    "bytes": 5273764
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/source.mp4",
+    "sha256": "813a16c21affab251a596bd44884eb305be15348206e8fa909f0ca1bc703d75d",
+    "bytes": 193882
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/mev160_fm_only_u160.mp4",
+    "sha256": "6da62956af13614338557beea76f06ba431065a7b3cc35f70b0301f179fe0bb5",
+    "bytes": 1603703
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/frozen_bernini.mp4",
+    "sha256": "5bdd1c7ef98cb1617ac0d67f8cae2a1443bcf4cf2d04d806ee5fda5663af5f91",
+    "bytes": 1859473
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/real_target.mp4",
+    "sha256": "66ee70f2f4d85c5b831e1519c294c8a215be5dec383bfaab2ac0b6916c4f0e45",
+    "bytes": 3899269
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/omnivideo2_official_1p3b.mp4",
+    "sha256": "8acb1bb33f9784faf0541b4e2efe9f051b1acfc67d9e4d751c91cef3551d18ab",
+    "bytes": 890992
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "3672364f5a81618ef5fb3468973d7d8443671fc2a762aaee00e34486f0f34278",
+    "bytes": 93396
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "6b0367e01cc0f6d27fa0ea75cd6a582079d49bec565900cafc9eb9fb2c5b3e30",
+    "bytes": 1494699
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/liveedit_wan21_1p3b.mp4",
+    "sha256": "b689d8b8afde74002e30f06c830db1976de033590305d933e07d56c33d7b4654",
+    "bytes": 3738415
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "591f59bdb70c38d159c89aa3d01652217322e740ecd31333fe515eb056ea18a7",
+    "bytes": 82058
+  },
+  {
+    "asset": "../qualitative/real/35_mev_1e9a413e9af09b7d/reco_ori_wan21_1p3b.mp4",
+    "sha256": "cca0bb6599c9ce29ae3397069511d2468f59b9fb4d40364917fb983c1834dc6d",
+    "bytes": 3327418
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/source.mp4",
+    "sha256": "faa139f727bb2e5c2da4a6af258e974d556b4549ab77b6d32426402eef897eba",
+    "bytes": 605944
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/mev160_fm_only_u160.mp4",
+    "sha256": "49d3dca9214c99e26b6033ec04d780efbf14b06fa5fed08e5320a132ff2df4dd",
+    "bytes": 1483256
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/frozen_bernini.mp4",
+    "sha256": "a82bd12dd0532f0499bb92061f931d8603e73b29c97b7e5a9c1facc46d996a9d",
+    "bytes": 2000563
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/real_target.mp4",
+    "sha256": "b96e996d5c4e506c70047dd4e75330914acb2ea25e637b0939b000ed2dec74d8",
+    "bytes": 2175526
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/omnivideo2_official_1p3b.mp4",
+    "sha256": "0e43bd888ac4485ae61f1e36f1b090f8853e0dc6f8d0b11ce5a111b206ff6fed",
+    "bytes": 2358400
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "9d289c7d6b37655f42fc189465a44d3cdbb8f6c854efda9f960334d2d2011d01",
+    "bytes": 252278
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "2432aa5ccb70173ae6757a55eb2fd27a7630b85b5208fc925b982de12762fd21",
+    "bytes": 2966435
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/liveedit_wan21_1p3b.mp4",
+    "sha256": "697c86f5bc6b0bf507b71da223116b49a493a8669cd0bf91d9d3c68fd07f65ae",
+    "bytes": 5018690
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "7e4eeba9c7ec8ff59c678714b26d319e885c667eee60b7c84b44073373293c25",
+    "bytes": 244143
+  },
+  {
+    "asset": "../qualitative/real/39_mev_c314f469fbaeb749/reco_ori_wan21_1p3b.mp4",
+    "sha256": "5e76c5851301e50689ff11d4c38007e6f256a5c64eb3b5590ff7f029efd35260",
+    "bytes": 4959413
+  },
+  {
+    "asset": "../qualitative/real/delete_action/source.mp4",
+    "sha256": "7c51ba4b1218a1cd4f153ab9ae174dce0d47a56f5e6b32b89a885a1d5a8ad6ba",
+    "bytes": 1037462
+  },
+  {
+    "asset": "../qualitative/real/delete_action/zebra.mp4",
+    "sha256": "1d4de93dce10739e46069ec9f269a92de765c2f970dfa85d8de42a1875640ddd",
+    "bytes": 584758
+  },
+  {
+    "asset": "../qualitative/real/delete_action/frozen_bernini.mp4",
+    "sha256": "cd28f95da224595c3b323af7042fe788a08cb033637e3b958144287dd92a241e",
+    "bytes": 645612
+  },
+  {
+    "asset": "../qualitative/real/delete_action/omnivideo2_official_1p3b.mp4",
+    "sha256": "362e2f0a8b72ccdac9fc6bb89eca33b5f54333d4b5454e7ba8c6ecf249aaa699",
+    "bytes": 1071023
+  },
+  {
+    "asset": "../qualitative/real/delete_action/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "bacf48ee36c1b5fad294c9ea3a3f6376792946c23297800b67f197ab3bd1d0be",
+    "bytes": 597859
+  },
+  {
+    "asset": "../qualitative/real/delete_action/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "c4a5537e65793a14c7f0aa816056105672f6864ff8b4bf89230f08a1ea28e371",
+    "bytes": 1414568
+  },
+  {
+    "asset": "../qualitative/real/delete_action/liveedit_wan21_1p3b.mp4",
+    "sha256": "b6758782a0ed97a2aae04121b61ad61fe69b481bae4a9220f4be2aeae381a889",
+    "bytes": 1194297
+  },
+  {
+    "asset": "../qualitative/real/delete_action/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "365a6e85a43a125865a6c94e892c32490234771de2cea0874c4ba9a7db803d50",
+    "bytes": 466006
+  },
+  {
+    "asset": "../qualitative/real/delete_action/reco_ori_wan21_1p3b.mp4",
+    "sha256": "8febc79000879f423a5236cff8d712953999a152911f8d606c50bff0d458920f",
+    "bytes": 958841
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/source.mp4",
+    "sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+    "bytes": 1655362
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/zebra.mp4",
+    "sha256": "231b466565101154bf9185a812dbffa1195988d8873b746f82d393c913ad66a1",
+    "bytes": 1491176
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/frozen_bernini.mp4",
+    "sha256": "2234842811d1243ecb892b5beeb78ce3ef26fc0222a9f92cf067e59fede4fd2c",
+    "bytes": 1696848
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/omnivideo2_official_1p3b.mp4",
+    "sha256": "95271b71d0cc214d83de53f2946b89778e77e076e26b4bc6a715372cfd5e1fa7",
+    "bytes": 3021981
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/lucy_edit_1p1_dev_5b.mp4",
+    "sha256": "f0285123defe401fe6d9b707716de369dc8162402f64a59748a756752dfb0e2b",
+    "bytes": 825523
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/vace_wan21_1p3b_fullframe.mp4",
+    "sha256": "f2194f1c764e6f1f00b1e9e59c0c213e4e574dfa3024cef0d565ba165d081748",
+    "bytes": 1597654
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/liveedit_wan21_1p3b.mp4",
+    "sha256": "8ba93c48945cd80e3248682620976249e165313f5042c4a7ec04166ee8a28ddf",
+    "bytes": 2023071
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/kiwi_edit_5b_instruct_only.mp4",
+    "sha256": "3dbb96889496be16482f84a759a34a4e38e39dbde4a376b4424054efd06ea740",
+    "bytes": 1085868
+  },
+  {
+    "asset": "../qualitative/real/man_laugh/reco_ori_wan21_1p3b.mp4",
+    "sha256": "a23c0cb3676dc3904957c80dad444a59651862972ecc31155bc01fd40d525246",
+    "bytes": 865431
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/source/frame_000000_crop_352x192.png",
+    "sha256": "ed1df292d07dcc4a16c73a6b3e5941e21a5a141739fd0696ed03f4104ad4a0c4",
+    "bytes": 16894
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/source/frame_000027_crop_352x192.png",
+    "sha256": "825b35e3386160645675585638ceff2ec87f53088b0272f8983e01770cf56e6a",
+    "bytes": 16961
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/source/frame_000053_crop_352x192.png",
+    "sha256": "2bb48e9ea107491e0cb097d56e77fa1dba0e16cc9f9e0efcfe089f24177a9cb8",
+    "bytes": 15933
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/source/frame_000080_crop_352x192.png",
+    "sha256": "9496ad1c86063738c21ac8408ca1b09a50e650a3859a411ff0b6d7e8206b9d04",
+    "bytes": 15974
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/reference/frame_000000_crop_352x192.png",
+    "sha256": "99bb45d0363cf0f1adc9caffcfada05bd37cc4b325017cff0e130aef3c82a10d",
+    "bytes": 17007
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/reference/frame_000027_crop_352x192.png",
+    "sha256": "e04c26734a0ecb2a196f516c09c165db24159322bac27e1df230eb23b0079899",
+    "bytes": 17163
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/reference/frame_000053_crop_352x192.png",
+    "sha256": "2b6d8ca05917cc38bf5a9b329f58383aff57cfef658c40f50dc4447a31b07fdd",
+    "bytes": 16421
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/reference/frame_000080_crop_352x192.png",
+    "sha256": "1101fc930dfb45c44c66d190d1eda3ce7ef1b324b564fc9f00ea724075f399df",
+    "bytes": 16755
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/ours/frame_000000_crop_352x192.png",
+    "sha256": "bee0ef3bb44d136edc94431cebcfe0fb306d9a97090356299049461b971755aa",
+    "bytes": 16854
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/ours/frame_000027_crop_352x192.png",
+    "sha256": "55c9d4905d41b8575e7605db4918703a7af805c1b031c8cea2dcaf9ba1473f2a",
+    "bytes": 24655
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/ours/frame_000053_crop_352x192.png",
+    "sha256": "f4f872cb01653f08b4c82d4afff5508797c7a8eecf7ca5d513cafd19641c7984",
+    "bytes": 27805
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/ours/frame_000080_crop_352x192.png",
+    "sha256": "18395f9115854def64fb73efd411ac893f2b397beb9f1b61254a3d5ed15241ac",
+    "bytes": 30716
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/expected/frame_000000_crop_352x192.png",
+    "sha256": "97e87e204098390bd36bcb910286461fb0a8c02a1d0d67cf35e3b448eb1d988d",
+    "bytes": 16914
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/expected/frame_000027_crop_352x192.png",
+    "sha256": "3587ce8ed1dbfa12ff6f5d88e60912b63466a35fa98830efc3440b8db4710b56",
+    "bytes": 16975
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/expected/frame_000053_crop_352x192.png",
+    "sha256": "5c2e7ec7aec684019b7339544412f47025cc39b429d0a7acf418d6fa9bfb70b3",
+    "bytes": 16362
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/expected/frame_000080_crop_352x192.png",
+    "sha256": "6a6b18a984a86049e20c2736814d9de8080ae1322cfd966935e735fdfa5733d0",
+    "bytes": 16498
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/01_Source/frame_000000_crop_352x192.png",
+    "sha256": "97e87e204098390bd36bcb910286461fb0a8c02a1d0d67cf35e3b448eb1d988d",
+    "bytes": 16914
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/01_Source/frame_000027_crop_352x192.png",
+    "sha256": "f04beb2e5692267ac7ab00996702c4f944cc0b915e661f1a4fce2bc02ea44ad8",
+    "bytes": 17589
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/01_Source/frame_000053_crop_352x192.png",
+    "sha256": "d4d994c5b38330058cbae68a54178c0ee5e43866a956678cbea5a64671b486b6",
+    "bytes": 17737
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/01_Source/frame_000080_crop_352x192.png",
+    "sha256": "436c555af07fe825e9a67c208ba88ca36faa9ae62752977ac09a40c4ec5fa464",
+    "bytes": 18169
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/05_Learned_Reconstruction/frame_000000_crop_352x192.png",
+    "sha256": "e0f04e5641888dfc634e6a6b0756317f3394337c645203efad424dea24d73d77",
+    "bytes": 16850
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/05_Learned_Reconstruction/frame_000027_crop_352x192.png",
+    "sha256": "81f772fbe9cba6ddcbc0aa47a079d3abf935154b0eb4198a815b39ec55deb3fa",
+    "bytes": 23605
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/05_Learned_Reconstruction/frame_000053_crop_352x192.png",
+    "sha256": "9cb77dd9dcbf5f4ffd03db62059834c459f1e245c11a9f10e915bf7b990dff80",
+    "bytes": 26274
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/05_Learned_Reconstruction/frame_000080_crop_352x192.png",
+    "sha256": "3505eb81ef61e39c8d294aad3a512c3a6a53c0ec0741da5467e7ecf319ce2005",
+    "bytes": 29425
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/source.mp4",
+    "sha256": "c5802bfc0d735743654b44a284c16ce12963c20727f6569376d829d193d338b2",
+    "bytes": 1326039
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/reference.mp4",
+    "sha256": "986bf4e00eb44efaacaec63ec435dcfcfeb2fb24b4b211589367f0346c6f1206",
+    "bytes": 1331765
+  },
+  {
+    "asset": "../qualitative/synthetic/c399/ours.mp4",
+    "sha256": "bee49ee36fc1761488ecc772b5409881f93d8e3dd46a67f98ec4814124f4673c",
+    "bytes": 101970
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/source/frame_000000_crop_352x192.png",
+    "sha256": "038001835294506ae1c08d94fda86c4d8a1a62f71b5912dfdd518081005607cc",
+    "bytes": 17118
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/source/frame_000027_crop_352x192.png",
+    "sha256": "84563428581d487b48988dd428db9da7a413bdd91f6ea60ad5db4b0544f875b9",
+    "bytes": 18592
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/source/frame_000053_crop_352x192.png",
+    "sha256": "7478bd713230ac72e82dde939331eb9dcf12cf5ce113008ae3506e7a5518dea4",
+    "bytes": 18054
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/source/frame_000080_crop_352x192.png",
+    "sha256": "3e3f2ab4c0d01e36f0a04b93ccae814a88343554b6848faa93601eff120ce175",
+    "bytes": 17632
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/reference/frame_000000_crop_352x192.png",
+    "sha256": "99bb45d0363cf0f1adc9caffcfada05bd37cc4b325017cff0e130aef3c82a10d",
+    "bytes": 17007
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/reference/frame_000027_crop_352x192.png",
+    "sha256": "527d19ef73175770357369b3fefc740a4e9e2ba1fc2a1ed1445fa4ebaab309cd",
+    "bytes": 17619
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/reference/frame_000053_crop_352x192.png",
+    "sha256": "9855a83e5b9fd2b95e8bd5cf58b9978624d467c2d25fb8c65d2d289e6e64a3b1",
+    "bytes": 17677
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/reference/frame_000080_crop_352x192.png",
+    "sha256": "26eeb32f43ef1ba2bfff8e4048c3082ff559ee048805be8e87a741df92ee089e",
+    "bytes": 18252
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/ours/frame_000000_crop_352x192.png",
+    "sha256": "82e647b4bee02d068067917f071b524fa127f464cff04785a78ba2426c68e04d",
+    "bytes": 16884
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/ours/frame_000027_crop_352x192.png",
+    "sha256": "c29765b78c77b0ea1637ba8dfe5fa927ffd1b0b207daf0359036d12b08cd9f1d",
+    "bytes": 24378
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/ours/frame_000053_crop_352x192.png",
+    "sha256": "ed18ac981ac80c9b45cdda1ea4ef0919b71961bafdaafc400179ef56991d84f9",
+    "bytes": 26853
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/ours/frame_000080_crop_352x192.png",
+    "sha256": "52afa65a7852ea81e9d354925312b1b53f90f69177b5434b5f646fc5d0d1b4a5",
+    "bytes": 28881
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/expected/frame_000000_crop_352x192.png",
+    "sha256": "97e87e204098390bd36bcb910286461fb0a8c02a1d0d67cf35e3b448eb1d988d",
+    "bytes": 16914
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/expected/frame_000027_crop_352x192.png",
+    "sha256": "f04beb2e5692267ac7ab00996702c4f944cc0b915e661f1a4fce2bc02ea44ad8",
+    "bytes": 17589
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/expected/frame_000053_crop_352x192.png",
+    "sha256": "d4d994c5b38330058cbae68a54178c0ee5e43866a956678cbea5a64671b486b6",
+    "bytes": 17737
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/expected/frame_000080_crop_352x192.png",
+    "sha256": "436c555af07fe825e9a67c208ba88ca36faa9ae62752977ac09a40c4ec5fa464",
+    "bytes": 18169
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/01_Source/frame_000000_crop_352x192.png",
+    "sha256": "97e87e204098390bd36bcb910286461fb0a8c02a1d0d67cf35e3b448eb1d988d",
+    "bytes": 16914
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/01_Source/frame_000027_crop_352x192.png",
+    "sha256": "f04beb2e5692267ac7ab00996702c4f944cc0b915e661f1a4fce2bc02ea44ad8",
+    "bytes": 17589
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/01_Source/frame_000053_crop_352x192.png",
+    "sha256": "d4d994c5b38330058cbae68a54178c0ee5e43866a956678cbea5a64671b486b6",
+    "bytes": 17737
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/01_Source/frame_000080_crop_352x192.png",
+    "sha256": "436c555af07fe825e9a67c208ba88ca36faa9ae62752977ac09a40c4ec5fa464",
+    "bytes": 18169
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/05_Learned_Reconstruction/frame_000000_crop_352x192.png",
+    "sha256": "ac074b2333b716925e6e95d0edd63223b77ba732c69d94dd786b3045bf0a1330",
+    "bytes": 16469
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/05_Learned_Reconstruction/frame_000027_crop_352x192.png",
+    "sha256": "b1ebc5412b64845d452810b74a0d6817f098d0f48fd4cbe25bc6c3e9bf62e722",
+    "bytes": 22847
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/05_Learned_Reconstruction/frame_000053_crop_352x192.png",
+    "sha256": "c7024bbbc831f7cc7fd39d8e36ca97044ebfad8fa1b0100ff51e82d25fd0f2e4",
+    "bytes": 25120
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/05_Learned_Reconstruction/frame_000080_crop_352x192.png",
+    "sha256": "c88f148a932687e03652114fd06e2912f350bfe22720f3b28cf8e4e87c2b09ce",
+    "bytes": 28975
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/source.mp4",
+    "sha256": "9878afdd048b2a7dd1fc153fc7ac565c8f70bc8b08dc71b3b898b7d2a5f1d0f7",
+    "bytes": 1343802
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/reference.mp4",
+    "sha256": "ac4e3b8e6c6739d0c771d07a0bc853fac0bfabb5fe6837bce5d0ba00a78fb602",
+    "bytes": 1342331
+  },
+  {
+    "asset": "../qualitative/synthetic/c523/ours.mp4",
+    "sha256": "52fc7e9820225367660eb5ed0626c273c1ffa61affc0055dbbb37aaf964aa334",
+    "bytes": 98959
+  },
+  {
+    "asset": "../paper/source/2_theory.tex",
+    "sha256": "cea2d74371d5ebc780faf1715c3ed386bbc5263309f84754389b2057df4f35d7",
+    "bytes": 9601
+  },
+  {
+    "asset": "../paper/source/3_method.tex",
+    "sha256": "5536821070969800450da1769973067858e0e7ff6a7f993de9ea69be3227d55c",
+    "bytes": 7278
+  },
+  {
+    "asset": "../paper/source/4_experiments.tex",
+    "sha256": "2d25fec1beb1d52b71edfcc65c8ff839fbd47920f03db3f203b672c147352456",
+    "bytes": 6485
+  },
+  {
+    "asset": "../paper/source/appendix_d_implementation.tex",
+    "sha256": "ad32576448a5c159e9c6615a9d560589c999ba1318f4687b6d542aa751465778",
+    "bytes": 30773
+  },
+  {
+    "asset": "../paper/source/appendix_e_synthetic_protocol.tex",
+    "sha256": "4a28dec0bbbd86de384ff2471c30d3f3e2e188855eb650553520f7a698127dad",
+    "bytes": 23941
+  },
+  {
+    "asset": "../paper/source/appendix_b_unified_observations.tex",
+    "sha256": "95a7866b782ff54a2a6c0c1bfbdfe0f1c59eb0dfcb2fc6af4e72ace1a857337b",
+    "bytes": 13300
+  },
+  {
+    "asset": "../paper/source/table2_generation_editing_gap.csv",
+    "sha256": "ef6a377783bc08a517af075c02c8357ed50d3f8d0396701b75a3e6024569a1a9",
+    "bytes": 209
+  },
+  {
+    "asset": "../paper/source/synthetic_qualitative_v1.md",
+    "sha256": "087efc17ca957f5249910882d36f64483634e2d2c14ebd797b724205e4151a11",
+    "bytes": 5312
+  },
+  {
+    "asset": "../paper/source/real_qualitative_v1.md",
+    "sha256": "2b49117c5354603b70e373ea5ac84fa9c28f93a614403f8d4bc82728e15bb743",
+    "bytes": 4250
+  },
+  {
+    "asset": "../paper/source/real_qualitative_4case_v1.md",
+    "sha256": "c00f4663388fa0022b309fc4262bedda896df68146042bb9c1bc98b7b5cd03ae",
+    "bytes": 3547
+  },
+  {
+    "asset": "../paper/action_support_recovery.pdf",
+    "sha256": "ca2f41208e7f974211cf673c6ed56e4df3fbb5986a099a94adb3a8d014c7b7a4",
+    "bytes": 15447
+  }
+]

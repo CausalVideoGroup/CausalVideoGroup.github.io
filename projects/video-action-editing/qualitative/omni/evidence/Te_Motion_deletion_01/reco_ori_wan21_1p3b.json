@@ -1,0 +1,46 @@
+{
+  "category": "Temporal Composition",
+  "created_at_utc": "2026-09-14T20:58:05Z",
+  "edited_video_sha256": "8febc79000879f423a5236cff8d712953999a152911f8d606c50bff0d458920f",
+  "editing_instruction": "Delete the action of the girl giving a flying kiss, while maintaining the continuity of the video naturally.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "ce02857d7678e154c3e4ed0e6feab8073b9587fe0c17550586d549a5e1bf13e5",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 180,
+  "item_id": "Te_Motion_deletion_01",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 2,
+    "preservation": 0,
+    "realism": 2,
+    "reason": "The instruction was to delete the action of the girl giving a flying kiss while maintaining natural continuity. However, the flying kiss action (hand near mouth, puckered lips) is still present in the edited video at 0:03-0:05. Additionally, the entire scene has been altered with a completely different color palette (yellow/orange walls, blue laptop, different artwork), which violates preservation of unrelated content. The girl’s appearance (skin tone, hair, clothing) is also changed, indicating a major failure in preserving the original context. The editing is not accurate, and the changes are not subtle or natural. Realism is low due to unnatural skin tones and lighting, and consistency is poor due to abrupt color shifts and inconsistent object appearance."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 0,\n    \"realism\": 2,\n    \"consistency\": 2,\n    \"reason\": \"The instruction was to delete the action of the girl giving a flying kiss while maintaining natural continuity. However, the flying kiss action (hand near mouth, puckered lips) is still present in the edited video at 0:03-0:05. Additionally, the entire scene has been altered with a completely different color palette (yellow/orange walls, blue laptop, different artwork), which violates preservation of unrelated content. The girl’s appearance (skin tone, hair, clothing) is also changed, indicating a major failure in preserving the original context. The editing is not accurate, and the changes are not subtle or natural. Realism is low due to unnatural skin tones and lighting, and consistency is poor due to abrupt color shifts and inconsistent object appearance.\"\n}",
+  "receipt_digest": "05afc9f9c6f83463b232b0e15cbf0088e0558309f208add4eb383ac5933a63cd",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 2.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 0.0,
+    "realism": 2.0,
+    "reason": "The instruction was to delete the action of the girl giving a flying kiss while maintaining natural continuity. However, the flying kiss action (hand near mouth, puckered lips) is still present in the edited video at 0:03-0:05. Additionally, the entire scene has been altered with a completely different color palette (yellow/orange walls, blue laptop, different artwork), which violates preservation of unrelated content. The girl’s appearance (skin tone, hair, clothing) is also changed, indicating a major failure in preserving the original context. The editing is not accurate, and the changes are not subtle or natural. Realism is low due to unnatural skin tones and lighting, and consistency is poor due to abrupt color shifts and inconsistent object appearance."
+  },
+  "source_video_sha256": "7c51ba4b1218a1cd4f153ab9ae174dce0d47a56f5e6b32b89a885a1d5a8ad6ba",
+  "subcategory": "Motion_deletion"
+}

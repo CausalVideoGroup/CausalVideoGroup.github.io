@@ -1,0 +1,725 @@
+{
+  "protocol": "omni_temporal200",
+  "judge": "Qwen3-VL-32B-Instruct",
+  "frame_count": 12,
+  "official_gemini_scores": false,
+  "selection_rule": "Zebra Overall descending; ties: Zebra minus strongest of seven baseline editors descending; ties: item_id ascending.",
+  "selection_scope": "All 200 Temporal cases, including 50 camera cases. Source-as-output excluded from baseline tie-break.",
+  "interpretation": "A deliberately selected best-case showcase, not a representative sample or aggregate benchmark claim.",
+  "zebra_100_score_count": 18,
+  "baseline_archive_sha256": "c4c9ba68e78e2b59d025c6fd717618e792481ff38d184ef63cdc4ae1dacfa739",
+  "methods": [
+    {
+      "id": "zebra",
+      "label": "Zebra · Ours",
+      "run": "runs/omni_temporal200/zebra_reference_weak_supervision/zebra_u680_bernini_pseudoref_v1"
+    },
+    {
+      "id": "frozen_bernini",
+      "label": "Frozen Bernini · 1.3B",
+      "run": "runs/omni_temporal200/frozen_bernini/bernini_base_40step_temporal200_v1"
+    },
+    {
+      "id": "omnivideo2_official_1p3b",
+      "label": "OmniVideo2 · 1.3B",
+      "run": "runs/omni_temporal200/omnivideo2_official_1p3b/official_1p3b_40step_temporal200_v1"
+    },
+    {
+      "id": "lucy_edit_1p1_dev_5b",
+      "label": "Lucy Edit · 5B",
+      "run": "runs/omni_temporal200/lucy_edit_1p1_dev_5b/official_f12c3ab_50step_temporal200_v1"
+    },
+    {
+      "id": "vace_wan21_1p3b_fullframe",
+      "label": "VACE · 1.3B",
+      "run": "runs/omni_temporal200/vace_wan21_1p3b_fullframe/official_574e6a7_fullframe_50step_temporal200_v1"
+    },
+    {
+      "id": "liveedit_wan21_1p3b",
+      "label": "LiveEdit · 1.3B",
+      "run": "runs/omni_temporal200/liveedit_wan21_1p3b/official_f0269e2_4step_temporal200_v1"
+    },
+    {
+      "id": "kiwi_edit_5b_instruct_only",
+      "label": "Kiwi-Edit · 5B",
+      "run": "runs/omni_temporal200/kiwi_edit_5b_instruct_only/official_277f43b_50step_temporal200_v1"
+    },
+    {
+      "id": "reco_ori_wan21_1p3b",
+      "label": "ReCo · 1.3B + LoRA",
+      "run": "runs/omni_temporal200/reco_ori_wan21_1p3b/official_d6b471e_50step_temporal200_v1"
+    }
+  ],
+  "cases": [
+    {
+      "item_id": "Te_Motion_frequency_change_06",
+      "overall": 100.0,
+      "best_baseline": "vace_wan21_1p3b_fullframe",
+      "best_baseline_score": 29.6,
+      "margin": 70.4,
+      "instruction": "Slow down the girl's kicking motion.",
+      "category": "Motion Attribute",
+      "subcategory": "Motion_frequency_change",
+      "source_sha256": "89033eb8d081cf564f28ff41111f25fcd6bd7f41604c0f4d3e54bb6f950f5ee8",
+      "source_video": "media/Te_Motion_frequency_change_06/source.mp4",
+      "methods": {
+        "zebra": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 100.0,
+            "overall_score_raw_0_to_5": 5.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The girl's kicking motion is accurately slowed down while maintaining natural motion and timing. All other elements in the video, including background people, camera position, and environment, remain unchanged and consistent. The motion is smooth with no artifacts, and temporal stability is preserved throughout the sequence. The edit strictly follows the instruction without introducing any errors."
+          },
+          "sha256": "99e7098bf8ca8f327d9acf1c72b3c88b82ca7e79c3b7fc22c0fd503f53a88f23",
+          "video": "media/Te_Motion_frequency_change_06/zebra.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/zebra.json"
+        },
+        "frozen_bernini": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 1.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 1.0,
+            "reason": "The instruction was to slow down the girl's kicking motion, but in the edited video, the girl does not perform any kicks at all. Instead, she stands still or moves minimally, which is a complete failure to follow the instruction. The motion is not slowed — it is removed entirely. This is a major accuracy failure. Preservation is partially maintained in background elements, but some background people and objects (like the TV and tripod) appear in the edited video that were not present in the original, indicating changes to unrelated regions. Realism and consistency are low due to unnatural stillness and temporal drift in the background."
+          },
+          "sha256": "197736d1ded8d96cfe65d3fd3a8982b9866a60a19d6b5799bfd337258db95700",
+          "video": "media/Te_Motion_frequency_change_06/frozen_bernini.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/frozen_bernini.json"
+        },
+        "omnivideo2_official_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 1.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 1.0,
+            "reason": "The instruction was to slow down the girl's kicking motion, but the edited video shows her kicks are not slowed down — in fact, they appear distorted, fragmented, and unnatural with visible motion artifacts and ghosting. The motion is not temporally coherent, and the girl's body parts blur and warp in ways that suggest a failed or incorrect edit. Background elements (other students, banners) are also distorted, indicating the edit affected unrelated regions. This is a major failure in accuracy and realism, with poor preservation and consistency."
+          },
+          "sha256": "0ec0232e51cbdbced06ee86e9c81712facbe845ba0689521e2f45547925dd786",
+          "video": "media/Te_Motion_frequency_change_06/omnivideo2_official_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/omnivideo2_official_1p3b.json"
+        },
+        "lucy_edit_1p1_dev_5b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 4.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 5.0,
+            "realism": 3.0,
+            "reason": "The instruction was to slow down the girl's kicking motion, but the edited video shows her kicks at the same or even faster speed than the original. The motion is not slowed down, making the edit incorrect. Preservation is intact as background elements and other people remain unchanged. Realism is acceptable with no major artifacts, and consistency is good with no temporal drift. However, since the core instruction is not followed, accuracy is 0."
+          },
+          "sha256": "8cdbcf5381196d017811d9f74464977bc946bb670dd9fb07d60b46b95278ee31",
+          "video": "media/Te_Motion_frequency_change_06/lucy_edit_1p1_dev_5b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/lucy_edit_1p1_dev_5b.json"
+        },
+        "vace_wan21_1p3b_fullframe": {
+          "scores": {
+            "accuracy": 2.0,
+            "accuracy_penalty": 0.4,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 29.6,
+            "overall_score_raw_0_to_5": 1.48,
+            "preservation": 3.0,
+            "realism": 2.0,
+            "reason": "The girl's kicking motion is not meaningfully slowed down; the speed appears nearly identical to the original, failing the core instruction. The motion is slightly distorted with unnatural artifacts (e.g., leg blur, inconsistent foot position), indicating poor temporal interpolation. Background elements (other students, signs) are mostly preserved but show minor color shifts and slight warping. Temporal consistency is poor—motion appears jerky and inconsistent across frames, with visible drift in the girl’s body position. Overall, the edit does not achieve the requested slow-down and introduces visual artifacts."
+          },
+          "sha256": "d54f0a371d7519fd205d5fb20f38520953477a5d6bd61d807e58d735861f4c4f",
+          "video": "media/Te_Motion_frequency_change_06/vace_wan21_1p3b_fullframe.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/vace_wan21_1p3b_fullframe.json"
+        },
+        "liveedit_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 3.0,
+            "reason": "The instruction was to slow down the girl's kicking motion, but the edited video shows her kicks are actually faster and more exaggerated, with unnatural motion blur and orange-colored feet, indicating a complete failure in temporal attribute correction. Additionally, the girl's belt color changed from black to brown, and other students' uniforms appear altered, violating preservation. The motion is unrealistic and inconsistent across frames, with visible artifacts and temporal drift."
+          },
+          "sha256": "920905582914e55b249fb889a697a64f987e527e4583fb70f912d6ce4d664164",
+          "video": "media/Te_Motion_frequency_change_06/liveedit_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/liveedit_wan21_1p3b.json"
+        },
+        "kiwi_edit_5b_instruct_only": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 1.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 1.0,
+            "reason": "The instruction was to slow down the girl's kicking motion, but the edited video shows her kicks are actually faster and more blurred, indicating motion acceleration rather than slowing down. This is a critical accuracy failure. Additionally, background elements like the fan and signage show motion blur and temporal inconsistencies, suggesting poor editing quality. Preservation is low because unrelated elements (e.g., background people, signs) are distorted or blurred, and realism is poor due to unnatural motion artifacts. Consistency is also low due to temporal drift and inconsistent frame rates."
+          },
+          "sha256": "69143741503ec5c260fb5682fba38a9ac0a8d95a23689f582828454821c4c746",
+          "video": "media/Te_Motion_frequency_change_06/kiwi_edit_5b_instruct_only.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/kiwi_edit_5b_instruct_only.json"
+        },
+        "reco_ori_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 1.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 1.0,
+            "reason": "The instruction was to slow down the girl's kicking motion, but the edited video completely removes the girl from the scene and replaces her with a different child who is not kicking at all. This is a fundamental failure in accuracy. The background elements are mostly preserved, but there are noticeable inconsistencies (e.g., the child in the background changes position and behavior unnaturally). The motion of the remaining child is not slowed down, and the overall realism is poor due to the abrupt removal of the main subject and unnatural behavior of the replacement child. Temporal consistency is broken as the action sequence is disrupted."
+          },
+          "sha256": "e59014ce6f558d6fb175cac92be6a90e8af459a6bc05eb255878ce42821a007b",
+          "video": "media/Te_Motion_frequency_change_06/reco_ori_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_06/reco_ori_wan21_1p3b.json"
+        }
+      }
+    },
+    {
+      "item_id": "Te_Motion_deletion_01",
+      "overall": 100.0,
+      "best_baseline": "frozen_bernini",
+      "best_baseline_score": 52.2,
+      "margin": 47.8,
+      "instruction": "Delete the action of the girl giving a flying kiss, while maintaining the continuity of the video naturally.",
+      "category": "Temporal Composition",
+      "subcategory": "Motion_deletion",
+      "source_sha256": "7c51ba4b1218a1cd4f153ab9ae174dce0d47a56f5e6b32b89a885a1d5a8ad6ba",
+      "source_video": "media/Te_Motion_deletion_01/source.mp4",
+      "methods": {
+        "zebra": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 100.0,
+            "overall_score_raw_0_to_5": 5.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The flying kiss action (hand gesture near mouth) has been completely and naturally removed. The girl's expression and head movement transition smoothly from waving to looking down at the laptop, maintaining natural continuity. Background elements (lamp, sofa, wall art) remain unchanged. Motion is smooth, no artifacts, and temporal consistency is preserved throughout. The edit is seamless and fully aligns with the instruction."
+          },
+          "sha256": "1d4de93dce10739e46069ec9f269a92de765c2f970dfa85d8de42a1875640ddd",
+          "video": "media/Te_Motion_deletion_01/zebra.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/zebra.json"
+        },
+        "frozen_bernini": {
+          "scores": {
+            "accuracy": 3.0,
+            "accuracy_penalty": 0.6000000000000001,
+            "consistency": 4.0,
+            "overall_score_paper_0_to_100": 52.2,
+            "overall_score_raw_0_to_5": 2.61,
+            "preservation": 4.0,
+            "realism": 3.0,
+            "reason": "The flying kiss action (hand gesture near mouth) has been removed, which satisfies the core instruction. However, the transition is not natural: the girl's expression and head movement become stiff and unnatural after the removal, especially around 0:03-0:05, where her gaze shifts abruptly and her posture appears frozen. This breaks continuity. The background and unrelated elements (lamp, sofa, laptop) are preserved well. Motion is mostly smooth, but the edited segments show slight artifacts and unnatural facial expressions, reducing realism. Temporal consistency is mostly maintained, but the abrupt change in behavior is noticeable."
+          },
+          "sha256": "cd28f95da224595c3b323af7042fe788a08cb033637e3b958144287dd92a241e",
+          "video": "media/Te_Motion_deletion_01/frozen_bernini.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/frozen_bernini.json"
+        },
+        "omnivideo2_official_1p3b": {
+          "scores": {
+            "accuracy": 2.0,
+            "accuracy_penalty": 0.4,
+            "consistency": 3.0,
+            "overall_score_paper_0_to_100": 32.0,
+            "overall_score_raw_0_to_5": 1.6,
+            "preservation": 3.0,
+            "realism": 3.0,
+            "reason": "The flying kiss action (hand moving toward mouth and blowing a kiss) is not fully removed — it is still present in the edited video, particularly around 0:03-0:05. The instruction was to delete this action, but it remains, making accuracy low. The hand motion appears slightly unnatural and inconsistent with the original, suggesting editing artifacts. Preservation is acceptable as background elements (lamp, couch, wall) remain unchanged. Realism and consistency are moderate — motion is smooth but the hand gesture is not fully corrected, and there is slight temporal drift in the hand’s position across frames."
+          },
+          "sha256": "362e2f0a8b72ccdac9fc6bb89eca33b5f54333d4b5454e7ba8c6ecf249aaa699",
+          "video": "media/Te_Motion_deletion_01/omnivideo2_official_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/omnivideo2_official_1p3b.json"
+        },
+        "lucy_edit_1p1_dev_5b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The instruction was to delete the action of the girl giving a flying kiss (which occurs around 3.8-5.4 seconds in the original video). However, in the edited video, this action is still present — the girl brings her hand to her lips and blows a kiss. Therefore, the edit failed to remove the specified action, making accuracy 0. All other aspects (background, lighting, motion, continuity) are preserved and realistic, but accuracy is the top priority and must be low due to the failure to follow the instruction."
+          },
+          "sha256": "bacf48ee36c1b5fad294c9ea3a3f6376792946c23297800b67f197ab3bd1d0be",
+          "video": "media/Te_Motion_deletion_01/lucy_edit_1p1_dev_5b.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/lucy_edit_1p1_dev_5b.json"
+        },
+        "vace_wan21_1p3b_fullframe": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 2.0,
+            "reason": "The instruction was to delete the action of the girl giving a flying kiss (which occurs around 3.8-5.4 seconds in the original video). However, in the edited video, the flying kiss action is still present and unchanged. Therefore, the edit failed to remove the specified action, making accuracy 0. Additionally, the girl's hair color has been altered from brown to red, which is an unrelated change violating preservation. The video also exhibits unnatural color shifts and motion artifacts, reducing realism and consistency."
+          },
+          "sha256": "c4a5537e65793a14c7f0aa816056105672f6864ff8b4bf89230f08a1ea28e371",
+          "video": "media/Te_Motion_deletion_01/vace_wan21_1p3b_fullframe.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/vace_wan21_1p3b_fullframe.json"
+        },
+        "liveedit_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 2.0,
+            "reason": "The instruction was to delete the action of the girl giving a flying kiss, but the edited video not only retains the flying kiss gesture but also adds unrealistic red wings behind her, which is a complete deviation from the original instruction. The action is not removed; instead, it is enhanced with fantasy elements. This is a major failure in accuracy. Preservation is low because the background and lighting are slightly altered (e.g., lamp brightness, wall texture), and the wings are a new element. Realism is poor due to the added wings and unnatural motion. Consistency is compromised as the wings appear and remain throughout, creating a temporal drift."
+          },
+          "sha256": "b6758782a0ed97a2aae04121b61ad61fe69b481bae4a9220f4be2aeae381a889",
+          "video": "media/Te_Motion_deletion_01/liveedit_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/liveedit_wan21_1p3b.json"
+        },
+        "kiwi_edit_5b_instruct_only": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The instruction was to delete the action of the girl giving a flying kiss (which occurs around 3.8-5.4 seconds in the original video). However, in the edited video, this action is still present — the girl brings her hand to her mouth and blows a kiss. Therefore, the edit failed to remove the specified action, making accuracy 0. Preservation, realism, and consistency are high as the rest of the video remains unchanged and visually smooth."
+          },
+          "sha256": "365a6e85a43a125865a6c94e892c32490234771de2cea0874c4ba9a7db803d50",
+          "video": "media/Te_Motion_deletion_01/kiwi_edit_5b_instruct_only.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/kiwi_edit_5b_instruct_only.json"
+        },
+        "reco_ori_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 0.0,
+            "realism": 2.0,
+            "reason": "The instruction was to delete the action of the girl giving a flying kiss while maintaining natural continuity. However, the flying kiss action (hand near mouth, puckered lips) is still present in the edited video at 0:03-0:05. Additionally, the entire scene has been altered with a completely different color palette (yellow/orange walls, blue laptop, different artwork), which violates preservation of unrelated content. The girl’s appearance (skin tone, hair, clothing) is also changed, indicating a major failure in preserving the original context. The editing is not accurate, and the changes are not subtle or natural. Realism is low due to unnatural skin tones and lighting, and consistency is poor due to abrupt color shifts and inconsistent object appearance."
+          },
+          "sha256": "8febc79000879f423a5236cff8d712953999a152911f8d606c50bff0d458920f",
+          "video": "media/Te_Motion_deletion_01/reco_ori_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_deletion_01/reco_ori_wan21_1p3b.json"
+        }
+      }
+    },
+    {
+      "item_id": "Te_Motion_frequency_change_02",
+      "overall": 100.0,
+      "best_baseline": "lucy_edit_1p1_dev_5b",
+      "best_baseline_score": 77.6,
+      "margin": 22.4,
+      "instruction": "Reduce the frequency of the fan's rotation on the ceiling.",
+      "category": "Motion Attribute",
+      "subcategory": "Motion_frequency_change",
+      "source_sha256": "eee3a86a3441fb2617dcc8323c157d39fc83dc2bd2c0edf1ea860cd6d9c903d1",
+      "source_video": "media/Te_Motion_frequency_change_02/source.mp4",
+      "methods": {
+        "zebra": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 100.0,
+            "overall_score_raw_0_to_5": 5.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The fan's rotation frequency is clearly reduced in the edited video compared to the original, with blades appearing slower and more distinct in motion. The rest of the scene (furniture, lighting, camera angle) remains unchanged, preserving all unrelated elements. Motion is smooth and natural, with no temporal drift or artifacts. The edit is temporally consistent and visually realistic."
+          },
+          "sha256": "20c872bafe12b8de1073240051242732936beb02b3a2ea716fa18a5194ff70de",
+          "video": "media/Te_Motion_frequency_change_02/zebra.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/zebra.json"
+        },
+        "frozen_bernini": {
+          "scores": {
+            "accuracy": 2.0,
+            "accuracy_penalty": 0.4,
+            "consistency": 4.0,
+            "overall_score_paper_0_to_100": 36.4,
+            "overall_score_raw_0_to_5": 1.82,
+            "preservation": 5.0,
+            "realism": 3.0,
+            "reason": "The fan's rotation frequency was not meaningfully reduced; the blades still appear to spin at a similar high speed as in the original video, with no noticeable decrease in RPM. The instruction to reduce frequency is not correctly followed. However, unrelated elements (furniture, lighting, camera angle) are preserved perfectly. Motion appears somewhat realistic but with slight blur artifacts. Temporal consistency is mostly maintained, though the fan's motion is inconsistent with the intended edit."
+          },
+          "sha256": "e166a44a9312219d78537f13f49e8e04800a1814f02290ea39334ff7efddafd9",
+          "video": "media/Te_Motion_frequency_change_02/frozen_bernini.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/frozen_bernini.json"
+        },
+        "omnivideo2_official_1p3b": {
+          "scores": {
+            "accuracy": 2.0,
+            "accuracy_penalty": 0.4,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 27.6,
+            "overall_score_raw_0_to_5": 1.38,
+            "preservation": 1.0,
+            "realism": 3.0,
+            "reason": "The fan's rotation frequency appears slightly reduced, but the change is minimal and not clearly accurate. More critically, the edited video shows significant preservation errors: the coffee table decor (wooden beads and bowl) is replaced with a textured basket, and the patterned throw pillow is altered. The dining chairs and kitchen area also show minor structural changes. These unrelated changes violate the preservation rule. Temporal consistency is compromised due to these artifacts and inconsistencies in object appearance across frames. Realism is acceptable but not high due to the unnatural changes in static objects."
+          },
+          "sha256": "d030b29c60403f5c51b9c8d9272eb81853e270f81199ec05918b1d9db971dc78",
+          "video": "media/Te_Motion_frequency_change_02/omnivideo2_official_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/omnivideo2_official_1p3b.json"
+        },
+        "lucy_edit_1p1_dev_5b": {
+          "scores": {
+            "accuracy": 4.0,
+            "accuracy_penalty": 0.8,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 77.6,
+            "overall_score_raw_0_to_5": 3.88,
+            "preservation": 5.0,
+            "realism": 4.0,
+            "reason": "The fan's rotation frequency is visibly reduced compared to the original video, fulfilling the instruction. The motion appears slower and more deliberate, with blades showing more distinct positions over time. No other elements in the scene (furniture, lighting, camera angle) are altered, preserving the environment. Motion is smooth and realistic with no noticeable artifacts. Temporal consistency is maintained across frames. Minor imperfection: the fan's motion blur is slightly inconsistent in some frames, but overall, the edit is accurate and well-executed."
+          },
+          "sha256": "7faa97ec69c6559f1251d072e506a877e8e85f52239893bebd3a33d66b6269db",
+          "video": "media/Te_Motion_frequency_change_02/lucy_edit_1p1_dev_5b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/lucy_edit_1p1_dev_5b.json"
+        },
+        "vace_wan21_1p3b_fullframe": {
+          "scores": {
+            "accuracy": 2.0,
+            "accuracy_penalty": 0.4,
+            "consistency": 3.0,
+            "overall_score_paper_0_to_100": 30.4,
+            "overall_score_raw_0_to_5": 1.52,
+            "preservation": 2.0,
+            "realism": 3.0,
+            "reason": "The fan's rotation frequency appears reduced, but the motion blur is inconsistent and unnatural, suggesting incorrect temporal interpolation. More critically, the coffee table decor has been changed (wooden beads replaced with green and red beads, bowl color altered), which violates preservation rules. The lighting in the kitchen also appears warmer and altered, indicating unintended edits. These changes are not part of the instruction and degrade accuracy and preservation. The fan motion is not perfectly smooth, and temporal consistency is slightly off due to inconsistent blur patterns."
+          },
+          "sha256": "4fc6bd5fdcedb2703a879b09cc0460dc9da0646ab8d9774fa4ba828f46a4e972",
+          "video": "media/Te_Motion_frequency_change_02/vace_wan21_1p3b_fullframe.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/vace_wan21_1p3b_fullframe.json"
+        },
+        "liveedit_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 2.0,
+            "reason": "The instruction was to reduce the frequency (i.e., slow down) the fan's rotation. However, the edited video shows a completely different fan model with a circular black ring and a different blade design, which is not present in the original video. This is a major accuracy failure. Additionally, the fan's motion appears unnatural and inconsistent, with visible artifacts and blurring. The rest of the room is mostly preserved, but there are minor distortions in lighting and object edges, indicating poor preservation. Realism and consistency are compromised due to the unrealistic fan design and motion."
+          },
+          "sha256": "a37e2101b84e691a17865a185c5900287036f1443d241d929a0fbe8c65180080",
+          "video": "media/Te_Motion_frequency_change_02/liveedit_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/liveedit_wan21_1p3b.json"
+        },
+        "kiwi_edit_5b_instruct_only": {
+          "scores": {
+            "accuracy": 2.0,
+            "accuracy_penalty": 0.4,
+            "consistency": 3.0,
+            "overall_score_paper_0_to_100": 33.6,
+            "overall_score_raw_0_to_5": 1.68,
+            "preservation": 4.0,
+            "realism": 3.0,
+            "reason": "The fan's rotation frequency appears reduced, but the motion blur is inconsistent and unnatural—sometimes the blades are almost static, other times they blur excessively, suggesting incorrect temporal interpolation. The fan's center also appears distorted or replaced with a white, glowing object in some frames, which is not present in the original. This indicates a failure in accurately modifying only the rotation speed. Unrelated elements (furniture, lighting, background) are preserved well, and motion is mostly smooth, but the fan's visual artifacts break realism and consistency."
+          },
+          "sha256": "9fc6f9989ff621d63f3288406708eed133a514e7a5f5668eea57832e82ada495",
+          "video": "media/Te_Motion_frequency_change_02/kiwi_edit_5b_instruct_only.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/kiwi_edit_5b_instruct_only.json"
+        },
+        "reco_ori_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 0.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 0.0,
+            "realism": 0.0,
+            "reason": "The edited video is a split-screen with a distorted, non-functional representation of the room. The ceiling fan is not visible in the left half, and the right half shows only partial, inconsistent frames. The fan's rotation frequency is not reduced — it is either absent or not properly rendered. The entire scene is corrupted, with objects misaligned and lighting inconsistent. This is a complete failure to follow the instruction and preserve the original content."
+          },
+          "sha256": "90db4129783fa802f016a01e0bd78b02327445d4a423c3fb499b103d2b75c21d",
+          "video": "media/Te_Motion_frequency_change_02/reco_ori_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Motion_frequency_change_02/reco_ori_wan21_1p3b.json"
+        }
+      }
+    },
+    {
+      "item_id": "Te_Camera_speed_change_04",
+      "overall": 100.0,
+      "best_baseline": "frozen_bernini",
+      "best_baseline_score": 86.0,
+      "margin": 14.0,
+      "instruction": "Accelerate the camera's movement speed.",
+      "category": "Camera Attribute",
+      "subcategory": "Camera_speed_change",
+      "source_sha256": "0fddc8d23c7f6f5d55658de1ee5de4d588c20a78b6acf0344a7f467a5f6e6b84",
+      "source_video": "media/Te_Camera_speed_change_04/source.mp4",
+      "methods": {
+        "zebra": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 100.0,
+            "overall_score_raw_0_to_5": 5.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The camera movement speed is clearly accelerated in the edited video compared to the original, as evidenced by the faster panning motion and quicker reveal of the cityscape. The movement is smooth and natural, with no visible artifacts. All other elements (buildings, sky, water, mountains) remain unchanged and consistent across frames, preserving the original content. Temporal and spatial consistency is maintained throughout the video. The edit correctly follows the instruction with high fidelity."
+          },
+          "sha256": "72a872773f4073862d9b67051d135f9f587bce0c2ca844fe4d918c8ed5e8c8de",
+          "video": "media/Te_Camera_speed_change_04/zebra.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/zebra.json"
+        },
+        "frozen_bernini": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 4.0,
+            "overall_score_paper_0_to_100": 86.0,
+            "overall_score_raw_0_to_5": 4.3,
+            "preservation": 3.0,
+            "realism": 4.0,
+            "reason": "The camera movement speed is significantly accelerated, as instructed, with smooth and continuous motion toward the skyscraper. The action is correctly executed. However, preservation is reduced due to noticeable changes in lighting, color grading, and sky details (e.g., clouds appear more dynamic and stylized) that were not part of the original video. Realism is high with natural motion, and consistency is good with no temporal drift or artifacts. The edit is visually enhanced but not strictly preserving original content."
+          },
+          "sha256": "4da6ebd8b81e975b4cdf8f7532c3c36b84dc792958e72c4bdb3c77653c7a3392",
+          "video": "media/Te_Camera_speed_change_04/frozen_bernini.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/frozen_bernini.json"
+        },
+        "omnivideo2_official_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 0.0,
+            "realism": 2.0,
+            "reason": "The instruction was to accelerate the camera's movement speed, but the edited video shows no change in camera motion — the camera remains static, identical to the original. Additionally, the central skyscraper's facade has been altered (pixelated pattern replaced with smooth glass), which is a major structural change unrelated to the instruction, violating preservation. The edits are not realistic or consistent, as the building's appearance is inconsistent with the original and shows no temporal motion. Therefore, accuracy is 0 due to failure to follow the instruction, and preservation is 0 due to unintended content modification."
+          },
+          "sha256": "7e909aa8b0a5bd039c10999b362a1f5de10926de3be2e8a4859e8b60d63a349b",
+          "video": "media/Te_Camera_speed_change_04/omnivideo2_official_1p3b.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/omnivideo2_official_1p3b.json"
+        },
+        "lucy_edit_1p1_dev_5b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The instruction was to accelerate the camera's movement speed. However, the edited video shows no noticeable change in camera speed compared to the original. The camera movement remains identical in timing and trajectory, indicating the edit failed to apply the requested acceleration. Since accuracy is the top priority and the instruction was not followed, accuracy is scored 0. Preservation, realism, and consistency are high as the rest of the video remains unchanged and visually coherent."
+          },
+          "sha256": "5e4e29619c5a16d24b9f9caf1459a9f9295d34669588d839f2b9ad6bc39627df",
+          "video": "media/Te_Camera_speed_change_04/lucy_edit_1p1_dev_5b.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/lucy_edit_1p1_dev_5b.json"
+        },
+        "vace_wan21_1p3b_fullframe": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 3.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 3.0,
+            "reason": "The instruction was to accelerate the camera's movement speed, but the edited video shows no noticeable change in camera motion speed compared to the original. The camera movement appears identical in timing and trajectory, indicating the edit failed to fulfill the core instruction. Additionally, there is a significant color grading change (warmer, more saturated tones) which is an unintended modification to unrelated content, violating preservation. While motion is smooth and consistent, the failure to accelerate the camera movement makes accuracy 0."
+          },
+          "sha256": "4f1a179eb4ae4737ffe1e7555b0ddd76413895f53090bc333900cf619a51452b",
+          "video": "media/Te_Camera_speed_change_04/vace_wan21_1p3b_fullframe.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/vace_wan21_1p3b_fullframe.json"
+        },
+        "liveedit_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 1.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 1.0,
+            "reason": "The instruction was to accelerate the camera's movement speed, but the edited video shows no change in camera motion speed compared to the original. Instead, there is a black, distorted object superimposed on the tower, which is a major error. This object is not present in the original and appears to be an artifact or incorrect edit. The camera movement remains identical, so the core instruction is completely unmet. Preservation is low because unrelated content (the tower and city) is altered by the black object. Realism and consistency are poor due to the unnatural artifact and lack of temporal stability."
+          },
+          "sha256": "6c92a2c7edc0ba610fcf39579754239b2996cd457be2d8133e311c26d5e9b451",
+          "video": "media/Te_Camera_speed_change_04/liveedit_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/liveedit_wan21_1p3b.json"
+        },
+        "kiwi_edit_5b_instruct_only": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 3.0,
+            "realism": 2.0,
+            "reason": "The instruction was to accelerate the camera's movement speed. However, the edited video shows no noticeable change in camera speed compared to the original. The camera movement appears identical in both videos, indicating the edit failed to achieve the requested acceleration. Additionally, there are visual artifacts and distortions on the central skyscraper (e.g., pixelation and color bleeding), suggesting a failed or incorrect edit. Preservation is partially maintained as background elements remain mostly unchanged, but realism and consistency are compromised due to these artifacts and lack of temporal coherence."
+          },
+          "sha256": "a47894d39923fd8907bf97af4b40b1b24bcb4b2bccf4090e11ea99ea2972faa9",
+          "video": "media/Te_Camera_speed_change_04/kiwi_edit_5b_instruct_only.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/kiwi_edit_5b_instruct_only.json"
+        },
+        "reco_ori_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 2.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 2.0,
+            "realism": 2.0,
+            "reason": "The instruction was to accelerate the camera's movement speed. However, the edited video shows no noticeable change in camera speed compared to the original. The camera movement appears identical in both videos, indicating the edit failed to achieve the intended effect. Additionally, the central skyscraper's top structure is visibly distorted or missing in the edited video, suggesting a major artifact or error in processing. This structural change is unrelated to the instruction and violates preservation. The motion is also slightly jittery and unnatural, reducing realism and consistency."
+          },
+          "sha256": "765f0c272a9f489fce69bdfa46a1d3826ad52af4832e031eb80c1a9f8696bb9e",
+          "video": "media/Te_Camera_speed_change_04/reco_ori_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Camera_speed_change_04/reco_ori_wan21_1p3b.json"
+        }
+      }
+    },
+    {
+      "item_id": "Te_Facial_expression_change_06",
+      "overall": 100.0,
+      "best_baseline": "frozen_bernini",
+      "best_baseline_score": 86.0,
+      "margin": 14.0,
+      "instruction": "Make the man laugh happily.",
+      "category": "Motion Semantic",
+      "subcategory": "Facial_expression_change",
+      "source_sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+      "source_video": "media/Te_Facial_expression_change_06/source.mp4",
+      "methods": {
+        "zebra": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 100.0,
+            "overall_score_raw_0_to_5": 5.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The man's expression has been successfully changed to a happy laugh, with natural mouth opening, visible teeth, crinkled eyes, and appropriate facial muscle movement. The edit is temporally consistent, with smooth progression of the laugh across frames. Background elements and lighting remain unchanged, preserving the original context. No artifacts or inconsistencies are visible. The edit fully satisfies the instruction with high realism and temporal stability."
+          },
+          "sha256": "231b466565101154bf9185a812dbffa1195988d8873b746f82d393c913ad66a1",
+          "video": "media/Te_Facial_expression_change_06/zebra.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/zebra.json"
+        },
+        "frozen_bernini": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 4.0,
+            "overall_score_paper_0_to_100": 86.0,
+            "overall_score_raw_0_to_5": 4.3,
+            "preservation": 3.0,
+            "realism": 4.0,
+            "reason": "The instruction to make the man laugh happily is fully executed: his facial expression transitions naturally into a wide, joyful laugh with crinkled eyes and visible teeth, matching the emotional intent. However, background elements (e.g., lighting, foliage, and structures) show noticeable changes between original and edited video, indicating some preservation issues. The motion of the laugh is smooth and realistic, with no visible artifacts. Temporal consistency is mostly maintained, though slight shifts in background depth of field and lighting suggest minor inconsistencies. Overall, the edit is accurate and realistic, but background preservation is imperfect."
+          },
+          "sha256": "2234842811d1243ecb892b5beeb78ce3ef26fc0222a9f92cf067e59fede4fd2c",
+          "video": "media/Te_Facial_expression_change_06/frozen_bernini.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/frozen_bernini.json"
+        },
+        "omnivideo2_official_1p3b": {
+          "scores": {
+            "accuracy": 5.0,
+            "accuracy_penalty": 1.0,
+            "consistency": 4.0,
+            "overall_score_paper_0_to_100": 86.0,
+            "overall_score_raw_0_to_5": 4.3,
+            "preservation": 3.0,
+            "realism": 4.0,
+            "reason": "The instruction to make the man laugh happily is fully executed: his facial expression shows a genuine, wide smile with crinkled eyes and visible teeth, consistent across frames. The emotion is clearly happy and natural. Preservation is acceptable but not perfect—background elements (e.g., lighting, foliage) show slight changes, possibly due to re-rendering or camera angle adjustment, which may not perfectly match the original. Realism is high: skin texture, lighting, and motion are smooth and natural. Consistency is good: the laugh is stable over time with no temporal drift or artifacts."
+          },
+          "sha256": "95271b71d0cc214d83de53f2946b89778e77e076e26b4bc6a715372cfd5e1fa7",
+          "video": "media/Te_Facial_expression_change_06/omnivideo2_official_1p3b.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/omnivideo2_official_1p3b.json"
+        },
+        "lucy_edit_1p1_dev_5b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 5.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 5.0,
+            "realism": 5.0,
+            "reason": "The instruction was to make the man laugh happily, but the edited video shows no change in his expression—he remains serious and neutral throughout. The edit failed to alter his facial expression to reflect laughter, making accuracy 0. Preservation, realism, and consistency are high as the background, lighting, and motion remain unchanged and natural."
+          },
+          "sha256": "f0285123defe401fe6d9b707716de369dc8162402f64a59748a756752dfb0e2b",
+          "video": "media/Te_Facial_expression_change_06/lucy_edit_1p1_dev_5b.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/lucy_edit_1p1_dev_5b.json"
+        },
+        "vace_wan21_1p3b_fullframe": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 3.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 3.0,
+            "realism": 3.0,
+            "reason": "The instruction was to make the man laugh happily, but the edited video shows no change in facial expression — the man remains serious and neutral throughout. There is no visible laughter, smile, or joyful expression. The edit fails to alter the intended emotion, making accuracy 0. Background elements are mostly preserved, with some color and lighting changes (e.g., brighter green foliage), which is acceptable for preservation. Realism and consistency are decent as the motion and lighting are smooth, but they are irrelevant since the core instruction was not followed."
+          },
+          "sha256": "f2194f1c764e6f1f00b1e9e59c0c213e4e574dfa3024cef0d565ba165d081748",
+          "video": "media/Te_Facial_expression_change_06/vace_wan21_1p3b_fullframe.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/vace_wan21_1p3b_fullframe.json"
+        },
+        "liveedit_wan21_1p3b": {
+          "scores": {
+            "accuracy": 2.0,
+            "accuracy_penalty": 0.4,
+            "consistency": 3.0,
+            "overall_score_paper_0_to_100": 30.8,
+            "overall_score_raw_0_to_5": 1.54,
+            "preservation": 3.0,
+            "realism": 2.0,
+            "reason": "The instruction was to make the man laugh happily. While the man is shown with a wide smile and crinkled eyes, the expression appears unnatural and exaggerated, with overly bright, uniform teeth and unnaturally pink lips, suggesting digital manipulation rather than a genuine laugh. The eyes also appear to shift unnaturally, and the skin texture is overly smooth and plastic-like, indicating poor realism. The background is preserved reasonably well, but there are slight inconsistencies in lighting and depth of field. Temporal consistency is acceptable, but the facial animation lacks natural motion. Overall, the edit partially achieves the goal but fails in realism and natural expression."
+          },
+          "sha256": "8ba93c48945cd80e3248682620976249e165313f5042c4a7ec04166ee8a28ddf",
+          "video": "media/Te_Facial_expression_change_06/liveedit_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/liveedit_wan21_1p3b.json"
+        },
+        "kiwi_edit_5b_instruct_only": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 4.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 3.0,
+            "realism": 4.0,
+            "reason": "The instruction was to make the man laugh happily, but the edited video shows no change in expression—his face remains neutral or slightly pensive, with no signs of laughter (e.g., raised cheeks, crinkled eyes, open mouth). The edit fails to alter the intended emotion. Background and lighting are preserved reasonably well, and motion is smooth, but the core instruction is not followed, so accuracy is 0."
+          },
+          "sha256": "3dbb96889496be16482f84a759a34a4e38e39dbde4a376b4424054efd06ea740",
+          "video": "media/Te_Facial_expression_change_06/kiwi_edit_5b_instruct_only.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/kiwi_edit_5b_instruct_only.json"
+        },
+        "reco_ori_wan21_1p3b": {
+          "scores": {
+            "accuracy": 0.0,
+            "accuracy_penalty": 0.0,
+            "consistency": 3.0,
+            "overall_score_paper_0_to_100": 0.0,
+            "overall_score_raw_0_to_5": 0.0,
+            "preservation": 3.0,
+            "realism": 2.0,
+            "reason": "The instruction was to make the man laugh happily, but the edited video replaces the original man with a completely different person (different race, facial features, and hairstyle). This is a fundamental failure in accuracy. The new man does appear to be laughing, but since the subject is not the original man, the edit is incorrect. Background elements are mostly preserved, and motion is somewhat consistent, but the core instruction is violated."
+          },
+          "sha256": "a23c0cb3676dc3904957c80dad444a59651862972ecc31155bc01fd40d525246",
+          "video": "media/Te_Facial_expression_change_06/reco_ori_wan21_1p3b.mp4",
+          "receipt": "evidence/Te_Facial_expression_change_06/reco_ori_wan21_1p3b.json"
+        }
+      }
+    }
+  ]
+}

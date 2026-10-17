@@ -1,0 +1,1402 @@
+[
+  {
+    "item_id": "Te_Motion_frequency_change_06",
+    "overall": 100.0,
+    "best_baseline": "vace_wan21_1p3b_fullframe",
+    "best_baseline_score": 29.6,
+    "margin": 70.4
+  },
+  {
+    "item_id": "Te_Motion_deletion_01",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 52.2,
+    "margin": 47.8
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_02",
+    "overall": 100.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 77.6,
+    "margin": 22.4
+  },
+  {
+    "item_id": "Te_Camera_speed_change_04",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 86.0,
+    "margin": 14.0
+  },
+  {
+    "item_id": "Te_Facial_expression_change_06",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 86.0,
+    "margin": 14.0
+  },
+  {
+    "item_id": "Te_Action_category_change_01",
+    "overall": 100.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_01",
+    "overall": 100.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_03",
+    "overall": 100.0,
+    "best_baseline": "liveedit_wan21_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_07",
+    "overall": 100.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_02",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_03",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_08",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Facial_expression_change_08",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_deletion_10",
+    "overall": 100.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_03",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_08",
+    "overall": 100.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_05",
+    "overall": 100.0,
+    "best_baseline": "liveedit_wan21_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_delay_10",
+    "overall": 100.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Facial_expression_change_09",
+    "overall": 97.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": -3.0
+  },
+  {
+    "item_id": "Te_Motion_speed_change_07",
+    "overall": 90.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -10.0
+  },
+  {
+    "item_id": "Te_Facial_expression_change_03",
+    "overall": 77.6,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 97.0,
+    "margin": -19.4
+  },
+  {
+    "item_id": "Te_Facial_expression_change_05",
+    "overall": 77.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 97.0,
+    "margin": -19.4
+  },
+  {
+    "item_id": "Te_Facial_expression_change_04",
+    "overall": 77.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -22.4
+  },
+  {
+    "item_id": "Te_Facial_expression_change_07",
+    "overall": 72.8,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 72.8,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_insertion_06",
+    "overall": 50.4,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 32.0,
+    "margin": 18.4
+  },
+  {
+    "item_id": "Te_Gradual_state_change_02",
+    "overall": 50.4,
+    "best_baseline": "liveedit_wan21_1p3b",
+    "best_baseline_score": 33.2,
+    "margin": 17.2
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_05",
+    "overall": 50.4,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": 16.8
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_08",
+    "overall": 50.4,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 36.4,
+    "margin": 14.0
+  },
+  {
+    "item_id": "Te_Facial_expression_change_01",
+    "overall": 50.4,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 97.0,
+    "margin": -46.6
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_01",
+    "overall": 50.4,
+    "best_baseline": "liveedit_wan21_1p3b",
+    "best_baseline_score": 97.0,
+    "margin": -46.6
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_01",
+    "overall": 50.4,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -49.6
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_05",
+    "overall": 36.4,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 29.6,
+    "margin": 6.8
+  },
+  {
+    "item_id": "Te_Gradual_state_change_01",
+    "overall": 36.4,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 36.4,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_reordering_03",
+    "overall": 36.4,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -63.6
+  },
+  {
+    "item_id": "Te_Temporal_reordering_09",
+    "overall": 36.4,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -63.6
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_01",
+    "overall": 36.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 36.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Facial_expression_change_10",
+    "overall": 35.2,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 100.0,
+    "margin": -64.8
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_03",
+    "overall": 34.8,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 51.6,
+    "margin": -16.8
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_02",
+    "overall": 34.8,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 72.0,
+    "margin": -37.2
+  },
+  {
+    "item_id": "Te_Action_category_change_07",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 33.6
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_10",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 33.6
+  },
+  {
+    "item_id": "Te_Temporal_delay_04",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 33.6
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_06",
+    "overall": 33.6,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 32.0,
+    "margin": 1.6
+  },
+  {
+    "item_id": "Te_Motion_speed_change_06",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 32.4,
+    "margin": 1.2
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_09",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Gradual_state_change_07",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Gradual_state_change_10",
+    "overall": 33.6,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_03",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_07",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_deletion_08",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_06",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_reordering_07",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Action_category_change_02",
+    "overall": 33.6,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 34.8,
+    "margin": -1.2
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_07",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 36.4,
+    "margin": -2.8
+  },
+  {
+    "item_id": "Te_Action_category_change_04",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 50.4,
+    "margin": -16.8
+  },
+  {
+    "item_id": "Te_Action_content_change_05",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 50.4,
+    "margin": -16.8
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_04",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 54.0,
+    "margin": -20.4
+  },
+  {
+    "item_id": "Te_Temporal_delay_03",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 56.4,
+    "margin": -22.8
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_06",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 64.0,
+    "margin": -30.4
+  },
+  {
+    "item_id": "Te_Gradual_state_change_03",
+    "overall": 33.6,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 72.8,
+    "margin": -39.2
+  },
+  {
+    "item_id": "Te_Action_category_change_08",
+    "overall": 33.6,
+    "best_baseline": "liveedit_wan21_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": -66.4
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_04",
+    "overall": 33.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -66.4
+  },
+  {
+    "item_id": "Te_Temporal_reordering_04",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -66.4
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_09",
+    "overall": 33.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -66.4
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_01",
+    "overall": 32.4,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 29.6,
+    "margin": 2.8
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_09",
+    "overall": 32.4,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 33.6,
+    "margin": -1.2
+  },
+  {
+    "item_id": "Te_Temporal_delay_08",
+    "overall": 32.4,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -1.2
+  },
+  {
+    "item_id": "Te_Facial_expression_change_02",
+    "overall": 32.4,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 100.0,
+    "margin": -67.6
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_07",
+    "overall": 32.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 32.0
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_10",
+    "overall": 32.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 29.6,
+    "margin": 2.4
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_10",
+    "overall": 32.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 32.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_09",
+    "overall": 32.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 32.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_04",
+    "overall": 32.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 97.0,
+    "margin": -65.0
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_01",
+    "overall": 32.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -68.0
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_05",
+    "overall": 32.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -68.0
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_06",
+    "overall": 32.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -68.0
+  },
+  {
+    "item_id": "Te_Temporal_reordering_06",
+    "overall": 32.0,
+    "best_baseline": "vace_wan21_1p3b_fullframe",
+    "best_baseline_score": 100.0,
+    "margin": -68.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_06",
+    "overall": 30.8,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -69.2
+  },
+  {
+    "item_id": "Te_Motion_insertion_07",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 29.6
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_09",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 29.6
+  },
+  {
+    "item_id": "Te_Motion_direction_change_10",
+    "overall": 29.6,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 29.6,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_insertion_04",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 32.0,
+    "margin": -2.4
+  },
+  {
+    "item_id": "Te_Motion_speed_change_05",
+    "overall": 29.6,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": -4.0
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_08",
+    "overall": 29.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -4.0
+  },
+  {
+    "item_id": "Te_Action_category_change_09",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 34.8,
+    "margin": -5.2
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_06",
+    "overall": 29.6,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 45.6,
+    "margin": -16.0
+  },
+  {
+    "item_id": "Te_Action_category_change_05",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 64.0,
+    "margin": -34.4
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_08",
+    "overall": 29.6,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 68.8,
+    "margin": -39.2
+  },
+  {
+    "item_id": "Te_Motion_speed_change_09",
+    "overall": 29.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 72.8,
+    "margin": -43.2
+  },
+  {
+    "item_id": "Te_Motion_deletion_06",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 76.0,
+    "margin": -46.4
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_08",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 86.0,
+    "margin": -56.4
+  },
+  {
+    "item_id": "Te_Gradual_state_change_04",
+    "overall": 29.6,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 97.0,
+    "margin": -67.4
+  },
+  {
+    "item_id": "Te_Motion_deletion_02",
+    "overall": 29.6,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 97.0,
+    "margin": -67.4
+  },
+  {
+    "item_id": "Te_Motion_direction_change_05",
+    "overall": 29.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 97.0,
+    "margin": -67.4
+  },
+  {
+    "item_id": "Te_Motion_speed_change_01",
+    "overall": 29.6,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 97.0,
+    "margin": -67.4
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_09",
+    "overall": 29.6,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": -70.4
+  },
+  {
+    "item_id": "Te_Camera_speed_change_08",
+    "overall": 29.6,
+    "best_baseline": "reco_ori_wan21_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": -70.4
+  },
+  {
+    "item_id": "Te_Gradual_state_change_05",
+    "overall": 28.0,
+    "best_baseline": "vace_wan21_1p3b_fullframe",
+    "best_baseline_score": 42.0,
+    "margin": -14.0
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_07",
+    "overall": 28.0,
+    "best_baseline": "reco_ori_wan21_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": -72.0
+  },
+  {
+    "item_id": "Te_Action_category_change_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Action_content_change_02",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Action_content_change_03",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Action_content_change_04",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Action_content_change_08",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Action_content_change_09",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Action_content_change_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_03",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_04",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_07",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_01",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Gradual_state_change_06",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_09",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_deletion_03",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_deletion_04",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_deletion_07",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_deletion_09",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_01",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_04",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_09",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_insertion_02",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_insertion_03",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_insertion_08",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_insertion_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_speed_change_08",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_02",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_04",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_08",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_02",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_04",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_07",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_delay_05",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_delay_09",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_reordering_05",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_reordering_08",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_02",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_04",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 0.0,
+    "margin": 0.0
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_05",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 25.2,
+    "margin": -25.2
+  },
+  {
+    "item_id": "Te_Action_content_change_06",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 29.6,
+    "margin": -29.6
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_05",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 29.6,
+    "margin": -29.6
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_06",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 29.6,
+    "margin": -29.6
+  },
+  {
+    "item_id": "Te_Temporal_delay_07",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 29.6,
+    "margin": -29.6
+  },
+  {
+    "item_id": "Te_Temporal_reordering_02",
+    "overall": 0.0,
+    "best_baseline": "reco_ori_wan21_1p3b",
+    "best_baseline_score": 29.6,
+    "margin": -29.6
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_09",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 30.8,
+    "margin": -30.8
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_09",
+    "overall": 0.0,
+    "best_baseline": "liveedit_wan21_1p3b",
+    "best_baseline_score": 32.0,
+    "margin": -32.0
+  },
+  {
+    "item_id": "Te_Temporal_reordering_01",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 32.0,
+    "margin": -32.0
+  },
+  {
+    "item_id": "Te_Action_category_change_03",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Action_content_change_01",
+    "overall": 0.0,
+    "best_baseline": "liveedit_wan21_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Action_content_change_07",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_07",
+    "overall": 0.0,
+    "best_baseline": "reco_ori_wan21_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_02",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_04",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_amplitude_modulation_08",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_01",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_04",
+    "overall": 0.0,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_insertion_01",
+    "overall": 0.0,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_insertion_05",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_speed_change_03",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_speed_change_04",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_speed_change_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_05",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_01",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_08",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Temporal_delay_01",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Temporal_delay_06",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_03",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_05",
+    "overall": 0.0,
+    "best_baseline": "vace_wan21_1p3b_fullframe",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_06",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 33.6,
+    "margin": -33.6
+  },
+  {
+    "item_id": "Te_Action_category_change_06",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 34.8,
+    "margin": -34.8
+  },
+  {
+    "item_id": "Te_Multi-stage_state_transition_03",
+    "overall": 0.0,
+    "best_baseline": "reco_ori_wan21_1p3b",
+    "best_baseline_score": 34.8,
+    "margin": -34.8
+  },
+  {
+    "item_id": "Te_Motion_trajectory_change_03",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 36.4,
+    "margin": -36.4
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_07",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 47.4,
+    "margin": -47.4
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_02",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 50.4,
+    "margin": -50.4
+  },
+  {
+    "item_id": "Te_Motion_speed_change_02",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 64.0,
+    "margin": -64.0
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_07",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 72.8,
+    "margin": -72.8
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_08",
+    "overall": 0.0,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 77.0,
+    "margin": -77.0
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_10",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 80.0,
+    "margin": -80.0
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_01",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 90.0,
+    "margin": -90.0
+  },
+  {
+    "item_id": "Te_Gradual_state_change_08",
+    "overall": 0.0,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 90.0,
+    "margin": -90.0
+  },
+  {
+    "item_id": "Te_Camera_viewpoint_transformation_03",
+    "overall": 0.0,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 93.0,
+    "margin": -93.0
+  },
+  {
+    "item_id": "Te_Temporal_reordering_10",
+    "overall": 0.0,
+    "best_baseline": "vace_wan21_1p3b_fullframe",
+    "best_baseline_score": 94.0,
+    "margin": -94.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_05",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 97.0,
+    "margin": -97.0
+  },
+  {
+    "item_id": "Te_Camera_focal_length_change_02",
+    "overall": 0.0,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Camera_shot_scale_change_05",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_02",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_06",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Camera_speed_change_09",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Camera_trajectory_change_06",
+    "overall": 0.0,
+    "best_baseline": "reco_ori_wan21_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Gradual_state_change_09",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Motion_deletion_05",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_02",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Motion_direction_change_07",
+    "overall": 0.0,
+    "best_baseline": "frozen_bernini",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_03",
+    "overall": 0.0,
+    "best_baseline": "omnivideo2_official_1p3b",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Motion_frequency_change_10",
+    "overall": 0.0,
+    "best_baseline": "kiwi_edit_5b_instruct_only",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Motion_insertion_09",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Temporal_delay_02",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  },
+  {
+    "item_id": "Te_Temporal_synchronization_10",
+    "overall": 0.0,
+    "best_baseline": "lucy_edit_1p1_dev_5b",
+    "best_baseline_score": 100.0,
+    "margin": -100.0
+  }
+]

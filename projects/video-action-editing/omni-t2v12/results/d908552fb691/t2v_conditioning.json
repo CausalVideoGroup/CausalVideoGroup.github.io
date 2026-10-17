@@ -1,0 +1,19 @@
+{
+  "input_prompt": "A woman in a white taekwondo uniform with a black collar and Adidas logo stands in profile against a black background under dramatic side lighting, captured in a static medium shot. In this continuous shot, The woman in a taekwondo uniform stands in profile and claps her hands together in front of her. The same subject identity, scene, lighting, framing, and camera remain stable.",
+  "expanded_caption": "A woman in a crisp white taekwondo uniform stands in profile against a deep black background, her form sharply defined by dramatic side lighting that casts a strong, sculpted shadow along her silhouette. The uniform features a black collar and a subtle Adidas logo on the chest, adding a touch of brand detail to the athletic attire. She is captured in a static medium shot, framed with precision to highlight her poised stance and the clean lines of her posture. The lighting emphasizes the contours of her body, creating a high-contrast, cinematic effect that enhances the intensity of the moment. In a smooth, continuous motion, she brings her hands together in front of her chest, clapping them once with a deliberate, controlled gesture. Her movements are precise and measured, reflecting discipline and focus. The scene remains unchanged throughout\u2014no shifts in camera angle, lighting, or background\u2014maintaining a consistent, composed atmosphere that centers entirely on her presence and action. The stillness of the frame contrasts with the subtle energy of her motion, creating a powerful visual statement of control and readiness.",
+  "source_video_path": null,
+  "visual_embedding": null,
+  "source_video_caption": "",
+  "qwen_features_origin": "text_only",
+  "qwen_feature_shape": [
+    1,
+    85,
+    2048
+  ],
+  "t5_context_shape": [
+    236,
+    4096
+  ],
+  "media_read_attempts": 0,
+  "source_vae_encode_attempts": 0
+}

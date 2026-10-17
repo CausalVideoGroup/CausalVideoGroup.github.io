@@ -1,0 +1,230 @@
+[
+  {
+    "case_id": "10af6c651dbc",
+    "page": 5,
+    "name": "Jellyfish contraction",
+    "seed": 2026081910,
+    "output_sha256": "d89d6250e0a7d8d567215bc717c3348f9356e21a2931708f4988d2c2e41a83a0",
+    "job": {
+      "SLURM_JOB_ID": "213490",
+      "SLURM_ARRAY_JOB_ID": "213489",
+      "SLURM_ARRAY_TASK_ID": "0",
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 810.02,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/results/10af6c651dbc/omni.mp4",
+      "sha256": "d89d6250e0a7d8d567215bc717c3348f9356e21a2931708f4988d2c2e41a83a0",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/work/10af6c651dbc/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "9df1cb759d7ba258dbb8a68ddd9af298bb3a6b5ad6d1466d071ee7e924bfd779",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8462
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "7fa338474c75",
+    "page": 5,
+    "name": "Playful selfie",
+    "seed": 2026081900,
+    "output_sha256": "e64b918ae016b09942016a2eefe75498a7c7929ba17d52e263eddb1905c9f26d",
+    "job": {
+      "SLURM_JOB_ID": "213445",
+      "SLURM_ARRAY_JOB_ID": "213443",
+      "SLURM_ARRAY_TASK_ID": "1",
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-249",
+    "elapsed_seconds": 766.46,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/results/7fa338474c75/omni.mp4",
+      "sha256": "e64b918ae016b09942016a2eefe75498a7c7929ba17d52e263eddb1905c9f26d",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/work/7fa338474c75/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "dcac05cb97b4e7bad98704b61eb623f6602e60429b9a863e9206e2be1072422e",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8432
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "81533c9e56ec",
+    "page": 6,
+    "name": "Scarf spin",
+    "seed": 2026081915,
+    "output_sha256": "60dfb623480e63643bb647b7ffec5647c4f3163251164ceda6aced8b0491db2c",
+    "job": {
+      "SLURM_JOB_ID": "213499",
+      "SLURM_ARRAY_JOB_ID": "213497",
+      "SLURM_ARRAY_TASK_ID": "2",
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 711.58,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/results/81533c9e56ec/omni.mp4",
+      "sha256": "60dfb623480e63643bb647b7ffec5647c4f3163251164ceda6aced8b0491db2c",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/work/81533c9e56ec/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "c8aa072cdc2b03577914d8e813d307c609422fa4756e056d62525a7bb3e842ea",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8434
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "d977ce147d80",
+    "page": 6,
+    "name": "Rub eyes then cover face",
+    "seed": 2026081905,
+    "output_sha256": "e8f6947d204e4f31cd3b576be5c9fa6f76fc060fb8bda186e19d8f9b25b89c1d",
+    "job": {
+      "SLURM_JOB_ID": "213526",
+      "SLURM_ARRAY_JOB_ID": "213526",
+      "SLURM_ARRAY_TASK_ID": "3",
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 735.68,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/results/d977ce147d80/omni.mp4",
+      "sha256": "e8f6947d204e4f31cd3b576be5c9fa6f76fc060fb8bda186e19d8f9b25b89c1d",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/work/d977ce147d80/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "077eaa6598b40423896b760883fb8f772d16cde197e4a0376849ba644173eff1",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8503
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "840b214afead",
+    "page": 7,
+    "name": "Place bottle on treadmill",
+    "seed": 2026081913,
+    "output_sha256": "98eac004ebc001827750a81dc955bc30206b501d07f68cd97fd1cbec71537c63",
+    "job": {
+      "SLURM_JOB_ID": "213526",
+      "SLURM_ARRAY_JOB_ID": "213526",
+      "SLURM_ARRAY_TASK_ID": "3",
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 619.4,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/results/840b214afead/omni.mp4",
+      "sha256": "98eac004ebc001827750a81dc955bc30206b501d07f68cd97fd1cbec71537c63",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/work/840b214afead/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "eb7f4af0a9f917d89d609335f0d04617faac266f103db5e3647bf534dfbb84f2",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8431
+      ],
+      "max_context_len": 9216
+    }
+  },
+  {
+    "case_id": "d908552fb691",
+    "page": 7,
+    "name": "Bow to clap",
+    "seed": 2026081903,
+    "output_sha256": "c28477d38438a68c82509bd1cae0f72fbf3865007bd7ea9774b8c1339b336260",
+    "job": {
+      "SLURM_JOB_ID": "213526",
+      "SLURM_ARRAY_JOB_ID": "213526",
+      "SLURM_ARRAY_TASK_ID": "3",
+      "SLURM_JOB_GPUS": "0,1,2,3",
+      "ROCR_VISIBLE_DEVICES": "0,1,2,3"
+    },
+    "hostname": "auh7-1b-gpu-198",
+    "elapsed_seconds": 631.1,
+    "output": {
+      "path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/results/d908552fb691/omni.mp4",
+      "sha256": "c28477d38438a68c82509bd1cae0f72fbf3865007bd7ea9774b8c1339b336260",
+      "codec": "h264",
+      "width": 832,
+      "height": 480,
+      "frame_count": 81,
+      "fps": 25.0,
+      "duration_seconds": 3.24
+    },
+    "runtime_evidence": {
+      "rank_zero_log_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VideoEditing/VideoEdit_experiments/progress2_omni6_20260923_v1/work/d908552fb691/attempt-001/log_0.log",
+      "rank_zero_log_sha256": "bdb29fe30e9bd1fb226ee55e28693fa2d91a53e5e9bb57f56608e45020e208c5",
+      "strict_equivalent_checkpoint_load": true,
+      "context_truncation": false,
+      "visual_condition_tokens": 8190,
+      "context_total_tokens": [
+        8346,
+        8449
+      ],
+      "max_context_len": 9216
+    }
+  }
+]

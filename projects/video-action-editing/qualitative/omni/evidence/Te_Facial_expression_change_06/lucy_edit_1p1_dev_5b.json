@@ -1,0 +1,46 @@
+{
+  "category": "Motion Semantic",
+  "created_at_utc": "2026-09-14T17:48:15Z",
+  "edited_video_sha256": "f0285123defe401fe6d9b707716de369dc8162402f64a59748a756752dfb0e2b",
+  "editing_instruction": "Make the man laugh happily.",
+  "evaluator": {
+    "do_sample": false,
+    "frame_count_per_video": 12,
+    "frame_sampling": "uniform_interval_midpoints",
+    "input_manifest_sha256": "958406a72abc3d1d3ccff777bbe657b4e77061cb2ecce850fc4a0f8546716c3a",
+    "judge": "Qwen3-VL-32B-Instruct",
+    "model_config_sha256": "d2dd0c60d01b9e195d9447c52da61c7302d28828524914c044d9c6e1b81d0427",
+    "model_index_sha256": "06c952c569285870b811989b794b9766493e280fb77fbcb957fc4e5fcf25403a",
+    "model_path": "/vast/users/guangyi.chen/causal_group/peiyuan.zhu/work/VLM/MEV-Annotation/checkpoints/Qwen3-VL-32B-Instruct",
+    "official_omni_score": false,
+    "prompt_sha256": "8168fe4b4edf0f608e79476fd6b9edf28cb1ede6e6734184f1b12d65c2dedbaf",
+    "temperature": 0.0,
+    "transformers_version": "5.5.4",
+    "wrapper_sha256": "c087ecfdf0fedf00e224ad1795ee87a4f7e01fb4875bcc35537dd1240e5d6dd4"
+  },
+  "index": 25,
+  "item_id": "Te_Facial_expression_change_06",
+  "parsed_judge_output": {
+    "accuracy": 0,
+    "consistency": 5,
+    "preservation": 5,
+    "realism": 5,
+    "reason": "The instruction was to make the man laugh happily, but the edited video shows no change in his expression—he remains serious and neutral throughout. The edit failed to alter his facial expression to reflect laughter, making accuracy 0. Preservation, realism, and consistency are high as the background, lighting, and motion remain unchanged and natural."
+  },
+  "protocol_id": "omni_temporal200",
+  "raw_judge_output": "{\n    \"accuracy\": 0,\n    \"preservation\": 5,\n    \"realism\": 5,\n    \"consistency\": 5,\n    \"reason\": \"The instruction was to make the man laugh happily, but the edited video shows no change in his expression—he remains serious and neutral throughout. The edit failed to alter his facial expression to reflect laughter, making accuracy 0. Preservation, realism, and consistency are high as the background, lighting, and motion remain unchanged and natural.\"\n}",
+  "receipt_digest": "826301c84771323042b8edccebadad79594db86621eea85ec1a225012fb9f392",
+  "schema_version": "action-editing-omni-prompt-qwen3vl-result-v1",
+  "scores": {
+    "accuracy": 0.0,
+    "accuracy_penalty": 0.0,
+    "consistency": 5.0,
+    "overall_score_paper_0_to_100": 0.0,
+    "overall_score_raw_0_to_5": 0.0,
+    "preservation": 5.0,
+    "realism": 5.0,
+    "reason": "The instruction was to make the man laugh happily, but the edited video shows no change in his expression—he remains serious and neutral throughout. The edit failed to alter his facial expression to reflect laughter, making accuracy 0. Preservation, realism, and consistency are high as the background, lighting, and motion remain unchanged and natural."
+  },
+  "source_video_sha256": "25e2d2fff2da815d34244c47b2074f6b6577c9c2a2d1ee38617eaa64523c2d20",
+  "subcategory": "Facial_expression_change"
+}

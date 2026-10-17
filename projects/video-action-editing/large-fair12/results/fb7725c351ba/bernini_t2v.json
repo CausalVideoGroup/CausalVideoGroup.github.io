@@ -1,0 +1,77 @@
+{
+  "status": "complete",
+  "case_id": "fb7725c351ba",
+  "model": "ByteDance/Bernini-R-Diffusers",
+  "revision": "de8c4621d3ac75cc33efe3db8deaed2023e9ac8c",
+  "arm": "t2v",
+  "caption": "The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+  "caption_sha256": "b3337cc9b01e086c7969770d68fc6c6572e454e5fe1be64f770a6b7e1e30500d",
+  "prompt_rewriting": false,
+  "seed": 2026081901,
+  "steps": 40,
+  "fps": 25,
+  "source_video": null,
+  "source_sha256": null,
+  "real_target_used": false,
+  "expert_parameters": [
+    14288491584,
+    14288491584
+  ],
+  "expert_forward_counts": null,
+  "expert_usage_assertion_passed": true,
+  "prompt_capture_assertion_passed": true,
+  "full_decode_passed": true,
+  "output": {
+    "sha256": "cb9a41e6af23c63dfcc99430a4c56ba498e97dca5a0f29f3777d6dc47fb5dc32",
+    "width": 832,
+    "height": 480,
+    "avg_frame_rate": "25/1",
+    "nb_read_frames": "81"
+  },
+  "elapsed_seconds": null,
+  "completed_utc": "2026-09-23T19:40:28.952388+00:00",
+  "job": "214649",
+  "hostname": "auh7-1b-gpu-255",
+  "inputs_sha256": "caa915bc2243c0e21f38532c0b4100e7e4078e575d5d14f54656edc91cd3a535",
+  "driver_sha256": "cf5e73c03b21c57f4ca93a4bfbdd3f6935a35fa3f9e8687736845df1712c49f6",
+  "receipt_recovery": {
+    "reason": "Generated video was valid; unsupported compute-node ffprobe wrapper arguments stopped post-processing.",
+    "observed_failure": "ffprobe subprocess after prompt/expert assertions, encode, and complete ffmpeg decode",
+    "log_path": "logs/bernini-214649.log",
+    "log_sha256": "09c0b4103a2a88d1aaa3c0cb0920acb36ad744a54a0371abc6238423ce9b004a",
+    "driver_path": "provenance/drivers_v1/run_bernini.py",
+    "missing_runtime_measurements": [
+      "per-expert forward counts",
+      "elapsed_seconds",
+      "positive_token_count"
+    ],
+    "validation": "Independent complete local ffmpeg decode and genuine ffprobe frame count; no video regenerated or replaced."
+  },
+  "actual_t5_text": "You are a helpful assistant specialized in text-to-video generation.The woman in a home gym lifts a barbell from the floor to her waist. She wears black activewear. The home gym has a tiled floor and exercise equipment. A static full-body shot keeps the woman and the barbell visible.",
+  "task_prefix": "You are a helpful assistant specialized in text-to-video generation.",
+  "native_reference_binding": "",
+  "source_reference_frames": [],
+  "prompt_truncated": false,
+  "positive_token_count": null,
+  "positive_token_count_assertion_passed": true,
+  "loading_info": [
+    {
+      "subfolder": "transformer",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    },
+    {
+      "subfolder": "transformer_2",
+      "info": {
+        "missing_keys": [],
+        "unexpected_keys": [],
+        "mismatched_keys": [],
+        "error_msgs": []
+      }
+    }
+  ]
+}
