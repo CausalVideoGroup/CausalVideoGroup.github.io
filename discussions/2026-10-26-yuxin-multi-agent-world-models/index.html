@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A reading-group survey of multi-agent problems in video world models, from latent actions and control to behavior, planning, shared worlds, and agent-count generalization.">
+  <title>Multi-Agent Problems in World Models · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="../../projects/">Projects</a><a aria-current="page" href="../">Discussions</a><a href="../../people/">People</a><a href="../../about.html">About</a>
+    </nav>
+  </div></header>
+  <main>
+    <header class="page-header">
+      <p class="eyebrow">Topic discussion · 2026-10-26</p>
+      <h1>Multi-Agent Problems in World Models</h1>
+      <p class="lede">Led by Yuxin Wang</p>
+      <p><span class="tag">before-meeting</span> <span class="tag">Chinese presentation · English reading materials</span></p>
+    </header>
+    <article class="prose">
+      <p>What changes when a video world model must represent several agents? This survey follows six questions: learning separate action representations, applying controls to the correct agents, generating others' behavior, planning with imagined futures, maintaining shared facts across viewpoints, and handling more agents than seen during training.</p>
+      <p>The Chinese slides include concrete illustrated examples for all six questions and simplified diagrams for the seven core methods. Teaching schematics are labeled separately from reproduced paper evidence.</p>
+      <p>The discussion emphasizes the actual inputs, outputs, and information assumptions of each method. Fifteen papers provide seven core readings, five supporting comparisons, two brief latent-action backgrounds, and one distributed-generation perspective.</p>
+      <div class="actions">
+        <a class="button" href="presentation.html">Open Chinese presentation</a>
+        <a class="button secondary" href="summary.html">Read English summary</a>
+        <a class="button secondary" href="references.html">Analyzed references</a>
+      </div>
+      <h2>Reading route</h2>
+      <ol>
+        <li><strong>Action learning:</strong> FLAM, with PlaySlot and LPWM; OTF-LAM and GDLAM as background.</li>
+        <li><strong>Control binding:</strong> ActionParty, with Incantation.</li>
+        <li><strong>Other-agent behavior:</strong> COMBAT followed by WorldMind.</li>
+        <li><strong>Cooperative planning:</strong> COMBO.</li>
+        <li><strong>Shared worlds and persistence:</strong> ME-World, with OverSeer and a brief WorldCast perspective.</li>
+        <li><strong>Agent-count generalization:</strong> Gamma-World, with Multics.</li>
+      </ol>
+      <p>These are connected research questions, not components of an already integrated system. Objects, particles, active agents, and camera views are distinguished throughout.</p>
+      <p><a href="summary.html#problem-map">Problem map and open questions</a> · <a href="meeting-note.html">Meeting note</a> · <a href="figure-credits.html">Figure sources</a></p>
+      <p>Materials cover literature checked through 2026-10-23. The meeting has not yet taken place; no discussion conclusions or follow-up assignments are recorded.</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="../">All discussions</a></div></footer>
+</body>
+</html>

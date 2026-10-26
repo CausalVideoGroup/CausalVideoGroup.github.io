@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Six concrete multi-agent problems in video world models, their information assumptions, representative methods, and open questions.">
+  <title>Multi-Agent Problems in World Models · Topic Summary</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+  <style>
+    .map-scroll { overflow-x: auto; margin-block: 1.5rem; }
+    .problem-map { width: 100%; border-collapse: collapse; font-size: .93rem; }
+    .problem-map th, .problem-map td { border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; padding: .8rem; }
+    .problem-map th { background: var(--surface); }
+    .problem-map td:first-child { min-width: 9rem; font-weight: 650; }
+    .problem-map td { min-width: 10rem; }
+    .quality-grid { display: grid; gap: .8rem; }
+    .quality-grid .callout { margin: 0; }
+    @media print { .map-scroll { overflow: visible; } .problem-map { font-size: 9pt; } .problem-map td { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation">
+      <a href="./">Overview</a><a href="presentation.html">Presentation</a><a aria-current="page" href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a>
+    </nav>
+  </div></header>
+  <main>
+    <header class="page-header">
+      <p class="eyebrow">2026-10-26 · Yuxin Wang · Before meeting</p>
+      <h1>Multi-Agent Problems in World Models</h1>
+      <p class="lede">Separate the questions by what actions are known, what the model must infer, and how its predictions are used.</p>
+    </header>
+    <article class="prose">
+      <h2>Scope and background</h2>
+      <p>This reading-group survey focuses on world models connected to video generation and embodied interaction. An <strong>active agent</strong> makes choices; a manipulated object need not do so, and an additional camera is not an additional agent. Object, particle, and motion-factor representations remain useful related approaches, with these distinctions preserved.</p>
+      <p>A latent action model infers a compact representation of a transition from before-and-after observations, then uses that representation with the current observation to predict the next one. The representation need not recover a true command or intention. Multiple moving entities raise a further question: can their changes be represented separately?</p>
+      <p>Recent work provides several answers to parts of the broader problem. The papers below differ in action labels, geometry, state access, environments, and outputs; their reported results do not form a single performance ranking. The survey covers fifteen papers checked through 2026-10-23, with relevant original method and evaluation sections read. It is not a reproduction study.</p>
+
+      <h2 id="problem-map">Six questions and their reading route</h2>
+      <div class="map-scroll" role="region" aria-label="Six-question problem map" tabindex="0">
+        <table class="problem-map">
+          <thead><tr><th scope="col">Question</th><th scope="col">Given information</th><th scope="col">What the model must provide</th><th scope="col">Reading entry</th></tr></thead>
+          <tbody>
+            <tr><td>1. Action learning</td><td>Video transitions without per-agent action labels</td><td>Separate latent action or motion representations</td><td>FLAM; PlaySlot, LPWM; OTF-LAM and GDLAM as background</td></tr>
+            <tr><td>2. Control binding</td><td>Actions or instructions for named subjects</td><td>A future video in which the correct subjects execute them</td><td>ActionParty; Incantation</td></tr>
+            <tr><td>3. Other-agent behavior</td><td>History and externally specified actions for only part of the scene</td><td>The behavior of agents whose actions were not supplied</td><td>COMBAT; WorldMind</td></tr>
+            <tr><td>4. Cooperative planning</td><td>Partial observations and candidate actions</td><td>Imagined consequences that help select the acting agent's next action</td><td>COMBO</td></tr>
+            <tr><td>5. Shared world and persistence</td><td>Multiple views, action conditions, and history</td><td>Different videos that agree on shared entities, events, and state changes</td><td>ME-World; OverSeer; WorldCast briefly</td></tr>
+            <tr><td>6. Agent-count generalization</td><td>Training with fewer agents than may be present at inference</td><td>Usable identities and information exchange for more agents</td><td>Gamma-World; Multics</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Mechanisms and boundaries</h2>
+      <p><strong>Separate representations.</strong> <a href="https://arxiv.org/html/2602.16229v2">FLAM</a> assigns latent action channels to learned scene factors, while the dynamics can still use the full current scene. PlaySlot adds object-slot actions with discrete prototypes and continuous variation; LPWM models stochastic particle-level transitions. OTF-LAM decomposes local effects but aggregates them into one latent action, and GDLAM learns grouped representations. Neither a factor nor a group is guaranteed to be an autonomous agent.</p>
+      <p><strong>Known controls.</strong> <a href="https://arxiv.org/html/2604.02330v2">ActionParty</a> links each subject's action and state to spatial locations and predicts video together with subject coordinates. Incantation provides per-entity language action slots. These approaches use action supervision; they are not action-free latent-action discovery.</p>
+      <p><strong>Unspecified behavior.</strong> <a href="https://arxiv.org/html/2603.00825v1">COMBAT</a> conditions on one player's actions and implicitly generates the opponent's behavior in video. <a href="https://arxiv.org/html/2608.21439v1">WorldMind</a> explicitly connects state estimation, NPC decisions, action conditions, and generation. Its state and decision interfaces use geometry supervision during training and skill information; not all state is recovered directly from pixels. Implicit behavioral generation is not evidence that a transferable policy has already been trained.</p>
+      <p><strong>Choosing actions.</strong> <a href="https://arxiv.org/html/2404.10775v3">COMBO</a> builds a visual world estimate from partial observations, predicts partners' actions, imagines joint-action consequences, and searches over its own choices. Different candidates deliberately produce different possible futures. It does not require the planner to directly control every partner.</p>
+      <p><strong>Agreeing on one world.</strong> <a href="https://arxiv.org/html/2610.12299v1">ME-World</a> jointly generates egocentric streams using shared action conditions and geometry-aligned history. OverSeer adds generated fixed auxiliary views for continuity beyond moving local views; these are not access to a true omniscient state. WorldCast illustrates distributed local generation coordinated through shared state and scene memory. Its reported block-synchronous evaluation is not a guarantee under arbitrary network delays.</p>
+      <p><strong>More agents.</strong> <a href="https://arxiv.org/html/2605.28816v1">Gamma-World</a> uses symmetric identity encoding from a preset identity pool and shared hub communication, including a reported two-agent-training to four-agent-inference setting. Multics organizes information through player, group, and global levels. Testing more agents does not establish unlimited population size or arbitrary online entry and exit.</p>
+      <p>The sequence connects research questions rather than implemented systems: ActionParty does not consume FLAM outputs, and COMBO is not a downstream integration of COMBAT or WorldMind.</p>
+
+      <h2>Research-quality prompts</h2>
+      <div class="quality-grid">
+        <div class="callout"><strong>Central claim:</strong> “Multi-agent world modeling” covers distinct tasks. Which agents' actions are given, whether outputs support decisions or multiple viewpoints, and whether agent count changes are essential to interpreting a result.</div>
+        <div class="callout"><strong>Hidden assumption:</strong> Identity labels, action annotations, coordinates, geometry, skill rules, and history may be available at different stages. Comparing methods without stating these information conditions can obscure the actual difficulty.</div>
+        <div class="callout"><strong>Failure boundary:</strong> Decomposed latents need not align with agents; controllability need not supply other agents' decisions; cross-view agreement need not imply physical correctness; population generalization remains bounded by the tested setting and representation.</div>
+        <div class="callout"><strong>Connection:</strong> The literature connects latent dynamics, controllable video generation, embodied planning, and persistent multi-view generation through a common concern: how actions and shared state are represented and checked across interacting entities.</div>
+        <div class="callout"><strong>Concrete experiment:</strong> A possible public-literature diagnostic is to hold an initial two-character scene and character B's action fixed while changing A's action, then inspect action binding and shared-object updates across two views. A separate condition lets B follow a response policy. This distinguishes misplaced controls from legitimate interaction effects. This is a discussion example; no experiment or result is reported here.</div>
+        <div class="callout"><strong>Discussion seed:</strong> Which information interface is the bottleneck for a given task: action representation, subject binding, other-agent decisions, shared state, or scalable communication?</div>
+      </div>
+
+      <h2>Open questions</h2>
+      <ol>
+        <li>When do learned action factors track an active agent rather than an object, body part, or local visual change?</li>
+        <li>How can action-to-identity binding survive occlusion, close interaction, and role or position exchanges?</li>
+        <li>When is implicit video prediction sufficient for useful other-agent behavior, and when is an explicit state and decision interface needed?</li>
+        <li>Which prediction errors change cooperative action choices, rather than only the perceived quality of a generated video?</li>
+        <li>How should cross-view event agreement and off-screen persistence be tested separately from visual similarity?</li>
+        <li>Which identity and communication structures transfer to more agents, and which depend on a preset population or interaction pattern?</li>
+      </ol>
+      <p>These are discussion questions synthesized from the literature, not established novelty claims or assigned projects. See the <a href="references.html">reference analyses</a> for the seven core readings and all eight supporting or background entries.</p>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Discussion overview</a></div></footer>
+</body>
+</html>

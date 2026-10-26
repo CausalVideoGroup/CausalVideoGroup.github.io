@@ -1,0 +1,82 @@
+title: "Multi-Agent Problems in World Models"
+date: 2026-10-26
+topic_slug: multi-agent-world-models
+leader:
+  name: "Yuxin Wang"
+  short_name: yuxin
+status: before-meeting
+summary: >-
+  A problem-oriented survey of multi-agent video world models: learning separate
+  action representations, binding controls, generating other agents' behavior,
+  planning with imagined futures, maintaining a shared world across views,
+  and generalizing to more agents.
+tags:
+  - world-model
+  - multi-agent
+  - video-generation
+  - latent-action
+  - embodied-intelligence
+related_projects: []
+papers:
+  - title: "Factored Latent Action World Models"
+    url: https://arxiv.org/abs/2602.16229
+    role: method
+    note: Core reading; separate latent action channels for scene factors.
+  - title: "ActionParty: Multi-Subject Action Binding in Generative Video Games"
+    url: https://arxiv.org/abs/2604.02330
+    role: method
+    note: Core reading; bind supplied actions to the correct subjects.
+  - title: "COMBAT: Conditional World Models for Behavioral Agent Training"
+    url: https://arxiv.org/abs/2603.00825
+    role: method
+    note: Core reading; generate opponent behavior under one-sided action conditioning.
+  - title: "WorldMind: Decoupled Game World Model for State-Aware NPC Behavior"
+    url: https://arxiv.org/abs/2608.21439
+    role: system
+    note: Core reading; connect estimated state, explicit NPC decisions, and video generation.
+  - title: "COMBO: Compositional World Models for Embodied Multi-Agent Cooperation"
+    url: https://arxiv.org/abs/2404.10775
+    role: system
+    note: Core reading; compare imagined joint-action futures for cooperative planning.
+  - title: "Multi-Agent Egocentric World Model with Fine-Grained Embodied Interaction"
+    url: https://arxiv.org/abs/2610.12299
+    role: method
+    note: Core reading; joint egocentric generation with shared action conditions and memory.
+  - title: "Gamma-World: Generative Multi-Agent World Modeling Beyond Two Players"
+    url: https://arxiv.org/abs/2605.28816
+    role: method
+    note: Core reading; identity encoding and shared communication for agent-count generalization.
+  - title: "PlaySlot: Learning Inverse Latent Dynamics for Controllable Object-Centric Video Prediction and Planning"
+    url: https://arxiv.org/abs/2502.07600
+    role: method
+    note: Supporting comparison; object slots with discrete action prototypes and continuous variation.
+  - title: "Latent Particle World Models: Self-supervised Object-centric Stochastic Dynamics Modeling"
+    url: https://arxiv.org/abs/2603.04553
+    role: method
+    note: Supporting comparison; particle-level stochastic latent actions.
+  - title: "Incantation: Natural Language as the Action Interface for Multi-Entity Video World Models"
+    url: https://arxiv.org/abs/2605.18601
+    role: method
+    note: Supporting comparison; per-entity language action interfaces.
+  - title: "OverSeer: Multi-Agent World Models Beyond What Agents See"
+    url: https://arxiv.org/abs/2610.28554
+    role: method
+    note: Supporting comparison; generated auxiliary views for off-screen state continuity.
+  - title: "Multics: Generative Multi-Player World Model with Hierarchical Communication"
+    url: https://arxiv.org/abs/2610.17201
+    role: method
+    note: Supporting comparison; player-group-global communication for concurrent interactions.
+  - title: "Latent Actions from Factorized Transition Effects under Agent Ambiguity"
+    url: https://arxiv.org/abs/2606.30544
+    role: method
+    note: Brief background; local transition effects are aggregated into one latent action.
+  - title: "GDLAM: Group-Disentangled Latent Action Model for Highly Disentangled Embodied Pretraining"
+    url: https://arxiv.org/abs/2609.26118
+    role: method
+    note: Brief background; grouped latent representations do not guarantee agent-level decomposition.
+  - title: "WorldCast: Distributed Multiplayer World Models"
+    url: https://arxiv.org/abs/2610.12412
+    role: system
+    note: Brief distributed perspective; local video generation coordinated through shared state and scene memory.
+external_videos: []
+slides: presentation.html
