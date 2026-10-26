@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Key References for Multi-Agent Problems in World Models.">
+  <title>Key References · Multi-Agent Problems in World Models · CausalVideoGroup</title>
+  <link rel="stylesheet" href="../../styles/main.css">
+</head>
+<body>
+  <header class="site-header"><div class="nav-wrap">
+    <a class="brand" href="../../">CausalVideoGroup</a>
+    <nav class="site-nav" aria-label="Discussion navigation"><a href="./">Overview</a><a href="presentation.html">Presentation</a><a href="summary.html">Summary</a><a href="references.html">References</a><a href="meeting-note.html">Meeting note</a></nav>
+  </div></header>
+  <main>
+    <header class="page-header"><p class="eyebrow">2026-10-26 · Yuxin Wang</p><h1>Key References</h1><p class="lede">Multi-Agent Problems in World Models</p></header>
+    <article class="prose markdown-body"><p>Multi-Agent Problems in World Models · Yuxin Wang · 2026-10-26</p>
+<p>Literature checked through 2026-10-23. The collection contains seven core readings, five supporting comparisons, two brief latent-action backgrounds, and one distributed-generation perspective. “Read” below means the relevant original problem, method, evaluation, and limitation passages, not a claim that every appendix was read or that results were reproduced. Evidence summaries describe the authors&#x27; reported experiments.</p>
+<p>The six-part organization is a synthesis for this discussion. It does not imply that the papers form an implemented pipeline. Dates refer to the initial public version where established; a later formal venue is stated separately. Titles and canonical identifiers distinguish papers from similarly named systems.</p>
+<h2>1. Factored Latent Action World Models — FLAM</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2602.16229">arXiv:2602.16229</a>, February 2026; <a href="https://proceedings.mlr.press/v306/wang26gs.html">ICML 2026 proceedings</a>. Method discussed: <a href="https://arxiv.org/html/2602.16229v2">v2</a>.</li>
+<li><strong>Type and role:</strong> Core method; Part 1, multi-agent action learning.</li>
+<li><strong>Actual problem:</strong> A single scene-level latent action mixes changes from several entities. Can different factors receive separate action channels that support selective manipulation?</li>
+<li><strong>Mechanism:</strong> Factorize frame features into slots, infer a continuous latent action for each slot from a transition, and predict future features before recombining them. The inverse and forward models can access all current slots, preserving interaction context.</li>
+<li><strong>Evidence:</strong> Selected-entity manipulation in MultiGrid, prediction in Procgen and nuPlan, and analyses of factor allocation.</li>
+<li><strong>Boundary:</strong> Correlated entities may share a factor. Some predictive demonstrations infer latent actions from observed future frames; they do not establish autonomous decisions by every entity.</li>
+<li><strong>Why important / discussion question:</strong> A direct entry into separate action channels. When do the learned factors align with the agents one wants to control?</li>
+<li><strong>Read:</strong> v2 Sections 2–5 and the relevant control, factorization, and architecture passages of Appendix C.</li>
+</ul>
+<h2>2. ActionParty: Multi-Subject Action Binding in Generative Video Games</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2604.02330">arXiv:2604.02330</a>, April 2026; method discussed: <a href="https://arxiv.org/html/2604.02330v2">v2</a>.</li>
+<li><strong>Type and role:</strong> Core method; Part 2, control binding.</li>
+<li><strong>Actual problem:</strong> Each player&#x27;s action is already supplied, but a video generator may apply it to the wrong character or lose the action-to-subject association during interaction.</li>
+<li><strong>Mechanism:</strong> Subject-state tokens connect actions and coordinates to persistent subject representations. Spatial conditioning helps route controls to the correct regions; the model predicts subject coordinates together with video.</li>
+<li><strong>Evidence:</strong> Multi-subject control in MeltingPot, including subject-count and long-horizon checks.</li>
+<li><strong>Boundary:</strong> Training uses action and coordinate supervision. This is not discovery of separate actions from unlabelled video; controllability also does not determine an uncontrolled character&#x27;s policy.</li>
+<li><strong>Why important / discussion question:</strong> Isolates the difference between representing an action and binding it to the right actor. How should identity binding be evaluated during occlusion or close interaction?</li>
+<li><strong>Read:</strong> Sections 1 and 3.1–3.3, coordinate-supervision details, and the relevant subject-count and long-horizon results.</li>
+</ul>
+<h2>3. COMBAT: Conditional World Models for Behavioral Agent Training</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2603.00825">arXiv:2603.00825</a>, 2026; method discussed: <a href="https://arxiv.org/html/2603.00825v1">v1</a>.</li>
+<li><strong>Type and role:</strong> Core method; Part 3, implicit other-agent behavior.</li>
+<li><strong>Actual problem:</strong> In a two-player fighting game, only Player 1&#x27;s actions condition the prediction. The model must still generate what the opponent does next.</li>
+<li><strong>Mechanism:</strong> Condition future video on visual history and Player 1&#x27;s actions. Opponent behavior is generated within the predicted video, with RGB and RGB-plus-pose variants.</li>
+<li><strong>Evidence:</strong> Tekken 3 experiments include damage trajectories, action frequencies, and human judgments of responsiveness, beyond image-quality checks.</li>
+<li><strong>Boundary:</strong> The setting is fixed one-versus-one interaction. Behavioral plausibility is not proof of identifying arbitrary opponent policies or training a transferable standalone policy; policy learning inside the model is discussed as future work.</li>
+<li><strong>Why important / discussion question:</strong> Shows that leaving an agent&#x27;s actions unspecified changes the prediction task. Which behavioral tests separate meaningful responses from visually plausible continuation?</li>
+<li><strong>Read:</strong> Section 3 architecture and conditioning, Section 4 behavioral evaluation, and Section 6 limitations and future work.</li>
+</ul>
+<h2>4. WorldMind: Decoupled Game World Model for State-Aware NPC Behavior</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2608.21439">arXiv:2608.21439</a>, August 2026; method discussed: <a href="https://arxiv.org/html/2608.21439v1">v1</a>.</li>
+<li><strong>Type and role:</strong> Core system; Part 3, explicit state and decision interfaces.</li>
+<li><strong>Actual problem:</strong> An NPC&#x27;s next action should depend on the evolving scene and game mechanics, rather than emerge only as an implicit visual continuation.</li>
+<li><strong>Mechanism:</strong> Estimate compact state from frames and skill history; use that state and skill mechanisms to choose NPC actions; convert decisions to temporally aligned controls for video generation and feed the generated observation back.</li>
+<li><strong>Evidence:</strong> State-estimation, mechanism-intervention, and closed-loop comparisons in the paper.</li>
+<li><strong>Boundary:</strong> Training uses engine-state supervision for geometry; skill history and mechanics provide additional information. Not all state is recovered from pixels. Component transfer should not be presented as demonstrated generalization of the entire closed-loop system.</li>
+<li><strong>Why important / discussion question:</strong> Complements COMBAT by making the behavioral interface inspectable. Which state variables are necessary for useful decisions?</li>
+<li><strong>Read:</strong> Section 3 interfaces and the relevant Section 4 experiments.</li>
+</ul>
+<h2>5. COMBO: Compositional World Models for Embodied Multi-Agent Cooperation</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2404.10775">arXiv:2404.10775</a>, April 2024; <a href="https://proceedings.iclr.cc/paper_files/paper/2025/hash/7d03c6bf9f07acb4038eea96c63db52d-Abstract-Conference.html">ICLR 2025 proceedings</a>. Method discussed: <a href="https://arxiv.org/html/2404.10775v3">v3</a>.</li>
+<li><strong>Type and role:</strong> Core system; Part 4, cooperative planning.</li>
+<li><strong>Actual problem:</strong> An agent with partial observations must anticipate partners and compare the consequences of its own actions before choosing how to cooperate.</li>
+<li><strong>Mechanism:</strong> Build and complete a top-down visual estimate from RGBD history; propose own actions and infer partner actions; compose action-conditioned diffusion predictions; evaluate imagined outcomes with tree search; execute the selected own action.</li>
+<li><strong>Evidence:</strong> Cooperative tasks in TDW-Game, TDW-Cook, and 2D-FetchQ, with component comparisons.</li>
+<li><strong>Boundary:</strong> The agent does not directly command all partners. Composition occurs within diffusion prediction, not by overlaying separately generated videos, and joint-action conditioning appears in training. Planning can exploit prediction artifacts.</li>
+<li><strong>Why important / discussion question:</strong> Connects video prediction to decisions. Which prediction failures actually change cooperative success?</li>
+<li><strong>Read:</strong> Sections 4–5, Section 6.1, and relevant task definitions in Appendix D.</li>
+</ul>
+<h2>6. Multi-Agent Egocentric World Model with Fine-Grained Embodied Interaction — ME-World</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2610.12299">arXiv:2610.12299</a>, October 2026; method discussed: <a href="https://arxiv.org/html/2610.12299v1">v1</a>.</li>
+<li><strong>Type and role:</strong> Core method; Part 5, shared worlds and persistence.</li>
+<li><strong>Actual problem:</strong> Different participants see the same interaction from different positions. Their generated videos must agree on bodies, objects, and the effects of actions.</li>
+<li><strong>Mechanism:</strong> Jointly generate multiple egocentric streams with one diffusion transformer; project all agents&#x27; action conditions into each target view; use geometry-aligned history and reference memory.</li>
+<li><strong>Evidence:</strong> Synthetic and real two-person interactions, with evaluations of interaction, identity, environment, and state updates.</li>
+<li><strong>Boundary:</strong> Experiments mainly involve two agents and supplied pose controls. A general formulation for N agents does not establish arbitrary population sizes. Consistent views alone do not prove physically correct dynamics.</li>
+<li><strong>Why important / discussion question:</strong> Provides a concrete shared-world interface. How should agreement on an event be distinguished from superficial visual similarity?</li>
+<li><strong>Read:</strong> Sections 3.1–3.4, 4.1–4.3, and limitations.</li>
+</ul>
+<h2>7. Gamma-World: Generative Multi-Agent World Modeling Beyond Two Players</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2605.28816">arXiv:2605.28816</a>, May 2026; method discussed: <a href="https://arxiv.org/html/2605.28816v1">v1</a>.</li>
+<li><strong>Type and role:</strong> Core method; Part 6, agent-count generalization.</li>
+<li><strong>Actual problem:</strong> A model trained with few players should distinguish and coordinate more players at inference without depending on a fixed semantic meaning for each identity slot.</li>
+<li><strong>Mechanism:</strong> Use distinguishable, symmetrically related identity encodings from a preset pool, randomly assign active identities during training, and organize cross-agent information through shared hub tokens.</li>
+<li><strong>Evidence:</strong> The paper reports two-player training followed by four-player inference, with identity-encoding comparisons and computational scaling analyses.</li>
+<li><strong>Boundary:</strong> The identity pool is finite. A scaling curve at a larger population is not, by itself, evidence of generation quality at that population. More-agent inference does not establish arbitrary online entry and exit.</li>
+<li><strong>Why important / discussion question:</strong> Frames population size as a representation and information-routing problem. What transfers when the number and interaction pattern of agents change?</li>
+<li><strong>Read:</strong> Sections 3.2–3.3, relevant Section 4 results, and limitations.</li>
+</ul>
+<h2>8. PlaySlot: Learning Inverse Latent Dynamics for Controllable Object-Centric Video Prediction and Planning</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2502.07600">arXiv:2502.07600</a>, February 2025; <a href="https://proceedings.mlr.press/v267/villar-corrales25a.html">ICML 2025 proceedings</a>. Relevant version: <a href="https://arxiv.org/html/2502.07600v2">v2</a>.</li>
+<li><strong>Role:</strong> Supporting comparison in Part 1.</li>
+<li><strong>Problem and mechanism:</strong> Infer controllable object changes from transitions using frozen SAVi slots. Latent actions combine a discrete prototype with continuous variation. The method includes a scene-level variant and a per-slot variant.</li>
+<li><strong>Evidence and boundary:</strong> GridShapes tests several moving objects; robot examples largely use a single-action setting. Multiple moving shapes should not be described as multiple autonomous robots.</li>
+<li><strong>Read:</strong> Sections 3.1–3.5 and 4.1–4.4, with relevant Appendix A/B.2 passages.</li>
+<li><strong>Comparison question:</strong> What does object-level decomposition add when compared with one global transition code?</li>
+</ul>
+<h2>9. Latent Particle World Models: Self-supervised Object-centric Stochastic Dynamics Modeling — LPWM</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2603.04553">arXiv:2603.04553</a>, March 2026; <a href="https://proceedings.iclr.cc/paper_files/paper/2026/hash/cf7ba4b2d14e0f6a0e8247af77745094-Abstract-Conference.html">ICLR 2026 proceedings</a>. Relevant version: <a href="https://arxiv.org/html/2603.04553v1">v1</a>.</li>
+<li><strong>Role:</strong> Supporting comparison in Part 1.</li>
+<li><strong>Problem and mechanism:</strong> Represent distinct stochastic motions locally through latent particles, per-particle action posteriors, and state-conditioned priors from which future motion can be sampled.</li>
+<li><strong>Evidence and boundary:</strong> Video prediction and control examples include games and robot-object interaction. A particle is not necessarily a whole object, agent, or independent control command; control demonstrations are mainly single-robot settings.</li>
+<li><strong>Read:</strong> Sections 1–2, 4, 5.1–5.2, and 6.</li>
+<li><strong>Comparison question:</strong> How do local uncertainty and agent-specific control differ?</li>
+</ul>
+<h2>10. Incantation: Natural Language as the Action Interface for Multi-Entity Video World Models</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2605.18601">arXiv:2605.18601</a>, 2026; relevant version: <a href="https://arxiv.org/html/2605.18601v2">v2</a>.</li>
+<li><strong>Role:</strong> Supporting comparison in Part 2.</li>
+<li><strong>Problem and mechanism:</strong> Express heterogeneous character actions through per-entity structured language slots, with temporally localized text conditioning for video generation.</li>
+<li><strong>Evidence and boundary:</strong> Multi-character game examples and cross-entity action reuse. Labels come from game animation/state information, not unsupervised action discovery. Long-term game logic uses additional event tracking and transition mechanisms.</li>
+<li><strong>Read:</strong> Section 3.1 and action-interface results; Appendix A6 on labels and A16 on long-term logic.</li>
+<li><strong>Comparison question:</strong> Which aspects of an action meaning transfer across bodies, and which remain tied to game mechanics?</li>
+</ul>
+<h2>11. OverSeer: Multi-Agent World Models Beyond What Agents See</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2610.28554">arXiv:2610.28554</a>, October 2026; relevant version: <a href="https://arxiv.org/html/2610.28554v1">v1</a>.</li>
+<li><strong>Role:</strong> Supporting comparison in Part 5.</li>
+<li><strong>Problem and mechanism:</strong> Moving local cameras may lose common state. Jointly generate egocentric streams and fixed auxiliary views, using compressed changes relative to an anchor.</li>
+<li><strong>Evidence and boundary:</strong> Revisit and regrouping cases in Minecraft and Doom, plus multi-camera examples. Auxiliary streams are generated at inference, not reads of ground-truth hidden state; coverage and scale remain limitations.</li>
+<li><strong>Read:</strong> Sections 3.1–3.2, relevant Section 4 evaluation, and Appendix E.</li>
+<li><strong>Comparison question:</strong> What can a generated auxiliary view preserve, and how can its own drift be detected?</li>
+</ul>
+<h2>12. Multics: Generative Multi-Player World Model with Hierarchical Communication</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2610.17201">arXiv:2610.17201</a>, October 2026; relevant version: <a href="https://arxiv.org/html/2610.17201v1">v1</a>.</li>
+<li><strong>Role:</strong> Supporting comparison in Part 6.</li>
+<li><strong>Problem and mechanism:</strong> With several concurrent interactions, unrestricted global information exchange can mix unrelated events. Player-group-global communication and dynamic grouping organize relevant interactions.</li>
+<li><strong>Evidence and boundary:</strong> Multiplayer control and interference checks in OpenCS2 and EgoTeam. Communication improvements do not establish persistent shared state over arbitrary durations.</li>
+<li><strong>Read:</strong> Method overview, relevant Section 3.2–3.3 mechanisms, Sections 4.2–4.4, and Appendix D.</li>
+<li><strong>Comparison question:</strong> Which interactions should share a local group, and when does information need global access?</li>
+</ul>
+<h2>13. Latent Actions from Factorized Transition Effects under Agent Ambiguity — OTF-LAM</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2606.30544">arXiv:2606.30544</a>, June 2026; relevant version: <a href="https://arxiv.org/html/2606.30544v2">v2</a>.</li>
+<li><strong>Role:</strong> Brief latent-action background in Part 1.</li>
+<li><strong>Problem and mechanism:</strong> Reduce entanglement between observed transitions, appearance, and embodiment. Learn shared local transition primitives and aggregate them with state and position into one compact continuous latent action.</li>
+<li><strong>Evidence and boundary:</strong> Appearance and morphology transfer, plus action decoding/control. Decomposing local effects does not produce separate actions for several agents; the final representation remains aggregated.</li>
+<li><strong>Read:</strong> v2 problem, method, experiments, conclusion, and relevant Appendix B.1–B.3 passages.</li>
+<li><strong>Comparison question:</strong> What is gained by decomposing effects even when the final action representation is global?</li>
+</ul>
+<h2>14. GDLAM: Group-Disentangled Latent Action Model for Highly Disentangled Embodied Pretraining</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2609.26118">arXiv:2609.26118</a>, 2026; <a href="https://arxiv.org/html/2609.26118">original text</a>. Only the year is stated because the recorded first-release metadata is inconsistent.</li>
+<li><strong>Role:</strong> Brief latent-action background in Part 1.</li>
+<li><strong>Problem and mechanism:</strong> Separate mixed visual changes into latent groups through multiple stochastic bottlenecks and spatial routing, with sparsity and separation objectives.</li>
+<li><strong>Evidence and boundary:</strong> Group interventions and swaps, robot-action representations, and downstream transfer. The learned groups need not correspond to agents or identified causal sources; separate multi-agent control is not established.</li>
+<li><strong>Read:</strong> Grouping/routing method, experiment settings, and relevant limitation and metric passages.</li>
+<li><strong>Comparison question:</strong> Which evidence would distinguish useful grouping from true agent-aligned actions?</li>
+</ul>
+<h2>15. WorldCast: Distributed Multiplayer World Models</h2>
+<ul>
+<li><strong>Source and date:</strong> <a href="https://arxiv.org/abs/2610.12412">arXiv:2610.12412</a>, October 2026; relevant version: <a href="https://arxiv.org/html/2610.12412v1">v1</a>.</li>
+<li><strong>Role:</strong> Brief distributed-generation perspective within Part 5.</li>
+<li><strong>Problem and mechanism:</strong> Let separate clients generate local views while exchanging the player state and generated scene memory needed for a common environment.</li>
+<li><strong>Evidence and boundary:</strong> Multiplayer Counter-Strike 2 generation and long-horizon checks. Training uses position and map geometry; state estimates can drift. Block-synchronous evaluation does not demonstrate tolerance to arbitrary delays, missing packets, or disconnections.</li>
+<li><strong>Read:</strong> Relevant system and evaluation passages in Section 5 and Appendix F.</li>
+<li><strong>Comparison question:</strong> What shared information is sufficient for local generators to agree on the same event?</li>
+</ul>
+<h2>Reading connections</h2>
+<p>The additional readings broaden mechanisms within the six questions; they do not add separate presentation chapters. Compare assumptions before comparing outcomes: unlabelled transitions versus supplied controls, implicit behavior versus explicit decisions, candidate futures versus synchronized views, and tested population sizes versus unrestricted dynamic populations.</p>
+<p><a href="summary.html">English summary and open questions</a> · <a href="presentation.html">Chinese presentation</a> · <a href="./">Discussion overview</a></p></article>
+  </main>
+  <footer class="site-footer"><div class="site-footer-inner"><span>© CausalVideoGroup</span><a href="./">Back to discussion</a></div></footer>
+</body>
+</html>
